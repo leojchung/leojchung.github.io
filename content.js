@@ -236,6 +236,7 @@ module.exports = {
         since: "Jun 2026 — present · Hybrid"
       },
       {
+        logo:  "assets/ubc-logo.png", logoAlt: "University of British Columbia",
         tag:   "Education research",
         role:  "Med-Tech Education Research Assistant",
         org:   "Si-Lab, UBC",
