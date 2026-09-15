@@ -65,10 +65,13 @@ module.exports = {
        PIs and admissions readers, and the sort of thing a university
        communications office does ask people to take down.
 
-       If you want the real crest, ask UBC (or your department) whether
-       your use is permitted, and put the file they give you in assets/.
-       Set to null to drop the badge. */
-    credential: { mark: "UBC", detail: "Major in Cellular &amp; Molecular Neuroscience" },
+       Leo has chosen to supply the official logo file himself (Sep 2026).
+       Put it in assets/ and set `logo` to its path, e.g.
+       logo: "assets/ubc-logo.svg" — the badge then shows the file instead of
+       the letters. If `logo` is unset or the file is missing, the build falls
+       back to the letters rather than shipping a broken image.
+       Set the whole thing to null to drop the badge. */
+    credential: { mark: "UBC", logo: null, detail: "Major in Cellular &amp; Molecular Neuroscience" },
 
     /* The identity line above the headline. Meg Mindlin — who won Best Art &
        Visuals in the 2025 academic-website contest — opens with

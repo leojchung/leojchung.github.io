@@ -412,10 +412,17 @@ function renderHome(){
   /* A — identity. The headline's <em> is the grey half of the sentence. */
   const identityChips = [].concat(h.identity || []);
 
-  /* The UBC badge: a monogram in a filled disc, deliberately NOT the
-     university's crest — see the note on `credential` in content.js. */
-  const credential = h.credential
-    ? `\n            <p class="credential"><span class="uni-mark">${attr(h.credential.mark)}</span><span>${h.credential.detail}</span></p>`
+  /* The UBC badge: the official logo file once Leo supplies one (see the
+     note on `credential` in content.js), otherwise the letters in a disc.
+     A logo path that is not on disk falls back to the letters, so a typo
+     cannot ship a broken image. */
+  const cr = h.credential;
+  const crLogo = !!(cr && cr.logo && fs.existsSync(path.join(__dirname, cr.logo)));
+  if (cr && cr.logo && !crLogo) console.warn(`  ! credential.logo "${cr.logo}" not found, using the letters`);
+  const credential = cr
+    ? `\n            <p class="credential">${crLogo
+        ? `<img class="uni-logo" src="${attr(cr.logo)}" alt="University of British Columbia">`
+        : `<span class="uni-mark">${attr(cr.mark)}</span>`}<span>${cr.detail}</span></p>`
     : '';
 
   const portrait = C.meta.portrait
