@@ -71,7 +71,7 @@ module.exports = {
        the letters. If `logo` is unset or the file is missing, the build falls
        back to the letters rather than shipping a broken image.
        Set the whole thing to null to drop the badge. */
-    credential: { mark: "UBC", logo: null, detail: "Major in Cellular &amp; Molecular Neuroscience" },
+    credential: { mark: "UBC", logo: "assets/ubc-logo.png", detail: "Major in Cellular &amp; Molecular Neuroscience" },
 
     /* The identity line above the headline. Meg Mindlin — who won Best Art &
        Visuals in the 2025 academic-website contest — opens with
