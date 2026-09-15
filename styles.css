@@ -631,8 +631,8 @@ main .shell > *:first-child{margin-top:0}
    --live means a currently-held post, and a write-up is not one. The date
    line is pushed to the bottom so the row's footers line up. */
 .feat .now-tag::before{display:none}
-.feat .now-since{margin-top:auto}
-.feat .now-org{margin-bottom:18px}
+.feat .now-since{margin-top:auto;padding-top:14px}
+.feat .now-role{margin-bottom:18px}
 
 
 /* ══════════════════ PRINCIPLES ══════════════════ */

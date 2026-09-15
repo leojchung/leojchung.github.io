@@ -210,7 +210,6 @@ module.exports = {
   featured: {
     eyebrow: "Featured",
     title: "Featured <em>elsewhere</em>",
-    hint:  "Where the work has been written up by someone other than me.",
     action: { label: "All press", href: "projects.html#press-h" },
     from:  "press",
     pick:  ["F-01", "F-02", "F-03"]
@@ -220,7 +219,6 @@ module.exports = {
   now: {
     eyebrow: "Currently",
     title: "Right now",
-    hint:  "Three things I'm doing at once, across industry, research and education.",
     /* `logo` (optional) puts an organization's mark at the top of its card —
        a transparent PNG in assets/. Leo supplied these (Sep 2026). If any
        card in the row has one, the others keep an empty slot of the same
@@ -264,13 +262,12 @@ module.exports = {
   principles: {
     eyebrow: "Principles",
     title: "What I <em>care about</em>",
-    hint:  "Three things that show up in everything above.",
     /* Drawn from Leo's own cover letters (2025–26) — each one is a point he
        makes repeatedly there, put back into the casual register. */
     items: [
-      { word: "Reproducibility", blurb: "Good science comes from tight execution. I troubleshoot and iterate until an assay works cleanly, not just once." },
-      { word: "Clear data",      blurb: "Results only help if people can act on them — I organize and present data so a team can make decisions quickly." },
-      { word: "The big picture", blurb: "Careful work upstream is what makes the data downstream mean something. Knowing where my piece fits matters." },
+      { word: "Reproducibility", blurb: "I iterate until it works every time, not just once." },
+      { word: "Clear data",      blurb: "Results a team can act on quickly." },
+      { word: "The big picture", blurb: "Careful work upstream makes the data mean something." },
 
       // Kept, not deleted — flip `hidden` to bring one back and hide another.
       { word: "Curiosity", blurb: "Chromatin, the gut, animal calls — different systems, one habit of mind.", hidden: true },
@@ -286,11 +283,16 @@ module.exports = {
   research: {
     eyebrow: "Experience",
     title: "Research",
-    hint:  "Four projects, 2024 — 2026. Ciernia Lab unless noted.",
+    /* WEBSITE vs CV. The site shows `name` (a short title) and `summary`
+       (one line) when an entry has them; build-cv.js reads `title` and
+       `blurb`, so trimming the site never shortens the CV. `site: false`
+       keeps an entry on the CV but off the website. */
     action: { label: "Full CV", href: "cv.pdf" },
     items: [
       {
         idx:   "P-01",
+        name:  "BAF complex variants and pup communication",
+        summary: "What autism-associated BAF complex variants do to the ultrasonic calls mouse pups make.",
         when:  "Aug 2025<br>— May 2026",
         title: "Exploring the role of autism-associated BAF complex variants in social communication in neonatal mice",
         meta:  ["Ciernia Lab, DMCBH", "Simons Foundation SURFiN Fellowship"],
@@ -302,6 +304,10 @@ module.exports = {
       },
       {
         idx:   "P-02",
+        // Not shown on the website: T-01 under Teaching is the same seminar.
+        // Still on the CV. Delete this line to show it here again.
+        site:  false,
+        summary: "A for-credit seminar on the brain and art, co-created and co-taught with Betty Bao under faculty sponsor Dr. Steven Barnes.",
         when:  "May 2025<br>— May 2026",
         title: "Neuroaesthetics: Your Brain on Art",
         meta:  ["ASTU 400E", "UBC Centre for Community Engaged Learning"],
@@ -312,6 +318,8 @@ module.exports = {
       },
       {
         idx:   "P-03",
+        name:  "Gut inflammation and Alzheimer's pathology",
+        summary: "Gut inflammation and the brain's immune response to Alzheimer's pathology. Top prize, Trainee Rapid Talks.",
         when:  "Apr 2025<br>— Sep 2025",
         title: "The role of inflammatory bowel disease in the neurological immune response to the development of Alzheimer's disease pathology in mice",
         meta:  ["Ciernia Lab, DMCBH", "SBME Synergy Summer Studentship"],
@@ -325,6 +333,8 @@ module.exports = {
       },
       {
         idx:   "P-04",
+        name:  "IBD microbiota and the hypothalamus",
+        summary: "Human IBD microbiota and hypothalamic gene expression in mice. My first project in the lab.",
         when:  "Jul 2024<br>— Apr 2025",
         title: "Impact of human IBD microbiota on hypothalamic gene expression and steroid regulation in the mouse brain",
         meta:  ["Ciernia Lab, DMCBH", "SBME Synergy Summer Studentship"],
@@ -404,10 +414,11 @@ module.exports = {
   teaching: {
     eyebrow: "Classroom",
     title: "Teaching &amp; <em>education</em>",
-    hint:  "Courses taught, education research, adjudication and mentorship.",
     items: [
       {
         idx:   "T-01",
+        name:  "Neuroaesthetics: Your Brain on Art",
+        summary: "Co-created and co-taught with Betty Bao under faculty sponsor Dr. Steven Barnes. ASTU 400E, for credit, Jan–Apr 2026.",
         when:  "Jul 2025<br>— May 2026",
         title: "Co-creator &amp; instructor — ASTU_V 400E, Neuroaesthetics: Your Brain on Art",
         meta:  ["UBC Centre for Community Engaged Learning", "Student-Directed Seminar"],
@@ -429,6 +440,8 @@ module.exports = {
       },
       {
         idx:   "T-03",
+        name:  "Research Adjudicator",
+        summary: "Judged talks at the Multidisciplinary Undergraduate Research Conference.",
         when:  "Feb 2026<br>— Mar 2026",
         title: "Research Adjudicator — Multidisciplinary Undergraduate Research Conference",
         meta:  ["UBC Centre for Community Engaged Learning"],
@@ -436,6 +449,7 @@ module.exports = {
       },
       {
         idx:   "T-04",
+        summary: "Reviewed student research and mentored students new to neuroscience.",
         when:  "Oct 2024<br>— Apr 2025",
         title: "Research Adjudicator &amp; Mentor",
         meta:  ["International Youth Neuroscience Association"],
@@ -458,7 +472,6 @@ module.exports = {
   lab: {
     eyebrow: "Photos",
     title: "In the <em>lab</em>",
-    hint:  "Candid, not staged.",
     items: [
       { kind: "photo", src: "assets/placeholder.svg", title: "PLACEHOLDER — At the bench", caption: "PLACEHOLDER — swap for a real lab photo" },
       { kind: "photo", src: "assets/placeholder.svg", title: "PLACEHOLDER — Poster session", caption: "PLACEHOLDER — swap for a real lab photo" },
@@ -619,10 +632,10 @@ module.exports = {
   press: {
     eyebrow: "Elsewhere",
     title: "Featured",
-    hint:  "Where the work has been written up by someone other than me.",
     items: [
       {
         idx:   "F-01",
+        summary: "The Synergy cohort, including the top Trainee Rapid Talk.",
         when:  "Sep 2025",
         title: "Student Scientists Shine at Synergy Undergraduate Research Day",
         meta:  ["UBC School of Biomedical Engineering"],
@@ -632,6 +645,7 @@ module.exports = {
       },
       {
         idx:   "F-02",
+        summary: "Includes Neuroaesthetics: Your Brain on Art.",
         when:  "Nov 2025",
         title: "7 New Student Directed Seminars in Arts",
         meta:  ["UBC Faculty of Arts"],
@@ -641,6 +655,7 @@ module.exports = {
       },
       {
         idx:   "F-03",
+        summary: "The 2025–26 SURFiN cohort.",
         when:  "Sep 2025",
         title: "Simons Foundation Announces Latest Class of SURFiN Fellows",
         meta:  ["Simons Foundation", "2025–26 cohort, 84 fellows"],
@@ -650,6 +665,7 @@ module.exports = {
       },
       {
         idx:   "F-04",
+        summary: "The Synergy cohort, from the Centre for Brain Health.",
         when:  "Sep 2025",
         title: "SBME Synergy 2025 Undergraduate Summer Research Highlights",
         meta:  ["Djavad Mowafaghian Centre for Brain Health"],
@@ -760,7 +776,6 @@ module.exports = {
   fun: {
     eyebrow: "Off the clock",
     title: "Not the <em>lab</em>",
-    hint:  "Photos are mine. Clips are embedded from the original uploads.",
     items: [
       {
         kind: "video",
@@ -805,10 +820,7 @@ module.exports = {
   contact: {
     eyebrow: "Let's talk",
     title: "Get in <em>touch.</em>",
-    blurb: "I'm looking for a co-op or internship for January 2027, in biotech, pharma, or the " +
-           "life sciences. Reach out if you're working on chromatin, the gut–brain axis, animal " +
-           "communication, or science education — or if you're a student trying to figure out " +
-           "how to get into a lab. Happy to talk.",
+    blurb: "Looking for a January 2027 co-op in biotech, pharma or the life sciences. Always happy to talk.",
     links: [
       { k: "Email",     label: "leojc815@gmail.com",          href: "mailto:leojc815@gmail.com" },
       { k: "Phone",     label: "(778) 980-8436",              href: "tel:+17789808436" },

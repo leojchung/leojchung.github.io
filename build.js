@@ -166,7 +166,7 @@ function renderNow(d){
   return `      <div class="cards">
 ${items.map(i => card('', `${logo(i)}          <p class="now-tag">${i.tag}</p>
           <h3 class="now-role">${i.role}</h3>
-          <p class="now-org">${i.org}${i.note ? ` — ${i.note}` : ''}</p>
+          <p class="now-org">${i.org}</p>
           <p class="now-since">${flat(i.since)}</p>`)).join('\n')}
       </div>`;
 }
@@ -186,7 +186,6 @@ ${items.map(it => {
     const link  = (it.links || [])[0];
     const inner = `          <p class="now-tag">${(it.meta || [])[0] || ''}</p>
           <h3 class="now-role">${it.title}</h3>
-          <p class="now-org">${it.blurb}</p>
           <p class="now-since">${flat(it.when)}${link ? ` · ${link.label} ↗` : ''}</p>`;
     return link
       ? card('feat', inner, 'a').replace('<a class="card', `<a href="${attr(link.href)}" target="_blank" rel="noopener" class="card`)
@@ -206,7 +205,7 @@ ${visible(d.items).map(i => card('', `          <h3 class="principle-word">${i.w
    reference's project section. The amber pill appears only when the entry
    actually links somewhere. */
 function renderEntries(d){
-  const items = visible(d.items).map(it => {
+  const items = visible(d.items).filter(it => it.site !== false).map(it => {
     if (it.group){
       return card('sp-6 entry', `          <p class="entry-idx"><span class="when">${flat(it.when)}</span></p>
           <h3 class="entry-title">${it.group}</h3>
@@ -218,15 +217,17 @@ ${r.detail ? `              <div class="d">${r.detail}</div>\n` : ''}           
           </ul>`);
     }
 
-    const idx = (it.idx || it.when)
-      ? `          <p class="entry-idx">${it.idx ? `<span>${it.idx}</span>` : ''}${it.when ? `<span class="when">${flat(it.when)}</span>` : ''}</p>\n`
+    // The idx code (P-01) stays in content.js for Featured's picks, but is
+    // not printed: the date is the only label a visitor needs.
+    const idx = it.when
+      ? `          <p class="entry-idx"><span class="when">${flat(it.when)}</span></p>\n`
       : '';
     const links = (it.links && it.links.length)
       ? `          <div class="pill-row">${it.links.map(l => `<a class="pill amber sm" href="${attr(l.href)}">${l.label}</a>`).join('')}</div>\n`
       : '';
 
-    return card('sp-6 entry', `${idx}          <h3 class="entry-title">${it.title}</h3>
-${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${it.blurb ? `          <p class="body">${it.blurb}</p>\n` : ''}${links}`.replace(/\n$/, ''));
+    return card('sp-6 entry', `${idx}          <h3 class="entry-title">${it.name || it.title}</h3>
+${it.meta && it.meta.length ? chips(it.meta.slice(0, 1)) + '\n' : ''}${(it.summary || it.blurb) ? `          <p class="body">${it.summary || it.blurb}</p>\n` : ''}${links}`.replace(/\n$/, ''));
   }).join('\n');
 
   return `      <div class="bento">\n${items}\n      </div>`;
@@ -238,9 +239,9 @@ ${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${it.blurb ? `         
 function renderRail(d){
   const items = visible(d.items).map(it => {
     const href = (it.links && it.links.length) ? it.links[0].href : null;
-    const inner = `          <p class="entry-idx">${it.idx ? `<span>${it.idx}</span>` : ''}${it.when ? `<span class="when">${flat(it.when)}</span>` : ''}</p>
+    const inner = `          <p class="entry-idx">${it.when ? `<span class="when">${flat(it.when)}</span>` : ''}</p>
           <h3 class="entry-title">${it.title}</h3>
-${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${it.blurb ? `          <p class="body">${it.blurb}</p>\n` : ''}${href ? `          <div class="pill-row"><span class="pill amber sm">${it.links[0].label} ↗</span></div>` : ''}`;
+${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${(it.summary || it.blurb) ? `          <p class="body">${it.summary || it.blurb}</p>\n` : ''}${href ? `          <div class="pill-row"><span class="pill amber sm">${it.links[0].label} ↗</span></div>` : ''}`;
     return href
       ? card('entry', inner, 'a').replace('<a class="card', `<a href="${attr(href)}" target="_blank" rel="noopener" class="card`)
       : card('entry', inner);
@@ -390,7 +391,7 @@ function renderForm(d){
 
   if (!f.action){
     return card('sp-12', `          <h3 class="display-sm">${f.heading || 'Send me a message'}</h3>
-          <p class="body">The message form is not connected yet — see the setup note in <code>content.js</code>. Until then, email works perfectly well.</p>
+          <p class="body">Email is the quickest way to reach me.</p>
           <div class="pill-row"><a class="pill blue" href="mailto:${attr(mailto)}">Email me instead</a></div>`) + '\n';
   }
 
