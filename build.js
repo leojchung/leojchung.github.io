@@ -365,12 +365,16 @@ function renderContact(d){
           ${primary.href ? `<a class="contact-value" href="${attr(primary.href)}">${primary.label}</a>` : `<p class="contact-value">${primary.label}</p>`}`)
     : '';
 
+  /* The cards under the email card fill whole rows: three across when the
+     count divides by three, otherwise two across, so no card is left alone
+     on a row. Long values (the Neuroarts URL) need at least half a row. */
+  const span = rest.length % 3 === 0 ? 'sp-4' : 'sp-6';
   const restCards = rest.map(l => {
     const inner = `          <p class="label">${l.k}</p>
           <p class="contact-value">${l.label}</p>`;
     return l.href
-      ? card('sp-4 center', inner, 'a').replace('<a class="card', `<a href="${attr(l.href)}"${l.me ? ' rel="me"' : ''} class="card`)
-      : card('sp-4 center', inner);
+      ? card(`${span} center`, inner, 'a').replace('<a class="card', `<a href="${attr(l.href)}"${l.me ? ' rel="me"' : ''} class="card`)
+      : card(`${span} center`, inner);
   }).join('\n');
 
   return `    <section class="section reveal" aria-labelledby="contact-h">

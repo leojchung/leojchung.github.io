@@ -797,6 +797,7 @@ module.exports = {
            "how to get into a lab. Happy to talk.",
     links: [
       { k: "Email",     label: "leojc815@gmail.com",          href: "mailto:leojc815@gmail.com" },
+      { k: "Phone",     label: "(778) 980-8436",              href: "tel:+17789808436" },
       { k: "LinkedIn",  label: "linkedin.com/in/leojchung",   href: "https://www.linkedin.com/in/leojchung", me: true },
       { k: "Neuroarts", label: "neuroartsresourcecenter.com", href: "https://www.neuroartsresourcecenter.com/profile/leojchung", me: true },
       { k: "Located",   label: "Vancouver, British Columbia", href: null }
