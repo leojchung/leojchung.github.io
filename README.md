@@ -75,8 +75,14 @@ you will fix one theme and break the other.
 **Add your photo.** Put a square image in `assets/`, then set
 `meta.portrait: "assets/leo.jpg"` in `content.js`.
 
-**Turn on the gallery.** Drop images in `assets/`, fill in `gallery.items` with
-`src` and `caption`, then set the gallery line in `sections` to `on: true`.
+**Fill in the fun section.** `fun.items` in `content.js`. Each item has a
+`kind`: `photo` (your own file in `assets/`), `video` (a YouTube or Vimeo id —
+an embed, never a downloaded file), or `link`. It is switched on and currently
+shows placeholders, so fill it in or set `on: false` before going public.
+
+**Connect the message form.** Make a free account at formspree.io, create a
+form, and paste the endpoint it gives you into `contact.form.action`. Until you
+do, the form shows an "Email me instead" button, which works fine.
 
 **Update your CV.** Edit `content.js` as usual, then `node build-cv.js`, open
 `cv.html`, and Cmd-P → Save as PDF over the existing `cv.pdf`. Both CV buttons

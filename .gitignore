@@ -1,4 +1,5 @@
+*.log
 .DS_Store
 Thumbs.db
+_to_delete/
 node_modules/
-*.log

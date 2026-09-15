@@ -531,25 +531,75 @@ module.exports = {
     ]
   },
 
-  /* ─────────────────────────── § GALLERY ─────────────────────────────── */
-  /* Currently OFF (see `sections` at the bottom — gallery has on: false).
-     To switch it on:
-       1. drop images into assets/   (JPGs, roughly 1200px wide is plenty)
-       2. fill in the items below — set `src` and a caption
-       3. set  on: true  in `sections`
-       4. node build.js
-     Any item with no `src` renders as a dashed placeholder slot, which is
-     why the section stays off until you have real photos in it.            */
-  gallery: {
-    title: "Odds &amp; ends",
-    hint:  "Lab, classroom, court. Drop images in assets/ and switch this on.",
+  /* ───────────────────────────── § FUN ───────────────────────────────── */
+  /* Currently OFF — flip it on in `sections` once you have real items.
+
+     THREE KINDS OF ITEM. Set `kind` on each one:
+
+       kind: "photo"  — your own photo.  src: "assets/whatever.jpg"
+       kind: "video"  — an EMBED.        youtube: "<the id>"   or  vimeo: "<id>"
+       kind: "link"   — anything else.   href: "https://..."
+
+     ── READ THIS BEFORE ADDING CLIPS ──────────────────────────────────────
+     Do NOT download game highlights or music videos and put the files in
+     assets/. That is republishing someone else's copyrighted work from your
+     own domain, under your real name, on a site you are sending to PIs and
+     recruiters. Embedding is different and is fine: an embed plays the clip
+     from the rightsholder's own upload, on their terms, with their ads. So
+     use kind: "video" with a YouTube id, never a downloaded .mp4.
+
+     Your own food photos, your own bike photos, your own lab photos — those
+     are yours, put them in assets/ and use kind: "photo".
+
+     Videos use a click-to-play poster: nothing loads from YouTube until a
+     visitor actually clicks. That keeps the page fast and stops YouTube
+     setting cookies on everyone who scrolls past. Leave `poster` unset and
+     it falls back to YouTube's own thumbnail; set it to a local image if you
+     would rather nothing at all is requested until the click.
+
+     The YouTube id is the part after "v=" in a watch URL:
+       https://www.youtube.com/watch?v=dQw4w9WgXcQ   →   "dQw4w9WgXcQ"
+     ──────────────────────────────────────────────────────────────────── */
+  fun: {
+    title: "Off the clock",
+    hint:  "Photos are mine. Clips are embedded from the original uploads.",
     items: [
-      { src: null, caption: "Ciernia Lab — the bench where P-01 happened." },
-      { src: null, caption: "ASTU 400E, first day of class." },
-      { src: null, caption: "Synergy Undergraduate Research Day." },
-      { src: null, caption: "Somewhere in Vancouver, on a bike." },
-      { src: null, caption: "Chess." },
-      { src: null, caption: "Lakers game." }
+      {
+        kind: "video",
+        youtube: "",                       // ← paste a YouTube id
+        title: "A Rams game I will not shut up about",
+        caption: "Replace this with the clip you actually mean."
+      },
+      {
+        kind: "video",
+        youtube: "",
+        title: "Lakers",
+        caption: "Same — embed, do not download."
+      },
+      {
+        kind: "photo",
+        src: null,                          // ← "assets/ramen.jpg"
+        title: "Food",
+        caption: "Somewhere in Vancouver. Your photo, your caption."
+      },
+      {
+        kind: "photo",
+        src: null,
+        title: "On a bike",
+        caption: "A route worth the climb."
+      },
+      {
+        kind: "video",
+        youtube: "",
+        title: "Something I have had on repeat",
+        caption: "Music goes here."
+      },
+      {
+        kind: "link",
+        href: "https://open.spotify.com/",  // ← anything: a playlist, an article
+        title: "What I am listening to",
+        caption: "A link card, for things that are not a photo or a clip."
+      }
     ]
   },
 
@@ -566,7 +616,43 @@ module.exports = {
       { k: "Neuroarts", label: "neuroartsresourcecenter.com", href: "https://www.neuroartsresourcecenter.com/profile/leojchung", me: true },
       { k: "CV",        label: "Download PDF",                href: "cv.pdf" },
       { k: "Located",   label: "Vancouver, British Columbia", href: null }
-    ]
+    ],
+
+    /* ── THE MESSAGE FORM ──────────────────────────────────────────────────
+       GitHub Pages serves files and nothing else — there is no server of
+       yours to receive a form, so a form needs somewhere to POST to. The
+       standard free answer is Formspree.
+
+       SETUP (about three minutes, and you do it, not me):
+         1. Go to formspree.io and make a free account with leojc815@gmail.com
+         2. Create a new form. It gives you an endpoint like
+            https://formspree.io/f/abcdwxyz
+         3. Paste that whole URL into `action` below
+         4. node build.js
+
+       The endpoint is not a secret — it sits in the page source of every site
+       that uses one. It is a mailbox address, not a password.
+
+       Leave `action` empty and the form renders as a plain mailto: link
+       instead, which needs no account and no third party but opens the
+       visitor's own email app. Less slick, zero dependencies.
+
+       The free tier is around 50 messages a month, which is more than a
+       personal site gets. Messages pass through Formspree's servers before
+       reaching your inbox — fine for "nice site, can we talk", not the place
+       for anything confidential. The note under the form says so.        */
+    form: {
+      on: true,
+      action: "",                       // ← your Formspree endpoint goes here
+      heading: "Send me a message",
+      note: "Messages are delivered through Formspree. For anything sensitive, email me directly.",
+      button: "Send",
+      fields: {
+        name:    "Your name",
+        email:   "Your email",
+        message: "Message"
+      }
+    }
   },
 
   /* ══════════════════════════════════════════════════════════════════════
@@ -587,7 +673,7 @@ module.exports = {
     { key: "service",    on: true,  nav: false, id: "service"     },
     { key: "skills",     on: true,  nav: false, id: "skills"      },
     { key: "notes",      on: false, nav: true,  id: "notes",      navLabel: "Notes" },
-    { key: "gallery",    on: false, nav: false, id: "gallery"     },
+    { key: "fun",        on: true,  nav: true,  id: "fun",        navLabel: "Fun" },
     { key: "contact",    on: true,  nav: true,  id: "contact",    navLabel: "Contact"    }
 
     /* ADDING A NEW SECTION
@@ -602,7 +688,7 @@ module.exports = {
          education   school list   (when / school / degree / chips[])
          service     two-col list  (role / org / yr / live)
          skills      chip groups   (name / items[])
-         gallery     image grid    (src / caption)
+         fun         media grid    (kind: photo | video | link)
          contact     contact block
 
        To add, say, a Publications section: copy the `research` block above,

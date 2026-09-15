@@ -67,6 +67,27 @@
     else if (mq.addListener)   mq.addListener(onChange);
   }
 
+  /* Click-to-play video tiles in the Fun section. The iframe does not exist
+     until someone clicks, so no visitor who merely scrolls past ever touches
+     YouTube. Swapping the button for the iframe also autoplays, because the
+     click counts as the user gesture browsers require. */
+  document.querySelectorAll('button.media.play').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = btn.getAttribute('data-src');
+      if (!src) return;
+      var frame = document.createElement('iframe');
+      frame.setAttribute('src', src);
+      frame.setAttribute('title', btn.getAttribute('aria-label') || 'video');
+      frame.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; picture-in-picture');
+      frame.setAttribute('allowfullscreen', '');
+      frame.setAttribute('loading', 'lazy');
+      var wrap = document.createElement('div');
+      wrap.className = 'media';
+      wrap.appendChild(frame);
+      btn.replaceWith(wrap);
+    });
+  });
+
   var yr = document.getElementById('yr');
   if (yr) yr.textContent = new Date().getFullYear();
 })();

@@ -73,8 +73,32 @@ python3 -m http.server 8000   # local preview at http://localhost:8000
   `RENDERERS` in `build.js`, add its line to `sections`.
 - **Reskin** → only the token blocks at the top of `styles.css`.
 
-Two sections (`notes`, `gallery`) are fully built but `on: false` — they hold
-placeholder entries and stay off until Leo has real content for them.
+The `notes` section is built but `on: false` — placeholder entries, off until
+Leo has real writing for it.
+
+The `fun` section ("Off the clock") is ON and currently holds placeholder
+tiles. **It must be filled in or switched off before the site goes public** —
+tiles reading "add a YouTube id" on a live page look broken.
+
+### Rules for the fun section
+
+- Items have `kind: "photo" | "video" | "link"`.
+- **Never download a game highlight or music video into `assets/`.** That
+  republishes someone else's copyrighted work from Leo's own domain under his
+  real name. Clips are `kind: "video"` with a YouTube or Vimeo id, which plays
+  from the rightsholder's own upload. Photos in `assets/` must be Leo's own.
+- Videos are click-to-play by design: the tile is a `<button>` and `main.js`
+  swaps in the iframe on click, so nothing is requested from YouTube for a
+  visitor who only scrolls past. Do not "simplify" this into a plain iframe.
+
+### Rules for the contact form
+
+- GitHub Pages has no backend, so the form POSTs to a third-party endpoint set
+  in `contact.form.action` (Formspree by default).
+- With `action` empty it renders a mailto: fallback instead. **Keep that
+  fallback.** A form that silently fails is worse than no form.
+- `#f-gotcha` is a honeypot — hidden, `aria-hidden`, out of the tab order.
+  Leave it alone; it is most of the spam defence.
 
 ## Git
 

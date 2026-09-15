@@ -153,16 +153,36 @@ highlights. Every one was fetched and confirmed before it went on the page.
 Outside institutions vouching for you is worth more than another paragraph you
 wrote about yourself.
 
-**Two sections are built but switched off.**
+**The two things you asked for after the first build.**
+
+- **A message form** sits under the contact section. GitHub Pages has no
+  server, so a form has to post somewhere — that is a genuine limitation of
+  free static hosting, not something I skipped. Formspree is the standard free
+  answer: make an account, paste the endpoint into `contact.form.action`, done.
+  Until you do, the form renders an "Email me instead" button rather than a
+  form that silently swallows messages. There is a honeypot field for spam.
+- **A fun section, "Off the clock"**, with three kinds of tile: your photos,
+  embedded clips, and link cards. It is switched **on** with placeholders, so
+  fill it in or turn it off before publishing.
+
+  On the clips: embed them, do not download them. Putting an NFL highlight or a
+  music video as a file in your own repo is republishing someone else's work
+  from your own domain, under your real name, on a page you are sending to PIs.
+  An embed plays it from the rightsholder's own upload and is unremarkable.
+  The section only accepts a YouTube or Vimeo id for exactly this reason.
+
+  The clips are click-to-play — nothing loads from YouTube until a visitor
+  clicks. Six autoplaying embeds would make the page slow and would set
+  third-party cookies on everyone who scrolled past.
+
+**One section is built but switched off.**
 
 - **Notes** (`on: false`) — a writing section graded by maturity, Essay / Note /
   Seedling, rather than by date. This is the single most useful thing you can
   add as an undergraduate: it gives you a legitimate place to publish
   in-progress thinking. It currently holds three placeholder entries. Write two
   or three real ones, delete the placeholders, flip it on.
-- **Odds & ends** (`on: false`) — the photo gallery you asked for. It renders
-  dashed placeholder slots when there are no images, which is why it stays off
-  until you have real ones.
+
 
 ---
 

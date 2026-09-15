@@ -153,16 +153,103 @@ ${visible(d.links).map(l => {
 }).join('\n')}
         </div>
       </div>
-    </div>
+${renderForm(d)}    </div>
   </section>`;
 }
 
-function renderGallery(d){
-  return `<div class="gallery">
-${visible(d.items).map(g => g.src
-  ? `          <figure><img src="${attr(g.src)}" alt="${attr(plain(g.caption))}" loading="lazy">${g.caption ? `<figcaption>${g.caption}</figcaption>` : ''}</figure>`
-  : `          <figure><div class="slot">drop an image in assets/<br>and set its path in content.js</div>${g.caption ? `<figcaption>${g.caption}</figcaption>` : ''}</figure>`
-).join('\n')}
+/* The message form. GitHub Pages has no server, so the form POSTs to a
+   third-party endpoint (Formspree by default). With no endpoint configured
+   it degrades to a plain mailto: link rather than a form that silently
+   fails — a broken contact form is worse than none. */
+function renderForm(d){
+  const f = d.form;
+  if (!f || f.on === false) return '';
+  const lbl = f.fields || {};
+
+  if (!f.action){
+    return `      <div class="formwrap">
+        <div class="form-fallback">
+          <h3>${f.heading || 'Send me a message'}</h3>
+          <p>The message form is not connected yet — see the setup note in <code>content.js</code>. Until then, email works perfectly well.</p>
+          <a class="btn solid" href="mailto:${attr(d.links.find(l => l.k === 'Email') ? String(d.links.find(l => l.k === 'Email').href).replace(/^mailto:/, '') : '')}">Email me instead</a>
+        </div>
+      </div>
+`;
+  }
+
+  return `      <div class="formwrap">
+        <form class="msgform" action="${attr(f.action)}" method="POST">
+          <h3>${f.heading || 'Send me a message'}</h3>
+          <div class="fieldrow">
+            <label class="field">
+              <span>${lbl.name || 'Your name'}</span>
+              <input type="text" name="name" id="f-name" autocomplete="name" required>
+            </label>
+            <label class="field">
+              <span>${lbl.email || 'Your email'}</span>
+              <input type="email" name="email" id="f-email" autocomplete="email" required>
+            </label>
+          </div>
+          <label class="field">
+            <span>${lbl.message || 'Message'}</span>
+            <textarea name="message" id="f-message" rows="5" required></textarea>
+          </label>
+          <input type="text" name="_gotcha" id="f-gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="formfoot">
+            <button class="btn solid" type="submit">${f.button || 'Send'}</button>
+${f.note ? `            <p class="formnote">${f.note}</p>\n` : ''}          </div>
+        </form>
+      </div>
+`;
+}
+
+function renderFun(d){
+  return `<div class="fun">
+${visible(d.items).map(function(it){
+  const cap = (it.title || it.caption)
+    ? `        <figcaption>${it.title ? `<span class="ft">${it.title}</span>` : ''}${it.caption ? `<span class="fc">${it.caption}</span>` : ''}</figcaption>`
+    : '';
+
+  // ── video: click-to-play. Nothing is requested from YouTube until the
+  //    visitor actually clicks, so the page stays fast and no third party
+  //    sets a cookie on someone who merely scrolled past.
+  if (it.kind === 'video' && (it.youtube || it.vimeo)){
+    const id   = attr(it.youtube || it.vimeo);
+    const src  = it.youtube
+      ? `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`
+      : `https://player.vimeo.com/video/${id}?autoplay=1`;
+    const post = it.poster
+      ? attr(it.poster)
+      : (it.youtube ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '');
+    const style = post ? ` style="background-image:url('${post}')"` : '';
+    return `      <figure class="fun-item">
+        <button class="media play" type="button" data-src="${src}" aria-label="Play: ${attr(plain(it.title || 'video'))}"${style}>
+          <span class="pill">Watch</span>
+          <span class="tri" aria-hidden="true"></span>
+        </button>
+${cap}      </figure>`;
+  }
+
+  if (it.kind === 'photo' && it.src){
+    return `      <figure class="fun-item">
+        <div class="media"><img src="${attr(it.src)}" alt="${attr(plain(it.title || it.caption || 'photo'))}" loading="lazy"></div>
+${cap}      </figure>`;
+  }
+
+  if (it.kind === 'link' && it.href){
+    return `      <figure class="fun-item">
+        <a class="media linkcard" href="${attr(it.href)}" target="_blank" rel="noopener">
+          <span class="pill">Link</span>
+          <span class="lk">${it.title || it.href}</span>
+        </a>
+${cap}      </figure>`;
+  }
+
+  // nothing filled in yet
+  return `      <figure class="fun-item">
+        <div class="media slot">${it.kind === 'video' ? 'add a YouTube id in content.js' : 'add a file to assets/ and set its path in content.js'}</div>
+${cap}      </figure>`;
+}).join('\n')}
         </div>`;
 }
 
@@ -178,7 +265,7 @@ const RENDERERS = {
   education:  renderEducation,
   service:    renderService,
   skills:     renderSkills,
-  gallery:    renderGallery
+  fun:        renderFun
   // contact is handled separately — see below.
 };
 
