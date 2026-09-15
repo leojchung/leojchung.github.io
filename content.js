@@ -193,6 +193,22 @@ module.exports = {
     ]
   },
 
+  /* ─────────────────────────── § FEATURED ────────────────────────────── */
+  /* Home page, between the hero bento and Right Now — the same row of cards,
+     but each one links out. The items are PICKED from `press` further down
+     by idx rather than copied, so each write-up is verified and dated in one
+     place only: change the picks here, change the article there.
+
+     Three is the number to keep, for the same reason as Principles. */
+  featured: {
+    eyebrow: "Featured",
+    title: "Featured <em>elsewhere</em>",
+    hint:  "Where the work has been written up by someone other than me.",
+    action: { label: "All press", href: "projects.html#press-h" },
+    from:  "press",
+    pick:  ["F-01", "F-02", "F-03"]
+  },
+
   /* ────────────────────────── § RIGHT NOW ────────────────────────────── */
   now: {
     eyebrow: "Currently",
@@ -836,7 +852,7 @@ module.exports = {
      ══════════════════════════════════════════════════════════════════════ */
   pages: [
     { key: "home",     file: "index.html",    navLabel: "Home",     icon: "home",
-      sections: ["now", "principles", "reading"] },
+      sections: ["featured", "now", "principles", "reading"] },
     { key: "projects", file: "projects.html", navLabel: "My Works", icon: "folder",
       description: "Research and teaching by Leo J. Chung — chromatin and the BAF complex, the gut–brain axis, animal communication, and the Neuroaesthetics seminar he co-created at UBC.",
       sections: ["research", "teaching", "lab", "press"] },
@@ -852,6 +868,7 @@ module.exports = {
        Renderers available, by the shape of the data they expect:
 
          now         card row      (tag / role / org / note / since)
+         featured    card row      (picks items from another entry-list block by idx)
          principles  word grid     (word / blurb)
          research    entry list    (idx / when / title / meta[] / blurb)
          teaching    entry list    (same)

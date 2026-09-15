@@ -182,6 +182,30 @@ ${visible(d.items).map(i => card('', `          <p class="now-tag">${i.tag}</p>
       </div>`;
 }
 
+/* Featured. The Right Now card row, but each card links out to a write-up.
+   Items are picked by idx from another entry-list block (`from`, normally
+   `press`), so an article is verified and dated in one place only. */
+function renderFeatured(d){
+  const pool  = visible((C[d.from] || {}).items);
+  const items = (d.pick || []).map(idx => {
+    const it = pool.find(x => x.idx === idx);
+    if (!it) throw new Error(`featured: no visible item "${idx}" in ${d.from}`);
+    return it;
+  });
+  return `      <div class="cards">
+${items.map(it => {
+    const link  = (it.links || [])[0];
+    const inner = `          <p class="now-tag">${(it.meta || [])[0] || ''}</p>
+          <h3 class="now-role">${it.title}</h3>
+          <p class="now-org">${it.blurb}</p>
+          <p class="now-since">${flat(it.when)}${link ? ` · ${link.label} ↗` : ''}</p>`;
+    return link
+      ? card('feat', inner, 'a').replace('<a class="card', `<a href="${attr(link.href)}" target="_blank" rel="noopener" class="card`)
+      : card('feat', inner);
+  }).join('\n')}
+      </div>`;
+}
+
 function renderPrinciples(d){
   return `      <div class="cards">
 ${visible(d.items).map(i => card('', `          <h3 class="principle-word">${i.word}</h3>
@@ -293,6 +317,7 @@ ${cap}        </figure>`;
 
 /* ── ADDING A SECTION: add one line here, pointing at a renderer above. ──── */
 const RENDERERS = {
+  featured:   renderFeatured,
   now:        renderNow,
   principles: renderPrinciples,
   research:   renderEntries,
