@@ -507,6 +507,21 @@ module.exports = {
        skill the CV does not also list. Remove `headline` and the card
        disappears from the Home bento. */
     label:    "Trained in",
+
+    /* The bullet list under that card's headline: broad areas, each with
+       what it covers. Drawn from the skills list Leo keeps alongside his
+       cover letters, plus the certified items in `groups`. Home page only —
+       the CV does not read this. */
+    areas: [
+      { t: "Molecular biology",         d: "RT-qPCR, PCR &amp; genotyping, RNA &amp; DNA extraction, cDNA synthesis" },
+      { t: "Cell &amp; tissue methods", d: "Cell culture, primary cell isolation, immunostaining, tissue sectioning" },
+      { t: "Imaging",                   d: "Confocal microscopy, tissue slide imaging, ImageJ &amp; Fiji" },
+      { t: "Data &amp; statistics",     d: "R, comparative testing, correlation and regression" },
+      { t: "Animal research",           d: "Mouse handling, CCAC rodent ethics, behavioral assays" },
+      { t: "Lab safety",                d: "Biosafety, chemical safety, hazardous waste" },
+      { t: "Science communication",     d: "Posters and oral talks at conferences" },
+      { t: "Teaching",                  d: "Curriculum design and mentorship" }
+    ],
     headline: "Bench work, animal research, and <em>the classroom.</em>",
     groups: [
       {

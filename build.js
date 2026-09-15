@@ -530,7 +530,10 @@ ${(h.record || []).map(r => `            <li><span class="k">${r.k}</span><span 
             </div>
           </div>
           <p class="label caps">${sk.label || 'Trained in'}</p>
-          <h2 class="display-sm">${sk.headline}</h2>`)
+          <h2 class="display-sm">${sk.headline}</h2>${(sk.areas && sk.areas.length) ? `
+          <ul class="trained">
+${sk.areas.map(a => `            <li><span class="t">${a.t}</span><span class="d">${a.d}</span></li>`).join('\n')}
+          </ul>` : ''}`)
     : '';
 
   return `    <section class="reveal" aria-label="Introduction">

@@ -568,6 +568,22 @@ main .shell > *:first-child{margin-top:0}
 }
 
 
+/* The "trained in" list under the marquee card's headline: a broad area in
+   near-black, what it covers in grey — the two-tone idea as a list. */
+.trained{
+  margin:22px 0 0;padding:0;list-style:none;
+  display:flex;flex-direction:column;
+}
+.trained li{
+  display:grid;grid-template-columns:minmax(140px,30%) 1fr;gap:14px;align-items:baseline;
+  padding-block:8px;font-size:13.5px;line-height:1.45;
+}
+.trained li + li{border-top:1px solid var(--card-3)}
+.trained .t{font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.trained .d{color:var(--ink-2)}
+@media (max-width:420px){ .trained li{grid-template-columns:1fr;gap:2px} }
+
+
 /* ══════════════════ SOCIAL BUTTONS ══════════════════ */
 .social-row{display:flex;gap:11px;flex-wrap:wrap;margin-top:22px}
 .social-btn{
