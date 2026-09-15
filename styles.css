@@ -390,35 +390,55 @@ main .shell > *:first-child{margin-top:0}
 }
 
 
-/* ══════════════════ HERO ══════════════════ */
-.hero-card{justify-content:space-between;min-height:min(74vh,560px)}
-.hero-name{
-  margin:0 0 16px;font-family:var(--f-mono);font-size:11px;font-weight:500;
-  letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);
+/* ══════════════════ INTRO ══════════════════
+   The top of Home, after Kellie Ho's: centred, no card. A small portrait
+   tile, the greeting with one grey line, the UBC line, and small icon links.
+   Generous space above and below is most of what makes it feel minimal. */
+.intro{
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  padding-block:clamp(48px,9vw,110px) clamp(44px,8vw,96px);
 }
+.intro-portrait{
+  width:120px;height:120px;border-radius:30px;object-fit:cover;display:block;
+  background:var(--card);margin-bottom:30px;
+}
+/* <em> is the grey half, as everywhere — display size, so --ink-mute is legal. */
+.intro-title{
+  margin:0;font-weight:700;font-size:clamp(34px,5vw,56px);
+  line-height:1.08;letter-spacing:-.035em;text-wrap:balance;max-width:15ch;
+}
+.intro-title em{font-style:normal;color:var(--ink-mute)}
+
+/* The UBC line: crest, major, a divider, the co-op note — plain text, the
+   way Kellie's "Major | Minor" line sits under her greeting. */
+.credential{
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+  gap:6px 9px;margin:30px 0 0;
+  font-size:13.5px;line-height:1.4;color:var(--ink-2);
+}
+.credential .sep{color:var(--card-3)}
+/* On a phone the line wraps, so the divider would dangle at a line end. */
+@media (max-width:620px){ .credential .sep{display:none} }
+.uni-mark{
+  display:inline-flex;align-items:center;justify-content:center;flex:none;
+  width:28px;height:28px;border-radius:50%;
+  background:var(--accent);color:#fff;
+  font-family:var(--f-mono);font-size:9px;font-weight:700;letter-spacing:.02em;
+}
+.uni-logo{
+  display:block;flex:none;height:28px;width:auto;max-width:120px;object-fit:contain;
+  background:var(--logo-plate);padding:var(--logo-pad);border-radius:8px;
+}
+
+
+/* ══════════════════ HERO CARD ══════════════════ */
+.hero-card{justify-content:space-between;min-height:min(74vh,560px)}
+/* Stacked on a phone, the card no longer shares a row, so it only needs
+   to be as tall as its content. */
+@media (max-width:620px){ .hero-card{min-height:0} }
 .hero-card .display{margin-bottom:8px}
 /* Credit under a quoted headline. Small, quiet, and never omitted when the
    headline is somebody else's words — see the note in content.js. */
-/* The UBC badge — the letters in a disc until Leo supplies the official
-   logo file, which then replaces the disc. See content.js. */
-.credential{
-  display:inline-flex;align-items:center;gap:11px;align-self:flex-start;
-  margin:16px 0 0;padding:5px 18px 5px 5px;
-  background:var(--card-3);border-radius:999px;
-  font-size:13px;line-height:1.35;color:var(--ink-2);max-width:100%;
-}
-.uni-mark{
-  display:inline-flex;align-items:center;justify-content:center;flex:none;
-  width:34px;height:34px;border-radius:50%;
-  background:var(--accent);color:#fff;
-  font-family:var(--f-mono);font-size:10.5px;font-weight:700;letter-spacing:.02em;
-}
-
-.uni-logo{
-  display:block;flex:none;height:34px;width:auto;max-width:120px;object-fit:contain;
-  background:var(--logo-plate);padding:var(--logo-pad);border-radius:9px;
-}
-
 .hero-cite{margin:14px 0 0;font-size:13px;color:var(--ink-2);line-height:1.5}
 .hero-cite cite{font-style:normal}
 .hero-cite cite em{font-style:italic}
@@ -467,21 +487,12 @@ main .shell > *:first-child{margin-top:0}
 .panel-body .k{color:var(--accent-ink)}
 .panel-body .v{color:var(--ink)}
 
-/* The record — label/value rows, tabular. */
-.record{margin:0;padding:0;list-style:none;display:flex;flex-direction:column}
-.record li{
-  display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:baseline;
-  padding-block:11px;font-family:var(--f-mono);font-size:11.5px;line-height:1.55;
-}
-.record li + li{border-top:1px solid var(--card-3)}
-.record .k{color:var(--ink-2);letter-spacing:.09em;text-transform:uppercase;font-size:10px}
-.record .v{color:var(--ink)}
-.record .live-dot{color:var(--live);font-size:9px;vertical-align:.12em;margin-right:5px}
-@media (max-width:420px){ .record li{grid-template-columns:1fr;gap:2px} }
-
 /* The rotating "I also like ___" card. main.js swaps .like-word on an
    interval; the list rides along in data-list, pipe-separated. */
-.like-card{justify-content:center}
+.like-card{justify-content:flex-end;min-height:220px}
+/* Trained in: the chip marquee along the top, the words pinned to the
+   bottom — the shape of Kellie's "Focused on clean code" card. */
+.trained-card .label{margin-top:auto;padding-top:30px}
 /* --ink-2, not --ink-mute: this runs as small as 17px, below the size where
    the 3:1 large-text allowance applies. */
 .like-lead{margin:0 0 6px;font-size:clamp(17px,2vw,22px);color:var(--ink-2);font-weight:600;letter-spacing:-.02em}
@@ -491,16 +502,23 @@ main .shell > *:first-child{margin-top:0}
   transition:opacity .22s ease;
 }
 
-/* The live-weather card: current conditions on the left, Vancouver's local
-   time on the right, and a seven-hour strip along the bottom. Everything but
-   the labels is written by main.js. */
-.wx{justify-content:space-between;gap:22px}
-.wx-top{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+/* The weather strip, full width: the temperature now on the left, the
+   seven hours around it in the middle, Vancouver's local time on the right.
+   On a phone the two readings share a row and the hours drop below. */
+.wx{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;gap:clamp(18px,3vw,44px);
+}
+.wx .label{margin-bottom:4px}
+.wx .value{display:flex;align-items:center;gap:10px;white-space:nowrap}
+.wx-now{min-width:0}
 .wx-time{text-align:right}
-.wx .value{display:flex;align-items:center;gap:10px}
 .wx-time .value{justify-content:flex-end}
 .wx-icon{font-size:.9em;line-height:1}
-.wx-cond{margin:8px 0 0;font-size:14px;color:var(--ink-2);line-height:1.5;min-height:1.5em}
+@media (max-width:620px){
+  .wx{grid-template-columns:1fr auto}
+  .wx-hours{grid-column:1/-1;grid-row:2}
+}
 .wx-hours{
   display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;
   margin:0;padding:0;list-style:none;
@@ -554,22 +572,6 @@ main .shell > *:first-child{margin-top:0}
 }
 
 
-/* The "trained in" list under the marquee card's headline: a broad area in
-   near-black, what it covers in grey — the two-tone idea as a list. */
-.trained{
-  margin:22px 0 0;padding:0;list-style:none;
-  display:flex;flex-direction:column;
-}
-.trained li{
-  display:grid;grid-template-columns:minmax(140px,30%) 1fr;gap:14px;align-items:baseline;
-  padding-block:8px;font-size:13.5px;line-height:1.45;
-}
-.trained li + li{border-top:1px solid var(--card-3)}
-.trained .t{font-weight:700;color:var(--ink);letter-spacing:-.01em}
-.trained .d{color:var(--ink-2)}
-@media (max-width:420px){ .trained li{grid-template-columns:1fr;gap:2px} }
-
-
 /* ══════════════════ SOCIAL BUTTONS ══════════════════ */
 .social-row{display:flex;gap:11px;flex-wrap:wrap;margin-top:22px}
 .social-btn{
@@ -584,6 +586,11 @@ main .shell > *:first-child{margin-top:0}
 .social-btn .mark:not(.brand){fill:currentColor}
 .social-btn .mark.brand{width:29px;height:29px}
 .card .social-btn{background:var(--card-2)}
+/* The intro's row: small marks, no tiles. */
+.social-row.mini{justify-content:center;gap:4px;margin-top:22px}
+.social-row.mini .social-btn{width:40px;height:40px;border-radius:12px;background:transparent;color:var(--ink-2)}
+.social-row.mini .social-btn:hover,.social-row.mini .social-btn:focus-visible{background:var(--card)}
+.social-row.mini .mark,.social-row.mini .mark.brand{width:22px;height:22px}
 .social-btn:hover,.social-btn:focus-visible{transform:translateY(-3px)}
 .social-btn .tip{
   position:absolute;bottom:calc(100% + 9px);left:50%;

@@ -117,6 +117,10 @@ const LOGOS = {
      than inline SVG because it is their published asset, not a redraw. */
   neuroarts: { brand: true, src: 'assets/neuroarts-icon.png' },
 
+  /* A document, for the CV link. Plain, so it follows the theme. */
+  doc: { svg:
+    '<path d="M6.5 2h7.3L19 7.2v12.3c0 1.4-1.1 2.5-2.5 2.5h-10C5.1 22 4 20.9 4 19.5v-15C4 3.1 5.1 2 6.5 2Zm6.5 1.8V8h4.2L13 3.8ZM7.5 12h9v1.6h-9V12Zm0 3.5h9v1.6h-9v-1.6Zm0-7h3.8v1.6H7.5V8.5Z"/>' },
+
   /* A plain globe, for a site with no mark of its own. */
   globe: { svg:
     '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.9 6h-2.5a13 13 0 0 0-1.2-3.2A8 8 0 0 1 18.9 8ZM12 4.1c.6.9 1.2 2.2 1.5 3.9h-3c.3-1.7.9-3 1.5-3.9ZM4.3 14a8.3 8.3 0 0 1 0-4h2.9a17 17 0 0 0 0 4H4.3Zm.8 2h2.5c.3 1.2.7 2.3 1.2 3.2A8 8 0 0 1 5.1 16Zm2.5-8H5.1a8 8 0 0 1 3.7-3.2A13 13 0 0 0 7.6 8ZM12 19.9c-.6-.9-1.2-2.2-1.5-3.9h3c-.3 1.7-.9 3-1.5 3.9ZM13.8 14h-3.6a15 15 0 0 1 0-4h3.6a15 15 0 0 1 0 4Zm1.4 5.2c.5-.9.9-2 1.2-3.2h2.5a8 8 0 0 1-3.7 3.2ZM16.8 14a17 17 0 0 0 0-4h2.9a8.3 8.3 0 0 1 0 4h-2.9Z"/>' }
@@ -423,34 +427,41 @@ function renderHome(){
   const h = C.hero;
   const i = C.intro || {};
 
-  /* A — identity. The headline's <em> is the grey half of the sentence. */
-  const identityChips = [].concat(h.identity || []);
-
-  /* The UBC badge: the official logo file once Leo supplies one (see the
-     note on `credential` in content.js), otherwise the letters in a disc.
-     A logo path that is not on disk falls back to the letters, so a typo
-     cannot ship a broken image. */
+  /* ── The intro ─────────────────────────────────────────────────────────
+     Centred, after Kellie Ho's: a small portrait tile, the greeting with one
+     grey line under it, the UBC line, and a row of small icon links. This
+     holds the page's only <h1>. */
   const cr = h.credential;
   const crLogo = !!(cr && cr.logo && fs.existsSync(path.join(__dirname, cr.logo)));
   if (cr && cr.logo && !crLogo) console.warn(`  ! credential.logo "${cr.logo}" not found, using the letters`);
   const credential = cr
-    ? `\n            <p class="credential">${crLogo
+    ? `      <p class="credential">${crLogo
         ? `<img class="uni-logo" src="${attr(cr.logo)}" alt="University of British Columbia">`
-        : `<span class="uni-mark">${attr(cr.mark)}</span>`}<span>${cr.detail}</span></p>`
+        : `<span class="uni-mark">${attr(cr.mark)}</span>`}<span>${cr.detail}</span>${cr.note ? `<span class="sep" aria-hidden="true">|</span><span>${cr.note}</span>` : ''}</p>\n`
     : '';
 
+  const social = (i.social && i.social.length)
+    ? `      <div class="social-row mini">
+${i.social.map(s => `        <a class="social-btn" href="${attr(s.href)}" aria-label="${attr(s.label)}">${socialMark(s)}<span class="tip">${attr(s.label)}</span></a>`).join('\n')}
+      </div>\n`
+    : '';
+
+  const intro = `    <section class="intro reveal" aria-label="Introduction">
+${C.meta.portrait ? `      <img class="intro-portrait" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="120" height="120">\n` : ''}      <h1 class="intro-title">${i.greeting || 'Hi'}${i.line ? `<br><em>${i.line}</em>` : ''}</h1>
+${credential}${social}    </section>`;
+
+  /* ── The bento ─────────────────────────────────────────────────────────
+     One short line per card. Row one: the quote beside Based in and What
+     drives me; row two: Trained in and I also like; row three: the weather
+     strip across the full width. */
+
+  /* A — the quote, credited, over the portrait. */
   const portrait = C.meta.portrait
-    ? `\n          <img class="hero-portrait" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="230" height="230">`
+    ? `\n          <img class="hero-portrait" src="${attr(C.meta.portrait)}" alt="" width="230" height="230">`
     : '';
-
   const cardA = card('sp-7 rows-2 hero-card', `          <div>
-            <p class="hero-name">${attr(C.meta.name)}</p>
-            <h1 class="display">${h.headline}</h1>
-${h.cite ? `            <p class="hero-cite">— <cite>${h.cite}</cite></p>\n` : ''}${h.card ? `            <p class="body">${h.card}</p>\n` : ''}${chips(identityChips)}${credential}
-            <div class="pill-row">
-${(h.buttons || []).map(b => `              <a class="pill ${b.solid ? 'blue' : 'ghost'}" href="${attr(b.href)}">${b.label}</a>`).join('\n')}
-            </div>
-          </div>${portrait}`);
+            <h2 class="display">${h.headline}</h2>
+${h.cite ? `            <p class="hero-cite">— <cite>${h.cite}</cite></p>\n` : ''}          </div>${portrait}`);
 
   /* B — based in, with the pin row. */
   const cardB = card('sp-5', `          <p class="label">Based in</p>
@@ -478,53 +489,6 @@ ${panelRows}
             </div>
           </div>`);
 
-  /* D — about. */
-  const cardD = card('sp-7 rows-2', `          <span class="eyebrow">About</span>
-          <h2 class="display-sm">${i.greeting || 'Hi'}</h2>
-          <p class="body">${h.standfirst}</p>
-${(i.paragraphs || []).map(p => `          <p class="body">${p}</p>`).join('\n')}
-${(i.social && i.social.length) ? `          <div class="social-row">
-${i.social.map(s => `            <a class="social-btn" href="${attr(s.href)}" aria-label="${attr(s.label)}">${socialMark(s)}<span class="tip">${attr(s.label)}</span></a>`).join('\n')}
-          </div>` : ''}`);
-
-  /* E — the rotating interest. main.js cycles .like-word through data-list.
-         Half-height, with the weather card stacked under it: card D beside
-         them spans both rows. */
-  const likes = i.likes || [];
-  const cardE = likes.length
-    ? card('sp-5 like-card center', `          <p class="like-lead">I also like…</p>
-          <span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span>`)
-    : '';
-
-  /* W — live Vancouver weather and local time. Everything after the labels
-         is filled in by main.js: the clock needs no network; the current
-         conditions and the seven-hour strip (three hours either side of now)
-         come from one Open-Meteo request. With JavaScript off, or if the
-         request fails, each value keeps its em dash and the strip stays
-         empty, rather than promising an update that never arrives. */
-  const w = i.weather;
-  const cardW = w
-    ? card('sp-5 wx', `          <div class="wx-top">
-            <div>
-              <p class="label">${w.label || 'Weather'}</p>
-              <p class="value"><span class="wx-icon" aria-hidden="true"></span><span id="wx-temp">—</span></p>
-              <p class="wx-cond" id="wx-cond" data-lat="${attr(w.lat)}" data-lon="${attr(w.lon)}"></p>
-            </div>
-            <div class="wx-time">
-              <p class="label">Local time</p>
-              <p class="value" id="wx-clock">—</p>
-              <p class="wx-cond" id="wx-date"></p>
-            </div>
-          </div>
-          <ol class="wx-hours" id="wx-hours" aria-label="Hourly forecast, three hours either side of now"></ol>`)
-    : '';
-
-  /* F — the record. */
-  const cardF = card('sp-5', `          <span class="eyebrow">The record</span>
-          <ul class="record">
-${(h.record || []).map(r => `            <li><span class="k">${r.k}</span><span class="v">${r.flag ? '<span class="live-dot">●</span>' : ''}${r.v}</span></li>`).join('\n')}
-          </ul>`);
-
   /* G — training. The chip row is a marquee: one track holding the skill
          list twice, translated by exactly half its width, which lands copy
          two where copy one started and so loops without a seam. The second
@@ -534,22 +498,46 @@ ${(h.record || []).map(r => `            <li><span class="k">${r.k}</span><span 
   const skillChips = (sk.groups || []).reduce((acc, g) => acc.concat((g.items || []).map(x => x.t)), []);
   const run = skillChips.map(t => `<span class="chip">${t}</span>`).join('');
   const cardG = sk.headline
-    ? card('sp-7', `          <div class="marquee">
+    ? card('sp-5 trained-card', `          <div class="marquee">
             <div class="marquee-track">
               <span class="mq-copy">${run}</span>
               <span class="mq-copy" aria-hidden="true">${run}</span>
             </div>
           </div>
           <p class="label caps">${sk.label || 'Trained in'}</p>
-          <h2 class="display-sm">${sk.headline}</h2>${(sk.areas && sk.areas.length) ? `
-          <ul class="trained">
-${sk.areas.map(a => `            <li><span class="t">${a.t}</span><span class="d">${a.d}</span></li>`).join('\n')}
-          </ul>` : ''}`)
+          <h2 class="display-sm">${sk.headline}</h2>`)
     : '';
 
-  return `    <section class="reveal" aria-label="Introduction">
+  /* E — the rotating interest. main.js cycles .like-word through data-list. */
+  const likes = i.likes || [];
+  const cardE = likes.length
+    ? card('sp-7 like-card', `          <p class="like-lead">I also like…</p>
+          <span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span>`)
+    : '';
+
+  /* W — the weather strip: the temperature now, the seven hours around it,
+         and Vancouver's local time. Everything but the labels is written by
+         main.js: the clock needs no network; the rest comes from one
+         Open-Meteo request. With JavaScript off, or if the request fails,
+         the values keep their em dash and the strip stays empty. */
+  const w = i.weather;
+  const cardW = w
+    ? card('sp-12 wx', `          <div class="wx-now">
+            <p class="label">${w.label || 'Weather'}</p>
+            <p class="value"><span class="wx-icon" id="wx-icon" role="img" aria-label="Current conditions"></span><span id="wx-temp">—</span></p>
+          </div>
+          <ol class="wx-hours" id="wx-hours" data-lat="${attr(w.lat)}" data-lon="${attr(w.lon)}" aria-label="Hourly forecast, three hours either side of now"></ol>
+          <div class="wx-time">
+            <p class="label">Local time</p>
+            <p class="value" id="wx-clock">—</p>
+          </div>`)
+    : '';
+
+  return `${intro}
+
+    <section class="reveal" aria-label="At a glance">
       <div class="bento">
-${[cardA, cardB, cardC, cardD, cardE, cardW, cardF, cardG].filter(Boolean).join('\n')}
+${[cardA, cardB, cardC, cardG, cardE, cardW].filter(Boolean).join('\n')}
       </div>
     </section>`;
 }

@@ -28,7 +28,7 @@ module.exports = {
   meta: {
     name:        "Leo J. Chung",
     shortName:   "Leo J. Chung",
-    tagline:     "Scientist, teacher, and a Vancouver kid who thinks art, music and sport belong in the same conversation as the lab.",
+    tagline:     "Neuroscience at UBC. Vancouver born and raised.",
     description: "Leo J. Chung — scientist and educator at the University of British Columbia. Neuroscience research with the Ciernia Lab, the Moss Lab at Johns Hopkins and UBC's Si-Lab; R&D at STEMCELL Technologies; creator of ASTU 400E, Neuroaesthetics.",
 
     // ↓ Change this once you know your final URL (README, step 6).
@@ -71,7 +71,7 @@ module.exports = {
        the letters. If `logo` is unset or the file is missing, the build falls
        back to the letters rather than shipping a broken image.
        Set the whole thing to null to drop the badge. */
-    credential: { mark: "UBC", logo: "assets/ubc-logo.png", detail: "Major in Cellular &amp; Molecular Neuroscience" },
+    credential: { mark: "UBC", logo: "assets/ubc-logo.png", detail: "Major in Cellular &amp; Molecular Neuroscience", note: "Open to a Jan 2027 co-op" },
 
     /* The identity line above the headline. Meg Mindlin — who won Best Art &
        Visuals in the 2025 academic-website contest — opens with
@@ -138,7 +138,10 @@ module.exports = {
      formal record of what he's worked on lives on projects.html; the CV
      file has everything else. */
   intro: {
-    greeting: "Hi — I'm Leo 👋",
+    /* The centred intro at the top of Home, after Kellie Ho's: a greeting in
+       near-black and one grey line under it. Keep the line short. */
+    greeting: "Hi, I'm Leo 👋",
+    line:     "I study the brain and how it shapes us.",
     location: "📍 Vancouver, BC",
 
     // Answers the "What drives me" card on the Home bento, set as a bold
@@ -147,6 +150,9 @@ module.exports = {
     // ("committed to producing results that others can trust and build upon").
     focus: "Producing results that others can trust and build upon.",
 
+    /* NOT RENDERED in the minimal layout (Sep 2026) — kept so the About card
+       can come back. `hero.standfirst`, `hero.buttons` and `skills.areas`
+       are in the same position. */
     paragraphs: [
       "I'm a scientist and a teacher at UBC, and most days that means chasing " +
       "questions about the brain that don't fit in one lab: chromatin and " +
@@ -165,7 +171,7 @@ module.exports = {
        Coordinates are downtown Vancouver. Fetched in the browser from
        Open-Meteo, which needs no API key and sets no cookie — see the
        note in main.js. Set to null and the card disappears. */
-    weather: { label: "Vancouver right now", lat: 49.2827, lon: -123.1207 },
+    weather: { label: "Vancouver", lat: 49.2827, lon: -123.1207 },
 
     // Rotates in the "I also like ___" bubble under the paragraphs. Keep it
     // to short phrases — it swaps every couple of seconds.
@@ -189,7 +195,8 @@ module.exports = {
     social: [
       { logo: "gmail",    label: "Email",             href: "mailto:leojc815@gmail.com" },
       { logo: "linkedin", label: "LinkedIn",          href: "https://www.linkedin.com/in/leojchung" },
-      { logo: "neuroarts", label: "Neuroarts profile", href: "https://www.neuroartsresourcecenter.com/profile/leojchung" }
+      { logo: "neuroarts", label: "Neuroarts profile", href: "https://www.neuroartsresourcecenter.com/profile/leojchung" },
+      { logo: "doc",       label: "CV",                href: "cv.pdf" }
     ]
   },
 

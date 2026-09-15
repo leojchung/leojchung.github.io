@@ -100,11 +100,11 @@
      both useless and rude.
 
      Every failure path leaves the card exactly as it was rendered — an em
-     dash and no condition line. A weather card that silently shows stale
+     dash and an empty strip. A weather card that silently shows stale
      or wrong numbers is worse than one that shows nothing. */
-  var wxCond = document.getElementById('wx-cond');
+  var wxList = document.getElementById('wx-hours');
   var wxTemp = document.getElementById('wx-temp');
-  if (wxCond && wxTemp && window.fetch) {
+  if (wxList && wxTemp && window.fetch) {
     /* WMO weather codes, grouped. Open-Meteo returns the numeric code;
        anything not listed falls through to no icon and no wording. */
     var WMO = {
@@ -132,8 +132,8 @@
       return hit[0];
     };
 
-    var lat = wxCond.getAttribute('data-lat');
-    var lon = wxCond.getAttribute('data-lon');
+    var lat = wxList.getAttribute('data-lat');
+    var lon = wxList.getAttribute('data-lon');
     /* past_hours=3 plus forecast_hours=4 returns exactly seven hourly rows:
        three before the current hour, the current hour, three after. */
     var url = 'https://api.open-meteo.com/v1/forecast'
@@ -151,17 +151,20 @@
         if (!cur || typeof cur.temperature_2m !== 'number') return;
         wxTemp.textContent = Math.round(cur.temperature_2m) + '°C';
         var hit = WMO[cur.weather_code];
-        if (hit) {
-          var icon = document.querySelector('.wx-icon');
-          if (icon) icon.textContent = glyph(cur.weather_code, cur.is_day);
-          wxCond.textContent = hit[1];
+        /* No condition line in the minimal strip: the words ride on the
+           icon's label, for screen readers and as a hover tooltip. */
+        var icon = document.getElementById('wx-icon');
+        if (hit && icon) {
+          icon.textContent = glyph(cur.weather_code, cur.is_day);
+          icon.setAttribute('aria-label', hit[1]);
+          icon.setAttribute('title', hit[1]);
         }
 
         /* The hourly strip. Times come back as Vancouver-local ISO strings
            ("2026-09-15T12:00"), so the current hour is found by matching the
            current reading's time truncated to the hour — no clock maths in
            the visitor's own timezone. */
-        var list = document.getElementById('wx-hours');
+        var list = wxList;
         var h = d.hourly;
         if (!list || !h || !h.time || !h.time.length) return;
         var nowKey = String(cur.time || '').slice(0, 13);
@@ -190,15 +193,11 @@
      which is close enough that the minute never visibly lags. Browsers
      without Intl time-zone support leave the em dash. */
   var wxClock = document.getElementById('wx-clock');
-  var wxDate  = document.getElementById('wx-date');
   if (wxClock && window.Intl) {
     try {
       var fTime = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Vancouver', hour: 'numeric', minute: '2-digit' });
-      var fDate = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Vancouver', weekday: 'long', month: 'short', day: 'numeric' });
       var tick = function () {
-        var now = new Date();
-        wxClock.textContent = fTime.format(now);
-        if (wxDate) wxDate.textContent = fDate.format(now);
+        wxClock.textContent = fTime.format(new Date());
       };
       tick();
       setInterval(tick, 15000);
