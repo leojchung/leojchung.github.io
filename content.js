@@ -57,10 +57,18 @@ module.exports = {
     // with. Set to null to skip it.
     card: "Neuroscientist with a habit of teaching what he finds.",
 
-    // The school-credential badge right under it — a monogram badge (not
-    // UBC's actual crest: using a university's official logo without
-    // checking their brand-use policy is the kind of thing worth avoiding)
-    // plus the major. Set to null to skip it.
+    /* The UBC badge in the hero card: a monogram disc plus the major.
+
+       It is the LETTERS "UBC", deliberately not the university's crest or
+       wordmark. UBC's brand policy reserves those for official university
+       communications, and a student site carrying the crest can read as
+       claiming institutional endorsement — a bad look on a page going to
+       PIs and admissions readers, and the sort of thing a university
+       communications office does ask people to take down.
+
+       If you want the real crest, ask UBC (or your department) whether
+       your use is permitted, and put the file they give you in assets/.
+       Set to null to drop the badge. */
     credential: { mark: "UBC", detail: "Major in Cellular &amp; Molecular Neuroscience" },
 
     /* The identity line above the headline. Meg Mindlin — who won Best Art &
@@ -71,8 +79,28 @@ module.exports = {
        than a CV with hobbies appended. Set to null to remove the line. */
     identity: ["Scientist", "Educator", "Art, music &amp; sport"],
 
-    // <em>…</em> renders italic in purple. Use it on one phrase, not more.
-    headline: "Some of the most interesting things a brain does happen <em>outside the lab.</em>",
+    /* The hero headline. <em>…</em> is the GREY half of the sentence — not
+       italic. Split it at a clause break, not mid-phrase. */
+    headline: "“Sometimes it is the people no one imagines anything of " +
+              "<em>who do the things that no one can imagine.”</em>",
+
+    /* ── READ THIS BEFORE CHANGING THE CREDIT ──────────────────────────────
+       This line is almost universally attributed to Alan Turing. It is not
+       his. It is dialogue from the 2014 film *The Imitation Game*, written
+       by Graham Moore, spoken by the Joan Clarke character — there is no
+       record of Turing writing or saying it.
+
+       It is credited to the film here on purpose. The site is going to PIs
+       and admissions readers, and a misattributed quotation on the front
+       page is the kind of error that costs you credibility with exactly
+       that audience — the same reason the Neuroaesthetics seminar is
+       credited to two coordinators rather than one.
+
+       If you want a real Turing line instead, take one from "Computing
+       Machinery and Intelligence" (1950) and cite the paper. Set this to
+       null to drop the credit line entirely — but then drop the quotation
+       marks too, and don't imply the words are yours. */
+    cite: "<em>The Imitation Game</em> (2014), screenplay by Graham Moore",
 
     // <b>…</b> gets a soft maroon highlight. Three or four maximum.
     standfirst:
@@ -128,6 +156,12 @@ module.exports = {
       "is usually the fastest way to actually understand it."
     ],
 
+    /* Vancouver's live weather, in the card under "I also like…".
+       Coordinates are downtown Vancouver. Fetched in the browser from
+       Open-Meteo, which needs no API key and sets no cookie — see the
+       note in main.js. Set to null and the card disappears. */
+    weather: { label: "Vancouver right now", lat: 49.2827, lon: -123.1207 },
+
     // Rotates in the "I also like ___" bubble under the paragraphs. Keep it
     // to short phrases — it swaps every couple of seconds.
     likes: [
@@ -139,12 +173,18 @@ module.exports = {
       "the Fun page →"
     ],
 
-    // Icon row with a hover/focus popup — email, LinkedIn, etc. Emoji stand
-    // in for logos so nothing needs an icon library or an image asset.
+    /* Icon row with a hover/focus popup. `logo` names an inline SVG mark in
+       LOGOS in build.js; `icon` is an emoji fallback for anything without a
+       mark. Nothing here needs an icon library or an image request.
+
+       The Gmail and LinkedIn marks are hand-drawn in each brand's real
+       palette. Check them against the official logos — if either is off,
+       put the official SVG in assets/ and point its LOGOS entry at the
+       file instead. */
     social: [
-      { icon: "✉️", label: "Email",             href: "mailto:leojc815@gmail.com" },
-      { icon: "💼", label: "LinkedIn",           href: "https://www.linkedin.com/in/leojchung" },
-      { icon: "🧠", label: "Neuroarts profile",  href: "https://www.neuroartsresourcecenter.com/profile/leojchung" }
+      { logo: "gmail",    label: "Email",             href: "mailto:leojc815@gmail.com" },
+      { logo: "linkedin", label: "LinkedIn",          href: "https://www.linkedin.com/in/leojchung" },
+      { logo: "globe",    label: "Neuroarts profile", href: "https://www.neuroartsresourcecenter.com/profile/leojchung" }
     ]
   },
 
@@ -179,17 +219,24 @@ module.exports = {
   },
 
   /* ───────────────────────── § PRINCIPLES ─────────────────────────────── */
-  /* Home page, under Right Now. Four short things — word + one line — the
-     kind of block Kellie Ho's site does well. Keep it to three or four. */
+  /* Home page, under Right Now. Short things — word + one line — the kind of
+     block Kellie Ho's site does well.
+
+     THREE is the number to keep. The cards sit in an auto-fitting row, so
+     three fill one clean row at desktop width; a fourth wraps to a second
+     row on its own, which looks like a mistake. Swap the wording freely,
+     but if you add a fourth, hide one of the others. */
   principles: {
     eyebrow: "Principles",
     title: "What I <em>care about</em>",
-    hint:  "Four things that show up in everything above.",
+    hint:  "Three things that show up in everything above.",
     items: [
       { word: "Curiosity", blurb: "Chromatin, the gut, animal calls — different systems, one habit of mind." },
       { word: "Rigor",     blurb: "Measurement first. If it isn't quantifiable, I don't trust my read of it." },
       { word: "Teaching",  blurb: "I co-created a for-credit course as an undergrad. Explaining something well is understanding it twice." },
-      { word: "Balance",   blurb: "Biking, chess, the Lakers, the Rams. The lab isn't the whole person." }
+
+      // Kept, not deleted — flip `hidden` to bring it back and hide another.
+      { word: "Balance",   blurb: "Biking, chess, the Lakers, the Rams. The lab isn't the whole person.", hidden: true }
     ]
   },
 
@@ -763,7 +810,7 @@ module.exports = {
   pages: [
     { key: "home",     file: "index.html",    navLabel: "Home",     icon: "home",
       sections: ["now", "principles", "reading"] },
-    { key: "projects", file: "projects.html", navLabel: "Projects", icon: "folder",
+    { key: "projects", file: "projects.html", navLabel: "My Works", icon: "folder",
       description: "Research and teaching by Leo J. Chung — chromatin and the BAF complex, the gut–brain axis, animal communication, and the Neuroaesthetics seminar he co-created at UBC.",
       sections: ["research", "teaching", "lab", "press"] },
     { key: "fun",      file: "fun.html",      navLabel: "Fun",      icon: "spark",

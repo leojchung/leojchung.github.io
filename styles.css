@@ -65,11 +65,18 @@
                                clear 4.5:1 on --card-3, which is where the
                                chips sit — the tightest pairing on the page */
 
-  --accent:#1E6EF4;         /* blue, as a FILL (white text on it = 4.6:1) */
-  --accent-ink:#1559D0;     /* blue, as TEXT (5.8:1 on a card)            */
-  --accent-soft:rgba(30,110,244,.10);
+  --accent:#7C3AED;         /* violet, as a FILL (white on it = 5.7:1)    */
+  --accent-ink:#6D28D9;     /* violet, as TEXT (6.6:1 on a card)          */
+  --accent-soft:rgba(124,58,237,.10);
   --cta:#F0A23C;            /* amber fill — pairs with --ink, never white */
   --live:#1E8E3E;           /* the currently-held dot — 3.9:1 on a card   */
+
+  --map-land:#D8DBE1;       /* the Vancouver map in the "Based in" card.  */
+  --map-water:#F1F2F4;      /* Deliberately a near-flat pair: the map is
+                               greyed-out backdrop for the blue marker,
+                               not a thing to be read. Decorative and
+                               aria-hidden, so no contrast minimum
+                               applies — the card states the city in text */
 
   --f-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -108,9 +115,11 @@
     --ink:#F5F5F7;
     --ink-mute:#7E7E86;
     --ink-2:#A0A0A8;
-    --accent-ink:#6FA3FF;
-    --accent-soft:rgba(111,163,255,.14);
+    --accent-ink:#A78BFA;
+    --accent-soft:rgba(167,139,250,.14);
     --live:#3ED166;
+    --map-land:#2C3038;
+    --map-water:#14161A;
     --dock-shadow:0 10px 34px rgba(0,0,0,.6);
     --dock-edge:#26272C;
   }
@@ -123,9 +132,11 @@
   --ink:#F5F5F7;
   --ink-mute:#7E7E86;
   --ink-2:#A0A0A8;
-  --accent-ink:#6FA3FF;
-  --accent-soft:rgba(111,163,255,.14);
+  --accent-ink:#A78BFA;
+  --accent-soft:rgba(167,139,250,.14);
   --live:#3ED166;
+  --map-land:#2C3038;
+  --map-water:#14161A;
   --dock-shadow:0 10px 34px rgba(0,0,0,.6);
   --dock-edge:#26272C;
 }
@@ -211,7 +222,10 @@ img,svg{max-width:100%}
   display:flex;flex-direction:column;
   position:relative;overflow:hidden;min-width:0;
 }
-.card.flush{padding-bottom:0}          /* for a panel bleeding off the bottom */
+/* A card whose last child bleeds off the bottom edge. Its text is wrapped
+   in one <div>, so space-between pins the text to the top and the bleeding
+   panel to the bottom however tall the grid row turns out to be. */
+.card.flush{padding-bottom:0;justify-content:space-between}
 .card.center{align-items:center;text-align:center}
 
 /* Only cards that actually go somewhere respond to the cursor. */
@@ -385,6 +399,25 @@ main .shell > *:first-child{margin-top:0}
   letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);
 }
 .hero-card .display{margin-bottom:8px}
+/* Credit under a quoted headline. Small, quiet, and never omitted when the
+   headline is somebody else's words — see the note in content.js. */
+/* The UBC badge — a monogram disc, not the crest. See content.js. */
+.credential{
+  display:inline-flex;align-items:center;gap:11px;align-self:flex-start;
+  margin:16px 0 0;padding:5px 18px 5px 5px;
+  background:var(--card-3);border-radius:999px;
+  font-size:13px;line-height:1.35;color:var(--ink-2);max-width:100%;
+}
+.uni-mark{
+  display:inline-flex;align-items:center;justify-content:center;flex:none;
+  width:34px;height:34px;border-radius:50%;
+  background:var(--accent);color:#fff;
+  font-family:var(--f-mono);font-size:10.5px;font-weight:700;letter-spacing:.02em;
+}
+
+.hero-cite{margin:14px 0 0;font-size:13px;color:var(--ink-2);line-height:1.5}
+.hero-cite cite{font-style:normal}
+.hero-cite cite em{font-style:italic}
 
 /* The portrait sits at the bottom of the hero card, large, centered — the
    position Kellie Ho's illustration occupies. Circular, because it is the
@@ -395,20 +428,23 @@ main .shell > *:first-child{margin-top:0}
   border-radius:50%;display:block;
 }
 
-/* "Based in" card — a row of map pins with the centre one marked. */
-.pins{
-  display:flex;align-items:center;justify-content:center;gap:clamp(4px,1.4vw,14px);
-  margin-top:auto;padding-top:26px;color:var(--card-3);
+/* "Based in" card — a greyed-out map of Vancouver with the marker on
+   downtown. Hand-drawn inline SVG, not map tiles: tiles would mean a
+   third-party request on every page load (and for most providers an API
+   key and an attribution requirement) for what is a piece of scenery.
+
+   The svg is cropped rather than fitted — `slice` plus a fixed height
+   makes it behave like a map viewport, and keeps the card from growing
+   tall enough to unbalance the row. */
+.map{
+  margin:26px calc(-1 * var(--pad)) 0;
+  border-radius:var(--r-sm) var(--r-sm) 0 0;
+  overflow:hidden;background:var(--map-water);
 }
-.pins svg{width:clamp(18px,2.4vw,30px);height:auto;flex:none;fill:currentColor}
-.pins .here{width:clamp(44px,5.6vw,72px);color:var(--accent)}
-.pins .far{opacity:.55}
-/* Drop the outermost pins on a phone, symmetrically, so the marked one
-   stays centred rather than drifting to one side. */
-@media (max-width:620px){
-  .pins svg:nth-child(1),.pins svg:nth-child(2),
-  .pins svg:nth-child(6),.pins svg:nth-child(7){display:none}
-}
+.map svg{display:block;width:100%;height:clamp(170px,22vw,220px)}
+.map .land{fill:var(--map-land)}
+.map .bridge{fill:none;stroke:var(--map-land);stroke-width:3;stroke-linecap:round}
+.map .marker{fill:var(--accent)}
 
 /* The faux notebook panel — the analogue of Kellie's code-editor mockup.
    It bleeds off the bottom of its card, which is what makes the card feel
@@ -452,25 +488,60 @@ main .shell > *:first-child{margin-top:0}
   transition:opacity .22s ease;
 }
 
-/* The skills marquee — an icon/chip row that bleeds past both card edges,
-   the way Kellie's tech-stack row does. No animation: it is a static row
-   that simply runs out of the card, which reads as depth without motion. */
-.bleed-row{
-  display:flex;gap:9px;margin:0 calc(-1 * var(--pad)) 24px;padding-inline:var(--pad);
-  overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;
+/* The live-weather card. Everything but the label is written by main.js. */
+.wx .value{display:flex;align-items:center;gap:10px;justify-content:center}
+.wx-icon{font-size:.9em;line-height:1}
+.wx-cond{margin:8px 0 0;font-size:14px;color:var(--ink-2);line-height:1.5;min-height:1.5em}
+
+/* ── THE SKILLS MARQUEE ───────────────────────────────────────────────────
+   The track holds the chip list twice and slides by exactly -50%, which
+   puts copy two where copy one began — so it loops with no visible seam.
+
+   The spacing has to be margin-right on each chip, NOT a flex `gap`. With
+   a gap, the track is 2N chips and 2N-1 gaps, so half its width lands half
+   a gap short of the loop point and the row visibly stutters once per
+   cycle. A trailing margin on every chip makes each copy exactly
+   N*(chip+space) wide, and half of that is exactly one copy.
+
+   The mask fades both ends, so chips enter and leave instead of being
+   sliced off at the card edge.                                          */
+.marquee{
+  display:flex;overflow:hidden;
+  margin:0 calc(-1 * var(--pad)) 24px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
 }
-.bleed-row::-webkit-scrollbar{display:none}
-.bleed-row .chip{flex:none}
+.mq-copy{display:contents}
+.marquee-track{display:flex;flex:none;animation:marquee 44s linear infinite}
+.marquee-track .chip{flex:none;margin-right:9px}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track{animation-play-state:paused}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* The global reduced-motion rule only shortens durations, which would turn
+   this into a flicker. Kill the animation outright and show one static,
+   scrollable copy instead. */
+@media (prefers-reduced-motion:reduce){
+  .marquee{overflow-x:auto;scrollbar-width:none}
+  .marquee::-webkit-scrollbar{display:none}
+  .marquee-track{animation:none}
+  .mq-copy + .mq-copy{display:none}
+}
 
 
 /* ══════════════════ SOCIAL BUTTONS ══════════════════ */
-.social-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.social-row{display:flex;gap:11px;flex-wrap:wrap;margin-top:22px}
 .social-btn{
-  position:relative;width:46px;height:46px;border-radius:14px;
-  display:grid;place-items:center;font-size:19px;text-decoration:none;
-  background:var(--card-3);
+  position:relative;width:56px;height:56px;border-radius:17px;
+  display:grid;place-items:center;font-size:23px;text-decoration:none;
+  background:var(--card-3);color:var(--ink);
   transition:transform .3s cubic-bezier(.34,1.5,.64,1);
 }
+/* A plain mark follows the theme. A brand mark carries its own colours and
+   must not be repainted — hence :not(.brand). */
+.social-btn .mark{width:27px;height:27px;display:block}
+.social-btn .mark:not(.brand){fill:currentColor}
+.social-btn .mark.brand{width:29px;height:29px}
 .card .social-btn{background:var(--card-2)}
 .social-btn:hover,.social-btn:focus-visible{transform:translateY(-3px)}
 .social-btn .tip{

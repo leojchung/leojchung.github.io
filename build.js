@@ -77,20 +77,80 @@ const ICONS = {
   home:   '<path d="M12 3.1 2.5 11.2h2.4v8.2c0 .6.5 1.1 1.1 1.1h3.6v-5.9h4.8v5.9H18c.6 0 1.1-.5 1.1-1.1v-8.2h2.4L12 3.1Z"/>',
   folder: '<path d="M3 6.7C3 5.8 3.8 5 4.7 5h3.9c.5 0 1 .2 1.3.6l1.1 1.3c.2.3.5.4.8.4h6.5c.9 0 1.7.8 1.7 1.7v9.3c0 .9-.8 1.7-1.7 1.7H4.7C3.8 20 3 19.2 3 18.3V6.7Z"/>',
   spark:  '<path d="M11.4 2.3a.6.6 0 0 1 1.2 0l1.5 4.1c.1.2.2.3.4.4l4.1 1.5a.6.6 0 0 1 0 1.1l-4.1 1.5c-.2.1-.3.2-.4.4l-1.5 4.1a.6.6 0 0 1-1.2 0L9.9 11.3c-.1-.2-.2-.3-.4-.4L5.4 9.4a.6.6 0 0 1 0-1.1l4.1-1.5c.2-.1.3-.2.4-.4l1.5-4.1Z"/><path d="M18 15.2a.4.4 0 0 1 .8 0l.7 1.9 1.9.7a.4.4 0 0 1 0 .8l-1.9.7-.7 1.9a.4.4 0 0 1-.8 0l-.7-1.9-1.9-.7a.4.4 0 0 1 0-.8l1.9-.7.7-1.9Z"/>',
-  mail:   '<path d="M3 7.6c0-1.2 1-2.2 2.2-2.2h13.6c1.2 0 2.2 1 2.2 2.2v.5l-9 5.3-9-5.3V7.6Z"/><path d="M3 10.4l8.5 5c.3.2.7.2 1 0l8.5-5v6c0 1.2-1 2.2-2.2 2.2H5.2C4 18.6 3 17.6 3 16.4v-6Z"/>',
-  pin:    '<path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7Z"/>'
+  mail:   '<path d="M3 7.6c0-1.2 1-2.2 2.2-2.2h13.6c1.2 0 2.2 1 2.2 2.2v.5l-9 5.3-9-5.3V7.6Z"/><path d="M3 10.4l8.5 5c.3.2.7.2 1 0l8.5-5v6c0 1.2-1 2.2-2.2 2.2H5.2C4 18.6 3 17.6 3 16.4v-6Z"/>'
 };
 
-/* The marked pin in the "Based in" card. The check is #fff rather than a
-   token because it sits on --accent, which is the same blue in both themes
-   — the one place in the CSS-or-markup where a literal colour is correct. */
-const PIN_HERE =
-  '<svg class="here" viewBox="0 0 24 26" aria-hidden="true">' +
-  '<path d="M12 0C6.9 0 2.8 4.1 2.8 9.2 2.8 16.1 12 26 12 26s9.2-9.9 9.2-16.8C21.2 4.1 17.1 0 12 0Z"/>' +
-  '<path d="M7.7 9.3l1.5-1.5 2 2 4.6-4.6 1.5 1.5-6.1 6.1-3.5-3.5Z" fill="#fff"/></svg>';
+/* ── social marks ──────────────────────────────────────────────────────────
+   Inline SVG, so the row costs no image request and no icon font. A social
+   entry in content.js names a `logo` (a key here), or falls back to the
+   `icon` emoji it carries.
 
-const PIN_FAR = '<svg class="far" viewBox="0 0 24 26" aria-hidden="true">' +
-  '<path d="M12 0C6.9 0 2.8 4.1 2.8 9.2 2.8 16.1 12 26 12 26s9.2-9.9 9.2-16.8C21.2 4.1 17.1 0 12 0Z"/></svg>';
+   `brand: true` means the mark supplies its own colours and styles.css must
+   not repaint it — a brand mark in the wrong colour is worse than no mark.
+   Everything else draws in currentColor and follows the theme.
+   ────────────────────────────────────────────────────────────────────────── */
+const LOGOS = {
+  /* LinkedIn's "in" bug in its brand blue, used nominatively to link to
+     Leo's own profile. */
+  linkedin: { brand: true, svg:
+    '<rect width="24" height="24" rx="4.6" fill="#0A66C2"/>' +
+    '<path fill="#fff" d="M7.2 9.3H3.9v10.8h3.3V9.3Zm.2-3.4a1.9 1.9 0 1 0-3.8 0 1.9 1.9 0 0 0 3.8 0Z"/>' +
+    '<path fill="#fff" d="M9.3 9.3h3.2v1.5h.1c.4-.9 1.5-1.8 3.2-1.8 3.4 0 4 2.3 4 5.2v5.9h-3.3v-5.2c0-1.3 0-2.9-1.7-2.9s-2 1.4-2 2.8v5.3H9.3V9.3Z"/>' },
+
+  /* Gmail's envelope: white body, blue and green side walls, and the "M"
+     valley in red and yellow. Hand-reconstructed in Google's palette —
+     #4285F4, #34A853, #EA4335, #FBBC04 — because the site ships no image
+     requests. If it does not match the official mark closely enough, drop
+     the real SVG into assets/ and point this entry at it instead; a brand
+     logo is better taken from the official asset than redrawn. */
+  gmail: { brand: true, vb: '0 0 24 18', svg:
+    '<path fill="#fff" d="M2.6 18h18.8a2.6 2.6 0 0 0 2.6-2.6V2.6A2.6 2.6 0 0 0 21.4 0H2.6A2.6 2.6 0 0 0 0 2.6v12.8A2.6 2.6 0 0 0 2.6 18Z"/>' +
+    '<path fill="#4285F4" d="M0 2.6A2.6 2.6 0 0 1 2.6 0h2.9v18H2.6A2.6 2.6 0 0 1 0 15.4Z"/>' +
+    '<path fill="#34A853" d="M18.5 0h2.9A2.6 2.6 0 0 1 24 2.6v12.8a2.6 2.6 0 0 1-2.6 2.6h-2.9Z"/>' +
+    '<path fill="#EA4335" d="M5.5 0 12 4.9 12 9.5 5.5 4.6Z"/>' +
+    '<path fill="#FBBC04" d="M18.5 0 12 4.9 12 9.5 18.5 4.6Z"/>' },
+
+  /* A plain globe, for a site with no mark of its own. */
+  globe: { svg:
+    '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.9 6h-2.5a13 13 0 0 0-1.2-3.2A8 8 0 0 1 18.9 8ZM12 4.1c.6.9 1.2 2.2 1.5 3.9h-3c.3-1.7.9-3 1.5-3.9ZM4.3 14a8.3 8.3 0 0 1 0-4h2.9a17 17 0 0 0 0 4H4.3Zm.8 2h2.5c.3 1.2.7 2.3 1.2 3.2A8 8 0 0 1 5.1 16Zm2.5-8H5.1a8 8 0 0 1 3.7-3.2A13 13 0 0 0 7.6 8ZM12 19.9c-.6-.9-1.2-2.2-1.5-3.9h3c-.3 1.7-.9 3-1.5 3.9ZM13.8 14h-3.6a15 15 0 0 1 0-4h3.6a15 15 0 0 1 0 4Zm1.4 5.2c.5-.9.9-2 1.2-3.2h2.5a8 8 0 0 1-3.7 3.2ZM16.8 14a17 17 0 0 0 0-4h2.9a8.3 8.3 0 0 1 0 4h-2.9Z"/>' }
+};
+
+/* One social button's mark: a real logo when the entry names one, else its
+   emoji. */
+const socialMark = s => {
+  const l = s.logo && LOGOS[s.logo];
+  if (!l) return s.icon || '';
+  return `<svg class="mark${l.brand ? ' brand' : ''}" viewBox="${l.vb || '0 0 24 24'}" aria-hidden="true">${l.svg}</svg>`;
+};
+
+/* ── the map in the "Based in" card ────────────────────────────────────────
+   A deliberately simplified Vancouver, drawn by hand so the site makes no
+   third-party request for a decorative graphic. Four landmasses, north to
+   south: the North Shore across the top, the downtown peninsula with
+   Stanley Park at its tip, the main city with False Creek notched into its
+   northern edge and the Fraser along the bottom, then Richmond. The three
+   short strokes are Lions Gate and the two False Creek bridges.
+
+   It is scenery, not information — the card states the city in text right
+   above it — so it is aria-hidden rather than labelled, which keeps a
+   screen reader from announcing the same fact twice.
+
+   Colours come from --map-land / --map-water. The one literal is the #fff
+   check inside the marker, which sits on --accent: the same blue in both
+   themes, so a token there would break the pairing. Coordinates are a
+   400x250 frame, cropped by CSS (see .map in styles.css).
+   ────────────────────────────────────────────────────────────────────────── */
+const MAP_VANCOUVER = `<svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <path class="land" d="M0 0H400V50Q368 58 336 52Q300 45 268 54Q232 64 198 56Q168 49 138 58Q104 68 72 60Q36 51 0 58Z"/>
+            <path class="land" d="M118 84Q98 88 95 104Q92 120 110 127L186 156Q196 160 204 154Q212 148 207 139L140 96Q132 82 118 84Z"/>
+            <path class="land" d="M22 182Q28 172 46 170Q78 166 108 168Q140 170 168 170Q178 172 182 180L232 181Q242 180 246 170Q280 164 320 167L400 164V212L340 217Q290 221 240 218L150 219Q88 220 44 212Q24 208 22 196Z"/>
+            <path class="land" d="M40 232Q120 226 200 229Q290 232 400 228V250H28Q32 240 40 232Z"/>
+            <path class="bridge" d="M124 86 126 60M190 156 193 180M204 153 207 181"/>
+            <g transform="translate(155.8 98.4) scale(1.6)">
+              <path class="marker" d="M12 0C6.9 0 2.8 4.1 2.8 9.2 2.8 16.1 12 26 12 26s9.2-9.9 9.2-16.8C21.2 4.1 17.1 0 12 0Z"/>
+              <path d="M7.7 9.3l1.5-1.5 2 2 4.6-4.6 1.5 1.5-6.1 6.1-3.5-3.5Z" fill="#fff"/>
+            </g>
+          </svg>`;
 
 
 /* ── section renderers ─────────────────────────────────────────────────────
@@ -336,9 +396,13 @@ function renderHome(){
   const i = C.intro || {};
 
   /* A — identity. The headline's <em> is the grey half of the sentence. */
-  const identityChips = []
-    .concat(h.identity || [])
-    .concat(h.credential ? [h.credential.detail] : []);
+  const identityChips = [].concat(h.identity || []);
+
+  /* The UBC badge: a monogram in a filled disc, deliberately NOT the
+     university's crest — see the note on `credential` in content.js. */
+  const credential = h.credential
+    ? `\n            <p class="credential"><span class="uni-mark">${attr(h.credential.mark)}</span><span>${h.credential.detail}</span></p>`
+    : '';
 
   const portrait = C.meta.portrait
     ? `\n          <img class="hero-portrait" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="230" height="230">`
@@ -347,17 +411,19 @@ function renderHome(){
   const cardA = card('sp-7 rows-2 hero-card', `          <div>
             <p class="hero-name">${attr(C.meta.name)}</p>
             <h1 class="display">${h.headline}</h1>
-${h.card ? `            <p class="body">${h.card}</p>\n` : ''}${chips(identityChips)}
+${h.cite ? `            <p class="hero-cite">— <cite>${h.cite}</cite></p>\n` : ''}${h.card ? `            <p class="body">${h.card}</p>\n` : ''}${chips(identityChips)}${credential}
             <div class="pill-row">
 ${(h.buttons || []).map(b => `              <a class="pill ${b.solid ? 'blue' : 'ghost'}" href="${attr(b.href)}">${b.label}</a>`).join('\n')}
             </div>
           </div>${portrait}`);
 
-  /* B — based in, with the pin row. */
-  const cardB = card('sp-5', `          <p class="label">Based in</p>
-          <p class="value">${attr(i.location ? plain(i.location).replace(/^📍\s*/, '') : C.meta.location)}</p>
-          <div class="pins" aria-hidden="true">
-            ${PIN_FAR}${PIN_FAR}${PIN_FAR}${PIN_HERE}${PIN_FAR}${PIN_FAR}${PIN_FAR}
+  /* B — based in, over the map. */
+  const cardB = card('sp-5 flush', `          <div>
+            <p class="label">Based in</p>
+            <p class="value">${attr(i.location ? plain(i.location).replace(/^📍\s*/, '') : C.meta.location)}</p>
+          </div>
+          <div class="map">
+            ${MAP_VANCOUVER}
           </div>`);
 
   /* C — what drives him, over a faux notebook panel built from the record
@@ -368,8 +434,10 @@ ${(h.buttons || []).map(b => `              <a class="pill ${b.solid ? 'blue' : 
     `              <div><span class="k">${attr(plain(r.k).toLowerCase())}:</span> <span class="v">${attr(plain(r.v))}</span></div>`
   ).join('\n');
 
-  const cardC = card('sp-5 flush', `          <p class="label caps">What drives me</p>
-          <p class="value">${i.focus || C.meta.tagline}</p>
+  const cardC = card('sp-5 flush', `          <div>
+            <p class="label caps">What drives me</p>
+            <p class="value">${i.focus || C.meta.tagline}</p>
+          </div>
           <div class="panel" aria-hidden="true">
             <div class="panel-bar"><i></i><i></i><i></i></div>
             <div class="panel-body">
@@ -378,19 +446,32 @@ ${panelRows}
           </div>`);
 
   /* D — about. */
-  const cardD = card('sp-7', `          <span class="eyebrow">About</span>
+  const cardD = card('sp-7 rows-2', `          <span class="eyebrow">About</span>
           <h2 class="display-sm">${i.greeting || 'Hi'}</h2>
           <p class="body">${h.standfirst}</p>
 ${(i.paragraphs || []).map(p => `          <p class="body">${p}</p>`).join('\n')}
 ${(i.social && i.social.length) ? `          <div class="social-row">
-${i.social.map(s => `            <a class="social-btn" href="${attr(s.href)}" aria-label="${attr(s.label)}">${s.icon}<span class="tip">${attr(s.label)}</span></a>`).join('\n')}
+${i.social.map(s => `            <a class="social-btn" href="${attr(s.href)}" aria-label="${attr(s.label)}">${socialMark(s)}<span class="tip">${attr(s.label)}</span></a>`).join('\n')}
           </div>` : ''}`);
 
-  /* E — the rotating interest. main.js cycles .like-word through data-list. */
+  /* E — the rotating interest. main.js cycles .like-word through data-list.
+         Half-height, with the weather card stacked under it: card D beside
+         them spans both rows. */
   const likes = i.likes || [];
   const cardE = likes.length
     ? card('sp-5 like-card center', `          <p class="like-lead">I also like…</p>
           <span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span>`)
+    : '';
+
+  /* W — live Vancouver weather. Everything after the label is filled in by
+         main.js; with JavaScript off, or if the request fails, the card
+         simply keeps the em dash rather than promising an update that
+         never arrives. */
+  const w = i.weather;
+  const cardW = w
+    ? card('sp-5 wx center', `          <p class="label">${w.label || 'Weather'}</p>
+          <p class="value"><span class="wx-icon" aria-hidden="true"></span><span id="wx-temp">—</span></p>
+          <p class="wx-cond" id="wx-cond" data-lat="${attr(w.lat)}" data-lon="${attr(w.lon)}"></p>`)
     : '';
 
   /* F — the record. */
@@ -399,18 +480,28 @@ ${i.social.map(s => `            <a class="social-btn" href="${attr(s.href)}" ar
 ${(h.record || []).map(r => `            <li><span class="k">${r.k}</span><span class="v">${r.flag ? '<span class="live-dot">●</span>' : ''}${r.v}</span></li>`).join('\n')}
           </ul>`);
 
-  /* G — training, with the chip row bleeding off both card edges. */
+  /* G — training. The chip row is a marquee: one track holding the skill
+         list twice, translated by exactly half its width, which lands copy
+         two where copy one started and so loops without a seam. The second
+         copy is aria-hidden so the list is announced once, and CSS pauses
+         it on hover and disables it outright under prefers-reduced-motion. */
   const sk = C.skills || {};
   const skillChips = (sk.groups || []).reduce((acc, g) => acc.concat((g.items || []).map(x => x.t)), []);
+  const run = skillChips.map(t => `<span class="chip">${t}</span>`).join('');
   const cardG = sk.headline
-    ? card('sp-7', `          <div class="bleed-row">${skillChips.map(t => `<span class="chip">${t}</span>`).join('')}</div>
+    ? card('sp-7', `          <div class="marquee">
+            <div class="marquee-track">
+              <span class="mq-copy">${run}</span>
+              <span class="mq-copy" aria-hidden="true">${run}</span>
+            </div>
+          </div>
           <p class="label caps">${sk.label || 'Trained in'}</p>
           <h2 class="display-sm">${sk.headline}</h2>`)
     : '';
 
   return `    <section class="reveal" aria-label="Introduction">
       <div class="bento">
-${[cardA, cardB, cardC, cardD, cardE, cardF, cardG].filter(Boolean).join('\n')}
+${[cardA, cardB, cardC, cardD, cardE, cardW, cardF, cardG].filter(Boolean).join('\n')}
       </div>
     </section>`;
 }

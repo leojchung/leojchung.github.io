@@ -88,6 +88,66 @@
     });
   });
 
+  /* ── Vancouver's live weather ────────────────────────────────────────────
+     The one live third-party request the site makes. Open-Meteo is used
+     because it needs no API key and sets no cookie — the endpoint is a
+     plain GET with the coordinates in the query string, so nothing about
+     the visitor is sent and there is nothing to keep secret in the page.
+
+     Coordinates come from the markup (content.js sets them), not from the
+     visitor: the card reports the weather where Leo is, and asking for
+     someone's location to tell them about a city they are not in would be
+     both useless and rude.
+
+     Every failure path leaves the card exactly as it was rendered — an em
+     dash and no condition line. A weather card that silently shows stale
+     or wrong numbers is worse than one that shows nothing. */
+  var wxCond = document.getElementById('wx-cond');
+  var wxTemp = document.getElementById('wx-temp');
+  if (wxCond && wxTemp && window.fetch) {
+    /* WMO weather codes, grouped. Open-Meteo returns the numeric code;
+       anything not listed falls through to no icon and no wording. */
+    var WMO = {
+      0:  ['☀️', 'Clear'],
+      1:  ['🌤️', 'Mainly clear'],
+      2:  ['⛅', 'Partly cloudy'],
+      3:  ['☁️', 'Overcast'],
+      45: ['🌫️', 'Fog'],          48: ['🌫️', 'Freezing fog'],
+      51: ['🌦️', 'Light drizzle'], 53: ['🌦️', 'Drizzle'],       55: ['🌦️', 'Heavy drizzle'],
+      56: ['🌧️', 'Freezing drizzle'], 57: ['🌧️', 'Freezing drizzle'],
+      61: ['🌦️', 'Light rain'],    63: ['🌧️', 'Rain'],           65: ['🌧️', 'Heavy rain'],
+      66: ['🌧️', 'Freezing rain'], 67: ['🌧️', 'Freezing rain'],
+      71: ['🌨️', 'Light snow'],    73: ['🌨️', 'Snow'],           75: ['🌨️', 'Heavy snow'],
+      77: ['🌨️', 'Snow grains'],
+      80: ['🌦️', 'Light showers'], 81: ['🌦️', 'Showers'],        82: ['🌧️', 'Heavy showers'],
+      85: ['🌨️', 'Snow showers'],  86: ['🌨️', 'Snow showers'],
+      95: ['⛈️', 'Thunderstorm'],  96: ['⛈️', 'Thunderstorm'],    99: ['⛈️', 'Thunderstorm, hail']
+    };
+
+    var lat = wxCond.getAttribute('data-lat');
+    var lon = wxCond.getAttribute('data-lon');
+    var url = 'https://api.open-meteo.com/v1/forecast'
+            + '?latitude='  + encodeURIComponent(lat)
+            + '&longitude=' + encodeURIComponent(lon)
+            + '&current=temperature_2m,weather_code'
+            + '&timezone=America%2FVancouver';
+
+    fetch(url)
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (d) {
+        var cur = d && d.current;
+        if (!cur || typeof cur.temperature_2m !== 'number') return;
+        wxTemp.textContent = Math.round(cur.temperature_2m) + '°C';
+        var hit = WMO[cur.weather_code];
+        if (hit) {
+          var icon = document.querySelector('.wx-icon');
+          if (icon) icon.textContent = hit[0];
+          wxCond.textContent = hit[1];
+        }
+      })
+      .catch(function () { /* leave the card as rendered */ });
+  }
+
   var yr = document.getElementById('yr');
   if (yr) yr.textContent = new Date().getFullYear();
 
