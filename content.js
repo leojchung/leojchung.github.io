@@ -52,10 +52,9 @@ module.exports = {
 
   /* ─────────────────────────────── HERO ──────────────────────────────── */
   hero: {
-    // The little boxed avatar + one-line tagline at the very top of the
-    // hero — the "photo + short self-description" card Kellie's site opens
-    // with. Set to null to skip it.
-    card: "Neuroscientist with a habit of teaching what he finds.",
+    // An optional one-line self-description under the quote credit.
+    // Removed at Leo's request (Sep 2026); set a string to bring it back.
+    card: null,
 
     /* The UBC badge in the hero card: a monogram disc plus the major.
 
@@ -100,7 +99,8 @@ module.exports = {
        Machinery and Intelligence" (1950) and cite the paper. Set this to
        null to drop the credit line entirely — but then drop the quotation
        marks too, and don't imply the words are yours. */
-    cite: "<em>The Imitation Game</em> (2014), screenplay by Graham Moore",
+    // Credited to the film alone, at Leo's request. It still must not say Turing.
+    cite: "<em>The Imitation Game</em> (2014)",
 
     // <b>…</b> gets a soft maroon highlight. Three or four maximum.
     standfirst:
