@@ -88,6 +88,7 @@
 
   --dock-shadow:0 10px 34px rgba(10,10,10,.13),0 2px 8px rgba(10,10,10,.06);
   --dock-edge:transparent;  /* dark mode gives the dock a hairline        */
+  --pin:#FFFFFF;            /* the plain pins in the "Based in" card       */
   --logo-plate:transparent; /* behind org logos (UBC, JHU, STEMCELL). Dark
                                mode sets it white: the marks are navy and
                                grey, and vanish on a dark card otherwise   */
@@ -118,6 +119,7 @@
     --live:#3ED166;
     --dock-shadow:0 10px 34px rgba(0,0,0,.6);
     --dock-edge:#26272C;
+    --pin:#23252A;
     --logo-plate:#FFFFFF;
     --logo-pad:4px 7px;
   }
@@ -135,6 +137,7 @@
   --live:#3ED166;
   --dock-shadow:0 10px 34px rgba(0,0,0,.6);
   --dock-edge:#26272C;
+  --pin:#23252A;
   --logo-plate:#FFFFFF;
   --logo-pad:4px 7px;
 }
@@ -436,18 +439,13 @@ main .shell > *:first-child{margin-top:0}
    Kellie Ho's reference. Pure decoration (aria-hidden): the card states the
    city in text right above it. */
 .pins{
-  display:flex;align-items:center;justify-content:center;gap:clamp(4px,1.4vw,14px);
-  margin-top:auto;padding-top:26px;color:var(--card-3);
+  display:flex;align-items:center;justify-content:center;
+  gap:clamp(18px,1.88vw,27px);
+  margin-top:auto;padding-top:30px;color:var(--pin);
 }
-.pins svg{width:clamp(18px,2.4vw,30px);height:auto;flex:none;fill:currentColor}
-.pins .here{width:clamp(44px,5.6vw,72px);color:var(--accent)}
-.pins .far{opacity:.55}
-/* Drop the outermost pins on a phone, symmetrically, so the marked one
-   stays centred rather than drifting to one side. */
-@media (max-width:620px){
-  .pins svg:nth-child(1),.pins svg:nth-child(2),
-  .pins svg:nth-child(6),.pins svg:nth-child(7){display:none}
-}
+.pins svg{height:auto;flex:none;fill:currentColor}
+.pins .far{width:clamp(30px,3.13vw,45px)}
+.pins .here{width:clamp(58px,6vw,86px);color:var(--accent)}
 
 /* The faux notebook panel — the analogue of Kellie's code-editor mockup.
    It bleeds off the bottom of its card, which is what makes the card feel
