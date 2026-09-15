@@ -143,7 +143,9 @@ module.exports = {
 
     // Answers the "What drives me" card on the Home bento, set as a bold
     // standalone line — so it reads as a sentence, not as the tail of one.
-    focus: "Measuring what's actually happening in the brain — inside the lab and out.",
+    // Leo's own words: the line recurs across his 2025–26 co-op cover letters
+    // ("committed to producing results that others can trust and build upon").
+    focus: "Producing results that others can trust and build upon.",
 
     paragraphs: [
       "I'm a scientist and a teacher at UBC, and most days that means chasing " +
@@ -233,10 +235,17 @@ module.exports = {
     eyebrow: "Principles",
     title: "What I <em>care about</em>",
     hint:  "Three things that show up in everything above.",
+    /* Drawn from Leo's own cover letters (2025–26) — each one is a point he
+       makes repeatedly there, put back into the casual register. */
     items: [
-      { word: "Curiosity", blurb: "Chromatin, the gut, animal calls — different systems, one habit of mind." },
-      { word: "Rigor",     blurb: "Measurement first. If it isn't quantifiable, I don't trust my read of it." },
-      { word: "Teaching",  blurb: "I co-created a for-credit course as an undergrad. Explaining something well is understanding it twice." },
+      { word: "Reproducibility", blurb: "Good science comes from tight execution. I troubleshoot and iterate until an assay works cleanly, not just once." },
+      { word: "Clear data",      blurb: "Results only help if people can act on them — I organize and present data so a team can make decisions quickly." },
+      { word: "The big picture", blurb: "Careful work upstream is what makes the data downstream mean something. Knowing where my piece fits matters." },
+
+      // Kept, not deleted — flip `hidden` to bring one back and hide another.
+      { word: "Curiosity", blurb: "Chromatin, the gut, animal calls — different systems, one habit of mind.", hidden: true },
+      { word: "Rigor",     blurb: "Measurement first. If it isn't quantifiable, I don't trust my read of it.", hidden: true },
+      { word: "Teaching",  blurb: "I co-created a for-credit course as an undergrad. Explaining something well is understanding it twice.", hidden: true },
 
       // Kept, not deleted — flip `hidden` to bring it back and hide another.
       { word: "Balance",   blurb: "Biking, chess, the Lakers, the Rams. The lab isn't the whole person.", hidden: true }
