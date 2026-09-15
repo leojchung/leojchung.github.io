@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){try{var t=localStorage.getItem('ljc-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
-<meta name="theme-color" content="#F7F6F9" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#101120" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0B0C" media="(prefers-color-scheme: dark)">
 <title>Contact — Leo J. Chung</title>
 <meta name="description" content="Get in touch with Leo J. Chung — looking for a co-op or internship for January 2027 in biotech, pharma, or the life sciences.">
 <meta name="author" content="Leo J. Chung">
@@ -21,7 +21,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,400..600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
 
 <link rel="stylesheet" href="styles.css">
 
@@ -75,57 +75,105 @@
 
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="site-head">
-  <div class="shell">
-    <a class="wordmark" href="index.html">Leo J. <span>Chung</span></a>
-    <button id="theme-toggle" type="button" aria-label="Switch between light and dark">
-      <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg>
-    </button>
-  </div>
-</header>
-
 <main id="main">
+  <div class="shell">
 
-  <section class="section reveal" id="contact" aria-labelledby="contact-h">
-    <div class="shell">
-      <div class="contact-grid">
-        <div>
-          <h2 id="contact-h">Get in <em>touch.</em></h2>
-          <p>I'm looking for a co-op or internship for January 2027, in biotech, pharma, or the life sciences. Reach out if you're working on chromatin, the gut–brain axis, animal communication, or science education — or if you're a student trying to figure out how to get into a lab. Happy to talk.</p>
+    <section class="section reveal" aria-labelledby="contact-h">
+      <div class="bento">
+        <div class="card stagger-item sp-7">
+          <span class="eyebrow">Let's talk</span>
+          <h2 class="display" id="contact-h">Get in <em>touch.</em></h2>
+          <p class="body">I'm looking for a co-op or internship for January 2027, in biotech, pharma, or the life sciences. Reach out if you're working on chromatin, the gut–brain axis, animal communication, or science education — or if you're a student trying to figure out how to get into a lab. Happy to talk.</p>
         </div>
-        <div class="links">
-          <div class="link-row"><div class="k">Email</div><a href="mailto:leojc815@gmail.com">leojc815@gmail.com</a></div>
-          <div class="link-row"><div class="k">LinkedIn</div><a href="https://www.linkedin.com/in/leojchung" rel="me">linkedin.com/in/leojchung</a></div>
-          <div class="link-row"><div class="k">Neuroarts</div><a href="https://www.neuroartsresourcecenter.com/profile/leojchung" rel="me">neuroartsresourcecenter.com</a></div>
-          <div class="link-row"><div class="k">Located</div><span class="static">Vancouver, British Columbia</span></div>
+        <div class="card stagger-item sp-5 center">
+          <p class="label">Email</p>
+          <a class="contact-value" href="mailto:leojc815@gmail.com">leojc815@gmail.com</a>
+        </div>
+        <a href="https://www.linkedin.com/in/leojchung" rel="me" class="card stagger-item sp-4 center">
+          <p class="label">LinkedIn</p>
+          <p class="contact-value">linkedin.com/in/leojchung</p>
+        </a>
+        <a href="https://www.neuroartsresourcecenter.com/profile/leojchung" rel="me" class="card stagger-item sp-4 center">
+          <p class="label">Neuroarts</p>
+          <p class="contact-value">neuroartsresourcecenter.com</p>
+        </a>
+        <div class="card stagger-item sp-4 center">
+          <p class="label">Located</p>
+          <p class="contact-value">Vancouver, British Columbia</p>
+        </div>
+        <div class="card stagger-item sp-12">
+          <h3 class="display-sm">Send me a message</h3>
+          <p class="body">The message form is not connected yet — see the setup note in <code>content.js</code>. Until then, email works perfectly well.</p>
+          <div class="pill-row"><a class="pill blue" href="mailto:leojc815@gmail.com">Email me instead</a></div>
         </div>
       </div>
-      <div class="formwrap">
-        <div class="form-fallback">
-          <h3>Send me a message</h3>
-          <p>The message form is not connected yet — see the setup note in <code>content.js</code>. Until then, email works perfectly well.</p>
-          <a class="btn solid" href="mailto:leojc815@gmail.com">Email me instead</a>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
+  </div>
 </main>
 
-<nav class="tab-bar" aria-label="Pages">
-  <div class="tab-bar-inner">
-    <a class="tab" href="index.html">Home</a>
-    <a class="tab" href="projects.html">Projects</a>
-    <a class="tab" href="fun.html">Fun</a>
-    <a class="tab active" href="contact.html" aria-current="page">Contact</a>
-  </div>
-</nav>
 <footer class="site-foot">
   <div class="shell">
-    <div>&copy; <span id="yr">2026</span> Leo J. Chung</div>
-    <div><a href="#">Back to top</a></div>
+    <div class="bento">
+        <div class="card stagger-item sp-4 foot-id">
+          <p class="t">Hi, I'm Leo.</p>
+          <p class="s">Neuroscientist with a habit of teaching what he finds.</p>
+          <img src="assets/placeholder.svg" alt="" width="150" height="150">
+        </div>
+        <div class="card stagger-item sp-8">
+          <div class="foot-cols">
+            <div class="foot-col">
+              <h3>Menu</h3>
+              <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="fun.html">Fun</a></li>
+            <li><a href="contact.html">Contact</a></li>
+              </ul>
+            </div>
+            <div class="foot-col">
+              <h3>Follow</h3>
+              <ul>
+            <li><a href="mailto:leojc815@gmail.com">Email</a></li>
+            <li><a href="https://www.linkedin.com/in/leojchung" rel="me">LinkedIn</a></li>
+            <li><a href="https://www.neuroartsresourcecenter.com/profile/leojchung" rel="me">Neuroarts</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="foot-fine">
+            <span>&copy; <span id="yr">2026</span> Leo J. Chung</span>
+            <a href="#main">Back to top</a>
+          </div>
+        </div>
+    </div>
   </div>
 </footer>
+<nav class="dock" aria-label="Pages">
+  <a class="dock-btn" href="index.html">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.1 2.5 11.2h2.4v8.2c0 .6.5 1.1 1.1 1.1h3.6v-5.9h4.8v5.9H18c.6 0 1.1-.5 1.1-1.1v-8.2h2.4L12 3.1Z"/></svg>
+    <span class="sr-only">Home</span>
+    <span class="tip" aria-hidden="true">Home</span>
+  </a>
+  <a class="dock-btn" href="projects.html">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.7C3 5.8 3.8 5 4.7 5h3.9c.5 0 1 .2 1.3.6l1.1 1.3c.2.3.5.4.8.4h6.5c.9 0 1.7.8 1.7 1.7v9.3c0 .9-.8 1.7-1.7 1.7H4.7C3.8 20 3 19.2 3 18.3V6.7Z"/></svg>
+    <span class="sr-only">Projects</span>
+    <span class="tip" aria-hidden="true">Projects</span>
+  </a>
+  <a class="dock-btn" href="fun.html">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.4 2.3a.6.6 0 0 1 1.2 0l1.5 4.1c.1.2.2.3.4.4l4.1 1.5a.6.6 0 0 1 0 1.1l-4.1 1.5c-.2.1-.3.2-.4.4l-1.5 4.1a.6.6 0 0 1-1.2 0L9.9 11.3c-.1-.2-.2-.3-.4-.4L5.4 9.4a.6.6 0 0 1 0-1.1l4.1-1.5c.2-.1.3-.2.4-.4l1.5-4.1Z"/><path d="M18 15.2a.4.4 0 0 1 .8 0l.7 1.9 1.9.7a.4.4 0 0 1 0 .8l-1.9.7-.7 1.9a.4.4 0 0 1-.8 0l-.7-1.9-1.9-.7a.4.4 0 0 1 0-.8l1.9-.7.7-1.9Z"/></svg>
+    <span class="sr-only">Fun</span>
+    <span class="tip" aria-hidden="true">Fun</span>
+  </a>
+  <a class="dock-btn active" href="contact.html" aria-current="page">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.6c0-1.2 1-2.2 2.2-2.2h13.6c1.2 0 2.2 1 2.2 2.2v.5l-9 5.3-9-5.3V7.6Z"/><path d="M3 10.4l8.5 5c.3.2.7.2 1 0l8.5-5v6c0 1.2-1 2.2-2.2 2.2H5.2C4 18.6 3 17.6 3 16.4v-6Z"/></svg>
+    <span class="sr-only">Contact</span>
+    <span class="tip" aria-hidden="true">Contact</span>
+  </a>
+  <span class="dock-sep" aria-hidden="true"></span>
+  <button class="dock-btn" id="theme-toggle" type="button" aria-label="Switch between light and dark">
+    <svg class="stroke" id="theme-icon" viewBox="0 0 24 24" aria-hidden="true"></svg>
+  </button>
+</nav>
 
 <script src="main.js"></script>
 </body>

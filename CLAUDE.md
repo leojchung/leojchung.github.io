@@ -17,12 +17,14 @@ content.js  --[ node build.js ]-->     index.html, projects.html, fun.html, cont
 content.js  --[ node build-cv.js ]-->  cv.html --[ print to PDF ]--> cv.pdf
 ```
 
-The site is four pages, sharing one header and one bottom tab bar
-(Home / Projects / Fun / Contact). All content — every word, date, link and
-section — lives in `content.js`. Editing generated HTML directly works right
-up until the next build silently erases it. `.github/workflows/check-build.yml`
-fails the push if the committed HTML files don't match what `build.js`
-produces, which is the safety net for exactly this mistake.
+The site is four pages, sharing one bottom icon dock
+(Home / Projects / Fun / Contact) and one footer. There is no top header —
+the dock is the whole navigation, with the theme toggle at its right end.
+All content — every word, date, link and section — lives in `content.js`.
+Editing generated HTML directly works right up until the next build silently
+erases it. `.github/workflows/check-build.yml` fails the push if the
+committed HTML files don't match what `build.js` produces, which is the
+safety net for exactly this mistake.
 
 **After any change to `content.js`, run `node build.js` before committing.**
 
@@ -31,7 +33,7 @@ produces, which is the safety net for exactly this mistake.
 | File | Role |
 |---|---|
 | `content.js` | All content + the `pages` array controlling which sections land on which page |
-| `styles.css` | Design system. Colour tokens at the top; nothing else hard-codes a colour |
+| `styles.css` | Design system. Colour tokens at the top; nothing else hard-codes a colour, except text on a surface that is the same in both themes (white on the blue fill, ink on amber, the overlay on a photo, print) — the file's header lists them |
 | `build.js` | content.js → the four HTML pages. `RENDERERS` maps a section key to a renderer |
 | `build-cv.js` | content.js → cv.html. Reads `experience`/`education`/`service`/`skills` directly — those blocks still live in `content.js` but nothing on the *website* renders them any more, only the CV does |
 | `main.js` | Light/dark toggle, footer year, click-to-play video. The only JS the site ships |
@@ -42,15 +44,20 @@ produces, which is the safety net for exactly this mistake.
 
 | Page | File | Sections |
 |---|---|---|
-| Home | `index.html` | hero, casual intro paragraph, Right Now, Principles |
+| Home | `index.html` | the hero bento (7 cards), Right Now, Principles, Reading |
 | Projects | `projects.html` | Research, Teaching, "In the lab" photo grid, Featured |
 | Fun | `fun.html` | the Fun media grid |
-| Contact | `contact.html` | contact blurb/links/form, CV download link |
+| Contact | `contact.html` | contact bento — the ask, one card per channel, the form |
 
-Reorder or rename tabs by editing `pages` at the bottom of `content.js`. Add a
-page by adding an entry there and teaching `build.js`'s page loop about
-anything special it needs (most pages need nothing beyond the generic section
-loop already there).
+Reorder or rename dock items by editing `pages` at the bottom of `content.js`.
+Each page needs an `icon`, naming a key in `ICONS` in `build.js`. Add a page by
+adding an entry there and teaching `build.js`'s page loop about anything
+special it needs (most pages need nothing beyond the generic section loop
+already there).
+
+The Home bento is hand-laid in `renderHome()` — seven cards whose `sp-*`
+spans must total 12 per row. It is the one part of the site that is arranged
+rather than looped, because the layout itself carries meaning there.
 
 ## Conventions
 
@@ -61,13 +68,27 @@ loop already there).
   `:root:not([data-theme="light"])`, and `:root[data-theme="dark"]`. A visitor's
   theme has three states, not two — the un-stamped "system" default is the one
   people forget. Change a dark token in one block, change it in both.
-- **Colour roles are fixed.** Purple `--accent` carries structure. Maroon
-  `--flag` means one thing only: a currently-held post. Gold appears on the ◆
-  status diamond and the identity rule, nowhere else. Do not spend these
-  elsewhere for decoration.
+- **Cards are flat.** Fill only — no border, no shadow. That restraint is the
+  whole look; adding either makes the page read as a form rather than a
+  layout. Shadow is spent in exactly one place, the floating dock.
+- **Colour roles are fixed.** Blue `--accent` is a fill for the primary
+  action and the active dock item; `--accent-ink` is the darker text/link
+  variant, because the fill colour does not pass AA as text on a card. Amber
+  `--cta` is the secondary action and **always takes `--ink` text, never
+  white** — white on amber is about 2:1. Green `--live` means one thing: a
+  currently-held post, and never appears without a text label beside it.
+- **Two-tone display text.** `<em>` inside a headline is the grey half of the
+  sentence, set in `--ink-mute` and *not* italic. `<b>` inside grey body copy
+  brings a phrase back to near-black. Both are colour changes, not emphasis —
+  don't "fix" them into italics or bold.
+- **`--ink-mute` is display sizes only** (≥24px, or ≥19px bold), where AA is
+  3:1. It measures 3.3:1 on a card and fails as body copy. Anything small or
+  body-sized uses `--ink-2`.
 - **Contrast is checked, not eyeballed.** Every colour meets WCAG AA in both
-  themes including the 10–11px monospaced labels. If you change a token, verify
-  the ratio rather than assuming.
+  themes including the 10–11px monospaced labels. The tightest pairing is
+  `--ink-2` on `--card-3` (the chips), at 5.1:1 — if you lighten `--ink-2`,
+  that is what breaks first. If you change a token, compute the ratio rather
+  than assuming.
 - Formal sections (Research, Teaching, Press) run roughly 20–25 words a
   sentence, em-dashes rather than semicolons — there's a fuller voice profile
   at `~/Downloads/ClaudeCoworkProjects/00_Resources/voice-principles.md`.
@@ -87,18 +108,28 @@ python3 -m http.server 8000   # local preview at http://localhost:8000
 - **Hide something** → `hidden: true` on that entry. Don't delete.
 - **Move a section to a different page, or reorder within a page** → the
   `sections` array on the relevant entry in `pages`, at the bottom of
-  `content.js`. `§` numbers renumber themselves per page.
+  `content.js`.
 - **New section type** → add the data block to `content.js`, add one line to
   `RENDERERS` in `build.js`, add its key to the right page's `sections` array.
+  Give the block an `eyebrow` (the small label over its headline) and,
+  optionally, an `action: { label, href }` for a pill beside the heading.
 - **Reskin** → only the token blocks at the top of `styles.css`.
+- **Something bleeding off a card edge** → offset it by exactly
+  `calc(-1 * var(--pad))` and give it back `padding-inline: var(--pad)`.
+  That is what keeps a bleeding row aligned with the text above it at every
+  width. See `.panel` and `.bleed-row`.
 
 The `notes` block still exists in `content.js` but isn't listed on any page in
 `pages` — placeholder entries, leave it unreferenced until Leo has real
 writing for it.
 
-The `fun` and `lab` sections currently hold placeholder tiles/photos. **They
-must be filled in with real content before the site goes public** — tiles
-reading "PLACEHOLDER" or "add a YouTube id" on a live page look broken.
+The `fun`, `lab` and `reading` sections currently hold placeholder
+tiles/photos/rows, and `meta.portrait` is still `assets/placeholder.svg`.
+**All of these must be filled in with real content before the site goes
+public** — rows reading "PLACEHOLDER" or "add a YouTube id" on a live page
+look broken. `reading` is the cheapest of them to keep current (a title and a
+URL, no blurb); if it will not be kept fresh, remove it from the Home page's
+`sections` array rather than letting it go stale.
 
 ### Rules for the fun section
 

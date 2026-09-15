@@ -60,12 +60,12 @@ file is the order on the page.
 
 **Hide something without deleting it.** Add `hidden: true` to that entry.
 
-**Reorder or hide a whole section.** The `sections` array at the bottom of
-`content.js`. Move the lines around; set `on: false` to hide. The § numbers and
-the nav bar both rebuild themselves.
+**Reorder or hide a whole section.** Each page's `sections` array in `pages`,
+at the bottom of `content.js`. Move the lines around; remove a key to drop that
+section from the page. The dock and `sitemap.xml` both rebuild themselves.
 
-**Rename a section.** Change its `title`. The nav uses `navLabel` if present,
-otherwise the title.
+**Rename a section.** Change its `title` — and `eyebrow`, the small label that
+sits above it. The dock uses each page's `navLabel`.
 
 **Change the colours.** `styles.css`, the `:root` block at the top, then the two
 dark-theme blocks under it. Every colour on the page reads from those tokens, so

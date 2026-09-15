@@ -110,8 +110,9 @@ module.exports = {
     greeting: "Hi — I'm Leo 👋",
     location: "📍 Vancouver, BC",
 
-    // The highlighted "currently focused on" pill, right under the greeting.
-    focus: "measuring what's actually happening in the brain — inside the lab and out",
+    // Answers the "What drives me" card on the Home bento, set as a bold
+    // standalone line — so it reads as a sentence, not as the tail of one.
+    focus: "Measuring what's actually happening in the brain — inside the lab and out.",
 
     paragraphs: [
       "I'm a scientist and a teacher at UBC, and most days that means chasing " +
@@ -149,6 +150,7 @@ module.exports = {
 
   /* ────────────────────────── § RIGHT NOW ────────────────────────────── */
   now: {
+    eyebrow: "Currently",
     title: "Right now",
     hint:  "Three things I'm doing at once, across industry, research and education.",
     items: [
@@ -180,7 +182,8 @@ module.exports = {
   /* Home page, under Right Now. Four short things — word + one line — the
      kind of block Kellie Ho's site does well. Keep it to three or four. */
   principles: {
-    title: "What I care about",
+    eyebrow: "Principles",
+    title: "What I <em>care about</em>",
     hint:  "Four things that show up in everything above.",
     items: [
       { word: "Curiosity", blurb: "Chromatin, the gut, animal calls — different systems, one habit of mind." },
@@ -192,8 +195,10 @@ module.exports = {
 
   /* ─────────────────────────── § RESEARCH ────────────────────────────── */
   research: {
+    eyebrow: "Experience",
     title: "Research",
     hint:  "Four projects, 2024 — 2026. Ciernia Lab unless noted.",
+    action: { label: "Full CV", href: "cv.pdf" },
     items: [
       {
         idx:   "P-01",
@@ -308,7 +313,8 @@ module.exports = {
   /* ───────────────────── § TEACHING & EDUCATION ──────────────────────── */
   /* Same renderer as experience — copy an entry to add one.                */
   teaching: {
-    title: "Teaching &amp; education",
+    eyebrow: "Classroom",
+    title: "Teaching &amp; <em>education</em>",
     hint:  "Courses taught, education research, adjudication and mentorship.",
     items: [
       {
@@ -361,7 +367,8 @@ module.exports = {
   /* Projects page. Same item shape and renderer as `fun` — kind: "photo",
      candid lab shots, not staged. */
   lab: {
-    title: "In the lab",
+    eyebrow: "Photos",
+    title: "In the <em>lab</em>",
     hint:  "Candid, not staged.",
     items: [
       { kind: "photo", src: "assets/placeholder.svg", title: "PLACEHOLDER — At the bench", caption: "PLACEHOLDER — swap for a real lab photo" },
@@ -435,6 +442,13 @@ module.exports = {
     title: "Skills &amp; training",
     hint:  "Outlined entries are formally certified.",
     note:  "Formal certification on file.",
+
+    /* The Home page "trained in" card reads these two. Every chip in its
+       bleeding row comes from `groups` below, so the card cannot claim a
+       skill the CV does not also list. Remove `headline` and the card
+       disappears from the Home bento. */
+    label:    "Trained in",
+    headline: "Bench work, animal research, and <em>the classroom.</em>",
     groups: [
       {
         name: "Bench &amp; imaging",
@@ -499,6 +513,7 @@ module.exports = {
      paragraph — Craig Mod separates "published elsewhere" from "written here"
      for exactly this reason.                                                 */
   press: {
+    eyebrow: "Elsewhere",
     title: "Featured",
     hint:  "Where the work has been written up by someone other than me.",
     items: [
@@ -554,6 +569,7 @@ module.exports = {
      Each item can carry links: [{ label, href }] pointing at a PDF in assets/
      or anywhere else.                                                        */
   notes: {
+    eyebrow: "Writing",
     title: "Notes",
     hint:  "Graded by how finished it is, not by date. Seedlings are thinking out loud.",
     items: [
@@ -584,8 +600,32 @@ module.exports = {
     ]
   },
 
+  /* ──────────────────────── § READING LIST ───────────────────────────── */
+  /* Home page. A plain divided list of things worth reading — the "what
+     I've been consuming lately" card. Deliberately the cheapest section on
+     the site to keep current: a title and a URL, no blurb to write.
+
+     `href` is optional. Leave it off and the row renders as plain text.
+
+     THESE ARE PLACEHOLDERS. Swap in five things you have actually read —
+     papers, essays, a lecture — and delete the rest. A stale reading list
+     is worse than none, so if you will not keep it fresh, remove "reading"
+     from the Home page's `sections` array at the bottom of this file. */
+  reading: {
+    eyebrow: "Content",
+    title:   "What I've been <em>reading lately…</em>",
+    items: [
+      { title: "PLACEHOLDER — a paper you actually read this month", href: null },
+      { title: "PLACEHOLDER — a review that changed how you think about the gut–brain axis", href: null },
+      { title: "PLACEHOLDER — something on chromatin or the BAF complex", href: null },
+      { title: "PLACEHOLDER — an essay about teaching or science communication", href: null },
+      { title: "PLACEHOLDER — something entirely unrelated to neuroscience", href: null }
+    ]
+  },
+
   /* ───────────────────────────── § FUN ───────────────────────────────── */
-  /* Currently OFF — flip it on in `sections` once you have real items.
+  /* ON, at fun.html — but every item is still a placeholder. Fill them in
+     or drop "fun" from that page's `sections` before the site goes public.
 
      THREE KINDS OF ITEM. Set `kind` on each one:
 
@@ -614,7 +654,8 @@ module.exports = {
        https://www.youtube.com/watch?v=dQw4w9WgXcQ   →   "dQw4w9WgXcQ"
      ──────────────────────────────────────────────────────────────────── */
   fun: {
-    title: "Off the clock",
+    eyebrow: "Off the clock",
+    title: "Not the <em>lab</em>",
     hint:  "Photos are mine. Clips are embedded from the original uploads.",
     items: [
       {
@@ -658,6 +699,7 @@ module.exports = {
 
   /* ─────────────────────────── § CONTACT ─────────────────────────────── */
   contact: {
+    eyebrow: "Let's talk",
     title: "Get in <em>touch.</em>",
     blurb: "I'm looking for a co-op or internship for January 2027, in biotech, pharma, or the " +
            "life sciences. Reach out if you're working on chromatin, the gut–brain axis, animal " +
@@ -714,18 +756,20 @@ module.exports = {
      `intro` (Home only) and `hero`/`contact` (their own pages) are handled
      directly by build.js and are not listed here.
 
-     The tab bar itself is built from this array's order — reorder pages
-     here to reorder the tabs. `navLabel` is what shows in the tab.
+     The bottom dock is built from this array's order — reorder pages here
+     to reorder it. `navLabel` names the page (shown on hover, and read out
+     by a screen reader); `icon` names a glyph in ICONS in build.js.
      ══════════════════════════════════════════════════════════════════════ */
   pages: [
-    { key: "home",     file: "index.html",    navLabel: "Home",     sections: ["now", "principles"] },
-    { key: "projects", file: "projects.html", navLabel: "Projects",
+    { key: "home",     file: "index.html",    navLabel: "Home",     icon: "home",
+      sections: ["now", "principles", "reading"] },
+    { key: "projects", file: "projects.html", navLabel: "Projects", icon: "folder",
       description: "Research and teaching by Leo J. Chung — chromatin and the BAF complex, the gut–brain axis, animal communication, and the Neuroaesthetics seminar he co-created at UBC.",
       sections: ["research", "teaching", "lab", "press"] },
-    { key: "fun",      file: "fun.html",      navLabel: "Fun",
+    { key: "fun",      file: "fun.html",      navLabel: "Fun",      icon: "spark",
       description: "Photos and clips of Leo J. Chung off the clock — biking, chess, the Lakers, the Rams, and Vancouver food.",
       sections: ["fun"] },
-    { key: "contact",  file: "contact.html",  navLabel: "Contact",
+    { key: "contact",  file: "contact.html",  navLabel: "Contact",  icon: "mail",
       description: "Get in touch with Leo J. Chung — looking for a co-op or internship for January 2027 in biotech, pharma, or the life sciences.",
       sections: ["contact"] }
 

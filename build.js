@@ -9,8 +9,8 @@
    No dependencies, no npm install, no build tools. Plain Node.
 
    Writes one file per entry in content.js's `pages` array (currently
-   index.html, projects.html, fun.html, contact.html), sharing one header,
-   bottom tab bar, and footer.
+   index.html, projects.html, fun.html, contact.html), sharing one bottom
+   dock and one bento footer.
 
    You only need to open this file if you are changing the STRUCTURE of the
    page (adding a new kind of section, changing the markup a section emits,
@@ -19,6 +19,12 @@
    The generated HTML files are committed to the repo on purpose: GitHub
    Pages serves them directly, so the site works even if nobody ever runs
    this script.
+
+   ── LAYOUT MODEL ──────────────────────────────────────────────────────────
+   Every page is a bento grid: flat filled cards of mixed widths on a plain
+   ground. `card()` builds one; `sp-N` sets how many of the 12 columns it
+   takes. There is no top header — the fixed dock at the bottom is the whole
+   navigation, with the theme toggle at its right end.
    ══════════════════════════════════════════════════════════════════════════ */
 
 const fs   = require('fs');
@@ -45,97 +51,238 @@ const plain = s => String(s == null ? '' : s)
   .replace(/\s+/g, ' ')
   .trim();
 
-const metaLine = list => (list || [])
-  .map(m => `<span class="bit">${m}</span>`)
-  .join('<span class="sep">·</span>');
+// Dates in content.js carry a <br> for the two-line CV layout. The bento
+// cards set them inline, so flatten it.
+const flat = s => String(s == null ? '' : s).replace(/<br\s*\/?>/gi, ' ');
+
+/* One card. `cls` carries the span (sp-7) plus any modifiers. */
+const card = (cls, inner, tag) => {
+  const t = tag || 'div';
+  return `        <${t} class="card stagger-item ${cls}">
+${inner}
+        </${t}>`;
+};
+
+const chips = list => (list && list.length)
+  ? `          <ul class="chips">${list.map(c => `<li class="chip">${c}</li>`).join('')}</ul>`
+  : '';
+
+/* ── icons ─────────────────────────────────────────────────────────────────
+   Filled single-colour glyphs, drawn inline so the site ships no icon font
+   and no image request. `fill:currentColor` is set in styles.css, so a path
+   here never names a colour. Add one and reference it from a page's `icon`
+   in content.js.
+   ────────────────────────────────────────────────────────────────────────── */
+const ICONS = {
+  home:   '<path d="M12 3.1 2.5 11.2h2.4v8.2c0 .6.5 1.1 1.1 1.1h3.6v-5.9h4.8v5.9H18c.6 0 1.1-.5 1.1-1.1v-8.2h2.4L12 3.1Z"/>',
+  folder: '<path d="M3 6.7C3 5.8 3.8 5 4.7 5h3.9c.5 0 1 .2 1.3.6l1.1 1.3c.2.3.5.4.8.4h6.5c.9 0 1.7.8 1.7 1.7v9.3c0 .9-.8 1.7-1.7 1.7H4.7C3.8 20 3 19.2 3 18.3V6.7Z"/>',
+  spark:  '<path d="M11.4 2.3a.6.6 0 0 1 1.2 0l1.5 4.1c.1.2.2.3.4.4l4.1 1.5a.6.6 0 0 1 0 1.1l-4.1 1.5c-.2.1-.3.2-.4.4l-1.5 4.1a.6.6 0 0 1-1.2 0L9.9 11.3c-.1-.2-.2-.3-.4-.4L5.4 9.4a.6.6 0 0 1 0-1.1l4.1-1.5c.2-.1.3-.2.4-.4l1.5-4.1Z"/><path d="M18 15.2a.4.4 0 0 1 .8 0l.7 1.9 1.9.7a.4.4 0 0 1 0 .8l-1.9.7-.7 1.9a.4.4 0 0 1-.8 0l-.7-1.9-1.9-.7a.4.4 0 0 1 0-.8l1.9-.7.7-1.9Z"/>',
+  mail:   '<path d="M3 7.6c0-1.2 1-2.2 2.2-2.2h13.6c1.2 0 2.2 1 2.2 2.2v.5l-9 5.3-9-5.3V7.6Z"/><path d="M3 10.4l8.5 5c.3.2.7.2 1 0l8.5-5v6c0 1.2-1 2.2-2.2 2.2H5.2C4 18.6 3 17.6 3 16.4v-6Z"/>',
+  pin:    '<path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7Z"/>'
+};
+
+/* The marked pin in the "Based in" card. The check is #fff rather than a
+   token because it sits on --accent, which is the same blue in both themes
+   — the one place in the CSS-or-markup where a literal colour is correct. */
+const PIN_HERE =
+  '<svg class="here" viewBox="0 0 24 26" aria-hidden="true">' +
+  '<path d="M12 0C6.9 0 2.8 4.1 2.8 9.2 2.8 16.1 12 26 12 26s9.2-9.9 9.2-16.8C21.2 4.1 17.1 0 12 0Z"/>' +
+  '<path d="M7.7 9.3l1.5-1.5 2 2 4.6-4.6 1.5 1.5-6.1 6.1-3.5-3.5Z" fill="#fff"/></svg>';
+
+const PIN_FAR = '<svg class="far" viewBox="0 0 24 26" aria-hidden="true">' +
+  '<path d="M12 0C6.9 0 2.8 4.1 2.8 9.2 2.8 16.1 12 26 12 26s9.2-9.9 9.2-16.8C21.2 4.1 17.1 0 12 0Z"/></svg>';
+
 
 /* ── section renderers ─────────────────────────────────────────────────────
-   Each one receives the matching block from content.js and returns the inner
-   HTML for the right-hand column. The rail (§ number, title, hint) is drawn
-   by renderSection() below, so renderers never draw their own heading.
+   Each one receives the matching block from content.js and returns the
+   cards for that section. The header (eyebrow, headline, action pill) is
+   drawn by renderSection() below, so renderers never draw their own.
    ────────────────────────────────────────────────────────────────────────── */
 
 function renderNow(d){
-  return `<div class="now">
-${visible(d.items).map(i => `          <article class="stagger-item">
-            <div class="tag">${i.tag}</div>
-            <h3>${i.role}</h3>
-            <div class="org">${i.org}${i.note ? `<br>${i.note}` : ''}</div>
-            <div class="since">${i.since}</div>
-          </article>`).join('\n')}
-        </div>`;
-}
-
-function renderProse(d){
-  return `<div class="prose">
-${(d.paragraphs || []).map(p => `          <p>${p}</p>`).join('\n')}
-        </div>`;
-}
-
-function renderEntries(d){
-  const body = visible(d.items).map(it => {
-    // grouped employer
-    if (it.group){
-      return `          <div class="group stagger-item">
-            <div class="group-head">
-              <div class="when">${it.when || ''}</div>
-              <h3>${it.group}</h3>
-            </div>
-            <ul class="subroles">
-${visible(it.roles).map(r => `              <li>
-                <div class="when">${r.when || ''}</div>
-                <div>
-                  <div class="t">${r.title}</div>
-${r.detail ? `                  <div class="d">${r.detail}</div>\n` : ''}                </div>
-              </li>`).join('\n')}
-            </ul>
-          </div>`;
-    }
-    // plain entry
-    const links = (it.links && it.links.length)
-      ? `              <div class="meta">${it.links.map(l => `<a class="bit" href="${attr(l.href)}">${l.label}</a>`).join('<span class="sep">·</span>')}</div>\n`
-      : '';
-    return `          <article class="entry stagger-item">
-            <div class="when">${it.idx ? `<span class="idx">${it.idx}</span>` : ''}${it.when || ''}</div>
-            <div>
-              <h3>${it.title}</h3>
-${it.meta && it.meta.length ? `              <div class="meta">${metaLine(it.meta)}</div>\n` : ''}${it.blurb ? `              <p>${it.blurb}</p>\n` : ''}${links}            </div>
-          </article>`;
-  }).join('\n');
-
-  return `<div class="entries">\n${body}\n        </div>`;
+  return `      <div class="cards">
+${visible(d.items).map(i => card('', `          <p class="now-tag">${i.tag}</p>
+          <h3 class="now-role">${i.role}</h3>
+          <p class="now-org">${i.org}${i.note ? ` — ${i.note}` : ''}</p>
+          <p class="now-since">${flat(i.since)}</p>`)).join('\n')}
+      </div>`;
 }
 
 function renderPrinciples(d){
-  return `<div class="principles">
-${visible(d.items).map(i => `          <article class="stagger-item">
-            <h3>${i.word}</h3>
-            <p>${i.blurb}</p>
-          </article>`).join('\n')}
-        </div>`;
+  return `      <div class="cards">
+${visible(d.items).map(i => card('', `          <h3 class="principle-word">${i.word}</h3>
+          <p class="body">${i.blurb}</p>`)).join('\n')}
+      </div>`;
 }
 
-/* Contact is the one section that breaks the rail layout — it is rendered
-   whole by renderContact() and skips renderSection(). */
-function renderContact(d, band){
-  return `  <section class="section reveal${band ? ' band' : ''}" id="contact" aria-labelledby="contact-h">
-    <div class="shell">
-      <div class="contact-grid">
-        <div>
-          <h2 id="contact-h">${d.title}</h2>
-          <p>${d.blurb}</p>
-        </div>
-        <div class="links">
-${visible(d.links).map(l => {
-  const inner = l.href
-    ? `<a href="${attr(l.href)}"${l.me ? ' rel="me"' : ''}>${l.label}</a>`
-    : `<span class="static">${l.label}</span>`;
-  return `          <div class="link-row"><div class="k">${l.k}</div>${inner}</div>`;
+/* Research / teaching / notes. The big-title-plus-grey-body card from the
+   reference's project section. The amber pill appears only when the entry
+   actually links somewhere. */
+function renderEntries(d){
+  const items = visible(d.items).map(it => {
+    if (it.group){
+      return card('sp-6 entry', `          <p class="entry-idx"><span class="when">${flat(it.when)}</span></p>
+          <h3 class="entry-title">${it.group}</h3>
+          <ul class="subroles">
+${visible(it.roles).map(r => `            <li>
+              <div class="t">${r.title}</div>
+${r.detail ? `              <div class="d">${r.detail}</div>\n` : ''}              <div class="d">${flat(r.when)}</div>
+            </li>`).join('\n')}
+          </ul>`);
+    }
+
+    const idx = (it.idx || it.when)
+      ? `          <p class="entry-idx">${it.idx ? `<span>${it.idx}</span>` : ''}${it.when ? `<span class="when">${flat(it.when)}</span>` : ''}</p>\n`
+      : '';
+    const links = (it.links && it.links.length)
+      ? `          <div class="pill-row">${it.links.map(l => `<a class="pill amber sm" href="${attr(l.href)}">${l.label}</a>`).join('')}</div>\n`
+      : '';
+
+    return card('sp-6 entry', `${idx}          <h3 class="entry-title">${it.title}</h3>
+${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${it.blurb ? `          <p class="body">${it.blurb}</p>\n` : ''}${links}`.replace(/\n$/, ''));
+  }).join('\n');
+
+  return `      <div class="bento">\n${items}\n      </div>`;
+}
+
+/* Featured — a horizontal scroll-snap rail, so the next card peeks in from
+   the edge the way the reference's project carousel does. The overflow is
+   on .rail, never on the page. */
+function renderRail(d){
+  const items = visible(d.items).map(it => {
+    const href = (it.links && it.links.length) ? it.links[0].href : null;
+    const inner = `          <p class="entry-idx">${it.idx ? `<span>${it.idx}</span>` : ''}${it.when ? `<span class="when">${flat(it.when)}</span>` : ''}</p>
+          <h3 class="entry-title">${it.title}</h3>
+${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${it.blurb ? `          <p class="body">${it.blurb}</p>\n` : ''}${href ? `          <div class="pill-row"><span class="pill amber sm">${it.links[0].label} ↗</span></div>` : ''}`;
+    return href
+      ? card('entry', inner, 'a').replace('<a class="card', `<a href="${attr(href)}" target="_blank" rel="noopener" class="card`)
+      : card('entry', inner);
+  }).join('\n');
+
+  return `      <div class="rail">\n${items}\n      </div>
+      <p class="rail-note">Scroll for more →</p>`;
+}
+
+/* The reading list — one card holding a divided list of links. */
+function renderList(d){
+  return `      <div class="bento">
+${card('sp-12 list-card', `          <ul class="linklist">
+${visible(d.items).map(i => `            <li>${i.href
+  ? `<a href="${attr(i.href)}" target="_blank" rel="noopener">${i.title}</a>`
+  : `<span>${i.title}</span>`}</li>`).join('\n')}
+          </ul>`)}
+      </div>`;
+}
+
+/* Fun / In the lab. Videos are click-to-play: the tile is a button showing a
+   poster, and main.js swaps in the iframe on click, so nothing is requested
+   from YouTube for a visitor who only scrolls past. Do not "simplify" this
+   into a plain iframe. */
+function renderMedia(d){
+  return `      <div class="cards">
+${visible(d.items).map(function(it){
+  const cap = (it.title || it.caption)
+    ? `          <figcaption>${it.title ? `<span class="ft">${it.title}</span>` : ''}${it.caption ? `<span class="fc">${it.caption}</span>` : ''}</figcaption>`
+    : '';
+
+  let media;
+  if (it.kind === 'video' && (it.youtube || it.vimeo)){
+    const id   = attr(it.youtube || it.vimeo);
+    const src  = it.youtube
+      ? `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`
+      : `https://player.vimeo.com/video/${id}?autoplay=1`;
+    const post = it.poster
+      ? attr(it.poster)
+      : (it.youtube ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '');
+    const style = post ? ` style="background-image:url('${post}')"` : '';
+    media = `          <button class="media" type="button" data-src="${attr(src)}" aria-label="Play: ${attr(plain(it.title || 'video'))}"${style}>
+            <span class="badge">Watch</span>
+            <span class="tri" aria-hidden="true"></span>
+          </button>`;
+  } else if (it.kind === 'photo' && it.src){
+    media = `          <div class="media"><img src="${attr(it.src)}" alt="${attr(plain(it.title || it.caption || 'photo'))}" loading="lazy"></div>`;
+  } else if (it.kind === 'link' && it.href){
+    media = `          <a class="media linkcard" href="${attr(it.href)}" target="_blank" rel="noopener">
+            <span class="badge">Link</span>
+            <span class="lk">${it.title || it.href}</span>
+          </a>`;
+  } else {
+    media = `          <div class="media slot">${it.kind === 'video' ? 'add a YouTube id in content.js' : 'add a file to assets/ and set its path in content.js'}</div>`;
+  }
+
+  return `        <figure class="tile stagger-item">
+${media}
+${cap}        </figure>`;
 }).join('\n')}
-        </div>
-      </div>
-${renderForm(d)}    </div>
-  </section>`;
+      </div>`;
+}
+
+/* ── ADDING A SECTION: add one line here, pointing at a renderer above. ──── */
+const RENDERERS = {
+  now:        renderNow,
+  principles: renderPrinciples,
+  research:   renderEntries,
+  teaching:   renderEntries,
+  notes:      renderEntries,
+  press:      renderRail,
+  reading:    renderList,
+  fun:        renderMedia,
+  lab:        renderMedia
+  // contact is handled separately — see renderContact below.
+};
+
+/* ── section shell ────────────────────────────────────────────────────────
+   Eyebrow, two-tone headline, optional hint, optional action pill.        */
+function renderSection(key, data){
+  const fn = RENDERERS[key];
+  if (!fn) throw new Error(`No renderer for section "${key}". Add one to RENDERERS in build.js.`);
+
+  const hid    = `${key}-h`;
+  const action = data.action
+    ? `        <a class="pill blue" href="${attr(data.action.href)}">${data.action.label}</a>\n`
+    : '';
+
+  return `    <section class="section reveal" aria-labelledby="${hid}">
+      <div class="sec-head${data.action ? ' has-action' : ''}">
+        <div class="sec-head-text">
+          <span class="eyebrow">${data.eyebrow || key}</span>
+          <h2 id="${hid}">${data.title}</h2>
+${data.hint ? `          <p class="sec-hint">${data.hint}</p>\n` : ''}        </div>
+${action}      </div>
+${fn(data)}
+    </section>`;
+}
+
+/* ── contact ──────────────────────────────────────────────────────────────
+   Rendered whole, as its own bento: the ask on a wide card, each way of
+   reaching Leo on its own card, and the form across the bottom.          */
+function renderContact(d){
+  const links = visible(d.links);
+  const primary = links[0];
+  const rest    = links.slice(1);
+
+  const primaryCard = primary
+    ? card('sp-5 center', `          <p class="label">${primary.k}</p>
+          ${primary.href ? `<a class="contact-value" href="${attr(primary.href)}">${primary.label}</a>` : `<p class="contact-value">${primary.label}</p>`}`)
+    : '';
+
+  const restCards = rest.map(l => {
+    const inner = `          <p class="label">${l.k}</p>
+          <p class="contact-value">${l.label}</p>`;
+    return l.href
+      ? card('sp-4 center', inner, 'a').replace('<a class="card', `<a href="${attr(l.href)}"${l.me ? ' rel="me"' : ''} class="card`)
+      : card('sp-4 center', inner);
+  }).join('\n');
+
+  return `    <section class="section reveal" aria-labelledby="contact-h">
+      <div class="bento">
+${card('sp-7', `          <span class="eyebrow">${d.eyebrow || 'contact'}</span>
+          <h2 class="display" id="contact-h">${d.title}</h2>
+          <p class="body">${d.blurb}</p>`)}
+${primaryCard}
+${restCards}
+${renderForm(d)}      </div>
+    </section>`;
 }
 
 /* The message form. GitHub Pages has no server, so the form POSTs to a
@@ -146,21 +293,17 @@ function renderForm(d){
   const f = d.form;
   if (!f || f.on === false) return '';
   const lbl = f.fields || {};
+  const emailLink = d.links.find(l => l.k === 'Email');
+  const mailto = emailLink ? String(emailLink.href).replace(/^mailto:/, '') : '';
 
   if (!f.action){
-    return `      <div class="formwrap">
-        <div class="form-fallback">
-          <h3>${f.heading || 'Send me a message'}</h3>
-          <p>The message form is not connected yet — see the setup note in <code>content.js</code>. Until then, email works perfectly well.</p>
-          <a class="btn solid" href="mailto:${attr(d.links.find(l => l.k === 'Email') ? String(d.links.find(l => l.k === 'Email').href).replace(/^mailto:/, '') : '')}">Email me instead</a>
-        </div>
-      </div>
-`;
+    return card('sp-12', `          <h3 class="display-sm">${f.heading || 'Send me a message'}</h3>
+          <p class="body">The message form is not connected yet — see the setup note in <code>content.js</code>. Until then, email works perfectly well.</p>
+          <div class="pill-row"><a class="pill blue" href="mailto:${attr(mailto)}">Email me instead</a></div>`) + '\n';
   }
 
-  return `      <div class="formwrap">
-        <form class="msgform" action="${attr(f.action)}" method="POST">
-          <h3>${f.heading || 'Send me a message'}</h3>
+  return `        <form class="card stagger-item sp-12" action="${attr(f.action)}" method="POST">
+          <h3 class="display-sm">${f.heading || 'Send me a message'}</h3>
           <div class="fieldrow">
             <label class="field">
               <span>${lbl.name || 'Your name'}</span>
@@ -177,172 +320,102 @@ function renderForm(d){
           </label>
           <input type="text" name="_gotcha" id="f-gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
           <div class="formfoot">
-            <button class="btn solid" type="submit">${f.button || 'Send'}</button>
+            <button class="pill blue" type="submit">${f.button || 'Send'}</button>
 ${f.note ? `            <p class="formnote">${f.note}</p>\n` : ''}          </div>
         </form>
-      </div>
 `;
 }
 
-function renderFun(d){
-  return `<div class="fun">
-${visible(d.items).map(function(it){
-  const cap = (it.title || it.caption)
-    ? `        <figcaption>${it.title ? `<span class="ft">${it.title}</span>` : ''}${it.caption ? `<span class="fc">${it.caption}</span>` : ''}</figcaption>`
+/* ── the Home bento ───────────────────────────────────────────────────────
+   Seven cards over four rows, mirroring the reference's opening screen: a
+   tall identity card on the left, two stacked cards to its right, then the
+   about card, the rotating-interest card, the record, and the training row.
+   Spans must total 12 per row — see the sp-* classes in styles.css.      */
+function renderHome(){
+  const h = C.hero;
+  const i = C.intro || {};
+
+  /* A — identity. The headline's <em> is the grey half of the sentence. */
+  const identityChips = []
+    .concat(h.identity || [])
+    .concat(h.credential ? [h.credential.detail] : []);
+
+  const portrait = C.meta.portrait
+    ? `\n          <img class="hero-portrait" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="230" height="230">`
     : '';
 
-  // ── video: click-to-play. Nothing is requested from YouTube until the
-  //    visitor actually clicks, so the page stays fast and no third party
-  //    sets a cookie on someone who merely scrolled past.
-  if (it.kind === 'video' && (it.youtube || it.vimeo)){
-    const id   = attr(it.youtube || it.vimeo);
-    const src  = it.youtube
-      ? `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`
-      : `https://player.vimeo.com/video/${id}?autoplay=1`;
-    const post = it.poster
-      ? attr(it.poster)
-      : (it.youtube ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '');
-    const style = post ? ` style="background-image:url('${post}')"` : '';
-    return `      <figure class="fun-item stagger-item">
-        <button class="media play" type="button" data-src="${src}" aria-label="Play: ${attr(plain(it.title || 'video'))}"${style}>
-          <span class="pill">Watch</span>
-          <span class="tri" aria-hidden="true"></span>
-        </button>
-${cap}      </figure>`;
-  }
+  const cardA = card('sp-7 rows-2 hero-card', `          <div>
+            <p class="hero-name">${attr(C.meta.name)}</p>
+            <h1 class="display">${h.headline}</h1>
+${h.card ? `            <p class="body">${h.card}</p>\n` : ''}${chips(identityChips)}
+            <div class="pill-row">
+${(h.buttons || []).map(b => `              <a class="pill ${b.solid ? 'blue' : 'ghost'}" href="${attr(b.href)}">${b.label}</a>`).join('\n')}
+            </div>
+          </div>${portrait}`);
 
-  if (it.kind === 'photo' && it.src){
-    return `      <figure class="fun-item stagger-item">
-        <div class="media"><img src="${attr(it.src)}" alt="${attr(plain(it.title || it.caption || 'photo'))}" loading="lazy"></div>
-${cap}      </figure>`;
-  }
+  /* B — based in, with the pin row. */
+  const cardB = card('sp-5', `          <p class="label">Based in</p>
+          <p class="value">${attr(i.location ? plain(i.location).replace(/^📍\s*/, '') : C.meta.location)}</p>
+          <div class="pins" aria-hidden="true">
+            ${PIN_FAR}${PIN_FAR}${PIN_FAR}${PIN_HERE}${PIN_FAR}${PIN_FAR}${PIN_FAR}
+          </div>`);
 
-  if (it.kind === 'link' && it.href){
-    return `      <figure class="fun-item stagger-item">
-        <a class="media linkcard" href="${attr(it.href)}" target="_blank" rel="noopener">
-          <span class="pill">Link</span>
-          <span class="lk">${it.title || it.href}</span>
-        </a>
-${cap}      </figure>`;
-  }
+  /* C — what drives him, over a faux notebook panel built from the record
+         rows. Real content, so the mockup is not decorative filler. */
+  // attr() over plain(): plain() decodes &amp; back to a bare &, which is
+  // invalid in the document. Re-escaping puts it back.
+  const panelRows = (h.record || []).slice(0, 5).map(r =>
+    `              <div><span class="k">${attr(plain(r.k).toLowerCase())}:</span> <span class="v">${attr(plain(r.v))}</span></div>`
+  ).join('\n');
 
-  // nothing filled in yet
-  return `      <figure class="fun-item stagger-item">
-        <div class="media slot">${it.kind === 'video' ? 'add a YouTube id in content.js' : 'add a file to assets/ and set its path in content.js'}</div>
-${cap}      </figure>`;
-}).join('\n')}
-        </div>`;
-}
+  const cardC = card('sp-5 flush', `          <p class="label caps">What drives me</p>
+          <p class="value">${i.focus || C.meta.tagline}</p>
+          <div class="panel" aria-hidden="true">
+            <div class="panel-bar"><i></i><i></i><i></i></div>
+            <div class="panel-body">
+${panelRows}
+            </div>
+          </div>`);
 
-/* ── ADDING A SECTION: add one line here, pointing at a renderer above. ──── */
-const RENDERERS = {
-  now:        renderNow,
-  principles: renderPrinciples,
-  research:   renderEntries,
-  teaching:   renderEntries,
-  notes:      renderEntries,
-  press:      renderEntries,
-  fun:        renderFun,
-  lab:        renderFun
-  // contact is handled separately — see below.
-};
+  /* D — about. */
+  const cardD = card('sp-7', `          <span class="eyebrow">About</span>
+          <h2 class="display-sm">${i.greeting || 'Hi'}</h2>
+          <p class="body">${h.standfirst}</p>
+${(i.paragraphs || []).map(p => `          <p class="body">${p}</p>`).join('\n')}
+${(i.social && i.social.length) ? `          <div class="social-row">
+${i.social.map(s => `            <a class="social-btn" href="${attr(s.href)}" aria-label="${attr(s.label)}">${s.icon}<span class="tip">${attr(s.label)}</span></a>`).join('\n')}
+          </div>` : ''}`);
 
-/* ── section shell (the § rail + right column) ──────────────────────────── */
-function renderSection(key, data, num, band){
-  const fn = RENDERERS[key];
-  if (!fn) throw new Error(`No renderer for section "${key}". Add one to RENDERERS in build.js.`);
+  /* E — the rotating interest. main.js cycles .like-word through data-list. */
+  const likes = i.likes || [];
+  const cardE = likes.length
+    ? card('sp-5 like-card center', `          <p class="like-lead">I also like…</p>
+          <span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span>`)
+    : '';
 
-  const hid = `${key}-h`;
-  const n   = String(num).padStart(2, '0');
+  /* F — the record. */
+  const cardF = card('sp-5', `          <span class="eyebrow">The record</span>
+          <ul class="record">
+${(h.record || []).map(r => `            <li><span class="k">${r.k}</span><span class="v">${r.flag ? '<span class="live-dot">●</span>' : ''}${r.v}</span></li>`).join('\n')}
+          </ul>`);
 
-  return `  <section class="section reveal${band ? ' band' : ''}" aria-labelledby="${hid}">
-    <div class="shell">
-      <div class="sec-grid">
-        <div class="sec-rail">
-          <span class="num">§ ${n}</span>
-          <h2 id="${hid}">${data.title}</h2>
-${data.hint ? `          <p class="hint">${data.hint}</p>\n` : ''}        </div>
-        ${fn(data)}
+  /* G — training, with the chip row bleeding off both card edges. */
+  const sk = C.skills || {};
+  const skillChips = (sk.groups || []).reduce((acc, g) => acc.concat((g.items || []).map(x => x.t)), []);
+  const cardG = sk.headline
+    ? card('sp-7', `          <div class="bleed-row">${skillChips.map(t => `<span class="chip">${t}</span>`).join('')}</div>
+          <p class="label caps">${sk.label || 'Trained in'}</p>
+          <h2 class="display-sm">${sk.headline}</h2>`)
+    : '';
+
+  return `    <section class="reveal" aria-label="Introduction">
+      <div class="bento">
+${[cardA, cardB, cardC, cardD, cardE, cardF, cardG].filter(Boolean).join('\n')}
       </div>
-    </div>
-  </section>`;
+    </section>`;
 }
 
-/* ── hero + intro (Home page only) ───────────────────────────────────────── */
-
-function renderHeroSection(){
-  const heroButtons = C.hero.buttons
-    .map(b => `            <a class="btn${b.solid ? ' solid' : ''}" href="${attr(b.href)}">${b.label}</a>`)
-    .join('\n');
-
-  // A row of stat pills, not a k/v ledger table — every pill a different
-  // width, which is the point (see the "different shapes" note in styles.css).
-  const heroRecord = C.hero.record
-    .map(r => `          <span class="stat${r.flag ? ' flag' : ''}"><span class="stat-k">${r.flag ? '<span class="open-dot">◆</span> ' : ''}${r.k}</span><span class="stat-v">${r.v}</span></span>`)
-    .join('\n');
-
-  const profileCard = (C.hero.card && C.meta.portrait)
-    ? `      <div class="profile-card">
-        <img class="avatar" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="64" height="64">
-        <p class="tagline">${C.hero.card}</p>
-      </div>\n`
-    : '';
-
-  const credentialBadge = C.hero.credential
-    ? `      <div class="credential-badge">
-        <span class="uni-mark">${attr(C.hero.credential.mark)}</span>
-        <span>${C.hero.credential.detail}</span>
-      </div>\n`
-    : '';
-
-  return `  <section class="hero">
-    <div class="shell hero-center">
-${profileCard}${credentialBadge}${C.hero.identity ? `      <div class="identity">${C.hero.identity.map(w => `<span>${w}</span>`).join('')}</div>\n` : ''}      <h1>${C.hero.headline}</h1>
-      <p class="standfirst">${C.hero.standfirst}</p>
-      <div class="hero-cta">
-${heroButtons}
-      </div>
-      <div class="record" aria-label="Profile summary">
-${heroRecord}
-      </div>
-    </div>
-  </section>`;
-}
-
-function renderIntroSection(){
-  const d = C.intro;
-  if (!d) return '';
-
-  const greetRow = (d.greeting || d.location)
-    ? `      <div class="greet-row">
-${d.greeting ? `        <p class="greeting">${d.greeting}</p>\n` : ''}${d.location ? `        <span class="loc-pill">${d.location}</span>\n` : ''}      </div>\n`
-    : '';
-
-  const focus = d.focus
-    ? `      <p class="focus-pill"><span class="fp-label">Currently focused on</span> ${d.focus}</p>\n`
-    : '';
-
-  const prose = (d.paragraphs && d.paragraphs.length) ? `      ${renderProse(d)}\n` : '';
-
-  const likes = d.likes || [];
-  const likeBubble = likes.length
-    ? `      <div class="like-bubble"><span>I also like</span><span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span></div>\n`
-    : '';
-
-  const social = (d.social && d.social.length)
-    ? `      <div class="social-row">
-${d.social.map(s => `        <a class="social-btn" href="${attr(s.href)}" aria-label="${attr(s.label)}">${s.icon}<span class="tip">${attr(s.label)}</span></a>`).join('\n')}
-      </div>\n`
-    : '';
-
-  return `  <section class="section intro-section reveal">
-    <div class="shell">
-${greetRow}${focus}${prose}${likeBubble}${social}      <a class="btn cv-link" href="${attr(C.meta.cvFile)}">Download my CV</a>
-    </div>
-  </section>`;
-}
-
-/* ── page shell: head, header, tab bar, footer — shared by every page ────── */
+/* ── page shell: head, dock, footer — shared by every page ────────────────── */
 
 const m = C.meta;
 
@@ -376,14 +449,14 @@ function renderHead(page){
   const title       = page.key === 'home' ? attr(m.name) : `${attr(page.navLabel)} — ${attr(m.name)}`;
   const canonical   = page.file === 'index.html' ? m.url : m.url.replace(/\/$/, '') + '/' + page.file;
   const description = plain(page.description || m.description);
-  const ogDesc       = plain(page.description || m.tagline);
+  const ogDesc      = plain(page.description || m.tagline);
 
   return `<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){try{var t=localStorage.getItem('ljc-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
-<meta name="theme-color" content="#F7F6F9" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#101120" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0B0C" media="(prefers-color-scheme: dark)">
 <title>${title}</title>
 <meta name="description" content="${attr(description)}">
 <meta name="author" content="${attr(m.name)}">
@@ -399,7 +472,7 @@ function renderHead(page){
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,400..600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
 
 <link rel="stylesheet" href="styles.css">
 
@@ -409,37 +482,71 @@ ${jsonLd}
 </head>`;
 }
 
-function renderHeader(){
-  return `<header class="site-head">
-  <div class="shell">
-    <a class="wordmark" href="index.html">${attr(m.shortName).replace(/\s+(\S+)$/, ' <span>$1</span>')}</a>
-    <button id="theme-toggle" type="button" aria-label="Switch between light and dark">
-      <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg>
-    </button>
-  </div>
-</header>`;
-}
-
-/* The bottom tab bar — replaces the old single-page anchor nav. Built from
-   C.pages, so adding a page here automatically adds a tab. */
-function renderTabBar(activeFile){
-  const tabs = C.pages.map(p => {
+/* The dock — the site's only navigation. Built from C.pages, so adding a
+   page there automatically adds a button; `icon` names a key in ICONS.
+   The theme toggle sits at the right end behind a divider. Its <svg> keeps
+   class="stroke" because main.js paints it with stroked sun/moon paths,
+   while every other icon here is a filled shape. */
+function renderDock(activeFile){
+  const buttons = C.pages.map(p => {
     const active = p.file === activeFile;
-    return `    <a class="tab${active ? ' active' : ''}" href="${attr(p.file)}"${active ? ' aria-current="page"' : ''}>${attr(p.navLabel)}</a>`;
+    const glyph  = ICONS[p.icon] || ICONS.home;
+    return `  <a class="dock-btn${active ? ' active' : ''}" href="${attr(p.file)}"${active ? ' aria-current="page"' : ''}>
+    <svg viewBox="0 0 24 24" aria-hidden="true">${glyph}</svg>
+    <span class="sr-only">${attr(p.navLabel)}</span>
+    <span class="tip" aria-hidden="true">${attr(p.navLabel)}</span>
+  </a>`;
   }).join('\n');
 
-  return `<nav class="tab-bar" aria-label="Pages">
-  <div class="tab-bar-inner">
-${tabs}
-  </div>
+  return `<nav class="dock" aria-label="Pages">
+${buttons}
+  <span class="dock-sep" aria-hidden="true"></span>
+  <button class="dock-btn" id="theme-toggle" type="button" aria-label="Switch between light and dark">
+    <svg class="stroke" id="theme-icon" viewBox="0 0 24 24" aria-hidden="true"></svg>
+  </button>
 </nav>`;
 }
 
+/* The footer, as its own bento — an identity card beside a card of link
+   columns, with the fine print along the bottom edge of the wide one. */
 function renderFooter(){
+  const menu = C.pages
+    .map(p => `            <li><a href="${attr(p.file)}">${attr(p.navLabel)}</a></li>`)
+    .join('\n');
+
+  const follow = visible(C.contact.links)
+    .filter(l => l.href)
+    .map(l => `            <li><a href="${attr(l.href)}"${l.me ? ' rel="me"' : ''}>${l.k}</a></li>`)
+    .join('\n');
+
+  const portrait = m.portrait
+    ? `\n          <img src="${attr(m.portrait)}" alt="" width="150" height="150">`
+    : '';
+
   return `<footer class="site-foot">
   <div class="shell">
-    <div>&copy; <span id="yr">2026</span> ${attr(m.name)}</div>
-    <div><a href="#">Back to top</a></div>
+    <div class="bento">
+${card('sp-4 foot-id', `          <p class="t">Hi, I'm ${attr(m.name.split(' ')[0])}.</p>
+          <p class="s">${C.hero.card || attr(plain(m.tagline))}</p>${portrait}`)}
+${card('sp-8', `          <div class="foot-cols">
+            <div class="foot-col">
+              <h3>Menu</h3>
+              <ul>
+${menu}
+              </ul>
+            </div>
+            <div class="foot-col">
+              <h3>Follow</h3>
+              <ul>
+${follow}
+              </ul>
+            </div>
+          </div>
+          <div class="foot-fine">
+            <span>&copy; <span id="yr">2026</span> ${attr(m.name)}</span>
+            <a href="#main">Back to top</a>
+          </div>`)}
+    </div>
   </div>
 </footer>`;
 }
@@ -448,18 +555,13 @@ function renderFooter(){
 
 function renderPage(page){
   const body = [];
-  if (page.key === 'home'){
-    body.push(renderHeroSection());
-    body.push(renderIntroSection());
-  }
+  if (page.key === 'home') body.push(renderHome());
 
-  let num = 1;   // § numbering starts at 01, per page
-  page.sections.forEach((key, i) => {
-    const band = i % 2 === 1;   // alternating tonal band — "shades"
-    if (key === 'contact'){ body.push(renderContact(C.contact, band)); return; }
+  page.sections.forEach(key => {
+    if (key === 'contact'){ body.push(renderContact(C.contact)); return; }
     const data = C[key];
     if (!data) throw new Error(`content.js has no block named "${key}".`);
-    body.push(renderSection(key, data, num++, band));
+    body.push(renderSection(key, data));
   });
 
   return `<!doctype html>
@@ -474,16 +576,16 @@ ${renderHead(page)}
 
 <a class="skip" href="#main">Skip to content</a>
 
-${renderHeader()}
-
 <main id="main">
+  <div class="shell">
 
 ${body.filter(Boolean).join('\n\n')}
 
+  </div>
 </main>
 
-${renderTabBar(page.file)}
 ${renderFooter()}
+${renderDock(page.file)}
 
 <script src="main.js"></script>
 </body>
@@ -501,7 +603,7 @@ C.pages.forEach(page => {
   page.sections.forEach(key => console.log(`    · ${key}`));
 });
 
-/* sitemap.xml — built from the same C.pages list the tab bar and every page
+/* sitemap.xml — built from the same C.pages list the dock and every page
    loop over, so it can't list a page that doesn't exist or miss one that does. */
 const base = m.url.replace(/\/$/, '');
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

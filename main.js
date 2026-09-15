@@ -71,7 +71,7 @@
      until someone clicks, so no visitor who merely scrolls past ever touches
      YouTube. Swapping the button for the iframe also autoplays, because the
      click counts as the user gesture browsers require. */
-  document.querySelectorAll('button.media.play').forEach(function (btn) {
+  document.querySelectorAll('button.media[data-src]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var src = btn.getAttribute('data-src');
       if (!src) return;
