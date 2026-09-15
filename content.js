@@ -123,10 +123,10 @@ module.exports = {
     record: [
       { k: "Fields",     v: "Neuroscience · education · neuroaesthetics" },
       { k: "Degree",     v: "BSc Cellular &amp; Molecular Neuroscience, UBC — 2028" },
-      { k: "Labs",       v: "Ciernia · Moss · Si-Lab" },
-      { k: "Industry",   v: "STEMCELL Technologies" },
-      { k: "Fellowship", v: "Simons Foundation — SURFiN" },
-      { k: "Teaches",    v: "ASTU 400E — Neuroaesthetics" },
+      { k: "Now",          v: "STEMCELL Technologies" },
+      // Leo will add to this row.
+      { k: "Affiliations", v: "Simons Foundation · DMCBH" },
+      { k: "Taught",       v: "ASTU 400E — Neuroaesthetics" },
       { k: "Home",       v: "Vancouver, BC — born and raised" },
       { k: "Status",     v: "Seeking Jan 2027 co-op", flag: true }
     ]
