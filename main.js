@@ -90,4 +90,21 @@
 
   var yr = document.getElementById('yr');
   if (yr) yr.textContent = new Date().getFullYear();
+
+  /* Scroll reveal: each .reveal element (every section) fades and slides up
+     once as it enters the viewport. Gated behind a class this script adds —
+     a visitor with JavaScript disabled must still see everything, so the
+     CSS only hides .reveal elements once .has-reveal is present. */
+  if ('IntersectionObserver' in window) {
+    document.documentElement.classList.add('has-reveal');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  }
 })();

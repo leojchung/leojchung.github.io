@@ -118,7 +118,7 @@ ${visible(d.items).map(i => `          <article>
 /* Contact is the one section that breaks the rail layout — it is rendered
    whole by renderContact() and skips renderSection(). */
 function renderContact(d, band){
-  return `  <section class="section${band ? ' band' : ''}" id="contact" aria-labelledby="contact-h">
+  return `  <section class="section reveal${band ? ' band' : ''}" id="contact" aria-labelledby="contact-h">
     <div class="shell">
       <div class="contact-grid">
         <div>
@@ -255,7 +255,7 @@ function renderSection(key, data, num, band){
   const hid = `${key}-h`;
   const n   = String(num).padStart(2, '0');
 
-  return `  <section class="section${band ? ' band' : ''}" aria-labelledby="${hid}">
+  return `  <section class="section reveal${band ? ' band' : ''}" aria-labelledby="${hid}">
     <div class="shell">
       <div class="sec-grid">
         <div class="sec-rail">
@@ -301,7 +301,7 @@ ${heroRecord}
 
 function renderIntroSection(){
   if (!C.intro || !C.intro.paragraphs || !C.intro.paragraphs.length) return '';
-  return `  <section class="section intro-section">
+  return `  <section class="section intro-section reveal">
     <div class="shell">
       ${renderProse(C.intro)}
       <a class="btn cv-link" href="${attr(C.meta.cvFile)}">Download my CV</a>
@@ -391,7 +391,7 @@ function renderTabBar(activeFile){
   }).join('\n');
 
   return `<nav class="tab-bar" aria-label="Pages">
-  <div class="shell tab-bar-inner">
+  <div class="tab-bar-inner">
 ${tabs}
   </div>
 </nav>`;

@@ -51,6 +51,11 @@
 
   --max:1120px;
   --rail:134px;
+
+  --radius:18px;
+  --radius-sm:12px;
+  --shadow:0 14px 34px rgba(23,21,30,.09);
+  --shadow-sm:0 5px 16px rgba(23,21,30,.06);
 }
 
 /* ══════════════════ TOKENS — DARK ══════════════════
@@ -73,6 +78,8 @@
     --flag:#E0909C;
     --flag-soft:rgba(224,144,156,.15);
     --gold:#D8B369;
+    --shadow:0 14px 34px rgba(0,0,0,.4);
+    --shadow-sm:0 5px 16px rgba(0,0,0,.3);
   }
 }
 :root[data-theme="dark"]{
@@ -84,6 +91,8 @@
   --ink-3:#918BA8;
   --rule:#272A42;
   --rule-strong:#5E5A78;
+  --shadow:0 14px 34px rgba(0,0,0,.4);
+  --shadow-sm:0 5px 16px rgba(0,0,0,.3);
   --accent:#B79BE8;
   --accent-soft:rgba(183,155,232,.12);
   --flag:#E0909C;
@@ -102,6 +111,7 @@ html{scroll-behavior:smooth}
 
 body{
   margin:0;
+  padding-bottom:88px;  /* clears the floating fixed tab bar */
   background:var(--paper);
   color:var(--ink);
   font-family:var(--f-serif);
@@ -153,21 +163,23 @@ img,svg{max-width:100%}
 
 
 /* ══════════════════ TAB BAR ══════════════════
-   The bottom page-switcher (Home / Projects / Fun / Contact) — replaces the
-   old single-page anchor nav now that the site is four separate files.    */
+   The page-switcher (Home / Projects / Fun / Contact) — a floating pill,
+   not a full-width bar. Fixed, so `body` carries bottom padding to keep it
+   clear of the footer (see BASE).                                        */
 .tab-bar{
-  position:sticky;bottom:0;z-index:40;
-  background:color-mix(in srgb,var(--paper) 92%,transparent);
-  backdrop-filter:blur(10px);
-  border-top:1px solid var(--rule);
+  position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:40;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(12px);
+  border:1px solid var(--rule);border-radius:999px;box-shadow:var(--shadow);
 }
-.tab-bar-inner{display:flex;justify-content:center;gap:clamp(18px,5vw,44px);padding-block:12px}
+.tab-bar-inner{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(10px,4vw,28px);padding:11px 22px}
 .tab{
   font-family:var(--f-mono);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;
-  color:var(--ink-2);text-decoration:none;padding-block:4px;border-bottom:2px solid transparent;
+  color:var(--ink-2);text-decoration:none;padding:6px 4px;border-radius:999px;
+  transition:color .15s;
 }
 .tab:hover{color:var(--ink)}
-.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab.active{color:var(--accent)}
 
 
 /* ══════════════════ HERO ══════════════════ */
@@ -180,6 +192,12 @@ img,svg{max-width:100%}
 }
 .hero .shell{padding-block:clamp(48px,7vw,88px) clamp(44px,6vw,76px)}
 .hero-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(28px,5vw,64px);align-items:start}
+
+/* hero is above the fold, so it animates in on load rather than on scroll —
+   prefers-reduced-motion at the top of this file zeroes the duration. */
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero-grid > div{animation:rise .7s ease both}
+.hero-grid > div:nth-child(2){animation-delay:.1s}
 
 .hero h1{
   margin:0;
@@ -203,18 +221,18 @@ img,svg{max-width:100%}
 .hero-cta{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
 .btn{
   font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
-  padding:12px 19px;border:1.5px solid var(--rule-strong);color:var(--ink);
-  text-decoration:none;background:transparent;display:inline-block;
-  transition:background .15s,color .15s,border-color .15s;
+  padding:12px 22px;border:1.5px solid var(--rule-strong);color:var(--ink);border-radius:999px;
+  text-decoration:none;background:var(--paper);display:inline-block;box-shadow:var(--shadow-sm);
+  transition:background .15s,color .15s,border-color .15s,transform .15s,box-shadow .15s;
 }
-.btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);transform:translateY(-2px);box-shadow:var(--shadow)}
 .btn.solid{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .btn.solid:hover{background:var(--accent);border-color:var(--accent);color:var(--paper)}
 
 /* optional portrait — only rendered when meta.portrait is set in content.js */
 .portrait{
   width:100%;aspect-ratio:1/1;object-fit:cover;display:block;
-  border:1px solid var(--rule);margin-bottom:22px;filter:grayscale(.12);
+  border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:22px;filter:grayscale(.12);
 }
 
 /* the monospaced record block */
@@ -269,8 +287,13 @@ img,svg{max-width:100%}
 
 
 /* ══════════════════ "RIGHT NOW" CARD ROW ══════════════════ */
-.now{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
-.now article{background:var(--paper);padding:20px 18px;display:flex;flex-direction:column}
+.now{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.now article{
+  background:var(--paper);padding:22px 20px;display:flex;flex-direction:column;
+  border-radius:var(--radius);box-shadow:var(--shadow-sm);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.now article:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
 .section.band .now article{background:var(--paper-2)}
 .now .tag{
   font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
@@ -284,8 +307,12 @@ img,svg{max-width:100%}
 
 
 /* ══════════════════ PRINCIPLES — word grid ══════════════════ */
-.principles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
-.principles article{background:var(--paper);padding:20px 18px}
+.principles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.principles article{
+  background:var(--paper);padding:20px 18px;border-radius:var(--radius);box-shadow:var(--shadow-sm);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.principles article:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
 .section.band .principles article{background:var(--paper-2)}
 .principles h3{
   margin:0 0 8px;font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
@@ -296,11 +323,16 @@ img,svg{max-width:100%}
 @media (max-width:520px){ .principles{grid-template-columns:1fr} }
 
 
-/* ══════════════════ ENTRY LIST — research, experience, teaching ══════════ */
-.entries{display:flex;flex-direction:column}
+/* ══════════════════ ENTRY LIST — research, teaching, press ══════════ */
+.entries{display:flex;flex-direction:column;gap:14px}
 
-.entry{display:grid;grid-template-columns:120px 1fr;gap:22px;padding-block:22px;border-top:1px solid var(--rule)}
-.entry:first-child{border-top:1.5px solid var(--rule-strong)}
+.entry{
+  display:grid;grid-template-columns:120px 1fr;gap:22px;padding:22px;
+  border-radius:var(--radius);background:var(--paper);box-shadow:var(--shadow-sm);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.entry:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.section.band .entry{background:var(--paper-2)}
 .entry .when{
   font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;color:var(--ink-3);
   padding-top:5px;font-variant-numeric:tabular-nums;line-height:1.6;
@@ -320,8 +352,12 @@ img,svg{max-width:100%}
 }
 
 /* one employer, several roles */
-.group{border-top:1px solid var(--rule);padding-block:22px}
-.group:first-child{border-top:1.5px solid var(--rule-strong)}
+.group{
+  padding:22px;border-radius:var(--radius);background:var(--paper);box-shadow:var(--shadow-sm);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.group:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.section.band .group{background:var(--paper-2)}
 .group-head{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:baseline}
 .group-head .when{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;color:var(--ink-3);font-variant-numeric:tabular-nums}
 .group-head h3{margin:0;font-size:clamp(18.5px,1.9vw,22px);font-weight:600;letter-spacing:-.012em;overflow-wrap:anywhere}
@@ -342,8 +378,10 @@ img,svg{max-width:100%}
 
 .fun .media{
   position:relative;width:100%;aspect-ratio:16/10;display:block;
-  border:1px solid var(--rule);background:var(--paper-3);overflow:hidden;
+  border-radius:var(--radius);box-shadow:var(--shadow-sm);background:var(--paper-3);overflow:hidden;
+  transition:transform .2s ease,box-shadow .2s ease;
 }
+.fun-item:hover .media{transform:translateY(-4px);box-shadow:var(--shadow)}
 .fun .media img{width:100%;height:100%;object-fit:cover;display:block}
 .fun .media iframe{width:100%;height:100%;border:0;display:block}
 
@@ -384,8 +422,8 @@ a.media.linkcard:hover .lk{color:var(--accent)}
 .fun .pill{
   position:absolute;top:10px;left:10px;z-index:2;
   font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
-  font-weight:700;padding:4px 8px;background:var(--paper);color:var(--accent);
-  border:1px solid var(--accent);
+  font-weight:700;padding:4px 9px;background:var(--paper);color:var(--accent);
+  border:1px solid var(--accent);border-radius:999px;
 }
 button.media.play .pill{background:rgba(247,246,249,.94)}
 
@@ -419,8 +457,8 @@ button.media.play .pill{background:rgba(247,246,249,.94)}
 }
 .field input,.field textarea{
   font-family:var(--f-serif);font-size:16.5px;color:var(--ink);
-  background:var(--paper);border:1px solid var(--rule);border-bottom:1.5px solid var(--rule-strong);
-  padding:11px 12px;width:100%;border-radius:0;
+  background:var(--paper);border:1px solid var(--rule);
+  padding:11px 14px;width:100%;border-radius:var(--radius-sm);
 }
 .section.band .field input,.section.band .field textarea{background:var(--paper-2)}
 .field textarea{resize:vertical;min-height:120px;line-height:1.55}
@@ -467,7 +505,7 @@ button.media.play .pill{background:rgba(247,246,249,.94)}
    So the page prints as a clean CV-ish document if anyone hits Cmd-P.       */
 @media print{
   .site-head,.hero-cta,#theme-toggle,.site-foot a,.tab-bar,.fun,.formwrap{display:none}
-  body{background:#fff;color:#000;font-size:11pt}
+  body{background:#fff;color:#000;font-size:11pt;padding-bottom:0}
   .section,.hero{border-color:#ccc;background:#fff!important}
   .hero{background-image:none}
   .sec-rail{position:static}
@@ -485,6 +523,17 @@ button.media.play .pill{background:rgba(247,246,249,.94)}
 }
 .identity span{display:inline-flex;align-items:center;gap:14px}
 .identity span + span::before{content:"";width:4px;height:4px;background:var(--gold);flex:none;transform:rotate(45deg)}
+
+
+/* ══════════════════ SCROLL REVEAL ══════════════════
+   Each <section> fades and slides up once as it scrolls into view. Gated
+   behind .has-reveal, which main.js adds only if IntersectionObserver
+   exists — a no-JS visitor gets full opacity immediately instead of
+   content stuck invisible. prefers-reduced-motion (top of this file)
+   already zeroes the transition duration, so it still appears, just
+   without the animation.                                                 */
+.has-reveal .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.has-reveal .reveal.in{opacity:1;transform:translateY(0)}
 
 
 /* ══════════════════ EXTERNAL LINKS INSIDE AN ENTRY ══════════════════
