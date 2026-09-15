@@ -719,9 +719,15 @@ module.exports = {
      ══════════════════════════════════════════════════════════════════════ */
   pages: [
     { key: "home",     file: "index.html",    navLabel: "Home",     sections: ["now", "principles"] },
-    { key: "projects", file: "projects.html", navLabel: "Projects", sections: ["research", "teaching", "lab", "press"] },
-    { key: "fun",      file: "fun.html",      navLabel: "Fun",      sections: ["fun"] },
-    { key: "contact",  file: "contact.html",  navLabel: "Contact",  sections: ["contact"] }
+    { key: "projects", file: "projects.html", navLabel: "Projects",
+      description: "Research and teaching by Leo J. Chung — chromatin and the BAF complex, the gut–brain axis, animal communication, and the Neuroaesthetics seminar he co-created at UBC.",
+      sections: ["research", "teaching", "lab", "press"] },
+    { key: "fun",      file: "fun.html",      navLabel: "Fun",
+      description: "Photos and clips of Leo J. Chung off the clock — biking, chess, the Lakers, the Rams, and Vancouver food.",
+      sections: ["fun"] },
+    { key: "contact",  file: "contact.html",  navLabel: "Contact",
+      description: "Get in touch with Leo J. Chung — looking for a co-op or internship for January 2027 in biotech, pharma, or the life sciences.",
+      sections: ["contact"] }
 
     /* ADDING A NEW SECTION TO AN EXISTING PAGE
        ───────────────────────────────────────────────────────────────────

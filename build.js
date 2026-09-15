@@ -373,20 +373,25 @@ const jsonLd = JSON.stringify({
 }, null, 2);
 
 function renderHead(page){
-  const title      = page.key === 'home' ? attr(m.name) : `${attr(page.navLabel)} — ${attr(m.name)}`;
-  const canonical  = page.file === 'index.html' ? m.url : m.url.replace(/\/$/, '') + '/' + page.file;
+  const title       = page.key === 'home' ? attr(m.name) : `${attr(page.navLabel)} — ${attr(m.name)}`;
+  const canonical   = page.file === 'index.html' ? m.url : m.url.replace(/\/$/, '') + '/' + page.file;
+  const description = plain(page.description || m.description);
+  const ogDesc       = plain(page.description || m.tagline);
 
   return `<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){try{var t=localStorage.getItem('ljc-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<meta name="theme-color" content="#F7F6F9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101120" media="(prefers-color-scheme: dark)">
 <title>${title}</title>
-<meta name="description" content="${attr(plain(m.description))}">
+<meta name="description" content="${attr(description)}">
 <meta name="author" content="${attr(m.name)}">
 <link rel="canonical" href="${attr(canonical)}">
 
 <meta property="og:type" content="profile">
 <meta property="og:title" content="${title}">
-<meta property="og:description" content="${attr(plain(m.tagline))}">
+<meta property="og:description" content="${attr(ogDesc)}">
 <meta property="og:url" content="${attr(canonical)}">
 <meta name="twitter:card" content="summary">
 
@@ -495,3 +500,14 @@ C.pages.forEach(page => {
   console.log(`✓ ${page.file} written — ${kb} KB`);
   page.sections.forEach(key => console.log(`    · ${key}`));
 });
+
+/* sitemap.xml — built from the same C.pages list the tab bar and every page
+   loop over, so it can't list a page that doesn't exist or miss one that does. */
+const base = m.url.replace(/\/$/, '');
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${C.pages.map(p => `  <url><loc>${attr(p.file === 'index.html' ? base + '/' : base + '/' + p.file)}</loc></url>`).join('\n')}
+</urlset>
+`;
+fs.writeFileSync(path.join(__dirname, 'sitemap.xml'), sitemap, 'utf8');
+console.log('✓ sitemap.xml written');
