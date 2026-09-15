@@ -44,7 +44,7 @@ module.exports = {
     // e.g. "assets/leo.jpg". Leave null and the hero simply has no photo.
     // The 2025 academic-website contest judges singled out real photographs
     // as the thing that made sites feel like a person — worth adding one.
-    portrait:    null,
+    portrait:    "assets/placeholder.svg",  // PLACEHOLDER — swap in a real square photo
 
     // US spelling throughout. NOTES-FOR-LEO.md has the one-command flip
     // to Canadian/British if you'd rather.
@@ -566,39 +566,39 @@ module.exports = {
     items: [
       {
         kind: "video",
-        youtube: "",                       // ← paste a YouTube id
-        title: "A Rams game I will not shut up about",
-        caption: "Replace this with the clip you actually mean."
+        youtube: "jNQXAC9IVRw",             // PLACEHOLDER id — swap for the real clip
+        title: "PLACEHOLDER — A Rams game I will not shut up about",
+        caption: "PLACEHOLDER — replace with the clip you actually mean."
       },
       {
         kind: "video",
-        youtube: "",
-        title: "Lakers",
-        caption: "Same — embed, do not download."
+        youtube: "jNQXAC9IVRw",
+        title: "PLACEHOLDER — Lakers",
+        caption: "PLACEHOLDER — embed, do not download."
       },
       {
         kind: "photo",
-        src: null,                          // ← "assets/ramen.jpg"
-        title: "Food",
-        caption: "Somewhere in Vancouver. Your photo, your caption."
+        src: "assets/placeholder.svg",       // PLACEHOLDER — swap for e.g. "assets/ramen.jpg"
+        title: "PLACEHOLDER — Food",
+        caption: "PLACEHOLDER — somewhere in Vancouver. Your photo, your caption."
       },
       {
         kind: "photo",
-        src: null,
-        title: "On a bike",
-        caption: "A route worth the climb."
+        src: "assets/placeholder.svg",
+        title: "PLACEHOLDER — On a bike",
+        caption: "PLACEHOLDER — a route worth the climb."
       },
       {
         kind: "video",
-        youtube: "",
-        title: "Something I have had on repeat",
-        caption: "Music goes here."
+        youtube: "jNQXAC9IVRw",
+        title: "PLACEHOLDER — Something I have had on repeat",
+        caption: "PLACEHOLDER — music goes here."
       },
       {
         kind: "link",
-        href: "https://open.spotify.com/",  // ← anything: a playlist, an article
-        title: "What I am listening to",
-        caption: "A link card, for things that are not a photo or a clip."
+        href: "https://example.com",         // PLACEHOLDER — anything: a playlist, an article
+        title: "PLACEHOLDER — What I am listening to",
+        caption: "PLACEHOLDER — a link card, for things that are not a photo or a clip."
       }
     ]
   },
