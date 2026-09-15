@@ -52,6 +52,17 @@ module.exports = {
 
   /* ─────────────────────────────── HERO ──────────────────────────────── */
   hero: {
+    // The little boxed avatar + one-line tagline at the very top of the
+    // hero — the "photo + short self-description" card Kellie's site opens
+    // with. Set to null to skip it.
+    card: "Neuroscientist with a habit of teaching what he finds.",
+
+    // The school-credential badge right under it — a monogram badge (not
+    // UBC's actual crest: using a university's official logo without
+    // checking their brand-use policy is the kind of thing worth avoiding)
+    // plus the major. Set to null to skip it.
+    credential: { mark: "UBC", detail: "Major in Cellular &amp; Molecular Neuroscience" },
+
     /* The identity line above the headline. Meg Mindlin — who won Best Art &
        Visuals in the 2025 academic-website contest — opens with
        "Scientist. ARTIST. Photographer." and the rest of her site backs the

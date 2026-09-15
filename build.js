@@ -281,9 +281,23 @@ function renderHeroSection(){
     .map(r => `          <span class="stat${r.flag ? ' flag' : ''}"><span class="stat-k">${r.flag ? '<span class="open-dot">◆</span> ' : ''}${r.k}</span><span class="stat-v">${r.v}</span></span>`)
     .join('\n');
 
+  const profileCard = (C.hero.card && C.meta.portrait)
+    ? `      <div class="profile-card">
+        <img class="avatar" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="64" height="64">
+        <p class="tagline">${C.hero.card}</p>
+      </div>\n`
+    : '';
+
+  const credentialBadge = C.hero.credential
+    ? `      <div class="credential-badge">
+        <span class="uni-mark">${attr(C.hero.credential.mark)}</span>
+        <span>${C.hero.credential.detail}</span>
+      </div>\n`
+    : '';
+
   return `  <section class="hero">
     <div class="shell hero-center">
-${C.meta.portrait ? `      <img class="portrait" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="240" height="240">\n` : ''}${C.hero.identity ? `      <div class="identity">${C.hero.identity.map(w => `<span>${w}</span>`).join('')}</div>\n` : ''}      <h1>${C.hero.headline}</h1>
+${profileCard}${credentialBadge}${C.hero.identity ? `      <div class="identity">${C.hero.identity.map(w => `<span>${w}</span>`).join('')}</div>\n` : ''}      <h1>${C.hero.headline}</h1>
       <p class="standfirst">${C.hero.standfirst}</p>
       <div class="hero-cta">
 ${heroButtons}
