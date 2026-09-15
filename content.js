@@ -214,8 +214,13 @@ module.exports = {
     eyebrow: "Currently",
     title: "Right now",
     hint:  "Three things I'm doing at once, across industry, research and education.",
+    /* `logo` (optional) puts an organization's mark at the top of its card —
+       a transparent PNG in assets/. Leo supplied these (Sep 2026). If any
+       card in the row has one, the others keep an empty slot of the same
+       height so the text still lines up across the row. */
     items: [
       {
+        logo:  "assets/stemcell-logo.png", logoAlt: "STEMCELL Technologies",
         tag:   "Industry",
         role:  "Research &amp; Development Intern",
         org:   "STEMCELL Technologies",
@@ -223,6 +228,7 @@ module.exports = {
         since: "May 2026 — present · UBC Co-op"
       },
       {
+        logo:  "assets/jhu-logo.png", logoAlt: "Johns Hopkins University",
         tag:   "Research",
         role:  "Research Data Analyst",
         org:   "Moss Lab, Johns Hopkins",

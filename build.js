@@ -174,8 +174,15 @@ const MAP_VANCOUVER = `<svg viewBox="0 0 1400 400" preserveAspectRatio="xMinYMid
    ────────────────────────────────────────────────────────────────────────── */
 
 function renderNow(d){
+  const items = visible(d.items);
+  // One card with a logo gives every card a logo slot, so the rows align.
+  const slot  = items.some(i => i.logo);
+  const logo  = i => slot
+    ? `          <div class="now-logo">${i.logo ? `<img src="${attr(i.logo)}" alt="${attr(i.logoAlt || '')}">` : ''}</div>
+`
+    : '';
   return `      <div class="cards">
-${visible(d.items).map(i => card('', `          <p class="now-tag">${i.tag}</p>
+${items.map(i => card('', `${logo(i)}          <p class="now-tag">${i.tag}</p>
           <h3 class="now-role">${i.role}</h3>
           <p class="now-org">${i.org}${i.note ? ` — ${i.note}` : ''}</p>
           <p class="now-since">${flat(i.since)}</p>`)).join('\n')}

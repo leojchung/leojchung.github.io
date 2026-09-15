@@ -629,6 +629,14 @@ main .shell > *:first-child{margin-top:0}
 .now-tag::before{
   content:"";width:7px;height:7px;border-radius:50%;background:var(--live);flex:none;
 }
+/* An organization's mark at the top of a card. The slot has a fixed height
+   whether or not a logo is in it, so the text lines up across the row. */
+.now-logo{height:46px;margin:0 0 18px;display:flex;align-items:center}
+.now-logo img{
+  display:block;height:100%;width:auto;max-width:190px;
+  object-fit:contain;object-position:left center;
+  background:var(--logo-plate);padding:var(--logo-pad);border-radius:10px;
+}
 .now-role{margin:0;font-size:19px;font-weight:700;line-height:1.28;letter-spacing:-.018em}
 .now-org{margin:7px 0 0;font-size:14px;color:var(--ink-2);line-height:1.5}
 .now-since{
