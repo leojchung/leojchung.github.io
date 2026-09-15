@@ -37,6 +37,7 @@ safety net for exactly this mistake.
 | `build.js` | content.js → the four HTML pages. `RENDERERS` maps a section key to a renderer |
 | `build-cv.js` | content.js → cv.html. Reads `experience`/`education`/`service`/`skills` directly — those blocks still live in `content.js` but nothing on the *website* renders them any more, only the CV does |
 | `main.js` | Light/dark toggle, footer year, click-to-play video. The only JS the site ships |
+| `check.js` | Audits the built pages — markup, escaping, and WCAG contrast in both themes. CI gates on it |
 | `404.html` | Not-found page |
 | `assets/` | Photos, syllabus PDFs, anything linked from content |
 
@@ -100,9 +101,16 @@ rather than looped, because the layout itself carries meaning there.
 
 ```bash
 node build.js          # rebuild all four HTML pages after editing content.js
+node check.js          # audit the build: escaping, markup, WCAG in both themes
 node build-cv.js       # rebuild cv.html; then print to PDF over cv.pdf
 python3 -m http.server 8000   # local preview at http://localhost:8000
 ```
+
+`node build.js && node check.js` is what CI runs, so run both before pushing.
+`check.js` is how the contrast rule below is actually enforced — it measures
+every pairing the design uses, in both themes. It does **not** render
+anything, so it cannot tell you whether a card looks right at 390px. Open the
+page for that.
 
 - **Add a role** → copy the nearest entry in the right `content.js` block.
 - **Hide something** → `hidden: true` on that entry. Don't delete.

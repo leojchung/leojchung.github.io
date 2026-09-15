@@ -14,4 +14,9 @@ jobs:
         with:
           node-version: '20'
       - run: node build.js
+      # The committed HTML must be what build.js produces — the generated
+      # pages are served directly by GitHub Pages, so a stale commit ships.
       - run: git diff --exit-code index.html projects.html fun.html contact.html sitemap.xml
+      # Tag balance, escaping, and every colour pairing measured against WCAG
+      # in both themes. See the header of check.js for what this cannot do.
+      - run: node check.js

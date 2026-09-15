@@ -4,6 +4,47 @@ Written overnight, 14 September 2026. Read this first, then open `index.html`.
 
 ---
 
+> ## ⚠️ Partly superseded — 15 September 2026
+>
+> The site was **redesigned on 15 September 2026** to mirror the format of
+> `kellieho.framer.ai`, which Leo picked as the target. Flat grey cards in a
+> bento grid on a white ground, Inter display type split two-tone, a bottom
+> icon dock instead of a top header and a text tab bar. `CLAUDE.md` documents
+> the current system and is the file to trust.
+>
+> **Stale in this document — ignore it:**
+> - the whole *Palette* note (deep purple, maroon, gold). Those colours are
+>   gone. The palette is now near-monochrome with a blue fill, a darker blue
+>   for links, and amber for secondary actions.
+> - *Prose voice*'s claim about Source Serif — the site is Inter now.
+> - "Ten sections", and any description of the page as a single scroll.
+> - *Things I could not do*: the repo is cloned on the Windows PC, it has
+>   been pushed to GitHub, and Node is available there.
+> - "It is **not published**" — still true of the *site*, but it is now
+>   pushed to the private repo.
+>
+> **Still true and still worth doing:**
+> - everything under *Read the CV I generated* — `cv.pdf` is unchanged.
+> - **Add a photo.** `meta.portrait` is still `assets/placeholder.svg`, and
+>   the new design gives the portrait a much bigger role (large and circular
+>   at the foot of the hero card, again in the footer).
+> - **Both fact-checks** — the Neuroaesthetics seminar was co-created with
+>   Betty Bao under Dr. Steven Barnes, in Winter Term 2 (Jan–Apr 2026), as
+>   `ASTU_V 400E-001`. Do not upgrade it to a solo credit.
+> - the **Cellular & Molecular Neuroscience vs Neuroscience** discrepancy —
+>   now resolved to Cellular & Molecular on the site; make your Neuroarts and
+>   LinkedIn profiles agree.
+> - *Check the facts I wrote* — STEMCELL, Moss Lab and Si-Lab descriptions
+>   are still deliberately vague, and Si-Lab (T-02) still needs Dr. Skoretz's
+>   sign-off before the site goes public.
+> - **US spelling**, and the note that Home's intro, Principles and the
+>   Contact blurb are deliberately casual.
+> - the missing **ASTU 400E syllabus**, still the biggest content gap.
+> - the **Fun** and **In the lab** placeholders — plus a new one, the
+>   **reading list** on Home.
+
+---
+
 ## What exists
 
 A complete, working personal website. Ten sections, every fact pulled from
