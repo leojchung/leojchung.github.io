@@ -124,32 +124,37 @@ const socialMark = s => {
 };
 
 /* ── the map in the "Based in" card ────────────────────────────────────────
-   A deliberately simplified Vancouver, drawn by hand so the site makes no
-   third-party request for a decorative graphic. Four landmasses, north to
-   south: the North Shore across the top, the downtown peninsula with
-   Stanley Park at its tip, the main city with False Creek notched into its
-   northern edge and the Fraser along the bottom, then Richmond. The three
-   short strokes are Lions Gate and the two False Creek bridges.
+   Vancouver, traced from real OpenStreetMap data — not map tiles. The water
+   shapes (the sea from OSM's coastline, plus rivers and lakes) were pulled
+   once from OpenStreetMap's vector tiles in September 2026, projected to Web
+   Mercator and simplified into the single path below. The site makes no
+   map request at all: the geometry is baked in, like the old hand drawing,
+   but it is accurate.
 
-   It is scenery, not information — the card states the city in text right
-   above it — so it is aria-hidden rather than labelled, which keeps a
-   screen reader from announcing the same fact twice.
+   The frame is set by three edges, at Leo's request:
+     north  49.293   the downtown waterfront
+     south  49.112   the south edge of Richmond
+     west  -123.268  the tip of Point Grey, past UBC
+   East is whatever those three leave. The viewBox is 1400 x 400 — wider than
+   any card the map sits in — and `xMinYMid slice` pins the left edge while
+   the height fills the card, so north, south and west never move and a
+   narrower card simply shows less of the east (at desktop width, roughly to
+   the Pitt River).
 
-   Colours come from --map-land / --map-water. The one literal is the #fff
-   check inside the marker, which sits on --accent: the same blue in both
-   themes, so a token there would break the pairing. Coordinates are a
-   400x250 frame, cropped by CSS (see .map in styles.css).
+   The land is the rectangle behind the water, filled --map-land (the violet
+   accent). The one literal is #fff on the marker, which sits on that violet
+   in both themes. OpenStreetMap data is ODbL, which requires the credit
+   rendered under the map (.map-credit) — keep it.
+
+   To regenerate: fetch shortbread_v1 tiles at z12 covering the frame, take
+   the `ocean` and `water_polygons` layers, clip to the frame, simplify at
+   ~0.8 units and drop rings under ~40 square units.
    ────────────────────────────────────────────────────────────────────────── */
-const MAP_VANCOUVER = `<svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            <path class="land" d="M0 0H400V50Q368 58 336 52Q300 45 268 54Q232 64 198 56Q168 49 138 58Q104 68 72 60Q36 51 0 58Z"/>
-            <path class="land" d="M118 84Q98 88 95 104Q92 120 110 127L186 156Q196 160 204 154Q212 148 207 139L140 96Q132 82 118 84Z"/>
-            <path class="land" d="M22 182Q28 172 46 170Q78 166 108 168Q140 170 168 170Q178 172 182 180L232 181Q242 180 246 170Q280 164 320 167L400 164V212L340 217Q290 221 240 218L150 219Q88 220 44 212Q24 208 22 196Z"/>
-            <path class="land" d="M40 232Q120 226 200 229Q290 232 400 228V250H28Q32 240 40 232Z"/>
-            <path class="bridge" d="M124 86 126 60M190 156 193 180M204 153 207 181"/>
-            <g transform="translate(155.8 98.4) scale(1.6)">
-              <path class="marker" d="M12 0C6.9 0 2.8 4.1 2.8 9.2 2.8 16.1 12 26 12 26s9.2-9.9 9.2-16.8C21.2 4.1 17.1 0 12 0Z"/>
-              <path d="M7.7 9.3l1.5-1.5 2 2 4.6-4.6 1.5 1.5-6.1 6.1-3.5-3.5Z" fill="#fff"/>
-            </g>
+const MAP_VANCOUVER = `<svg viewBox="0 0 1400 400" preserveAspectRatio="xMinYMid slice" aria-hidden="true">
+            <rect class="land" width="1400" height="400"/>
+            <path class="water" d="M-3-3l68 0l0 36l-3 0l-3-2l-10-2l-2 2l-9-2l-8 1l-22 19l-2 7l-9 0zM41 183l24-8l0 8zM-3 56l9 0l-1 6l3 4l-1 8l2-2l3 0l5 10l3 3l2 8l8 6l12 6l23 18l0 27l-7-4l-9-8l-2 1l7 7l4 2l7 6l0 20l-27 9l-41 0zM65 183l0 127l-68 0l0-127l41 0l-32 10l1 2l-1-1l35-11zM-3 403l0-93l68 0l0 77l-4 1l-4 3l-2 7l3 5zM170-3l1 4l4 6l3 1l2 2l-1 9l2 2l2 6l1 0l2 4l1 1l1 2l2 1l0 4l2 0l0 5l-3 1l0 6l-4-4l0-4l2-2l-3-6l-5-4l-4 2l-1-1l0-1l-3 3l-4 0l-4 9l-6 0l-2-2l-4 1l-5 3l-7 2l-23-4l-10 2l-3-1l1-2l-3-1l-1-3l0 1l-2 0l-3-3l-10 3l-6-4l-3 1l-2-2l-3 1l-4-3l-2 1l0-36zM65 150l0-27l12 10l0 3l-2 1l3 5l-5-1l-1 3l-5 0l2 1zM65 175l14-5l3-1l6 0l2 1l0 2l3 0l-1 3l2 7l-1 1l-28 0zM65 154l11 6l1 11l-12 3zM69 145l32 13l12 2l4 5l11 1l-1 1l3 2l11 1l5 2l11 5l6 6l-7 0l-6-5l-8-3l-1 0l1 1l-1 2l-1-3l-4 1l-2-1l-6 4l-7 2l-15 1l-6 1l-2-1l-2 0l0-3l2-5l-1-1l11 3l14-1l6 1l1-2l-9-3l-11-6l-25-7l-17-7l-2-1zM93 183l-4 12l-3 4l-1 4l-4 3l2 1l0 3l-2 9l-5 5l-7 1l13 3l0 5l2 2l6 26l0 8l5 9l0 21l3 9l-1 2l-32 0l0-127zM155 182l8 1l3 3l3 6l2 1l0-1l13 9l-1 2l-8-6l-1 1l-1-2l0 1l4 3l6 4l8 2l1-1l1 20l-11 22l-3 4l-11 8l-10 4l-14-1l-5 1l-4-1l-11 1l-20-4l-14 2l-6-26l20 3l5 2l0 2l17 11l8-1l2 2l8 2l20-2l8-3l7-7l2-4l-1-5l2-2l10-23l-11-4l-7-4zM90 242l-2 1l3 4l15 5l9 5l7 0l-3-4l-18-10zM65 387l0-77l32 0l2 13l0 11l-1 4l1 8l-2 6l-3-2l-3 0l0 2l-1 1l-5 1l0 3l3 5l8 3l-1 2l10 0l-8 1l16 35l-32 0l7-4l2-3l-9-6l-14-3zM90 400l-5 3l16 0l-1-2l-3-2l-5-1zM77 351l-1 1l3 2l0 2l-3 3l-5 0l16 5l10 6l-3-2l0-3l-7-3l-6-9zM98 371l3 0l1 2l3-2l1 2l2-2l2 2l6-1l16 5l3-1l0 1l-1 0l1 1l9 3l4 2l0 2l4 2l2-5l2 2l-2 4l2 2l1-1l16 11l9 3l-69 0zM109 374l24 13l4 0l4 2l5 4l14 3l-2-3l-10-4l-3-2l-9-1l-8-5l-4 0zM319-3l0 1l-3 1l-1-1l-2 0l-9 5l-5 4l-2 4l-2 0l-1 3l-1-1l-2-1l-1 0l0 2l-2 0l0-7l-2 0l0 4l-11-4l0 5l-3 1l0 4l-1-4l-1 0l-2 2l-1 5l-1 0l-1-5l-3-1l0-3l-7-3l-1 3l-13-5l-1 4l7 3l1 3l-2 1l-2-4l-1 3l-4 1l-1-2l-9 0l-1-3l-2 2l-5-4l1-2l-5-3l-3 2l-5-4l-2 2l-2 0l-3-3l1-2l-3-1l-2 1l-4-3l15 1l1-1zM192 40l6 5l1 3l1-1l4 2l1 1l2-3l3 2l3 0l1-4l2-1l4 1l8-4l2 1l0-4l8 1l1 7l-7 0l0 1l-3-1l-8 2l-5 4l-1 4l-3 0l-1-2l-3 1l0 1l-7-1l-5 1l-3-2l1-1l4 1l0-2l-5-7zM278 186l7 2l11 5l24 1l0 7l-17-2l-14 0l-2 3l-6 0l-19 9l-6 2l-22-4l-12-5l-9 1l-12 8l-2-1l-5 2l-1 4l-1 8l0-22l0 2l6 0l25-12l16 1l7-1l3 0zM279 188l-15 4l-12 5l-9 1l-20-2l-6 3l7 1l14 5l13 1l4-1l1 2l8-3l1-3l24-6l-1-2l-6-4zM320 351l0 6l-4 5l-6 4l-9 1l-10 9l-12 8l-9 7l7 1l6-1l7 2l-1-3l4-1l2-2l12-19l4 0l-8 16l-9 10l-3 0l-1 0l1 1l-6 1l-11 0l0 1l-3-2l-3 2l-4 6l-58 0l7-1l36-19l8-4l-1 3l6-2l1-3l-2-5l3-2l2 3l-1 3l1 1l10-4l-1-2l2 2l7-7l6-9l6-4l15-21l7-7l2 0l0 24l-5 7l0 1l2 0zM263 394l-24 7l-1 2l19 0l3-4l0-4zM446-3l0 14l-5 2l-11-3l0-2l-4-2l-3 0l-9-5l-5-4l-9 0l-14 9l-8-1l-5-4l-15-2l-8 0l-9 6l-3 0l0 1l-7-2l-2-2l-5 0l-5-4l0-1zM432 121l4 5l0 3l-5 2l-12-4l0-2l1-3zM447 296l0 12l-19-3l-13 2l-6 3l-50 0l17-5l6-3l6-9l6-3l41-16l4-3l4-8l4-3l0 5l-8 14l-20 7l-8 6l-3 3l1 1l11-3l7 0zM442 228l5-5l0 7l-8 6l-6 9l12-10l1 1l-7 7l-8 6l-14 3l-8-4l-14-9l-19-18l-19-10l-11-2l-17-8l-9-2l-1 2l0-7l9 0l12 6l12 2l9 6l22 10l13 16l18 13l8 1l5-3zM319 350l0-25l11-6l31-10l51 0l-16 5l-6 4l-1-1l-6 5l-14 0l0-4l2 0l-3-1l-1 1l1 1l0 2l-5-1l-23 8l0 1l-7 4l-2 4l-1 0l-11 22l0-6l1-2l1 1l0-1l-1-2zM502-3l4 3l5-2l6 1l2-2l54 0l0 7l-6-2l-12 1l-2 1l-13-2l-5 6l-9 3l-9-2l-4-3l-9 3l-9-8l0 1l-2 0l-6 1l-3-1l-8 0l-12 4l-9 0l-9 5l0-14zM446 95l1 1l0-2l1 4l4 3l2 1l0 1l1 0l0 2l1-1l0 1l3 2l7 0l1 2l2-1l1 2l1-1l0 1l2-1l0 2l1 1l1-2l0 2l1 0l0-2l0 2l4-1l0 1l1-2l1 2l2 0l1-2l2 1l0-1l1 0l3-1l-1-2l2 1l4-4l11-4l-15 9l-2 3l2 0l0 2l-1-1l-1 1l-1-1l-1 0l-1-1l-2 1l-1 1l2 2l0 2l-2 1l-3-1l-1 2l-2-1l0-2l-2 0l0-1l-1 2l0-2l-1-1l-2 3l1-2l-1-1l-2 3l1-3l-2 1l0-2l-2 0l1-1l-9-3l-5 1l1 1l0 1l4 3l0 1l-4-2l-6-4l-1 0l3-4l-5-2l0-7l1 4l1-2zM574 158l0 13l-13 5l-10 7l-15 0l5-10l2-13l1 2l5-6l13-5l1-3l1 2l10-1l0 8l-5 0l-2 2zM446 266l0-5l28-17l9-9l9-6l8-10l1-4l16 10l-2 2l-6 16l-2 1l-8 25l-2 3l8-9l3-8l1 0l0 3l-3 7l-7 8l-3 1l-4 5l-9 8l-9 10l-4 2l0 3l-2 1l-2 3l-10 4l-10-2l0-13l6 1l7-1l4-1l4-4l1 1l4-5l11-10l5-8l3-11l1-2l1 0l6-18l7-16l-1-1l-1-1l-1 1l-12 14l-6 4l-2 3l-1 2l4 0l1 2l-5 1l-11 8l-11 6l-5 1l0 1l-1 2l-1-3l-2 0zM446 231l0-8l30-19l7-1l3 0l3 1l1 2l5 3l8 1l-2 5l-7-2l-6 1l-19-2l-12 9l-4 5l-3 1l-1 5l-2-2zM481 205l-6 2l-1 2l11 1l5 0l-4-4zM522 201l9-10l6-9l15 0l-8 8l-2 5l-7 8l-11 7l4 0l3-3l0 1l-5 8l-3 1l-6 8l-16-10l2-5l8 0zM618 17l-4-2l0-1l4 1l0 1l1-1l0 2l0-3l5 3l1 2l-2 3l1 1l0 3l-4-3l-10 6l-3-1l-3-3l-3 4l1-1l-2-1l-1-2l-1 3l-1-2l-5 0l0 5l-2 0l-4-5l4-3l-12-14l-5-5l0-7l17 0l4 1l6 6l13 6l2 4l-2 0l1 1zM573 157l0-8l2 0l28 3l18 4l2 1l1-1l6 1l2 1l0-1l3 1l8-1l16-6l42-6l0 8l-13 11l0 1l13 3l0 10l-17-3l-32-8l-11-1l-13 1l-12 2l-24 0l-19 2l0-13l1-1zM698 66l-3 2l-6 3l-7 1l-2 2l-1 14l4 10l-1 1l-3-1l-1 5l-6 1l1 6l-7 5l0 7l1 2l4 1l3 0l0-1l2 3l-1 6l-7 11l-1 2l2 3l-2 1l-1-8l5-4l5-11l-1-1l-6 0l-3-2l-1-2l1-8l7-4l-2-4l1-2l6-2l1-4l3 0l-4-10l2-14l2-3l7-1l5-2l6-6zM805 38l0-3l2-4l1-4l19 8l-8 7l-9 14l-13 0l7-14l-2-1l2 0zM715 14l2-2l-2-5l1-5l-4-5l2 1l2 4l0 5l2 6l-8 12l0 18l-7 13l4-11l2-2l0-19l6-9l2-2zM827 17l-3 1l-4 4l-3 7l2 0l8-5l0 11l-19-8l7-8l5-4l7-3zM798 55l13 0l-10 26l-6 6l-2 4l-3-4l-5-1l-1-1l3-2l1-7l2-1l2-9zM785 86l5 1l3 4l-1-1l-3 2l0 2l-2 0l-7 6l-4 8l-7 5l3 0l-1 2l-1-1l-3 1l-31 17l-5 8l1 7l-16-9l7-6l-1-1l1 0l3-3l4-2l15-12l13-8l11-3l4-5l2 0zM764 170l18 8l22 5l-39 0l-6-3zM700 153l0-8l11-2l2-2l3-3l16 9l5 8l7 9l5 2l15 4l-5 10l-6-2l-11-2l-23 4l-19-3l0-9l16 4l13-3l5-4l-5-10l-6-6l-2-1l-11 0zM787 225l5 8l9 5l11 2l15-2l0 6l-22 1l-6-2l-12-7l-3-6l-2-7l-2-18l-3-11l-4-6l-10-6l39 0l25 13l0 11l-27-17l-20-3l4 12zM933 35l0 12l-6 1l-4-3l1-5l5-2l1-3l3 0zM832 15l-6 3l0-6l12-4l16-3l22-8l7 0l0 2l2 0l-1 0l-4 5l-10 7l-5 1l-3 2l-8 1l-1-1l-14 8l-7 5l-5 8l-1-10l11-11l-4 1l-7 9l0-2l3-2zM870 55l-5 5l-6-5l-3 1l-2 6l-8 6l-3 0l-4-4l-13-2l0-1l15 2l1 0l2 3l2 0l6-5l3-6l8 0l3 2zM911 105l-1 4l1-9l-4 1l-1-2l-3 1l-6-4l-3-6l1-7l0-3l-10-3l-5-8l-3-1l-3 0l0-1l6 1l6 9l9 2l1 3l0 8l2 5l6 4l2 0l2 1l3 0l1 10l3 3l2 3l4-1l2 1l3-1l6 0l2-1l5 2l3-1l5 0l7 10l-7-10l-5 0l-3 2l-5-3l-2 2l-5-1l-4 1l-3-1l-3 1l-5-5zM941 177l13 2l0 4l-36 0l17-5zM834 237l9-3l14-10l2-3l-7-3l-3-3l-23-9l0-12l17 9l10 3l14 0l15-5l39-19l33 0l0 6l-4-1l-14 1l-11 2l-10 5l-17 10l-12 10l-39 24l-21 6l0-7zM1042 279l-4-2l-9 0l-26-5l-16-13l-7-10l-2-26l-4-15l-10-13l-11-8l0-5l11 0l18 18l8 13l6 13l8 11l14 6l31 16l32 10l0 17l-8 2l-9-1zM981 232l0 7l3 12l4 6l12 10l9 3l30 5l-1-6l-1 0l-9-11l-28-12l-9-6zM1150-3l-9 6l-11 11l-4-1l-1 1l-1-9l1-6l2-2zM1177 183l-2-1l0-7l5-6l6 1l7 10l0 2l-2 0l-1 1zM1208 284l0 5l-34-12l-29 0l-19 4l-46 5l0-17l9 2l25 0l11-1l16-3l12 0l26-3l23 2l6 1l0 12l-9-4l-14-3l-11 0l-8 1l31 6zM1305 51l2-7l6-5l3 0l1 3l-5 14l-6 0zM1333 34l2-1l0 23l-4 0l2-6l0-8l-1-3zM1334 35l1 0l0 21l-4 0l2-3l0-11l-1-3l1-4zM1316 152l1 2l2-1l0-10l1 0l0 5l1-2l1 1l0 10l-5 5l3 3l-9 11l-2 3l-4 0l-1 3l-10 1l2-3l0-2l4-2l1-4l1 1l1-1l1-3l3-1l2-5l5-3l1-8l-2-2l3-7l-2 6l0 1zM1278 99l3 1l-1 1l-8 9l-8 2l2-5zM1308 121l-3-8l1-7l-3-4l2-3l-1 0l0-6l4-13l5-5l2 0l1 2l3-1l3-8l5-5l5-8l3 0l0 34l-3 5l-2 13l-9 9l-2 11l1 4l-3 2l-1 3l2 3l-2 2l-1-2zM1332 55l3 0l0 34l-3 5l-2 13l-9 9l-2 11l1 4l-3 2l-1 3l2 2l-2 3l-2-2l-4-14l-2-2l1-2l-2 0l-2-8l2-5l-3-5l3-3l0-1l-3 0l2-1l-1-8l3-8l4-3l-3-1l5-2l2 2l3-2l1-6l7-7zM1253 201l5 2l1-2l-2-2l2 1l5-2l-1-1l2 1l3-2l1-3l2-2l0-3l3 3l5-5l5 1l6-3l2 1l3-3l9 0l-10 7l-6 3l-2-1l-1 5l-4 3l1 3l-2 4l1 1l-1 0l-1 2l-1-1l-1 2l1 1l-1 1l1 2l-2-2l-1 4l-5 2l-3-1l-1-4l-2 1l-4-2l-2 4l-3 0l4 2l1 6l2 1l1 2l-5-2l-1-4l-4-2l-3-6l-3 2l-2-1l-1 2l-2-3l1-3l6-1l2-6zM1251 237l-1 1l0-1l-9-1l-11 8l-5 15l7 7l0 1l-4 0l-7 0l10 6l-9-5l-5-1l2-4l0-5l1 0l-2-1l2 0l-2-1l2-2l-2-1l-1-5l1 3l3-2l1-5l-1-1l-1-5l2-2l9-4l2-3l2 1l0-7l1-4l6-4l-1 6l8 6l2 4zM1241 239l7 0l0 6l1-1l1-5l2 1l1 2l-2 1l1 3l-3 0l0 3l3 0l-4 5l0 10l-2 1l0 8l-2-2l-4 7l1 1l2-2l-2 3l-9-8l0-8l6-12l-1-7l-1-2l3-4zM1235 223l1-4l0 7l1-6l5-5l-2 5l3 3l-2-2l0-3l-1 1l1 4l2 1l-2 12l9 0l0-5l-3-6l-4-2l3 1l4 4l-2-2l-1 1l4 4l-2 3l1 2l-9 0l-10 7l-4 10l-4 13l-3 2l-3-1l3-3l-1-2l1-4l-2-1l2 0l-2-1l4-12l-1-1l3-5l4-4l6-2zM1207 278l0-11l13 1l9 8l18 23l11 11l-12 0l-17-12l-22-10l0-4l9 4l10 2l-1-4zM1335 401l0 2l-6 0l-34-31l-20-16l-11-16l-3-9l-6-11l-10-11l12 0l8 9l11 18l6 6l6 4l25 8l3 0l19 6l0 11l-15-8l-13-1l-7-3l-15-4l24 22l14 16zM1384 28l-7-1l-13 4l-5 0l3-3l5 0l10-2l10 1l4-2l-1 2zM1403-3l0 11l-7-7l-2-4l-24 0l2 5l-1 6l-2 1l-1 3l-1-2l-3 11l-2 4l7-6l2 1l-1 3l-4 2l2-1l1 1l-6 2l-4 4l-8 0l-2 2l-1 6l2 8l-1 7l-1 2l-14 0l0-23l3 0l2-1l-2-1l1-1l2 0l-3-1l3-2l-3-2l2 0l-2-5l1-1l2 0l11-4l1-2l4-4l2-7l-2-1l2 0l0-4zM1403-3l0 7l0-1l-3-1l-4-5l-26 0l1 5l-1 6l-3 3l-5 13l0 2l6-5l2 1l-2-1l-4 4l-4 3l-1 3l-8 0l-2 2l-1 6l2 8l-1 7l-1 2l-14 0l0-21l3 1l4-4l-2-1l2 0l1-3l-1 0l1-1l-2-6l2 1l6-4l1 1l1-2l3 0l-1-4l2 1l4-4l0-3l3-5l-1-5zM1382 88l-1 0l-1-4l-2-9l0-14l4-2l3 1l1 7l-2 8l0 6l-2 3zM1355 68l5 2l-1 2l2 3l-1 3l-3-1l1-1l-1-2l-1 2l-2-2l0-4zM1334 91l0-36l14 0l-10 20l-1 7zM1334 91l0-36l14 0l-10 20l-1 7zM1334 371l0-11l15 3l11 9l5 3l9 0l14-6l15-11l0 13l-10 9l-5 6l-24 17l-30 0l0-2l6 1l11-4l14-10l-9-6z"/>
+            <circle class="marker-halo" cx="212.7" cy="22.8" r="19"/>
+            <circle class="marker" cx="212.7" cy="22.8" r="9"/>
           </svg>`;
 
 
@@ -424,6 +429,7 @@ ${(h.buttons || []).map(b => `              <a class="pill ${b.solid ? 'blue' : 
           </div>
           <div class="map">
             ${MAP_VANCOUVER}
+            <a class="map-credit" href="https://www.openstreetmap.org/copyright">© OpenStreetMap</a>
           </div>`);
 
   /* C — what drives him, over a faux notebook panel built from the record

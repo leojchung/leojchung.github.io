@@ -71,12 +71,12 @@
   --cta:#F0A23C;            /* amber fill — pairs with --ink, never white */
   --live:#1E8E3E;           /* the currently-held dot — 3.9:1 on a card   */
 
-  --map-land:#D8DBE1;       /* the Vancouver map in the "Based in" card.  */
-  --map-water:#F1F2F4;      /* Deliberately a near-flat pair: the map is
-                               greyed-out backdrop for the blue marker,
-                               not a thing to be read. Decorative and
-                               aria-hidden, so no contrast minimum
-                               applies — the card states the city in text */
+  --map-land:#7C3AED;       /* the Vancouver map in the "Based in" card:
+                               land in the violet accent, the same in both
+                               themes, as Leo asked.                        */
+  --map-water:#F1F2F4;      /* Decorative and aria-hidden, so no contrast
+                               minimum applies — the card states the city
+                               in text right above the map                 */
 
   --f-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -118,7 +118,7 @@
     --accent-ink:#A78BFA;
     --accent-soft:rgba(167,139,250,.14);
     --live:#3ED166;
-    --map-land:#2C3038;
+    --map-land:#7C3AED;
     --map-water:#14161A;
     --dock-shadow:0 10px 34px rgba(0,0,0,.6);
     --dock-edge:#26272C;
@@ -135,7 +135,7 @@
   --accent-ink:#A78BFA;
   --accent-soft:rgba(167,139,250,.14);
   --live:#3ED166;
-  --map-land:#2C3038;
+  --map-land:#7C3AED;
   --map-water:#14161A;
   --dock-shadow:0 10px 34px rgba(0,0,0,.6);
   --dock-edge:#26272C;
@@ -437,14 +437,28 @@ main .shell > *:first-child{margin-top:0}
    makes it behave like a map viewport, and keeps the card from growing
    tall enough to unbalance the row. */
 .map{
+  position:relative;
   margin:26px calc(-1 * var(--pad)) 0;
   border-radius:var(--r-sm) var(--r-sm) 0 0;
   overflow:hidden;background:var(--map-water);
 }
 .map svg{display:block;width:100%;height:clamp(170px,22vw,220px)}
 .map .land{fill:var(--map-land)}
-.map .bridge{fill:none;stroke:var(--map-land);stroke-width:3;stroke-linecap:round}
-.map .marker{fill:var(--accent)}
+.map .water{fill:var(--map-water)}
+/* White on the violet land, which is the same in both themes — so a
+   literal, not a token (see the header). */
+.map .marker{fill:#fff}
+.map .marker-halo{fill:#fff;opacity:.3}
+/* OpenStreetMap's licence (ODbL) requires this credit wherever the map is
+   shown. Set on a card-coloured chip so it stays legible whether it lands on
+   land or water — --ink-2 on --card is a checked pairing. */
+.map-credit{
+  position:absolute;right:10px;bottom:9px;
+  padding:3px 8px;border-radius:999px;background:var(--card);
+  font-family:var(--f-mono);font-size:9.5px;letter-spacing:.04em;
+  color:var(--ink-2);text-decoration:none;
+}
+.map-credit:hover,.map-credit:focus-visible{color:var(--ink)}
 
 /* The faux notebook panel — the analogue of Kellie's code-editor mockup.
    It bleeds off the bottom of its card, which is what makes the card feel
