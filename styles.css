@@ -566,13 +566,14 @@ button.media.play .pill{background:rgba(247,246,249,.94)}
 /* ══════════════════ HERO IDENTITY LINE ══════════════════
    The "Scientist · Educator · Art, music & sport" line above the headline.
    Set hero.identity to null in content.js to remove it.                     */
-.identity{
-  display:flex;flex-wrap:wrap;align-items:center;gap:0 14px;
-  font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-  font-weight:700;color:var(--accent);margin-bottom:20px;
+.identity{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.identity span{
+  display:inline-flex;align-items:center;
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+  font-weight:700;color:var(--accent);background:var(--accent-soft);
+  border-radius:999px;padding:6px 14px;
 }
-.identity span{display:inline-flex;align-items:center;gap:14px}
-.identity span + span::before{content:"";width:4px;height:4px;background:var(--gold);flex:none;transform:rotate(45deg)}
+.identity span:nth-child(2n)::before{content:"";width:4px;height:4px;background:var(--gold);border-radius:50%;margin-right:8px}
 
 
 /* ══════════════════ SCROLL REVEAL ══════════════════
