@@ -469,15 +469,27 @@ ${i.social.map(s => `            <a class="social-btn" href="${attr(s.href)}" ar
           <span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span>`)
     : '';
 
-  /* W — live Vancouver weather. Everything after the label is filled in by
-         main.js; with JavaScript off, or if the request fails, the card
-         simply keeps the em dash rather than promising an update that
-         never arrives. */
+  /* W — live Vancouver weather and local time. Everything after the labels
+         is filled in by main.js: the clock needs no network; the current
+         conditions and the seven-hour strip (three hours either side of now)
+         come from one Open-Meteo request. With JavaScript off, or if the
+         request fails, each value keeps its em dash and the strip stays
+         empty, rather than promising an update that never arrives. */
   const w = i.weather;
   const cardW = w
-    ? card('sp-5 wx center', `          <p class="label">${w.label || 'Weather'}</p>
-          <p class="value"><span class="wx-icon" aria-hidden="true"></span><span id="wx-temp">—</span></p>
-          <p class="wx-cond" id="wx-cond" data-lat="${attr(w.lat)}" data-lon="${attr(w.lon)}"></p>`)
+    ? card('sp-5 wx', `          <div class="wx-top">
+            <div>
+              <p class="label">${w.label || 'Weather'}</p>
+              <p class="value"><span class="wx-icon" aria-hidden="true"></span><span id="wx-temp">—</span></p>
+              <p class="wx-cond" id="wx-cond" data-lat="${attr(w.lat)}" data-lon="${attr(w.lon)}"></p>
+            </div>
+            <div class="wx-time">
+              <p class="label">Local time</p>
+              <p class="value" id="wx-clock">—</p>
+              <p class="wx-cond" id="wx-date"></p>
+            </div>
+          </div>
+          <ol class="wx-hours" id="wx-hours" aria-label="Hourly forecast, three hours either side of now"></ol>`)
     : '';
 
   /* F — the record. */

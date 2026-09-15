@@ -124,12 +124,24 @@
       95: ['⛈️', 'Thunderstorm'],  96: ['⛈️', 'Thunderstorm'],    99: ['⛈️', 'Thunderstorm, hail']
     };
 
+    /* Clear skies after dark get a moon, not a sun. */
+    var glyph = function (code, isDay) {
+      var hit = WMO[code];
+      if (!hit) return '';
+      if (isDay === 0 && (code === 0 || code === 1)) return '🌙';
+      return hit[0];
+    };
+
     var lat = wxCond.getAttribute('data-lat');
     var lon = wxCond.getAttribute('data-lon');
+    /* past_hours=3 plus forecast_hours=4 returns exactly seven hourly rows:
+       three before the current hour, the current hour, three after. */
     var url = 'https://api.open-meteo.com/v1/forecast'
             + '?latitude='  + encodeURIComponent(lat)
             + '&longitude=' + encodeURIComponent(lon)
-            + '&current=temperature_2m,weather_code'
+            + '&current=temperature_2m,weather_code,is_day'
+            + '&hourly=temperature_2m,weather_code,is_day'
+            + '&past_hours=3&forecast_hours=4'
             + '&timezone=America%2FVancouver';
 
     fetch(url)
@@ -141,11 +153,56 @@
         var hit = WMO[cur.weather_code];
         if (hit) {
           var icon = document.querySelector('.wx-icon');
-          if (icon) icon.textContent = hit[0];
+          if (icon) icon.textContent = glyph(cur.weather_code, cur.is_day);
           wxCond.textContent = hit[1];
         }
+
+        /* The hourly strip. Times come back as Vancouver-local ISO strings
+           ("2026-09-15T12:00"), so the current hour is found by matching the
+           current reading's time truncated to the hour — no clock maths in
+           the visitor's own timezone. */
+        var list = document.getElementById('wx-hours');
+        var h = d.hourly;
+        if (!list || !h || !h.time || !h.time.length) return;
+        var nowKey = String(cur.time || '').slice(0, 13);
+        var html = '';
+        h.time.forEach(function (t, k) {
+          var temp = h.temperature_2m[k];
+          if (typeof temp !== 'number') return;
+          var hr = parseInt(t.slice(11, 13), 10);
+          var isNow = t.slice(0, 13) === nowKey;
+          var label = isNow ? 'Now' : ((hr % 12 || 12) + (hr < 12 ? ' AM' : ' PM'));
+          var cond = (WMO[h.weather_code[k]] || [])[1] || '';
+          html += '<li' + (isNow ? ' class="now" aria-current="time"' : '') + '>'
+                + '<span class="h">' + label + '</span>'
+                + '<span class="i" role="img" aria-label="' + cond + '">' + glyph(h.weather_code[k], h.is_day && h.is_day[k]) + '</span>'
+                + '<span class="t">' + Math.round(temp) + '°</span>'
+                + '</li>';
+        });
+        list.innerHTML = html;
       })
       .catch(function () { /* leave the card as rendered */ });
+  }
+
+  /* ── Vancouver's local time ──────────────────────────────────────────────
+     Computed in the browser from the visitor's own clock, formatted in the
+     America/Vancouver zone, so it needs no request. Re-rendered every 15s,
+     which is close enough that the minute never visibly lags. Browsers
+     without Intl time-zone support leave the em dash. */
+  var wxClock = document.getElementById('wx-clock');
+  var wxDate  = document.getElementById('wx-date');
+  if (wxClock && window.Intl) {
+    try {
+      var fTime = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Vancouver', hour: 'numeric', minute: '2-digit' });
+      var fDate = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Vancouver', weekday: 'long', month: 'short', day: 'numeric' });
+      var tick = function () {
+        var now = new Date();
+        wxClock.textContent = fTime.format(now);
+        if (wxDate) wxDate.textContent = fDate.format(now);
+      };
+      tick();
+      setInterval(tick, 15000);
+    } catch (e) { /* no time-zone support: keep the em dash */ }
   }
 
   var yr = document.getElementById('yr');

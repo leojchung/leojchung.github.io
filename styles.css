@@ -502,10 +502,32 @@ main .shell > *:first-child{margin-top:0}
   transition:opacity .22s ease;
 }
 
-/* The live-weather card. Everything but the label is written by main.js. */
-.wx .value{display:flex;align-items:center;gap:10px;justify-content:center}
+/* The live-weather card: current conditions on the left, Vancouver's local
+   time on the right, and a seven-hour strip along the bottom. Everything but
+   the labels is written by main.js. */
+.wx{justify-content:space-between;gap:22px}
+.wx-top{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.wx-time{text-align:right}
+.wx .value{display:flex;align-items:center;gap:10px}
+.wx-time .value{justify-content:flex-end}
 .wx-icon{font-size:.9em;line-height:1}
 .wx-cond{margin:8px 0 0;font-size:14px;color:var(--ink-2);line-height:1.5;min-height:1.5em}
+.wx-hours{
+  display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;
+  margin:0;padding:0;list-style:none;
+}
+.wx-hours li{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  padding:16px 2px;border-radius:16px;
+}
+/* The current hour sits on a recessed chip — the page's usual way of
+   marking "this one", with no new colour. */
+.wx-hours li.now{background:var(--card-2)}
+.wx-hours .h{font-family:var(--f-mono);font-size:10px;letter-spacing:.02em;color:var(--ink-2);white-space:nowrap}
+.wx-hours .now .h{color:var(--ink)}
+.wx-hours .i{font-size:clamp(20px,2.2vw,26px);line-height:1}
+.wx-hours .t{font-size:clamp(14px,1.5vw,17px);font-weight:700;letter-spacing:-.01em}
+@media (max-width:420px){ .wx-hours .h{font-size:9px} }
 
 /* ── THE SKILLS MARQUEE ───────────────────────────────────────────────────
    The track holds the chip list twice and slides by exactly -50%, which

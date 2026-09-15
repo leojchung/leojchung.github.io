@@ -141,10 +141,20 @@
           <p class="like-lead">I also like…</p>
           <span class="like-word" data-list="biking|chess|the Lakers|the Rams|a good ramen spot|the Fun page →">biking</span>
         </div>
-        <div class="card stagger-item sp-5 wx center">
-          <p class="label">Vancouver right now</p>
-          <p class="value"><span class="wx-icon" aria-hidden="true"></span><span id="wx-temp">—</span></p>
-          <p class="wx-cond" id="wx-cond" data-lat="49.2827" data-lon="-123.1207"></p>
+        <div class="card stagger-item sp-5 wx">
+          <div class="wx-top">
+            <div>
+              <p class="label">Vancouver right now</p>
+              <p class="value"><span class="wx-icon" aria-hidden="true"></span><span id="wx-temp">—</span></p>
+              <p class="wx-cond" id="wx-cond" data-lat="49.2827" data-lon="-123.1207"></p>
+            </div>
+            <div class="wx-time">
+              <p class="label">Local time</p>
+              <p class="value" id="wx-clock">—</p>
+              <p class="wx-cond" id="wx-date"></p>
+            </div>
+          </div>
+          <ol class="wx-hours" id="wx-hours" aria-label="Hourly forecast, three hours either side of now"></ol>
         </div>
         <div class="card stagger-item sp-5">
           <span class="eyebrow">The record</span>
