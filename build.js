@@ -1,25 +1,29 @@
 #!/usr/bin/env node
 /* ══════════════════════════════════════════════════════════════════════════
-   build.js — turns content.js into index.html
-   ══════════════════════════════════════════════════════════════════════════
+   build.js — turns content.js into the site's HTML pages
+
+   ═════════════════════════════════════════════════════════════════════════
 
      node build.js
 
    No dependencies, no npm install, no build tools. Plain Node.
 
-   You only need to open this file if you are changing the STRUCTURE of the
-   page (adding a new kind of section, changing the markup a section emits).
-   For everything else, edit content.js.
+   Writes one file per entry in content.js's `pages` array (currently
+   index.html, projects.html, fun.html, contact.html), sharing one header,
+   bottom tab bar, and footer.
 
-   The generated index.html is committed to the repo on purpose: GitHub Pages
-   serves it directly, so the site works even if nobody ever runs this script.
+   You only need to open this file if you are changing the STRUCTURE of the
+   page (adding a new kind of section, changing the markup a section emits,
+   adding a whole new page). For everything else, edit content.js.
+
+   The generated HTML files are committed to the repo on purpose: GitHub
+   Pages serves them directly, so the site works even if nobody ever runs
+   this script.
    ══════════════════════════════════════════════════════════════════════════ */
 
 const fs   = require('fs');
 const path = require('path');
 const C    = require('./content.js');
-
-const OUT = path.join(__dirname, 'index.html');
 
 /* ── helpers ───────────────────────────────────────────────────────────── */
 
@@ -102,36 +106,13 @@ ${it.meta && it.meta.length ? `              <div class="meta">${metaLine(it.met
   return `<div class="entries">\n${body}\n        </div>`;
 }
 
-function renderEducation(d){
-  return `<div class="edu">
-${visible(d.items).map(e => `          <div class="edu-item">
-            <div class="when">${e.when}</div>
-            <div>
-              <h3>${e.school}</h3>
-              <div class="degree">${e.degree}</div>
-${e.chips && e.chips.length ? `              <div class="chips">${e.chips.map(c => `<span class="chip">${c}</span>`).join('')}</div>\n` : ''}            </div>
-          </div>`).join('\n')}
+function renderPrinciples(d){
+  return `<div class="principles">
+${visible(d.items).map(i => `          <article>
+            <h3>${i.word}</h3>
+            <p>${i.blurb}</p>
+          </article>`).join('\n')}
         </div>`;
-}
-
-function renderService(d){
-  return `<div class="service">
-${visible(d.items).map(s => `          <div class="svc">
-            <div><span class="role">${s.role}</span><span class="org">${s.org}</span></div>
-            <div class="yr${s.live ? ' live' : ''}">${s.yr}</div>
-          </div>`).join('\n')}
-        </div>`;
-}
-
-function renderSkills(d){
-  return `<div>
-          <div class="skills">
-${visible(d.groups).map(g => `            <div class="skillset">
-              <h3>${g.name}</h3>
-              <ul>${visible(g.items).map(i => `<li${i.cert ? ' class="cert"' : ''}>${i.t}</li>`).join('')}</ul>
-            </div>`).join('\n')}
-          </div>
-${d.note ? `          <p class="cert-note"><span class="sw"></span>${d.note}</p>\n` : ''}        </div>`;
 }
 
 /* Contact is the one section that breaks the rail layout — it is rendered
@@ -256,16 +237,13 @@ ${cap}      </figure>`;
 /* ── ADDING A SECTION: add one line here, pointing at a renderer above. ──── */
 const RENDERERS = {
   now:        renderNow,
-  about:      renderProse,
+  principles: renderPrinciples,
   research:   renderEntries,
-  experience: renderEntries,
   teaching:   renderEntries,
   notes:      renderEntries,
   press:      renderEntries,
-  education:  renderEducation,
-  service:    renderService,
-  skills:     renderSkills,
-  fun:        renderFun
+  fun:        renderFun,
+  lab:        renderFun
   // contact is handled separately — see below.
 };
 
@@ -274,11 +252,10 @@ function renderSection(key, data, num, band){
   const fn = RENDERERS[key];
   if (!fn) throw new Error(`No renderer for section "${key}". Add one to RENDERERS in build.js.`);
 
-  const hid  = `${key}-h`;
-  const idAt = data.id ? ` id="${attr(data.id)}"` : '';
-  const n    = String(num).padStart(2, '0');
+  const hid = `${key}-h`;
+  const n   = String(num).padStart(2, '0');
 
-  return `  <section class="section${band ? ' band' : ''}"${idAt} aria-labelledby="${hid}">
+  return `  <section class="section${band ? ' band' : ''}" aria-labelledby="${hid}">
     <div class="shell">
       <div class="sec-grid">
         <div class="sec-rail">
@@ -291,33 +268,50 @@ ${data.hint ? `          <p class="hint">${data.hint}</p>\n` : ''}        </div>
   </section>`;
 }
 
-/* ── assemble ──────────────────────────────────────────────────────────── */
+/* ── hero + intro (Home page only) ───────────────────────────────────────── */
 
-const m        = C.meta;
-const sections = C.sections.filter(s => s.on);
+function renderHeroSection(){
+  const heroButtons = C.hero.buttons
+    .map(b => `            <a class="btn${b.solid ? ' solid' : ''}" href="${attr(b.href)}">${b.label}</a>`)
+    .join('\n');
 
-const navItems = sections
-  .filter(s => s.nav && s.id)
-  .map(s => `        <a href="#${attr(s.id)}">${s.navLabel || C[s.key].title}</a>`)
-  .join('\n');
+  const heroRecord = C.hero.record
+    .map(r => `          <div class="row"><div class="k">${r.k}</div><div class="v">${r.flag ? '<span class="open-dot">◆</span> ' : ''}${r.v}</div></div>`)
+    .join('\n');
 
-let num = 1;   // § numbering starts at 01
-const sectionHtml = sections.map((s, i) => {
-  const data = C[s.key];
-  if (!data) throw new Error(`content.js has no block named "${s.key}".`);
-  data.id = s.id;                       // carry the anchor id through
-  const band = i % 2 === 1;             // alternating tonal band — "shades"
-  if (s.key === 'contact') return renderContact(data, band);
-  return renderSection(s.key, data, num++, band);
-}).join('\n\n');
+  return `  <section class="hero">
+    <div class="shell">
+      <div class="hero-grid">
+        <div>
+${C.hero.identity ? `          <div class="identity">${C.hero.identity.map(w => `<span>${w}</span>`).join('')}</div>\n` : ''}          <h1>${C.hero.headline}</h1>
+          <p class="standfirst">${C.hero.standfirst}</p>
+          <div class="hero-cta">
+${heroButtons}
+          </div>
+        </div>
+        <div>
+${C.meta.portrait ? `          <img class="portrait" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="600" height="600">\n` : ''}          <div class="record" aria-label="Profile summary">
+${heroRecord}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
 
-const heroButtons = C.hero.buttons
-  .map(b => `            <a class="btn${b.solid ? ' solid' : ''}" href="${attr(b.href)}">${b.label}</a>`)
-  .join('\n');
+function renderIntroSection(){
+  if (!C.intro || !C.intro.paragraphs || !C.intro.paragraphs.length) return '';
+  return `  <section class="section intro-section">
+    <div class="shell">
+      ${renderProse(C.intro)}
+      <a class="btn cv-link" href="${attr(C.meta.cvFile)}">Download my CV</a>
+    </div>
+  </section>`;
+}
 
-const heroRecord = C.hero.record
-  .map(r => `          <div class="row"><div class="k">${r.k}</div><div class="v">${r.flag ? '<span class="open-dot">◆</span> ' : ''}${r.v}</div></div>`)
-  .join('\n');
+/* ── page shell: head, header, tab bar, footer — shared by every page ────── */
+
+const m = C.meta;
 
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -345,20 +339,22 @@ const jsonLd = JSON.stringify({
   }
 }, null, 2);
 
-const html = `<!doctype html>
-<html lang="${attr(m.lang || 'en')}">
-<head>
+function renderHead(page){
+  const title      = page.key === 'home' ? attr(m.name) : `${attr(page.navLabel)} — ${attr(m.name)}`;
+  const canonical  = page.file === 'index.html' ? m.url : m.url.replace(/\/$/, '') + '/' + page.file;
+
+  return `<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${attr(m.name)}</title>
+<title>${title}</title>
 <meta name="description" content="${attr(plain(m.description))}">
 <meta name="author" content="${attr(m.name)}">
-<link rel="canonical" href="${attr(m.url)}">
+<link rel="canonical" href="${attr(canonical)}">
 
 <meta property="og:type" content="profile">
-<meta property="og:title" content="${attr(m.name)}">
+<meta property="og:title" content="${title}">
 <meta property="og:description" content="${attr(plain(m.tagline))}">
-<meta property="og:url" content="${attr(m.url)}">
+<meta property="og:url" content="${attr(canonical)}">
 <meta name="twitter:card" content="summary">
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -372,7 +368,65 @@ const html = `<!doctype html>
 <script type="application/ld+json">
 ${jsonLd}
 </script>
-</head>
+</head>`;
+}
+
+function renderHeader(){
+  return `<header class="site-head">
+  <div class="shell">
+    <a class="wordmark" href="index.html">${attr(m.shortName).replace(/\s+(\S+)$/, ' <span>$1</span>')}</a>
+    <button id="theme-toggle" type="button" aria-label="Switch between light and dark">
+      <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg>
+    </button>
+  </div>
+</header>`;
+}
+
+/* The bottom tab bar — replaces the old single-page anchor nav. Built from
+   C.pages, so adding a page here automatically adds a tab. */
+function renderTabBar(activeFile){
+  const tabs = C.pages.map(p => {
+    const active = p.file === activeFile;
+    return `    <a class="tab${active ? ' active' : ''}" href="${attr(p.file)}"${active ? ' aria-current="page"' : ''}>${attr(p.navLabel)}</a>`;
+  }).join('\n');
+
+  return `<nav class="tab-bar" aria-label="Pages">
+  <div class="shell tab-bar-inner">
+${tabs}
+  </div>
+</nav>`;
+}
+
+function renderFooter(){
+  return `<footer class="site-foot">
+  <div class="shell">
+    <div>&copy; <span id="yr">2026</span> ${attr(m.name)}</div>
+    <div><a href="#">Back to top</a></div>
+  </div>
+</footer>`;
+}
+
+/* ── one page ─────────────────────────────────────────────────────────────── */
+
+function renderPage(page){
+  const body = [];
+  if (page.key === 'home'){
+    body.push(renderHeroSection());
+    body.push(renderIntroSection());
+  }
+
+  let num = 1;   // § numbering starts at 01, per page
+  page.sections.forEach((key, i) => {
+    const band = i % 2 === 1;   // alternating tonal band — "shades"
+    if (key === 'contact'){ body.push(renderContact(C.contact, band)); return; }
+    const data = C[key];
+    if (!data) throw new Error(`content.js has no block named "${key}".`);
+    body.push(renderSection(key, data, num++, band));
+  });
+
+  return `<!doctype html>
+<html lang="${attr(m.lang || 'en')}">
+${renderHead(page)}
 <body>
 
 <!-- ─────────────────────────────────────────────────────────────────────────
@@ -382,59 +436,29 @@ ${jsonLd}
 
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="site-head">
-  <div class="shell">
-    <a class="wordmark" href="#top">${attr(m.shortName).replace(/\s+(\S+)$/, ' <span>$1</span>')}</a>
-    <div class="head-right">
-      <nav class="site-nav" aria-label="Sections">
-${navItems}
-      </nav>
-      <button id="theme-toggle" type="button" aria-label="Switch between light and dark">
-        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg>
-      </button>
-    </div>
-  </div>
-</header>
+${renderHeader()}
 
 <main id="main">
 
-  <section class="hero" id="top">
-    <div class="shell">
-      <div class="hero-grid">
-        <div>
-${C.hero.identity ? `          <div class="identity">${C.hero.identity.map(w => `<span>${w}</span>`).join('')}</div>\n` : ''}          <h1>${C.hero.headline}</h1>
-          <p class="standfirst">${C.hero.standfirst}</p>
-          <div class="hero-cta">
-${heroButtons}
-          </div>
-        </div>
-        <div>
-${m.portrait ? `          <img class="portrait" src="${attr(m.portrait)}" alt="${attr(m.name)}" width="600" height="600">\n` : ''}          <div class="record" aria-label="Profile summary">
-${heroRecord}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-${sectionHtml}
+${body.filter(Boolean).join('\n\n')}
 
 </main>
 
-<footer class="site-foot">
-  <div class="shell">
-    <div>&copy; <span id="yr">2026</span> ${attr(m.name)}</div>
-    <div><a href="#top">Back to top</a></div>
-  </div>
-</footer>
+${renderTabBar(page.file)}
+${renderFooter()}
 
 <script src="main.js"></script>
 </body>
 </html>
 `;
+}
 
-fs.writeFileSync(OUT, html, 'utf8');
+/* ── write every page ─────────────────────────────────────────────────────── */
 
-const kb = (Buffer.byteLength(html, 'utf8') / 1024).toFixed(1);
-console.log(`✓ index.html written — ${kb} KB, ${sections.length} sections`);
-sections.forEach(s => console.log(`    · ${s.key}${s.id ? '  #' + s.id : ''}`));
+C.pages.forEach(page => {
+  const html = renderPage(page);
+  fs.writeFileSync(path.join(__dirname, page.file), html, 'utf8');
+  const kb = (Buffer.byteLength(html, 'utf8') / 1024).toFixed(1);
+  console.log(`✓ ${page.file} written — ${kb} KB`);
+  page.sections.forEach(key => console.log(`    · ${key}`));
+});

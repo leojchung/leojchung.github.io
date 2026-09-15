@@ -9,18 +9,20 @@ served free from GitHub Pages at the repo root.
 
 ## The one rule that matters
 
-**`index.html`, `cv.html` and `cv.pdf` are GENERATED. Never edit them by hand.**
+**`index.html`, `projects.html`, `fun.html`, `contact.html`, `cv.html` and
+`cv.pdf` are all GENERATED. Never edit them by hand.**
 
 ```
-content.js  --[ node build.js ]-->     index.html
+content.js  --[ node build.js ]-->     index.html, projects.html, fun.html, contact.html
 content.js  --[ node build-cv.js ]-->  cv.html --[ print to PDF ]--> cv.pdf
 ```
 
-All content — every word, date, link and section on the site — lives in
-`content.js`. Editing the generated HTML directly works right up until the next
-build silently erases it. `.github/workflows/check-build.yml` fails the push if
-the committed `index.html` doesn't match what `build.js` produces, which is the
-safety net for exactly this mistake.
+The site is four pages, sharing one header and one bottom tab bar
+(Home / Projects / Fun / Contact). All content — every word, date, link and
+section — lives in `content.js`. Editing generated HTML directly works right
+up until the next build silently erases it. `.github/workflows/check-build.yml`
+fails the push if the committed HTML files don't match what `build.js`
+produces, which is the safety net for exactly this mistake.
 
 **After any change to `content.js`, run `node build.js` before committing.**
 
@@ -28,13 +30,27 @@ safety net for exactly this mistake.
 
 | File | Role |
 |---|---|
-| `content.js` | All content + the `sections` array controlling order and visibility |
+| `content.js` | All content + the `pages` array controlling which sections land on which page |
 | `styles.css` | Design system. Colour tokens at the top; nothing else hard-codes a colour |
-| `build.js` | content.js → index.html. `RENDERERS` maps a section key to a renderer |
-| `build-cv.js` | content.js → cv.html. `CV_EXTRA` holds CV-only sections |
-| `main.js` | Light/dark toggle and the footer year. The only JS the site ships |
+| `build.js` | content.js → the four HTML pages. `RENDERERS` maps a section key to a renderer |
+| `build-cv.js` | content.js → cv.html. Reads `experience`/`education`/`service`/`skills` directly — those blocks still live in `content.js` but nothing on the *website* renders them any more, only the CV does |
+| `main.js` | Light/dark toggle, footer year, click-to-play video. The only JS the site ships |
 | `404.html` | Not-found page |
 | `assets/` | Photos, syllabus PDFs, anything linked from content |
+
+## Pages
+
+| Page | File | Sections |
+|---|---|---|
+| Home | `index.html` | hero, casual intro paragraph, Right Now, Principles |
+| Projects | `projects.html` | Research, Teaching, "In the lab" photo grid, Featured |
+| Fun | `fun.html` | the Fun media grid |
+| Contact | `contact.html` | contact blurb/links/form, CV download link |
+
+Reorder or rename tabs by editing `pages` at the bottom of `content.js`. Add a
+page by adding an entry there and teaching `build.js`'s page loop about
+anything special it needs (most pages need nothing beyond the generic section
+loop already there).
 
 ## Conventions
 
@@ -52,33 +68,37 @@ safety net for exactly this mistake.
 - **Contrast is checked, not eyeballed.** Every colour meets WCAG AA in both
   themes including the 10–11px monospaced labels. If you change a token, verify
   the ratio rather than assuming.
-- Sentences in prose run roughly 20–25 words; em-dashes rather than semicolons.
-  There is a fuller voice profile at
-  `~/Downloads/ClaudeCoworkProjects/00_Resources/voice-principles.md` — read it
-  before writing any prose in Leo's name.
+- Formal sections (Research, Teaching, Press) run roughly 20–25 words a
+  sentence, em-dashes rather than semicolons — there's a fuller voice profile
+  at `~/Downloads/ClaudeCoworkProjects/00_Resources/voice-principles.md`.
+  **Home's intro paragraph, Principles, and the Contact blurb are
+  deliberately casual/first-person by Leo's request** — don't "correct" them
+  back to the formal register.
 
 ## Common tasks
 
 ```bash
-node build.js          # rebuild index.html after editing content.js
+node build.js          # rebuild all four HTML pages after editing content.js
 node build-cv.js       # rebuild cv.html; then print to PDF over cv.pdf
 python3 -m http.server 8000   # local preview at http://localhost:8000
 ```
 
 - **Add a role** → copy the nearest entry in the right `content.js` block.
 - **Hide something** → `hidden: true` on that entry. Don't delete.
-- **Reorder / disable a section** → the `sections` array at the bottom of
-  `content.js`. `§` numbers and the nav rebuild themselves.
+- **Move a section to a different page, or reorder within a page** → the
+  `sections` array on the relevant entry in `pages`, at the bottom of
+  `content.js`. `§` numbers renumber themselves per page.
 - **New section type** → add the data block to `content.js`, add one line to
-  `RENDERERS` in `build.js`, add its line to `sections`.
+  `RENDERERS` in `build.js`, add its key to the right page's `sections` array.
 - **Reskin** → only the token blocks at the top of `styles.css`.
 
-The `notes` section is built but `on: false` — placeholder entries, off until
-Leo has real writing for it.
+The `notes` block still exists in `content.js` but isn't listed on any page in
+`pages` — placeholder entries, leave it unreferenced until Leo has real
+writing for it.
 
-The `fun` section ("Off the clock") is ON and currently holds placeholder
-tiles. **It must be filled in or switched off before the site goes public** —
-tiles reading "add a YouTube id" on a live page look broken.
+The `fun` and `lab` sections currently hold placeholder tiles/photos. **They
+must be filled in with real content before the site goes public** — tiles
+reading "PLACEHOLDER" or "add a YouTube id" on a live page look broken.
 
 ### Rules for the fun section
 

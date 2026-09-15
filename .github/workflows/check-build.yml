@@ -14,4 +14,4 @@ jobs:
         with:
           node-version: '20'
       - run: node build.js
-      - run: git diff --exit-code index.html
+      - run: git diff --exit-code index.html projects.html fun.html contact.html

@@ -11,9 +11,9 @@
    ─────────────────────────────────────────────────────────────────────────
    … add a role              add an object to the right block (copy one)
    … remove a role           delete it, or set  hidden: true
-   … reorder sections        reorder the `sections` array at the bottom
-   … turn a section off      set its `on` to false in `sections`
-   … rename a section        change its `title` — the nav follows automatically
+   … reorder a page's sections   reorder that page's `sections` array in `pages`
+   … reorder the tabs        reorder the `pages` array at the bottom
+   … rename a tab             change its `navLabel` in `pages`
    … add a whole section     see the note at the very bottom of this file
    … change the colours      styles.css, the :root block at the top
 
@@ -72,8 +72,8 @@ module.exports = {
       "<b>STEMCELL Technologies</b> and with the <b>Moss Lab</b> at Johns Hopkins.",
 
     buttons: [
-      { label: "See the work",     href: "#research", solid: true },
-      { label: "Curriculum vitae", href: "cv.pdf",    solid: false }
+      { label: "See my projects",  href: "projects.html", solid: true },
+      { label: "Curriculum vitae", href: "cv.pdf",         solid: false }
     ],
 
     // The monospaced record block. Add or remove rows freely.
@@ -90,10 +90,35 @@ module.exports = {
     ]
   },
 
+  /* ──────────────────────────── § INTRO ──────────────────────────────── */
+  /* Home-page only, rendered right under the hero. Casual/first-person on
+     purpose — this is the "hi, it's me" paragraph, not the CV. The fuller,
+     formal record of what he's worked on lives on projects.html; the CV
+     file has everything else. */
+  intro: {
+    paragraphs: [
+      "Hi — I'm Leo. I'm a scientist and a teacher at UBC, and most days that " +
+      "means chasing questions about the brain that don't fit in one lab: " +
+      "chromatin and epigenetics on one end, the gut's surprisingly direct " +
+      "line to the brain on the other, and animal communication somewhere in " +
+      "between. Different systems, same habit of mind.",
+
+      "What ties it together is measurement — figuring out what's actually " +
+      "going on inside from whatever you can honestly record. That's also " +
+      "why I care about teaching: I co-created and taught a for-credit UBC " +
+      "seminar on the neuroscience of art, because explaining something well " +
+      "is usually the fastest way to actually understand it.",
+
+      "Outside of that I'm a Vancouver kid — biking, chess, most ball sports, " +
+      "and an unreasonable amount of loyalty to the Lakers and the Rams. " +
+      "More of that on the <a href=\"fun.html\">Fun</a> page."
+    ]
+  },
+
   /* ────────────────────────── § RIGHT NOW ────────────────────────────── */
   now: {
     title: "Right now",
-    hint:  "Three concurrent posts across industry, research and education.",
+    hint:  "Three things I'm doing at once, across industry, research and education.",
     items: [
       {
         tag:   "Industry",
@@ -119,32 +144,17 @@ module.exports = {
     ]
   },
 
-  /* ──────────────────────────── § ABOUT ──────────────────────────────── */
-  about: {
-    title: "About me",
-    hint:  "Where the science, the teaching and everything else meet.",
-    paragraphs: [
-      "I am a scientist first and a neuroscientist second, and the distinction matters to me. " +
-      "The questions I have chased so far run from chromatin remodeling and epigenetics — the " +
-      "machinery deciding which genes a cell can reach — through the gut's surprisingly direct " +
-      "influence on the brain, and out to animal communication. Different systems, one habit " +
-      "of mind.",
-
-      "Ultimately all of it converges on measurement. Much of science depends on inferring an " +
-      "internal state from something recordable, and the interesting work usually sits in the " +
-      "gap between the two. A mouse pup's ultrasonic call and a bat's echolocation are both " +
-      "inaudible to us — and both are, handled properly, quantitative behavioral data.",
-
-      "Teaching matters to me just as much as the bench. I co-created and taught <em>ASTU 400E " +
-      "— Neuroaesthetics: Your Brain on Art</em> as a student-directed seminar at UBC, I " +
-      "adjudicate undergraduate research, and I sit on the trainee committee at the Djavad " +
-      "Mowafaghian Centre for Brain Health. Explaining something well is its own form of " +
-      "understanding it.",
-
-      "Art and music are not a hobby I keep at arm's length from the work — a course on what " +
-      "the brain does in front of a painting is, after all, a neuroscience course. Outside all " +
-      "of that I am a Vancouver kid, born and raised: biking, chess, most ball sports, and a " +
-      "durable commitment to the Lakers and the Rams."
+  /* ───────────────────────── § PRINCIPLES ─────────────────────────────── */
+  /* Home page, under Right Now. Four short things — word + one line — the
+     kind of block Kellie Ho's site does well. Keep it to three or four. */
+  principles: {
+    title: "What I care about",
+    hint:  "Four things that show up in everything above.",
+    items: [
+      { word: "Curiosity", blurb: "Chromatin, the gut, animal calls — different systems, one habit of mind." },
+      { word: "Rigor",     blurb: "Measurement first. If it isn't quantifiable, I don't trust my read of it." },
+      { word: "Teaching",  blurb: "I co-created a for-credit course as an undergrad. Explaining something well is understanding it twice." },
+      { word: "Balance",   blurb: "Biking, chess, the Lakers, the Rams. The lab isn't the whole person." }
     ]
   },
 
@@ -312,6 +322,19 @@ module.exports = {
         meta:  ["Youth Initiative Vancouver"],
         blurb: "Two and a half years of one-to-one tutoring."
       }
+    ]
+  },
+
+  /* ───────────────────────── § IN THE LAB ─────────────────────────────── */
+  /* Projects page. Same item shape and renderer as `fun` — kind: "photo",
+     candid lab shots, not staged. */
+  lab: {
+    title: "In the lab",
+    hint:  "Candid, not staged.",
+    items: [
+      { kind: "photo", src: "assets/placeholder.svg", title: "PLACEHOLDER — At the bench", caption: "PLACEHOLDER — swap for a real lab photo" },
+      { kind: "photo", src: "assets/placeholder.svg", title: "PLACEHOLDER — Poster session", caption: "PLACEHOLDER — swap for a real lab photo" },
+      { kind: "photo", src: "assets/placeholder.svg", title: "PLACEHOLDER — Whiteboard, mid-argument", caption: "PLACEHOLDER — swap for a real lab photo" }
     ]
   },
 
@@ -604,15 +627,14 @@ module.exports = {
   /* ─────────────────────────── § CONTACT ─────────────────────────────── */
   contact: {
     title: "Get in <em>touch.</em>",
-    blurb: "I am looking for a January 2027 co-op or internship in biotech, pharma, or the " +
-           "life sciences. I would be glad to hear from anyone working on chromatin, the " +
-           "gut–brain axis, animal communication, or science education — and from students " +
-           "who want to talk about getting into a lab.",
+    blurb: "I'm looking for a co-op or internship for January 2027, in biotech, pharma, or the " +
+           "life sciences. Reach out if you're working on chromatin, the gut–brain axis, animal " +
+           "communication, or science education — or if you're a student trying to figure out " +
+           "how to get into a lab. Happy to talk.",
     links: [
       { k: "Email",     label: "leojc815@gmail.com",          href: "mailto:leojc815@gmail.com" },
       { k: "LinkedIn",  label: "linkedin.com/in/leojchung",   href: "https://www.linkedin.com/in/leojchung", me: true },
       { k: "Neuroarts", label: "neuroartsresourcecenter.com", href: "https://www.neuroartsresourcecenter.com/profile/leojchung", me: true },
-      { k: "CV",        label: "Download PDF",                href: "cv.pdf" },
       { k: "Located",   label: "Vancouver, British Columbia", href: null }
     ],
 
@@ -654,47 +676,48 @@ module.exports = {
   },
 
   /* ══════════════════════════════════════════════════════════════════════
-     SECTION ORDER AND VISIBILITY
+     PAGES — one HTML file each, linked from the tab bar
 
-     Reorder these lines to reorder the page. Set `on: false` to hide one
-     without deleting anything. The § numbers renumber themselves, and the
-     nav bar rebuilds itself from whatever has `nav: true`.
+     Each page lists which content blocks render on it, top to bottom.
+     `intro` (Home only) and `hero`/`contact` (their own pages) are handled
+     directly by build.js and are not listed here.
+
+     The tab bar itself is built from this array's order — reorder pages
+     here to reorder the tabs. `navLabel` is what shows in the tab.
      ══════════════════════════════════════════════════════════════════════ */
-  sections: [
-    { key: "now",        on: true,  nav: false, id: null },
-    { key: "about",      on: true,  nav: true,  id: "about",      navLabel: "About"      },
-    { key: "research",   on: true,  nav: true,  id: "research",   navLabel: "Research"   },
-    { key: "experience", on: true,  nav: true,  id: "experience", navLabel: "Experience" },
-    { key: "teaching",   on: true,  nav: true,  id: "teaching",   navLabel: "Teaching"   },
-    { key: "education",  on: true,  nav: true,  id: "education",  navLabel: "Education"  },
-    { key: "press",      on: true,  nav: false, id: "press"       },
-    { key: "service",    on: true,  nav: false, id: "service"     },
-    { key: "skills",     on: true,  nav: false, id: "skills"      },
-    { key: "notes",      on: false, nav: true,  id: "notes",      navLabel: "Notes" },
-    { key: "fun",        on: true,  nav: true,  id: "fun",        navLabel: "Fun" },
-    { key: "contact",    on: true,  nav: true,  id: "contact",    navLabel: "Contact"    }
+  pages: [
+    { key: "home",     file: "index.html",    navLabel: "Home",     sections: ["now", "principles"] },
+    { key: "projects", file: "projects.html", navLabel: "Projects", sections: ["research", "teaching", "lab", "press"] },
+    { key: "fun",      file: "fun.html",      navLabel: "Fun",      sections: ["fun"] },
+    { key: "contact",  file: "contact.html",  navLabel: "Contact",  sections: ["contact"] }
 
-    /* ADDING A NEW SECTION
+    /* ADDING A NEW SECTION TO AN EXISTING PAGE
        ───────────────────────────────────────────────────────────────────
        Renderers available, by the shape of the data they expect:
 
          now         card row      (tag / role / org / note / since)
-         about       prose         (paragraphs: [])
+         principles  word grid     (word / blurb)
          research    entry list    (idx / when / title / meta[] / blurb)
-         experience  entry list    (same, plus grouped employers)
          teaching    entry list    (same)
-         education   school list   (when / school / degree / chips[])
-         service     two-col list  (role / org / yr / live)
-         skills      chip groups   (name / items[])
+         lab         media grid    (kind: photo | video | link — same as fun)
+         press       entry list    (same as research)
          fun         media grid    (kind: photo | video | link)
          contact     contact block
 
-       To add, say, a Publications section: copy the `research` block above,
-       rename it `publications`, add
-         { key: "publications", on: true, nav: true, id: "publications", navLabel: "Writing" }
-       to this list, and add one line to RENDERERS in build.js:
-         publications: renderEntries
-       Three lines of work. build.js marks the exact spot.
+       Add the block above, add its key to the right page's `sections`
+       array, and add one line to RENDERERS in build.js.
+
+       ADDING A WHOLE NEW PAGE
+       ───────────────────────────────────────────────────────────────────
+       Add an entry to this array with a new `file`, then teach build.js's
+       page loop what (if anything) is special about it — most pages need
+       nothing beyond the generic section loop.
+
+       Note: `experience`, `education`, `service`, `skills` still exist as
+       data blocks further up this file, but nothing on the website reads
+       them any more — only build-cv.js does, for the CV PDF. Edit them
+       there for the CV; they no longer need to agree with anything on the
+       site.
     */
   ]
 };

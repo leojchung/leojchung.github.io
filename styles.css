@@ -143,13 +143,6 @@ img,svg{max-width:100%}
   letter-spacing:.16em;text-transform:uppercase;text-decoration:none;white-space:nowrap;
 }
 .wordmark span{color:var(--accent)}
-.head-right{display:flex;align-items:center;gap:20px}
-.site-nav{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end}
-.site-nav a{
-  font-family:var(--f-mono);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;
-  color:var(--ink-2);text-decoration:none;padding-block:4px;border-bottom:1px solid transparent;
-}
-.site-nav a:hover{color:var(--ink);border-bottom-color:var(--accent)}
 #theme-toggle{
   background:none;border:1px solid var(--rule);color:var(--ink-2);
   width:31px;height:31px;border-radius:50%;cursor:pointer;
@@ -157,7 +150,24 @@ img,svg{max-width:100%}
 }
 #theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
 #theme-toggle svg{width:14px;height:14px;display:block}
-@media (max-width:900px){ .site-nav{display:none} }
+
+
+/* ══════════════════ TAB BAR ══════════════════
+   The bottom page-switcher (Home / Projects / Fun / Contact) — replaces the
+   old single-page anchor nav now that the site is four separate files.    */
+.tab-bar{
+  position:sticky;bottom:0;z-index:40;
+  background:color-mix(in srgb,var(--paper) 92%,transparent);
+  backdrop-filter:blur(10px);
+  border-top:1px solid var(--rule);
+}
+.tab-bar-inner{display:flex;justify-content:center;gap:clamp(18px,5vw,44px);padding-block:12px}
+.tab{
+  font-family:var(--f-mono);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-2);text-decoration:none;padding-block:4px;border-bottom:2px solid transparent;
+}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
 
 
 /* ══════════════════ HERO ══════════════════ */
@@ -252,6 +262,11 @@ img,svg{max-width:100%}
 .prose a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-soft)}
 .prose a:hover{border-bottom-color:var(--accent)}
 
+/* the casual "hi, it's me" paragraph directly under the Home hero */
+.intro-section .shell{padding-block:0 clamp(46px,5.5vw,74px)}
+.intro-section .prose p{font-size:18px}
+.intro-section .cv-link{margin-top:8px}
+
 
 /* ══════════════════ "RIGHT NOW" CARD ROW ══════════════════ */
 .now{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
@@ -266,6 +281,19 @@ img,svg{max-width:100%}
 .now .org{font-family:var(--f-mono);font-size:11.5px;color:var(--ink-2);line-height:1.55;letter-spacing:.02em}
 .now .since{font-family:var(--f-mono);font-size:11px;color:var(--ink-3);margin-top:auto;padding-top:11px;letter-spacing:.05em}
 @media (max-width:800px){ .now{grid-template-columns:1fr} }
+
+
+/* ══════════════════ PRINCIPLES — word grid ══════════════════ */
+.principles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.principles article{background:var(--paper);padding:20px 18px}
+.section.band .principles article{background:var(--paper-2)}
+.principles h3{
+  margin:0 0 8px;font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);font-weight:700;
+}
+.principles p{margin:0;color:var(--ink-2);font-size:15px;line-height:1.55}
+@media (max-width:900px){ .principles{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:520px){ .principles{grid-template-columns:1fr} }
 
 
 /* ══════════════════ ENTRY LIST — research, experience, teaching ══════════ */
@@ -303,43 +331,6 @@ img,svg{max-width:100%}
 .subroles .t{font-weight:600;font-size:17.5px;line-height:1.35}
 .subroles .d{font-family:var(--f-mono);font-size:11px;color:var(--ink-2);margin-top:5px;line-height:1.6;letter-spacing:.02em}
 @media (max-width:640px){ .group-head,.subroles li{grid-template-columns:1fr;gap:7px} }
-
-
-/* ══════════════════ EDUCATION ══════════════════ */
-.edu{display:flex;flex-direction:column}
-.edu-item{display:grid;grid-template-columns:120px 1fr;gap:22px;padding-block:22px;border-top:1px solid var(--rule)}
-.edu-item:first-child{border-top:1.5px solid var(--rule-strong)}
-.edu-item .when{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;color:var(--ink-3);padding-top:5px;font-variant-numeric:tabular-nums;line-height:1.6}
-.edu-item h3{margin:0;font-size:20.5px;font-weight:600;line-height:1.3;letter-spacing:-.012em;overflow-wrap:anywhere}
-.edu-item .degree{font-family:var(--f-mono);font-size:11.5px;color:var(--accent);margin-top:6px;letter-spacing:.04em}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px}
-.chip{
-  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.03em;
-  padding:5px 9px;border:1px solid var(--rule);color:var(--ink-2);background:var(--paper-3);
-}
-@media (max-width:640px){ .edu-item{grid-template-columns:1fr;gap:8px} .edu-item .when{padding-top:0} }
-
-
-/* ══════════════════ SERVICE — condensed two columns ══════════════════ */
-.service{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(24px,4vw,56px);border-top:1.5px solid var(--rule-strong)}
-.svc{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:baseline;padding-block:13px;border-bottom:1px solid var(--rule)}
-.svc .role{font-size:17px;font-weight:600;line-height:1.35}
-.svc .org{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-2);display:block;margin-top:3px;line-height:1.5;letter-spacing:.02em;font-weight:400}
-.svc .yr{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:.03em}
-.svc .yr.live{color:var(--flag)}
-@media (max-width:780px){ .service{grid-template-columns:1fr} }
-
-
-/* ══════════════════ SKILLS ══════════════════ */
-.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:0 clamp(24px,4vw,56px);border-top:1.5px solid var(--rule-strong)}
-.skillset{padding-block:20px;border-bottom:1px solid var(--rule)}
-.skillset h3{margin:0 0 12px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);font-weight:700}
-.skillset ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:7px}
-.skillset li{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.01em;padding:5px 10px;background:var(--paper-3);border:1px solid var(--rule);color:var(--ink)}
-.skillset li.cert{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
-.cert-note{margin:14px 0 0;font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.03em;line-height:1.6}
-.cert-note .sw{display:inline-block;width:9px;height:9px;border:1px solid var(--accent);background:var(--accent-soft);margin-right:7px;vertical-align:-1px}
-@media (max-width:720px){ .skills{grid-template-columns:1fr} }
 
 
 /* ══════════════════ FUN — photos, clips, links ══════════════════
@@ -475,12 +466,12 @@ button.media.play .pill{background:rgba(247,246,249,.94)}
 /* ══════════════════ PRINT ══════════════════
    So the page prints as a clean CV-ish document if anyone hits Cmd-P.       */
 @media print{
-  .site-head,.hero-cta,#theme-toggle,.site-foot a,.fun,.formwrap{display:none}
+  .site-head,.hero-cta,#theme-toggle,.site-foot a,.tab-bar,.fun,.formwrap{display:none}
   body{background:#fff;color:#000;font-size:11pt}
   .section,.hero{border-color:#ccc;background:#fff!important}
   .hero{background-image:none}
   .sec-rail{position:static}
-  .entry,.edu-item,.svc,.group{break-inside:avoid}
+  .entry,.group{break-inside:avoid}
 }
 
 
