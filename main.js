@@ -107,4 +107,24 @@
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
     document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
   }
+
+  /* The "I also like ___" bubble on Home — cycles through the pipe-separated
+     list in data-list. Skipped for prefers-reduced-motion; the first item
+     (already in the markup) just sits there instead. */
+  var likeWord = document.querySelector('.like-word');
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (likeWord && !reduceMotion) {
+    var likes = (likeWord.getAttribute('data-list') || '').split('|').filter(Boolean);
+    if (likes.length > 1) {
+      var likeIdx = 0;
+      setInterval(function () {
+        likeIdx = (likeIdx + 1) % likes.length;
+        likeWord.style.opacity = '0';
+        setTimeout(function () {
+          likeWord.textContent = likes[likeIdx];
+          likeWord.style.opacity = '1';
+        }, 220);
+      }, 2200);
+    }
+  }
 })();

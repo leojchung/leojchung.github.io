@@ -300,11 +300,34 @@ ${heroRecord}
 }
 
 function renderIntroSection(){
-  if (!C.intro || !C.intro.paragraphs || !C.intro.paragraphs.length) return '';
+  const d = C.intro;
+  if (!d) return '';
+
+  const greetRow = (d.greeting || d.location)
+    ? `      <div class="greet-row">
+${d.greeting ? `        <p class="greeting">${d.greeting}</p>\n` : ''}${d.location ? `        <span class="loc-pill">${d.location}</span>\n` : ''}      </div>\n`
+    : '';
+
+  const focus = d.focus
+    ? `      <p class="focus-pill"><span class="fp-label">Currently focused on</span> ${d.focus}</p>\n`
+    : '';
+
+  const prose = (d.paragraphs && d.paragraphs.length) ? `      ${renderProse(d)}\n` : '';
+
+  const likes = d.likes || [];
+  const likeBubble = likes.length
+    ? `      <div class="like-bubble"><span>I also like</span><span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span></div>\n`
+    : '';
+
+  const social = (d.social && d.social.length)
+    ? `      <div class="social-row">
+${d.social.map(s => `        <a class="social-btn" href="${attr(s.href)}" aria-label="${attr(s.label)}">${s.icon}<span class="tip">${attr(s.label)}</span></a>`).join('\n')}
+      </div>\n`
+    : '';
+
   return `  <section class="section intro-section reveal">
     <div class="shell">
-      ${renderProse(C.intro)}
-      <a class="btn cv-link" href="${attr(C.meta.cvFile)}">Download my CV</a>
+${greetRow}${focus}${prose}${likeBubble}${social}      <a class="btn cv-link" href="${attr(C.meta.cvFile)}">Download my CV</a>
     </div>
   </section>`;
 }

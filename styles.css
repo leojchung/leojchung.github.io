@@ -52,8 +52,8 @@
   --max:1120px;
   --rail:134px;
 
-  --radius:18px;
-  --radius-sm:12px;
+  --radius:22px;
+  --radius-sm:14px;
   --shadow:0 14px 34px rgba(23,21,30,.09);
   --shadow-sm:0 5px 16px rgba(23,21,30,.06);
 }
@@ -111,6 +111,7 @@ html{scroll-behavior:smooth}
 
 body{
   margin:0;
+  padding-top:92px;     /* clears the floating fixed header */
   padding-bottom:88px;  /* clears the floating fixed tab bar */
   background:var(--paper);
   color:var(--ink);
@@ -137,16 +138,20 @@ img,svg{max-width:100%}
 .shell{max-width:var(--max);margin:0 auto;padding-inline:24px}
 
 
-/* ══════════════════ HEADER ══════════════════ */
+/* ══════════════════ HEADER ══════════════════
+   A floating rounded bar, not a flush sticky strip — matches the tab bar's
+   treatment so both nav elements read as part of the same "floating"
+   language. `body` carries top padding to clear it (see BASE).           */
 .site-head{
-  position:sticky;top:0;z-index:40;
+  position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:40;
+  width:calc(100% - 32px);max-width:var(--max);
   background:color-mix(in srgb,var(--paper) 90%,transparent);
   backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--rule);
+  border:1px solid var(--rule);border-radius:999px;box-shadow:var(--shadow);
 }
 .site-head .shell{
   display:flex;align-items:center;justify-content:space-between;
-  gap:16px;padding-block:13px;
+  gap:16px;padding:11px 22px;max-width:none;
 }
 .wordmark{
   font-family:var(--f-mono);font-size:12.5px;font-weight:700;
@@ -184,11 +189,7 @@ img,svg{max-width:100%}
 
 /* ══════════════════ HERO ══════════════════ */
 .hero{
-  border-bottom:1px solid var(--rule);
   background:var(--paper);
-  /* the ruled notebook line — 32px rhythm, barely there */
-  background-image:linear-gradient(to bottom,transparent 31px,var(--accent-soft) 31px,var(--accent-soft) 32px);
-  background-size:100% 32px;
 }
 .hero .shell{padding-block:clamp(48px,7vw,88px) clamp(44px,6vw,76px)}
 .hero-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(28px,5vw,64px);align-items:start}
@@ -238,12 +239,14 @@ img,svg{max-width:100%}
 /* the monospaced record block */
 .record{
   font-family:var(--f-mono);font-size:11.5px;line-height:1.45;
-  border-top:1.5px solid var(--rule-strong);padding-top:15px;
+  background:var(--paper-2);border-radius:var(--radius);box-shadow:var(--shadow-sm);
+  padding:6px 18px;
 }
 .record .row{
   display:grid;grid-template-columns:84px 1fr;gap:12px;
-  padding:8px 0;border-bottom:1px solid var(--rule);
+  padding:10px 0;
 }
+.record .row + .row{border-top:1px solid var(--rule)}
 .record .k{color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-size:10.5px;padding-top:1px}
 .record .v{color:var(--ink)}
 .record .v a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-soft)}
@@ -254,12 +257,12 @@ img,svg{max-width:100%}
 
 
 /* ══════════════════ SECTION SHELL ══════════════════ */
-.section{border-bottom:1px solid var(--rule);background:var(--paper)}
+.section{background:var(--paper)}
 .section.band{background:var(--paper-2)}   /* alternating shade */
-.section .shell{padding-block:clamp(46px,5.5vw,74px)}
+.section .shell{padding-block:clamp(54px,6.5vw,92px)}
 
 .sec-grid{display:grid;grid-template-columns:var(--rail) 1fr;gap:clamp(20px,3.4vw,48px);align-items:start}
-.sec-rail{position:sticky;top:76px}
+.sec-rail{position:sticky;top:92px}
 .sec-rail .num{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;color:var(--accent);display:block;font-weight:700}
 .sec-rail h2{margin:7px 0 0;font-weight:600;font-size:19.5px;letter-spacing:-.01em;line-height:1.25;text-wrap:balance}
 .sec-rail .hint{
@@ -280,14 +283,58 @@ img,svg{max-width:100%}
 .prose a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-soft)}
 .prose a:hover{border-bottom-color:var(--accent)}
 
-/* the casual "hi, it's me" paragraph directly under the Home hero */
+/* the casual "hi, it's me" block directly under the Home hero */
 .intro-section .shell{padding-block:0 clamp(46px,5.5vw,74px)}
 .intro-section .prose p{font-size:18px}
-.intro-section .cv-link{margin-top:8px}
+.intro-section .cv-link{margin-top:22px}
+
+.greet-row{display:flex;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:18px}
+.greeting{margin:0;font-size:clamp(24px,3vw,30px);font-weight:600;letter-spacing:-.015em}
+.loc-pill{
+  font-family:var(--f-mono);font-size:11.5px;letter-spacing:.03em;color:var(--ink-2);
+  background:var(--paper-3);border-radius:999px;padding:7px 14px;white-space:nowrap;
+}
+
+.focus-pill{
+  display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin:0 0 22px;
+  background:var(--flag-soft);border:1px solid var(--flag);border-radius:999px;
+  padding:9px 18px;font-size:15px;color:var(--ink);max-width:64ch;
+}
+.focus-pill .fp-label{
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--flag);font-weight:700;
+}
+
+/* the rotating "I also like ___" bubble — main.js swaps .like-word's text on
+   an interval; the full list rides along in data-list, pipe-separated. */
+.like-bubble{
+  display:inline-flex;align-items:center;gap:8px;margin:22px 0 0;
+  background:var(--accent-soft);border:1px solid var(--accent);border-radius:999px;
+  padding:9px 18px;font-family:var(--f-mono);font-size:12.5px;color:var(--ink-2);
+}
+.like-bubble .like-word{color:var(--accent);font-weight:700;transition:opacity .22s ease}
+
+/* social icons — emoji stand in for logos, a popup label shows on hover/focus */
+.social-row{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 0}
+.social-btn{
+  position:relative;width:44px;height:44px;border-radius:50%;
+  display:grid;place-items:center;font-size:19px;text-decoration:none;
+  background:var(--paper);border:1px solid var(--rule);box-shadow:var(--shadow-sm);
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.social-btn:hover,.social-btn:focus-visible{transform:translateY(-3px);box-shadow:var(--shadow)}
+.social-btn .tip{
+  position:absolute;bottom:calc(100% + 10px);left:50%;
+  transform:translateX(-50%) translateY(4px);
+  background:var(--ink);color:var(--paper);font-family:var(--f-mono);font-size:10.5px;
+  letter-spacing:.03em;padding:6px 11px;border-radius:999px;white-space:nowrap;
+  pointer-events:none;opacity:0;transition:opacity .15s ease,transform .15s ease;
+}
+.social-btn:hover .tip,.social-btn:focus-visible .tip{opacity:1;transform:translateX(-50%) translateY(0)}
 
 
 /* ══════════════════ "RIGHT NOW" CARD ROW ══════════════════ */
-.now{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.now{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .now article{
   background:var(--paper);padding:22px 20px;display:flex;flex-direction:column;
   border-radius:var(--radius);box-shadow:var(--shadow-sm);
@@ -307,7 +354,7 @@ img,svg{max-width:100%}
 
 
 /* ══════════════════ PRINCIPLES — word grid ══════════════════ */
-.principles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.principles{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
 .principles article{
   background:var(--paper);padding:20px 18px;border-radius:var(--radius);box-shadow:var(--shadow-sm);
   transition:transform .2s ease,box-shadow .2s ease;
@@ -324,7 +371,7 @@ img,svg{max-width:100%}
 
 
 /* ══════════════════ ENTRY LIST — research, teaching, press ══════════ */
-.entries{display:flex;flex-direction:column;gap:14px}
+.entries{display:flex;flex-direction:column;gap:16px}
 
 .entry{
   display:grid;grid-template-columns:120px 1fr;gap:22px;padding:22px;
@@ -373,7 +420,7 @@ img,svg{max-width:100%}
    Videos are click-to-play: the tile is a button showing a poster, and the
    YouTube iframe is only inserted once someone clicks it. Nothing is
    requested from a third party for a visitor who merely scrolls past.   */
-.fun{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;border-top:1.5px solid var(--rule-strong);padding-top:24px}
+.fun{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .fun-item{margin:0;display:flex;flex-direction:column}
 
 .fun .media{
@@ -482,8 +529,12 @@ button.media.play .pill{background:rgba(247,246,249,.94)}
 .contact-grid h2{margin:0;font-weight:400;font-size:clamp(28px,3.6vw,42px);line-height:1.1;letter-spacing:-.025em;text-wrap:balance}
 .contact-grid h2 em{font-style:italic;color:var(--accent)}
 .contact-grid > div > p{margin:18px 0 0;color:var(--ink-2);max-width:46ch;font-size:17px}
-.links{border-top:1.5px solid var(--rule-strong);margin-top:2px}
-.link-row{display:grid;grid-template-columns:78px 1fr;gap:14px;align-items:baseline;padding-block:13px;border-bottom:1px solid var(--rule)}
+.links{
+  background:var(--paper-2);border-radius:var(--radius);box-shadow:var(--shadow-sm);
+  padding:4px 20px;
+}
+.link-row{display:grid;grid-template-columns:78px 1fr;gap:14px;align-items:baseline;padding-block:14px}
+.link-row + .link-row{border-top:1px solid var(--rule)}
 .link-row .k{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
 .link-row a{font-family:var(--f-mono);font-size:13px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);word-break:break-word}
 .link-row a:hover{color:var(--accent);border-bottom-color:var(--accent)}
@@ -505,9 +556,8 @@ button.media.play .pill{background:rgba(247,246,249,.94)}
    So the page prints as a clean CV-ish document if anyone hits Cmd-P.       */
 @media print{
   .site-head,.hero-cta,#theme-toggle,.site-foot a,.tab-bar,.fun,.formwrap{display:none}
-  body{background:#fff;color:#000;font-size:11pt;padding-bottom:0}
-  .section,.hero{border-color:#ccc;background:#fff!important}
-  .hero{background-image:none}
+  body{background:#fff;color:#000;font-size:11pt;padding-top:0;padding-bottom:0}
+  .section,.hero{background:#fff!important}
   .sec-rail{position:static}
   .entry,.group{break-inside:avoid}
 }

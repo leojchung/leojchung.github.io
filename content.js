@@ -96,22 +96,43 @@ module.exports = {
      formal record of what he's worked on lives on projects.html; the CV
      file has everything else. */
   intro: {
+    greeting: "Hi — I'm Leo 👋",
+    location: "📍 Vancouver, BC",
+
+    // The highlighted "currently focused on" pill, right under the greeting.
+    focus: "measuring what's actually happening in the brain — inside the lab and out",
+
     paragraphs: [
-      "Hi — I'm Leo. I'm a scientist and a teacher at UBC, and most days that " +
-      "means chasing questions about the brain that don't fit in one lab: " +
-      "chromatin and epigenetics on one end, the gut's surprisingly direct " +
-      "line to the brain on the other, and animal communication somewhere in " +
-      "between. Different systems, same habit of mind.",
+      "I'm a scientist and a teacher at UBC, and most days that means chasing " +
+      "questions about the brain that don't fit in one lab: chromatin and " +
+      "epigenetics on one end, the gut's surprisingly direct line to the " +
+      "brain on the other, and animal communication somewhere in between. " +
+      "Different systems, same habit of mind.",
 
       "What ties it together is measurement — figuring out what's actually " +
       "going on inside from whatever you can honestly record. That's also " +
       "why I care about teaching: I co-created and taught a for-credit UBC " +
       "seminar on the neuroscience of art, because explaining something well " +
-      "is usually the fastest way to actually understand it.",
+      "is usually the fastest way to actually understand it."
+    ],
 
-      "Outside of that I'm a Vancouver kid — biking, chess, most ball sports, " +
-      "and an unreasonable amount of loyalty to the Lakers and the Rams. " +
-      "More of that on the <a href=\"fun.html\">Fun</a> page."
+    // Rotates in the "I also like ___" bubble under the paragraphs. Keep it
+    // to short phrases — it swaps every couple of seconds.
+    likes: [
+      "biking",
+      "chess",
+      "the Lakers",
+      "the Rams",
+      "a good ramen spot",
+      "the Fun page →"
+    ],
+
+    // Icon row with a hover/focus popup — email, LinkedIn, etc. Emoji stand
+    // in for logos so nothing needs an icon library or an image asset.
+    social: [
+      { icon: "✉️", label: "Email",             href: "mailto:leojc815@gmail.com" },
+      { icon: "💼", label: "LinkedIn",           href: "https://www.linkedin.com/in/leojchung" },
+      { icon: "🧠", label: "Neuroarts profile",  href: "https://www.neuroartsresourcecenter.com/profile/leojchung" }
     ]
   },
 
