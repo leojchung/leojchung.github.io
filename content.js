@@ -69,7 +69,7 @@ module.exports = {
       "at one end of the work, animal communication at the other. I also teach, design " +
       "curriculum, and spend a great deal of time on art, music and sport, which is less a " +
       "separate life than the reason the research interests me. Currently in R&amp;D at " +
-      "<b>STEMCELL Technologies</b> and analyzing data for the <b>Moss Lab</b> at Johns Hopkins.",
+      "<b>STEMCELL Technologies</b> and with the <b>Moss Lab</b> at Johns Hopkins.",
 
     buttons: [
       { label: "See the work",     href: "#research", solid: true },
@@ -99,7 +99,7 @@ module.exports = {
         tag:   "Industry",
         role:  "Research &amp; Development Intern",
         org:   "STEMCELL Technologies",
-        note:  "Product licensing, testing &amp; integration",
+        note:  "R&amp;D internship",
         since: "May 2026 — present · UBC Co-op"
       },
       {
@@ -212,13 +212,13 @@ module.exports = {
         when:  "May 2026<br>— present",
         title: "Research &amp; Development Intern",
         meta:  ["STEMCELL Technologies", "Vancouver, BC", "UBC Co-op"],
-        blurb: "Product licensing, testing and integration."
+        blurb: "Research and development internship, UBC Co-op."
       },
       {
         when:  "Jun 2026<br>— present",
         title: "Research Data Analyst",
         meta:  ["Johns Hopkins University", "Baltimore, MD", "Hybrid"],
-        blurb: "Data analysis and statistics for the Moss Lab, Department of Psychological and Brain Sciences."
+        blurb: "Research role with the Moss Lab, Department of Psychological and Brain Sciences."
       },
       {
         when:  "Aug 2025<br>— May 2026",
@@ -288,9 +288,7 @@ module.exports = {
         when:  "May 2026<br>— present",
         title: "Med-Tech Education Research Assistant",
         meta:  ["Si-Lab", "UBC School of Audiology &amp; Speech Sciences"],
-        blurb: "Research on how simulation-based teaching changes what clinical students know " +
-               "and how confident they feel — didactic lecture against role-play and " +
-               "high-fidelity simulation."
+        blurb: "Education research with the Si-Lab, UBC School of Audiology &amp; Speech Sciences."
       },
       {
         idx:   "T-03",
