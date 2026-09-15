@@ -275,25 +275,21 @@ function renderHeroSection(){
     .map(b => `            <a class="btn${b.solid ? ' solid' : ''}" href="${attr(b.href)}">${b.label}</a>`)
     .join('\n');
 
+  // A row of stat pills, not a k/v ledger table — every pill a different
+  // width, which is the point (see the "different shapes" note in styles.css).
   const heroRecord = C.hero.record
-    .map(r => `          <div class="row"><div class="k">${r.k}</div><div class="v">${r.flag ? '<span class="open-dot">◆</span> ' : ''}${r.v}</div></div>`)
+    .map(r => `          <span class="stat${r.flag ? ' flag' : ''}"><span class="stat-k">${r.flag ? '<span class="open-dot">◆</span> ' : ''}${r.k}</span><span class="stat-v">${r.v}</span></span>`)
     .join('\n');
 
   return `  <section class="hero">
-    <div class="shell">
-      <div class="hero-grid">
-        <div>
-${C.hero.identity ? `          <div class="identity">${C.hero.identity.map(w => `<span>${w}</span>`).join('')}</div>\n` : ''}          <h1>${C.hero.headline}</h1>
-          <p class="standfirst">${C.hero.standfirst}</p>
-          <div class="hero-cta">
+    <div class="shell hero-center">
+${C.meta.portrait ? `      <img class="portrait" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="240" height="240">\n` : ''}${C.hero.identity ? `      <div class="identity">${C.hero.identity.map(w => `<span>${w}</span>`).join('')}</div>\n` : ''}      <h1>${C.hero.headline}</h1>
+      <p class="standfirst">${C.hero.standfirst}</p>
+      <div class="hero-cta">
 ${heroButtons}
-          </div>
-        </div>
-        <div>
-${C.meta.portrait ? `          <img class="portrait" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="600" height="600">\n` : ''}          <div class="record" aria-label="Profile summary">
+      </div>
+      <div class="record" aria-label="Profile summary">
 ${heroRecord}
-          </div>
-        </div>
       </div>
     </div>
   </section>`;
