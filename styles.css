@@ -355,7 +355,7 @@ img,svg{max-width:100%}
   position:relative;width:44px;height:44px;border-radius:50%;
   display:grid;place-items:center;font-size:19px;text-decoration:none;
   background:var(--paper);border:1px solid var(--rule);box-shadow:var(--shadow-sm);
-  transition:transform .15s ease,box-shadow .15s ease;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease;
 }
 .social-btn:hover,.social-btn:focus-visible{transform:translateY(-3px);box-shadow:var(--shadow)}
 .social-btn .tip{
@@ -373,7 +373,7 @@ img,svg{max-width:100%}
 .now article{
   background:var(--paper);padding:22px 20px;display:flex;flex-direction:column;
   border-radius:var(--radius);box-shadow:var(--shadow-sm);
-  transition:transform .2s ease,box-shadow .2s ease;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease;
 }
 .now article:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
 .section.band .now article{background:var(--paper-2)}
@@ -392,7 +392,7 @@ img,svg{max-width:100%}
 .principles{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .principles article{
   background:var(--paper);padding:20px 18px;border-radius:var(--radius);box-shadow:var(--shadow-sm);
-  transition:transform .2s ease,box-shadow .2s ease;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease;
 }
 .principles article:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
 .section.band .principles article{background:var(--paper-2)}
@@ -410,7 +410,7 @@ img,svg{max-width:100%}
 .entry{
   display:grid;grid-template-columns:120px 1fr;gap:22px;padding:22px;
   border-radius:var(--radius);background:var(--paper);box-shadow:var(--shadow-sm);
-  transition:transform .2s ease,box-shadow .2s ease;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease;
 }
 .entry:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
 .section.band .entry{background:var(--paper-2)}
@@ -435,7 +435,7 @@ img,svg{max-width:100%}
 /* one employer, several roles */
 .group{
   padding:22px;border-radius:var(--radius);background:var(--paper);box-shadow:var(--shadow-sm);
-  transition:transform .2s ease,box-shadow .2s ease;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease;
 }
 .group:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
 .section.band .group{background:var(--paper-2)}
@@ -470,7 +470,7 @@ img,svg{max-width:100%}
 .fun .media{
   position:relative;width:100%;aspect-ratio:16/10;display:block;
   border-radius:var(--radius);box-shadow:var(--shadow-sm);background:var(--paper-3);overflow:hidden;
-  transition:transform .2s ease,box-shadow .2s ease;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease;
 }
 /* different tile kinds get different shapes, not one uniform aspect ratio */
 .fun .media:has(img){aspect-ratio:1/1}
@@ -629,8 +629,21 @@ button.media.play .pill{background:rgba(247,246,249,.94)}
    content stuck invisible. prefers-reduced-motion (top of this file)
    already zeroes the transition duration, so it still appears, just
    without the animation.                                                 */
-.has-reveal .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
-.has-reveal .reveal.in{opacity:1;transform:translateY(0)}
+.has-reveal .reveal{opacity:0;transform:translateY(24px) scale(.98);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+.has-reveal .reveal.in{opacity:1;transform:translateY(0) scale(1)}
+
+/* Cards inside a reveal section fade in on their own, staggered — the section
+   itself still slides/scales as one block above. Opacity only, never
+   transform: card hover-lift rules set transform on the same elements, and
+   `.stagger-item.in`'s extra classes would out-specificity a plain
+   `:hover` rule and silently cancel the lift if this touched transform too. */
+.has-reveal .stagger-item{opacity:0;transition:opacity .5s ease}
+.has-reveal .stagger-item.in{opacity:1}
+.stagger-item:nth-child(2){transition-delay:.08s}
+.stagger-item:nth-child(3){transition-delay:.16s}
+.stagger-item:nth-child(4){transition-delay:.24s}
+.stagger-item:nth-child(5){transition-delay:.32s}
+.stagger-item:nth-child(6){transition-delay:.4s}
 
 
 /* ══════════════════ EXTERNAL LINKS INSIDE AN ENTRY ══════════════════

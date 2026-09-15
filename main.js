@@ -105,7 +105,7 @@
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+    document.querySelectorAll('.reveal, .stagger-item').forEach(function (el) { io.observe(el); });
   }
 
   /* The "I also like ___" bubble on Home — cycles through the pipe-separated

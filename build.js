@@ -57,7 +57,7 @@ const metaLine = list => (list || [])
 
 function renderNow(d){
   return `<div class="now">
-${visible(d.items).map(i => `          <article>
+${visible(d.items).map(i => `          <article class="stagger-item">
             <div class="tag">${i.tag}</div>
             <h3>${i.role}</h3>
             <div class="org">${i.org}${i.note ? `<br>${i.note}` : ''}</div>
@@ -76,7 +76,7 @@ function renderEntries(d){
   const body = visible(d.items).map(it => {
     // grouped employer
     if (it.group){
-      return `          <div class="group">
+      return `          <div class="group stagger-item">
             <div class="group-head">
               <div class="when">${it.when || ''}</div>
               <h3>${it.group}</h3>
@@ -95,7 +95,7 @@ ${r.detail ? `                  <div class="d">${r.detail}</div>\n` : ''}       
     const links = (it.links && it.links.length)
       ? `              <div class="meta">${it.links.map(l => `<a class="bit" href="${attr(l.href)}">${l.label}</a>`).join('<span class="sep">·</span>')}</div>\n`
       : '';
-    return `          <article class="entry">
+    return `          <article class="entry stagger-item">
             <div class="when">${it.idx ? `<span class="idx">${it.idx}</span>` : ''}${it.when || ''}</div>
             <div>
               <h3>${it.title}</h3>
@@ -108,7 +108,7 @@ ${it.meta && it.meta.length ? `              <div class="meta">${metaLine(it.met
 
 function renderPrinciples(d){
   return `<div class="principles">
-${visible(d.items).map(i => `          <article>
+${visible(d.items).map(i => `          <article class="stagger-item">
             <h3>${i.word}</h3>
             <p>${i.blurb}</p>
           </article>`).join('\n')}
@@ -203,7 +203,7 @@ ${visible(d.items).map(function(it){
       ? attr(it.poster)
       : (it.youtube ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '');
     const style = post ? ` style="background-image:url('${post}')"` : '';
-    return `      <figure class="fun-item">
+    return `      <figure class="fun-item stagger-item">
         <button class="media play" type="button" data-src="${src}" aria-label="Play: ${attr(plain(it.title || 'video'))}"${style}>
           <span class="pill">Watch</span>
           <span class="tri" aria-hidden="true"></span>
@@ -212,13 +212,13 @@ ${cap}      </figure>`;
   }
 
   if (it.kind === 'photo' && it.src){
-    return `      <figure class="fun-item">
+    return `      <figure class="fun-item stagger-item">
         <div class="media"><img src="${attr(it.src)}" alt="${attr(plain(it.title || it.caption || 'photo'))}" loading="lazy"></div>
 ${cap}      </figure>`;
   }
 
   if (it.kind === 'link' && it.href){
-    return `      <figure class="fun-item">
+    return `      <figure class="fun-item stagger-item">
         <a class="media linkcard" href="${attr(it.href)}" target="_blank" rel="noopener">
           <span class="pill">Link</span>
           <span class="lk">${it.title || it.href}</span>
@@ -227,7 +227,7 @@ ${cap}      </figure>`;
   }
 
   // nothing filled in yet
-  return `      <figure class="fun-item">
+  return `      <figure class="fun-item stagger-item">
         <div class="media slot">${it.kind === 'video' ? 'add a YouTube id in content.js' : 'add a file to assets/ and set its path in content.js'}</div>
 ${cap}      </figure>`;
 }).join('\n')}
