@@ -80,7 +80,7 @@ module.exports = {
     // `flag: true` prints the gold ◆ marker before the value.
     record: [
       { k: "Fields",     v: "Neuroscience · education · neuroaesthetics" },
-      { k: "Degree",     v: "BSc Neuroscience, UBC — 2028" },
+      { k: "Degree",     v: "BSc Cellular &amp; Molecular Neuroscience, UBC — 2028" },
       { k: "Labs",       v: "Ciernia · Moss · Si-Lab" },
       { k: "Industry",   v: "STEMCELL Technologies" },
       { k: "Fellowship", v: "Simons Foundation — SURFiN" },
@@ -325,7 +325,7 @@ module.exports = {
       {
         when:   "Sep 2024<br>— May 2028",
         school: "The University of British Columbia",
-        degree: "BSc — Neuroscience",
+        degree: "BSc — Cellular &amp; Molecular Neuroscience",
         chips: [
           "Undergraduate Program in Neuroscience",
           "Djavad Mowafaghian Centre for Brain Health",
