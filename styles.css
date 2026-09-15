@@ -512,7 +512,7 @@ main .shell > *:first-child{margin-top:0}
           mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
 }
 .mq-copy{display:contents}
-.marquee-track{display:flex;flex:none;animation:marquee 44s linear infinite}
+.marquee-track{display:flex;flex:none;animation:marquee 70s linear infinite}
 .marquee-track .chip{flex:none;margin-right:9px}
 .marquee:hover .marquee-track,
 .marquee:focus-within .marquee-track{animation-play-state:paused}
