@@ -184,7 +184,7 @@ module.exports = {
     social: [
       { logo: "gmail",    label: "Email",             href: "mailto:leojc815@gmail.com" },
       { logo: "linkedin", label: "LinkedIn",          href: "https://www.linkedin.com/in/leojchung" },
-      { logo: "globe",    label: "Neuroarts profile", href: "https://www.neuroartsresourcecenter.com/profile/leojchung" }
+      { logo: "neuroarts", label: "Neuroarts profile", href: "https://www.neuroartsresourcecenter.com/profile/leojchung" }
     ]
   },
 

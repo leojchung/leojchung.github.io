@@ -110,16 +110,25 @@ const LOGOS = {
     '<path fill="#EA4335" d="M5.5 0 12 4.9 12 9.5 5.5 4.6Z"/>' +
     '<path fill="#FBBC04" d="M18.5 0 12 4.9 12 9.5 18.5 4.6Z"/>' },
 
+  /* The NeuroArts Blueprint's own site icon — the "NA" square it serves as
+     its favicon at neuroartsblueprint.org (the Johns Hopkins / Aspen
+     Institute initiative behind the Neuroarts Resource Center). Used, like
+     LinkedIn's, only to link to Leo's profile there. An image file rather
+     than inline SVG because it is their published asset, not a redraw. */
+  neuroarts: { brand: true, src: 'assets/neuroarts-icon.png' },
+
   /* A plain globe, for a site with no mark of its own. */
   globe: { svg:
     '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.9 6h-2.5a13 13 0 0 0-1.2-3.2A8 8 0 0 1 18.9 8ZM12 4.1c.6.9 1.2 2.2 1.5 3.9h-3c.3-1.7.9-3 1.5-3.9ZM4.3 14a8.3 8.3 0 0 1 0-4h2.9a17 17 0 0 0 0 4H4.3Zm.8 2h2.5c.3 1.2.7 2.3 1.2 3.2A8 8 0 0 1 5.1 16Zm2.5-8H5.1a8 8 0 0 1 3.7-3.2A13 13 0 0 0 7.6 8ZM12 19.9c-.6-.9-1.2-2.2-1.5-3.9h3c-.3 1.7-.9 3-1.5 3.9ZM13.8 14h-3.6a15 15 0 0 1 0-4h3.6a15 15 0 0 1 0 4Zm1.4 5.2c.5-.9.9-2 1.2-3.2h2.5a8 8 0 0 1-3.7 3.2ZM16.8 14a17 17 0 0 0 0-4h2.9a8.3 8.3 0 0 1 0 4h-2.9Z"/>' }
 };
 
 /* One social button's mark: a real logo when the entry names one, else its
-   emoji. */
+   emoji. A mark with `src` is an image file in assets/; the button's
+   aria-label already names it, so the image itself is decorative. */
 const socialMark = s => {
   const l = s.logo && LOGOS[s.logo];
   if (!l) return s.icon || '';
+  if (l.src) return `<img class="mark brand" src="${attr(l.src)}" alt="" width="29" height="29">`;
   return `<svg class="mark${l.brand ? ' brand' : ''}" viewBox="${l.vb || '0 0 24 24'}" aria-hidden="true">${l.svg}</svg>`;
 };
 
