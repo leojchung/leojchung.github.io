@@ -764,15 +764,16 @@ a.card:hover .contact-value{color:var(--accent-ink)}
 .contact-value.ubc{display:block;margin-top:2px;font-size:clamp(14px,1.3vw,18px);font-weight:600;color:#002145}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .contact-value.ubc{color:#7DAEEA}}
 :root[data-theme="dark"] .contact-value.ubc{color:#7DAEEA}
-/* Both emails equally large — .big comes after .ubc so it wins the
-   font-size tie on the second (UBC) line too. */
 .contact-value.big{font-size:clamp(26px,3vw,38px);font-weight:700}
-.contact-value.ubc.big{margin-top:8px}
+/* The UBC address is longer than the personal one, so it gets its own
+   (smaller) size rather than matching .big — it wraps/overflows otherwise. */
+.contact-value.ubc.big{margin-top:8px;font-size:clamp(16px,1.7vw,22px)}
 
 /* The Get in touch blurb, bumped up from the site's usual .body size. */
 .contact-blurb{font-size:clamp(17px,1.9vw,21px);line-height:1.55;max-width:56ch}
 
 .field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+form h3 + .field{margin-top:20px}
 .fieldrow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .field span{
   font-family:var(--f-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
