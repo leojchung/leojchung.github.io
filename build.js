@@ -556,30 +556,8 @@ ${(h.buttons || []).map(b => `        <a class="pill ${b.solid ? 'blue' : 'ghost
          Its own full-width row, right under About. */
   const likes = i.likes || [];
   const cardE = likes.length
-    ? card('sp-6 like-card center', `          <p class="like-lead">I also like…</p>
+    ? card('sp-12 like-card center', `          <p class="like-lead">I also like…</p>
           <span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span>`)
-    : '';
-
-  /* T — Vancouver's current weather and local time, one big card under
-         I-also-like (Leo's request — "a lot bigger", weather + time
-         together). Everything after the labels is filled in by main.js:
-         the clock needs no network; the current conditions come from one
-         Open-Meteo request. With JavaScript off, or if the request fails,
-         each value keeps its em dash. */
-  const w = i.weather;
-  const cardT = w
-    ? card('sp-12 wx', `          <div class="wx-top">
-            <div>
-              <p class="label">${w.label || 'Weather'}</p>
-              <p class="value"><span class="wx-icon" aria-hidden="true"></span><span id="wx-temp">—</span></p>
-              <p class="wx-cond" id="wx-cond" data-lat="${attr(w.lat)}" data-lon="${attr(w.lon)}"></p>
-            </div>
-            <div class="wx-time">
-              <p class="label">Local time</p>
-              <p class="value" id="wx-clock">—</p>
-              <p class="wx-cond" id="wx-date"></p>
-            </div>
-          </div>`)
     : '';
 
   /* F — the record. Moved up (Leo's request) to sit beside About instead of
@@ -591,7 +569,7 @@ ${(h.record || []).map(r => `            <li><span class="k">${r.k}</span><span 
 
   const bentoSection = `    <section class="reveal" aria-label="More about me">
       <div class="bento">
-${[cardB, cardC, cardF, cardD, cardE, cardT].filter(Boolean).join('\n')}
+${[cardB, cardC, cardF, cardD, cardE].filter(Boolean).join('\n')}
       </div>
     </section>`;
 
