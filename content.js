@@ -140,7 +140,7 @@ module.exports = {
      formal record of what he's worked on lives on projects.html; the CV
      file has everything else. */
   intro: {
-    greeting: "Hi, I'm Leo!",
+    greeting: "Hi, I'm Leo! 👋",
     location: "📍 Vancouver, BC",
 
     // Answers the "What drives me" card on the Home bento, set as a bold

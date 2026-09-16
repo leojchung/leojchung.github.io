@@ -408,10 +408,11 @@ main .shell > *:first-child{margin-top:0}
 
 .splash{
   display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
-  gap:6px;min-height:100svh;max-width:560px;margin:0 auto;padding:32px var(--pad);
+  gap:6px;min-height:100svh;max-width:560px;margin:0 auto;padding:32px var(--pad) 120px;
 }
 .splash .body{margin-top:8px}
-.splash .pill-row,.splash .social-row{justify-content:center}
+.splash .pill-row{justify-content:center;margin-top:36px}
+.splash .social-row{justify-content:center}
 .splash .credential{align-self:center}
 
 .hero-name{
