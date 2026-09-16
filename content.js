@@ -789,6 +789,7 @@ module.exports = {
   ask: {
     eyebrow: "Ask",
     title: "Ask it <em>anything.</em>",
+    hint:  "Type a question and it jumps you to the right part of the site — research, teaching, fun, contact, and more.",
     placeholder: "e.g. “show me your research” or “how do I email you”"
   },
 
