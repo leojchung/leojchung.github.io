@@ -496,7 +496,7 @@ main .shell > *:first-child{margin-top:0}
 .wx-top{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 .wx-top .label{font-size:14px}
 .wx-time{text-align:right}
-.wx .value{display:flex;align-items:center;gap:10px;font-size:clamp(32px,4vw,46px)}
+.wx .value{display:flex;align-items:center;gap:10px;font-size:clamp(30px,3.7vw,42px)}
 .wx-time .value{justify-content:flex-end}
 .wx-icon{font-size:.85em;line-height:1}
 .wx-cond{margin:10px 0 0;font-size:16px;color:var(--ink-2);line-height:1.5;min-height:1.5em}
