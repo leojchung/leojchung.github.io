@@ -459,7 +459,7 @@ ${h.cite ? `      <p class="hero-cite">— <cite>${h.cite}</cite></p>\n` : ''}  
     : '';
 
   const portrait = C.meta.portrait
-    ? `\n      <span class="portrait-wrap"><img class="hero-portrait" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="230" height="230"><span class="status-dot" aria-hidden="true"></span></span>`
+    ? `\n      <img class="hero-portrait" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="230" height="230">`
     : '';
 
   const socialRow = (i.social && i.social.length) ? `\n      <div class="social-row">

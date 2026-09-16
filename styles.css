@@ -436,15 +436,8 @@ main .shell > *:first-child{margin-top:0}
   background:var(--logo-plate);padding:var(--logo-pad);border-radius:9px;
 }
 
-/* The portrait — circular, the one non-rectangle on a page of rounded
-   rectangles. .portrait-wrap positions the green "here" dot over its
-   corner, the way Kellie Ho's avatar shows an online-status dot. */
-.portrait-wrap{position:relative;display:inline-block}
-.hero-portrait{width:min(200px,58%);aspect-ratio:1;object-fit:cover;border-radius:50%;display:block}
-.status-dot{
-  position:absolute;right:6%;bottom:6%;width:15%;height:15%;min-width:14px;min-height:14px;
-  border-radius:50%;background:var(--live);box-shadow:0 0 0 3px var(--page);
-}
+/* The portrait — a plain rounded square, centered above the name. */
+.hero-portrait{width:min(200px,58%);aspect-ratio:1;object-fit:cover;border-radius:var(--r-sm);display:block;margin:0 auto}
 
 /* "Based in" card — a row of pins with the marked one in the middle, as in
    Kellie Ho's reference. Pure decoration (aria-hidden): the card states the
