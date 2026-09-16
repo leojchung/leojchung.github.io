@@ -779,6 +779,19 @@ module.exports = {
     ]
   },
 
+  /* ─────────────────────────────── § ASK ──────────────────────────────── */
+  /* Its own page/tab, deliberately minimal — a headline and a single input,
+     nothing else. Typing a question and hitting Enter runs a client-side
+     keyword match (no API, no server — see the map in main.js) and jumps
+     straight to the matching section elsewhere on the site. `targets`
+     defines the destinations that map matches against; edit the keyword
+     lists there, not here, to change what a phrase matches. */
+  ask: {
+    eyebrow: "Ask",
+    title: "Ask it <em>anything.</em>",
+    placeholder: "e.g. “show me your research” or “how do I email you”"
+  },
+
   /* ─────────────────────────── § CONTACT ─────────────────────────────── */
   contact: {
     eyebrow: "Let's talk",
@@ -853,7 +866,10 @@ module.exports = {
       sections: ["fun"] },
     { key: "contact",  file: "contact.html",  navLabel: "Contact",  icon: "mail",
       description: "Get in touch with Leo J. Chung — looking for a co-op or internship for January 2027 in biotech, pharma, or the life sciences.",
-      sections: ["contact"] }
+      sections: ["contact"] },
+    { key: "ask",      file: "ask.html",      navLabel: "Ask",      icon: "search",
+      description: "Ask a question and jump straight to the right part of Leo J. Chung's site.",
+      sections: ["ask"] }
 
     /* ADDING A NEW SECTION TO AN EXISTING PAGE
        ───────────────────────────────────────────────────────────────────

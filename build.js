@@ -98,7 +98,8 @@ const ICONS = {
   home:   '<path d="M12 3.1 2.5 11.2h2.4v8.2c0 .6.5 1.1 1.1 1.1h3.6v-5.9h4.8v5.9H18c.6 0 1.1-.5 1.1-1.1v-8.2h2.4L12 3.1Z"/>',
   folder: '<path d="M3 6.7C3 5.8 3.8 5 4.7 5h3.9c.5 0 1 .2 1.3.6l1.1 1.3c.2.3.5.4.8.4h6.5c.9 0 1.7.8 1.7 1.7v9.3c0 .9-.8 1.7-1.7 1.7H4.7C3.8 20 3 19.2 3 18.3V6.7Z"/>',
   spark:  '<path d="M11.4 2.3a.6.6 0 0 1 1.2 0l1.5 4.1c.1.2.2.3.4.4l4.1 1.5a.6.6 0 0 1 0 1.1l-4.1 1.5c-.2.1-.3.2-.4.4l-1.5 4.1a.6.6 0 0 1-1.2 0L9.9 11.3c-.1-.2-.2-.3-.4-.4L5.4 9.4a.6.6 0 0 1 0-1.1l4.1-1.5c.2-.1.3-.2.4-.4l1.5-4.1Z"/><path d="M18 15.2a.4.4 0 0 1 .8 0l.7 1.9 1.9.7a.4.4 0 0 1 0 .8l-1.9.7-.7 1.9a.4.4 0 0 1-.8 0l-.7-1.9-1.9-.7a.4.4 0 0 1 0-.8l1.9-.7.7-1.9Z"/>',
-  mail:   '<path d="M3 7.6c0-1.2 1-2.2 2.2-2.2h13.6c1.2 0 2.2 1 2.2 2.2v.5l-9 5.3-9-5.3V7.6Z"/><path d="M3 10.4l8.5 5c.3.2.7.2 1 0l8.5-5v6c0 1.2-1 2.2-2.2 2.2H5.2C4 18.6 3 17.6 3 16.4v-6Z"/>'
+  mail:   '<path d="M3 7.6c0-1.2 1-2.2 2.2-2.2h13.6c1.2 0 2.2 1 2.2 2.2v.5l-9 5.3-9-5.3V7.6Z"/><path d="M3 10.4l8.5 5c.3.2.7.2 1 0l8.5-5v6c0 1.2-1 2.2-2.2 2.2H5.2C4 18.6 3 17.6 3 16.4v-6Z"/>',
+  search: '<path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14Zm0-2a9 9 0 1 1 0 18 9 9 0 0 1 0-18Z"/><path d="M16.2 16.2a1 1 0 0 1 1.4 0l4.1 4.1a1 1 0 0 1-1.4 1.4l-4.1-4.1a1 1 0 0 1 0-1.4Z"/>'
 };
 
 /* ── social marks ──────────────────────────────────────────────────────────
@@ -301,6 +302,19 @@ ${visible(d.items).map(i => `            <li>${i.href
       </div>`;
 }
 
+/* Ask — a headline and one input, nothing else. main.js owns the keyword
+   map and the navigate-on-submit behaviour; this just renders the field. */
+function renderAsk(d){
+  return `      <div class="ask-bar" id="ask-bar" role="search">
+        <input id="ask-input" type="text" placeholder="${attr(d.placeholder || 'Ask a question…')}"
+               autocomplete="off" aria-label="Ask a question about this site">
+        <button type="button" id="ask-submit" aria-label="Ask">
+          <svg viewBox="0 0 24 24" aria-hidden="true">${ICONS.search}</svg>
+        </button>
+      </div>
+      <p class="ask-result" id="ask-result" role="status" aria-live="polite"></p>`;
+}
+
 /* Fun / In the lab. Videos are click-to-play: the tile is a button showing a
    poster, and main.js swaps in the iframe on click, so nothing is requested
    from YouTube for a visitor who only scrolls past. Do not "simplify" this
@@ -356,7 +370,8 @@ const RENDERERS = {
   press:      renderRail,
   reading:    renderList,
   fun:        renderMedia,
-  lab:        renderMedia
+  lab:        renderMedia,
+  ask:        renderAsk
   // contact is handled separately — see renderContact below.
 };
 

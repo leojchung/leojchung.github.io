@@ -6,15 +6,15 @@
 <script>(function(){try{var t=localStorage.getItem('ljc-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0B0B0C" media="(prefers-color-scheme: dark)">
-<title>Fun — Leo J. Chung</title>
-<meta name="description" content="Photos and clips of Leo J. Chung off the clock — biking, chess, the Lakers, the Rams, and Vancouver food.">
+<title>Ask — Leo J. Chung</title>
+<meta name="description" content="Ask a question and jump straight to the right part of Leo J. Chung's site.">
 <meta name="author" content="Leo J. Chung">
-<link rel="canonical" href="https://leojchung.github.io/fun.html">
+<link rel="canonical" href="https://leojchung.github.io/ask.html">
 
 <meta property="og:type" content="profile">
-<meta property="og:title" content="Fun — Leo J. Chung">
-<meta property="og:description" content="Photos and clips of Leo J. Chung off the clock — biking, chess, the Lakers, the Rams, and Vancouver food.">
-<meta property="og:url" content="https://leojchung.github.io/fun.html">
+<meta property="og:title" content="Ask — Leo J. Chung">
+<meta property="og:description" content="Ask a question and jump straight to the right part of Leo J. Chung's site.">
+<meta property="og:url" content="https://leojchung.github.io/ask.html">
 <meta name="twitter:card" content="summary">
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -78,55 +78,21 @@
 <main id="main">
   <div class="shell">
 
-    <section class="section reveal" aria-labelledby="fun-h">
+    <section class="section reveal" aria-labelledby="ask-h">
       <div class="sec-head">
         <div class="sec-head-text">
-          <span class="eyebrow">Off the clock</span>
-          <h2 id="fun-h">Not the <em>lab</em></h2>
-          <p class="sec-hint">Photos are mine. Everything else links out to the real thing.</p>
+          <span class="eyebrow">Ask</span>
+          <h2 id="ask-h">Ask it <em>anything.</em></h2>
         </div>
       </div>
-      <div class="fun-grid">
-        <figure class="tile stagger-item">
-          <a class="media linkcard wide" href="https://www.nba.com/lakers" target="_blank" rel="noopener">
-            <span class="badge">Link</span>
-            <span class="lk">The Lakers</span>
-          </a>
-          <figcaption><span class="ft">The Lakers</span><span class="fc">Been watching since before I could drive.</span></figcaption>        </figure>
-        <figure class="tile stagger-item">
-          <div class="media tall"><img src="assets/placeholder.svg" alt="PLACEHOLDER — On a bike" loading="lazy"></div>
-          <figcaption><span class="ft">PLACEHOLDER — On a bike</span><span class="fc">PLACEHOLDER — a route worth the climb.</span></figcaption>        </figure>
-        <figure class="tile stagger-item">
-          <a class="media linkcard square" href="https://www.chess.com" target="_blank" rel="noopener">
-            <span class="badge">Link</span>
-            <span class="lk">Chess</span>
-          </a>
-          <figcaption><span class="ft">Chess</span><span class="fc">Currently tilting on bullet at 2am.</span></figcaption>        </figure>
-        <figure class="tile stagger-item">
-          <div class="media square"><img src="assets/placeholder.svg" alt="PLACEHOLDER — Texas BBQ" loading="lazy"></div>
-          <figcaption><span class="ft">PLACEHOLDER — Texas BBQ</span><span class="fc">PLACEHOLDER — brisket, done right.</span></figcaption>        </figure>
-        <figure class="tile stagger-item">
-          <a class="media linkcard tall" href="https://www.therams.com" target="_blank" rel="noopener">
-            <span class="badge">Link</span>
-            <span class="lk">The Rams</span>
-          </a>
-          <figcaption><span class="ft">The Rams</span><span class="fc">LA's other team I will not shut up about.</span></figcaption>        </figure>
-        <figure class="tile stagger-item">
-          <a class="media linkcard wide" href="https://en.wikipedia.org/wiki/Microglia" target="_blank" rel="noopener">
-            <span class="badge">Link</span>
-            <span class="lk">Microglia</span>
-          </a>
-          <figcaption><span class="ft">Microglia</span><span class="fc">Yes, the brain's resident immune cells made the fun page. Occupational hazard.</span></figcaption>        </figure>
-        <figure class="tile stagger-item">
-          <div class="media wide"><img src="assets/placeholder.svg" alt="PLACEHOLDER — On repeat" loading="lazy"></div>
-          <figcaption><span class="ft">PLACEHOLDER — On repeat</span><span class="fc">PLACEHOLDER — whatever's spinning, no matter how old.</span></figcaption>        </figure>
-        <figure class="tile stagger-item">
-          <a class="media linkcard square" href="https://www.starwars.com" target="_blank" rel="noopener">
-            <span class="badge">Link</span>
-            <span class="lk">Star Wars</span>
-          </a>
-          <figcaption><span class="ft">Star Wars</span><span class="fc">Watched in machine order more times than I'll admit.</span></figcaption>        </figure>
+      <div class="ask-bar" id="ask-bar" role="search">
+        <input id="ask-input" type="text" placeholder="e.g. “show me your research” or “how do I email you”"
+               autocomplete="off" aria-label="Ask a question about this site">
+        <button type="button" id="ask-submit" aria-label="Ask">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14Zm0-2a9 9 0 1 1 0 18 9 9 0 0 1 0-18Z"/><path d="M16.2 16.2a1 1 0 0 1 1.4 0l4.1 4.1a1 1 0 0 1-1.4 1.4l-4.1-4.1a1 1 0 0 1 0-1.4Z"/></svg>
+        </button>
       </div>
+      <p class="ask-result" id="ask-result" role="status" aria-live="polite"></p>
     </section>
 
   </div>
@@ -181,7 +147,7 @@
     <span class="sr-only">My Works</span>
     <span class="tip" aria-hidden="true">My Works</span>
   </a>
-  <a class="dock-btn active" href="fun.html" aria-current="page">
+  <a class="dock-btn" href="fun.html">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.4 2.3a.6.6 0 0 1 1.2 0l1.5 4.1c.1.2.2.3.4.4l4.1 1.5a.6.6 0 0 1 0 1.1l-4.1 1.5c-.2.1-.3.2-.4.4l-1.5 4.1a.6.6 0 0 1-1.2 0L9.9 11.3c-.1-.2-.2-.3-.4-.4L5.4 9.4a.6.6 0 0 1 0-1.1l4.1-1.5c.2-.1.3-.2.4-.4l1.5-4.1Z"/><path d="M18 15.2a.4.4 0 0 1 .8 0l.7 1.9 1.9.7a.4.4 0 0 1 0 .8l-1.9.7-.7 1.9a.4.4 0 0 1-.8 0l-.7-1.9-1.9-.7a.4.4 0 0 1 0-.8l1.9-.7.7-1.9Z"/></svg>
     <span class="sr-only">Fun</span>
     <span class="tip" aria-hidden="true">Fun</span>
@@ -191,7 +157,7 @@
     <span class="sr-only">Contact</span>
     <span class="tip" aria-hidden="true">Contact</span>
   </a>
-  <a class="dock-btn" href="ask.html">
+  <a class="dock-btn active" href="ask.html" aria-current="page">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14Zm0-2a9 9 0 1 1 0 18 9 9 0 0 1 0-18Z"/><path d="M16.2 16.2a1 1 0 0 1 1.4 0l4.1 4.1a1 1 0 0 1-1.4 1.4l-4.1-4.1a1 1 0 0 1 0-1.4Z"/></svg>
     <span class="sr-only">Ask</span>
     <span class="tip" aria-hidden="true">Ask</span>

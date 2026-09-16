@@ -629,6 +629,36 @@ main .shell > *:first-child{margin-top:0}
 .linklist a::after{content:" ↗";opacity:.5;font-size:.85em}
 
 
+/* ══════════════════ ASK BAR — the Ask page ══════════════════
+   One pill, one input, one icon button — no card fill, matching the bare
+   quote/splash treatment on Home rather than the card system elsewhere. */
+.ask-bar{
+  display:flex;align-items:center;gap:8px;
+  max-width:640px;margin:8px 0 0;padding:8px 8px 8px 24px;
+  background:var(--card);border-radius:999px;
+}
+.ask-bar input{
+  flex:1;min-width:0;border:0;background:transparent;color:var(--ink);
+  font:inherit;font-size:16px;padding:12px 0;outline:none;
+}
+.ask-bar input::placeholder{color:var(--ink-2)}
+.ask-bar button{
+  flex:none;width:44px;height:44px;display:grid;place-items:center;
+  border:0;border-radius:50%;background:var(--accent);color:#fff;cursor:pointer;
+  transition:filter .15s;
+}
+.ask-bar button:hover{filter:brightness(1.08)}
+.ask-bar button svg{width:19px;height:19px;fill:currentColor}
+.ask-bar input:focus-visible,.ask-bar button:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+
+.ask-result{
+  max-width:640px;margin:16px 0 0;min-height:1.6em;text-align:left;
+  font-size:13.5px;color:var(--ink-2);opacity:0;transition:opacity .25s;
+}
+.ask-result.show{opacity:1}
+.ask-result b{color:var(--accent-ink);font-weight:700}
+
+
 /* ══════════════════ MEDIA TILES — Fun, In the lab ══════════════════
    Videos are click-to-play: the tile is a button showing a poster, and the
    YouTube iframe is only inserted once someone clicks. Nothing is

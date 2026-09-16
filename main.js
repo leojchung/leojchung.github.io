@@ -244,4 +244,56 @@
       }, 2200);
     }
   }
+
+  /* ── the Ask bar ──────────────────────────────────────────────────────────
+     No API, no server: a small keyword map per destination, scored against
+     whatever was typed. Best match wins and the browser navigates there
+     (a plain link — a section on another page, or this one's own anchor);
+     nothing close enough gets an honest "try rephrasing" instead of a wrong
+     guess. Edit TARGETS below to add a destination or its keywords. */
+  var askInput = document.getElementById('ask-input');
+  if (askInput) {
+    var askSubmit = document.getElementById('ask-submit');
+    var askResult = document.getElementById('ask-result');
+
+    var TARGETS = [
+      { href: 'index.html',              keys: ['home', 'about you', 'who are you', 'intro', 'yourself'] },
+      { href: 'projects.html#research-h', keys: ['research', 'lab work', 'neuroscience', 'ciernia', 'microglia', 'brain', 'autism', 'gut', 'science', 'baf', 'mice', 'studies'] },
+      { href: 'projects.html#teaching-h', keys: ['teach', 'teaching', 'class', 'course', 'astu', 'neuroaesthetics', 'education', 'instructor', 'mentor', 'tutor', 'adjudicate'] },
+      { href: 'projects.html#lab-h',      keys: ['photos', 'lab photo', 'candid', 'in the lab', 'pictures'] },
+      { href: 'projects.html#press-h',    keys: ['press', 'featured', 'write-up', 'article', 'news', 'media coverage'] },
+      { href: 'fun.html#fun-h',           keys: ['fun', 'hobbies', 'hobby', 'chess', 'lakers', 'rams', 'bike', 'biking', 'music', 'star wars', 'bbq', 'off the clock'] },
+      { href: 'contact.html#contact-h',   keys: ['contact', 'email', 'reach', 'message', 'phone', 'linkedin', 'talk', 'hire', 'get in touch'] },
+      { href: 'cv.pdf',                   keys: ['cv', 'resume', 'curriculum vitae'] }
+    ];
+
+    function runAsk() {
+      var text = (askInput.value || '').trim();
+      if (!text) return;
+      var lower = text.toLowerCase();
+      var words = lower.replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(Boolean);
+
+      var best = null, bestScore = 0;
+      TARGETS.forEach(function (t) {
+        var score = 0;
+        t.keys.forEach(function (k) {
+          if (lower.indexOf(k) !== -1) score += k.split(' ').length + 1;
+          if (words.indexOf(k) !== -1) score += 1;
+        });
+        if (score > bestScore) { bestScore = score; best = t; }
+      });
+
+      askResult.classList.remove('show');
+      if (best) {
+        askResult.innerHTML = 'Taking you there<b> → ' + best.href.split('#')[0] + '</b>';
+        setTimeout(function () { window.location.href = best.href; }, 450);
+      } else {
+        askResult.textContent = 'Not sure about that one — try asking about research, teaching, fun, or contact.';
+      }
+      requestAnimationFrame(function () { askResult.classList.add('show'); });
+    }
+
+    askSubmit.addEventListener('click', runAsk);
+    askInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') runAsk(); });
+  }
 })();
