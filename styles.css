@@ -588,9 +588,10 @@ img.mark{object-fit:contain}
    mixed logos is actually set — every mark gets the same optical presence
    and runs as wide as its own proportions need.
 
-   max-width catches the extreme case: at a matched height STEMCELL's
-   wordmark would run 213px and dominate the card, so it is capped and
-   gives back a little height instead. */
+   Every mark fills the slot's full height, STEMCELL included — Leo wants
+   the same top and bottom margin on all three, so nothing is width-capped
+   except by the card itself (max-width:100%, which only bites on a phone
+   narrow enough that STEMCELL's wordmark would otherwise overflow). */
 /* The plate — its fill, padding and rounded corners — belongs on the SLOT,
    never on the <img>. A radius set on the image clips the artwork itself,
    and because the slot hugs each mark's exact proportions the mark touches
@@ -598,10 +599,9 @@ img.mark{object-fit:contain}
    the UBC crest here. With the plate on the slot the image carries no
    radius at all and cannot be clipped, whatever shape it is.
 
-   The slot is 50px rather than 46px so the 5px inset still leaves the same
-   40px of mark as before — the plate grew, the logos did not shrink. */
+   The slot is 62px, so with the 5px inset each mark is 52px tall. */
 .now-logo{
-  height:50px;width:fit-content;max-width:100%;
+  height:62px;width:fit-content;max-width:100%;
   margin:0 0 18px;padding:var(--logo-pad);
   background:var(--logo-plate);border-radius:10px;
   display:flex;align-items:center;justify-content:flex-start;
@@ -609,7 +609,7 @@ img.mark{object-fit:contain}
 /* A card with no mark keeps the slot's height, so headings still line up
    across the row — but must not paint an empty plate in dark mode. */
 .now-logo:empty{padding:0;background:none}
-.now-logo img{display:block;height:100%;width:auto;max-width:170px;object-fit:contain}
+.now-logo img{display:block;height:100%;width:auto;max-width:100%;object-fit:contain}
 .now-role{margin:0;font-size:19px;font-weight:700;line-height:1.28;letter-spacing:-.018em}
 .now-org{margin:7px 0 0;font-size:14px;color:var(--ink-2);line-height:1.5}
 .now-since{
