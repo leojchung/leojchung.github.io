@@ -12,6 +12,68 @@ dependencies, served from the repo root by GitHub Pages.
 **The repo is public and the site is live at <https://leojchung.github.io/>.**
 Anything committed here is world-readable the moment it is pushed.
 
+## Starting a session
+
+1. `git pull` first. Leo works across a Mac and a Windows PC, and other
+   sessions push to `main`. If a pull ever leaves conflict markers in files,
+   back the working tree up, reset to `origin/main`, and re-apply your edits
+   by hand — don't try to merge generated HTML.
+2. Read this file end to end, including **Where things stand** at the bottom.
+3. `node build.js && node check.js` — it should pass and leave `git status`
+   clean. If the build changes committed files, something is out of sync.
+4. Start the preview (`python -m http.server 8000`) and tell Leo you're
+   oriented. Then wait for his first change.
+
+## Working with Leo
+
+- **He directs the design; you make the implementation calls.** He is not a
+  web developer. Explain trade-offs in terms of what a visitor *sees*, not in
+  terms of CSS. The site mirrors **kellieho.framer.ai** with his tweaks on
+  top — if a change would move it away from that reference, say so. You can
+  screenshot her live site instead of guessing.
+- **One or two changes at a time.** Make what he asked, rebuild, verify,
+  stop. Don't bundle adjacent improvements or redesign around a small note.
+  He often sends follow-ups mid-task; fold them in.
+- **Flag, don't silently fix** — especially facts, attribution, and brand or
+  trademark use. Give him the problem and the options; he answers fast and
+  often says "do it anyway", which is fine.
+- **Verify by machine and by screenshot, and say plainly which is which.**
+  He is fine with honest gaps and not fine with unearned "looks great".
+  Check desktop *and* 390px, light *and* dark.
+- **Never invent a URL, headline or fact.** Look it up and check the link
+  resolves before it goes on the page.
+- **Pushing to `main` deploys the live site.** Ask first, unless Leo has
+  said to go ahead for that session.
+
+## Environment and tooling traps
+
+- **Windows PC: Node is not on PATH.** Prefix node commands with
+  `export PATH="$PATH:/c/Users/lchung/AppData/Local/Programs/node-portable/node-v24.21.0-win-x64"`.
+  Don't conclude Node is missing, and don't use `winget` (its index is
+  broken). The repo is at `C:\Users\lchung\code\leojchung.github.io`.
+- **Windows uses `python`, not `python3`.** There is no `gh` CLI — read CI
+  status from the GitHub REST API with curl
+  (`/repos/leojchung/leojchung.github.io/actions/runs`).
+- **In the Bash tool, heredocs halve backslashes.** A `\b` written into a
+  Python heredoc once landed in `build.js` as a literal backspace character.
+  Make any edit containing a backslash escape with the Edit tool instead.
+- **Line endings are pinned to LF** by `.gitattributes`, and `build.js`
+  hashes normalized CSS text for the `?v=` query string. Before this, the
+  same `styles.css` hashed differently on Windows and Linux and CI failed on
+  untouched files. Don't undo either half.
+- **Seeing the page:** Claude-in-Chrome is blocked on the PC; headless Edge
+  works. Run it from PowerShell with `Start-Process -Wait -NoNewWindow`
+  (Bash mangles the paths). It won't lay out under ~500px wide, so shoot
+  390px by loading the page inside a 390px `<iframe>`. Make a scratch copy of
+  the built HTML with `<base href="http://localhost:8000/">`, a `data-theme`
+  stamp, and `.reveal,.stagger-item{opacity:1!important;transform:none!important}`
+  or cards are caught mid-fade. Work in a short path like
+  `C:\Users\lchung\AppData\Local\Temp\vanmap` — the default scratch path
+  exceeds Windows MAX_PATH for Python.
+- **Windows has no flag emoji** — it renders 🇨🇦 as the letters "CA". That is
+  why `flagify()` in `build.js` swaps in an inline SVG. Keep writing the
+  emoji in `content.js`.
+
 ## The one rule that matters
 
 **`index.html`, `projects.html`, `fun.html`, `contact.html`, `ask.html`,
@@ -237,3 +299,37 @@ looks right at 390px. Open the page for that.
   change, and include the regenerated HTML in the same commit — otherwise CI
   goes red on the next push.
 - `main` is the deploy branch; Pages serves it directly. Ask before pushing.
+- CI only runs on the pushed head commit, so when splitting work into
+  several commits, rebuild before each one so every commit is self-consistent.
+
+## Where things stand
+
+*Last updated 16 September 2026. Everything below is pushed and live.*
+
+**Recently done:** real Gmail/Instagram/Chess.com logo files in the social
+row (keyed out of the non-transparent originals Leo supplied); Right Now
+logos all the same 52px height; UBC crest clipping fixed; inline-SVG Canadian
+flag; every outbound link opens in a new tab; About and Principles rewritten
+in Leo's words; reading list filled with real current articles; build made
+reproducible across Mac and Windows; repo docs consolidated into this file
+and `README.md`.
+
+**Still open** — none of these are blockers:
+
+- **`cv.html` and `cv.pdf` lag `content.js`.** Run `node build-cv.js`, check
+  the diff with Leo, then print `cv.html` to PDF over `cv.pdf`. Ask him which
+  is the source of truth first — the real CV may hold things `content.js`
+  doesn't.
+- **The reading list dates quickly.** The articles are from early September
+  2026; refresh them, or drop `reading` from Home's sections, by about
+  mid-October.
+- **The JHU logo is the stacked lockup.** A horizontal version would read
+  better. Dropping one in as `assets/jhu-logo.png` needs no code change.
+- **The ASTU 400E syllabus isn't linked.** There is a commented-out `links:`
+  line in the Teaching entry waiting for `assets/astu400e-syllabus.pdf`.
+- **Fun and "In the lab" photo tiles are placeholders** — deliberate, see
+  above.
+- **`404.html` is hand-maintained and outside `check.js`.** Its `<em>` is a
+  deliberate violet italic, unlike the rest of the site.
+- **Si-Lab (T-02) wording** still needs Dr. Skoretz's sign-off before it
+  changes.
