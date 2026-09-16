@@ -79,7 +79,7 @@ module.exports = {
        claim structurally. This is that move: state the multi-identity first,
        so the site reads as scientist AND educator AND everything else, rather
        than a CV with hobbies appended. Set to null to remove the line. */
-    identity: ["Scientist", "Educator", "Art, music &amp; sport"],
+    identity: null,
 
     /* The hero headline. <em>…</em> is the GREY half of the sentence — not
        italic. Split it at a clause break, not mid-phrase. */
@@ -102,8 +102,10 @@ module.exports = {
        Machinery and Intelligence" (1950) and cite the paper. Set this to
        null to drop the credit line entirely — but then drop the quotation
        marks too, and don't imply the words are yours. */
-    // Credited to the film alone, at Leo's request. It still must not say Turing.
-    cite: "<em>The Imitation Game</em> (2014)",
+    // Credited to Turing and the film, at Leo's explicit request (Sep 2026) —
+    // overriding the misattribution warning above. He was told the line is
+    // not Turing's; he wants it credited to him anyway.
+    cite: "Alan Turing, <em>The Imitation Game</em> (2014)",
 
     // <b>…</b> gets a soft maroon highlight. Three or four maximum.
     standfirst:
@@ -114,8 +116,8 @@ module.exports = {
       "<b>STEMCELL Technologies</b> and with the <b>Moss Lab</b> at Johns Hopkins.",
 
     buttons: [
-      { label: "See my projects",  href: "projects.html", solid: true },
-      { label: "Curriculum vitae", href: "cv.pdf",         solid: false }
+      { label: "My Work",          href: "projects.html", solid: true },
+      { label: "Curriculum Vitae", href: "cv.pdf",         solid: false }
     ],
 
     // The monospaced record block. Add or remove rows freely.
