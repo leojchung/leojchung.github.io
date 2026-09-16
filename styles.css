@@ -558,16 +558,23 @@ img.mark{object-fit:contain}
 .now-tag::before{
   content:"";width:7px;height:7px;border-radius:50%;background:var(--live);flex:none;
 }
-/* An organization's mark at the top of a card. The slot has a fixed height
-   whether or not a logo is in it, so the text lines up across the row. */
-/* A fixed square plate, not a height-only box — same fix as .uni-logo:
-   height-only sizing left object-fit:contain with nothing to fit against,
-   so a tall crest like UBC's could read as cropped. Square + contain means
-   every org's mark sits fully visible and centered, whatever its own
-   aspect ratio (a wide wordmark included — it just letterboxes). */
-.now-logo{width:46px;height:46px;margin:0 0 18px;display:flex;align-items:center;justify-content:center}
+/* An organization's mark at the top of a card. The slot has a fixed HEIGHT
+   whether or not a logo is in it, so the text lines up across the row.
+
+   Height, not a square box. These marks are wildly different shapes — UBC's
+   crest is taller than it is wide (0.74:1), Johns Hopkins' is 2.1:1, and
+   STEMCELL's wordmark is 4.6:1. Fitting each into a 46px SQUARE meant the
+   wide ones letterboxed into a strip: STEMCELL came out 10px tall against
+   UBC's 46px, so it read as a mistake. Matching on height is how a row of
+   mixed logos is actually set — every mark gets the same optical presence
+   and runs as wide as its own proportions need.
+
+   max-width catches the extreme case: at a matched height STEMCELL's
+   wordmark would run 213px and dominate the card, so it is capped and
+   gives back a little height instead. */
+.now-logo{height:46px;margin:0 0 18px;display:flex;align-items:center;justify-content:flex-start}
 .now-logo img{
-  display:block;width:100%;height:100%;object-fit:contain;
+  display:block;height:100%;width:auto;max-width:170px;object-fit:contain;
   background:var(--logo-plate);padding:var(--logo-pad);border-radius:10px;
 }
 .now-role{margin:0;font-size:19px;font-weight:700;line-height:1.28;letter-spacing:-.018em}
