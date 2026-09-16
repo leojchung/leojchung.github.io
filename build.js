@@ -367,7 +367,7 @@ function renderContact(d){
   const rest    = links.slice(1);
 
   const primaryCard = primary
-    ? card('sp-5 center', `          <p class="label">${primary.k}</p>
+    ? card('sp-4 center', `          <p class="label">${primary.k}</p>
           ${primary.href ? `<a class="contact-value big" href="${attr(primary.href)}">${primary.label}</a>` : `<p class="contact-value big">${primary.label}</p>`}${primary.sub ? `\n          <a class="contact-value ubc big" href="${attr(primary.sub.href)}">${primary.sub.label}</a>` : ''}`)
     : '';
 
@@ -385,7 +385,7 @@ function renderContact(d){
 
   return `    <section class="section reveal" aria-labelledby="contact-h">
       <div class="bento">
-${card('sp-7', `          <span class="eyebrow">${d.eyebrow || 'contact'}</span>
+${card('sp-8', `          <span class="eyebrow">${d.eyebrow || 'contact'}</span>
           <h2 class="display" id="contact-h">${d.title}</h2>
           <p class="body contact-blurb">${d.blurb}</p>`)}
 ${primaryCard}
