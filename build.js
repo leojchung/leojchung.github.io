@@ -66,6 +66,34 @@ const plain = s => String(s == null ? '' : s)
 // cards set them inline, so flatten it.
 const flat = s => String(s == null ? '' : s).replace(/<br\s*\/?>/gi, ' ');
 
+/* The Canadian flag, drawn inline.
+
+   Windows ships no flag emoji — every browser on it renders 🇨🇦 as the bare
+   letters "CA", which is what the Based in card and the Contact location
+   card were showing to a large share of visitors. Emoji are a font problem,
+   so the only fix that holds on every platform is to stop using one and
+   draw the flag ourselves.
+
+   The leaf is a symmetric polygon: one half is written out and mirrored, so
+   it cannot drift out of true. Red is #FF0000 — the flag's own colour, not
+   a token, because this is a national flag and not part of the site's
+   palette. Write 🇨🇦 in content.js as usual; flagify() swaps it in. */
+const FLAG_CA =
+  '<svg class="flag" viewBox="0 0 64 32" role="img" aria-label="Canada">' +
+  '<rect width="64" height="32" fill="#fff"/>' +
+  '<rect width="16" height="32" fill="#FF0000"/>' +
+  '<rect x="48" width="16" height="32" fill="#FF0000"/>' +
+  '<polygon fill="#FF0000" points="32.00,3.50 33.37,9.00 36.20,8.00 35.36,12.25 ' +
+  '41.24,14.50 39.56,16.75 39.98,19.50 35.78,19.00 34.94,22.50 33.16,21.75 ' +
+  '33.16,28.00 30.84,28.00 30.84,21.75 29.06,22.50 28.22,19.00 24.02,19.50 ' +
+  '24.44,16.75 22.76,14.50 28.64,12.25 27.80,8.00 30.64,9.00 32.00,3.50"/></svg>';
+
+// Only ever substitutes in text between tags, never inside an attribute or a
+// <script> — dropping SVG markup into either would break the page.
+const flagify = html => html.replace(/>([^<]*)</g, (m, text) =>
+  text.indexOf('\u{1F1E8}\u{1F1E6}') === -1 ? m
+    : '>' + text.split('\u{1F1E8}\u{1F1E6}').join(FLAG_CA) + '<');
+
 // Clicking an email link opens Gmail's web compose with the address already
 // in "To", rather than whatever mail app the visitor's OS happens to hand
 // mailto: to. Runs before externalizeLinks so the resulting mail.google.com
@@ -780,7 +808,9 @@ ${renderDock(page.file)}
 /* ── write every page ─────────────────────────────────────────────────────── */
 
 C.pages.forEach(page => {
-  const html = externalizeLinks(gmailify(renderPage(page)));
+  // flagify last: it injects <svg>, and the two passes before it match on
+  // tags and attributes, so it must not be in the page while they run.
+  const html = flagify(externalizeLinks(gmailify(renderPage(page))));
   fs.writeFileSync(path.join(__dirname, page.file), html, 'utf8');
   const kb = (Buffer.byteLength(html, 'utf8') / 1024).toFixed(1);
   console.log(`✓ ${page.file} written — ${kb} KB`);

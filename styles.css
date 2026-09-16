@@ -457,6 +457,10 @@ main .shell > *:first-child{margin-top:0}
    full height and its top corners were nibbled off by the 9px radius.
    Bigger box + padding on every side (see --logo-pad) keeps the whole
    shield inside the rounded corners with room to spare, in both themes. */
+/* The inline Canadian flag (see FLAG_CA in build.js). Sized off the text it
+   sits beside, so it tracks whatever the surrounding type does. */
+.flag{height:.78em;width:auto;display:inline-block;vertical-align:-.04em;border-radius:1px}
+
 .uni-logo{
   display:block;flex:none;width:44px;height:44px;object-fit:contain;
   background:var(--logo-plate);padding:var(--logo-pad);border-radius:9px;
