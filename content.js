@@ -280,7 +280,7 @@ module.exports = {
   research: {
     eyebrow: "Experience",
     title: "Research",
-    hint:  "Four projects, 2024 — 2026. Ciernia Lab unless noted.",
+    hint:  "Three projects, 2024 — 2026. Ciernia Lab unless noted.",
     action: { label: "Full CV", href: "cv.pdf" },
     items: [
       {
@@ -296,16 +296,6 @@ module.exports = {
       },
       {
         idx:   "P-02",
-        when:  "May 2025<br>— May 2026",
-        title: "Neuroaesthetics: Your Brain on Art",
-        meta:  ["ASTU 400E", "UBC Centre for Community Engaged Learning"],
-        blurb: "A full-credit undergraduate seminar on what happens in the brain when people " +
-               "make art, and when they look at it. I co-created and co-taught it with Betty " +
-               "Bao, under faculty sponsor Dr. Steven Barnes, and it ran as a Student-Directed " +
-               "Seminar in Winter Term 2 — January to April 2026."
-      },
-      {
-        idx:   "P-03",
         when:  "Apr 2025<br>— Sep 2025",
         title: "The role of inflammatory bowel disease in the neurological immune response to the development of Alzheimer's disease pathology in mice",
         meta:  ["Ciernia Lab, DMCBH", "SBME Synergy Summer Studentship"],
@@ -318,7 +308,7 @@ module.exports = {
         links: [{ label: "UBC SBME write-up", href: "https://bme.ubc.ca/student-scientists-shine-at-synergy-undergraduate-research-day/" }]
       },
       {
-        idx:   "P-04",
+        idx:   "P-03",
         when:  "Jul 2024<br>— Apr 2025",
         title: "Impact of human IBD microbiota on hypothalamic gene expression and steroid regulation in the mouse brain",
         meta:  ["Ciernia Lab, DMCBH", "SBME Synergy Summer Studentship"],
@@ -403,7 +393,7 @@ module.exports = {
       {
         idx:   "T-01",
         when:  "Jul 2025<br>— May 2026",
-        title: "Co-creator &amp; instructor — ASTU_V 400E, Neuroaesthetics: Your Brain on Art",
+        title: "Co-developer &amp; Instructor — ASTU 400E, Neuroaesthetics: Your Brain on Art",
         meta:  ["UBC Centre for Community Engaged Learning", "Student-Directed Seminar"],
         blurb: "Co-proposed with Betty Bao under faculty sponsor Dr. Steven Barnes, and taught " +
                "for credit in Winter Term 2 of 2025/26. UBC's Student-Directed Seminars let " +
