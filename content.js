@@ -860,7 +860,7 @@ module.exports = {
      ══════════════════════════════════════════════════════════════════════ */
   pages: [
     { key: "home",     file: "index.html",    navLabel: "Home",     icon: "home",
-      sections: ["featured", "now", "principles", "reading"] },
+      sections: ["now", "featured", "principles", "reading"] },
     { key: "projects", file: "projects.html", navLabel: "My Works", icon: "folder",
       description: "Research and teaching by Leo J. Chung — chromatin and the BAF complex, the gut–brain axis, animal communication, and the Neuroaesthetics seminar he co-created at UBC.",
       sections: ["research", "teaching", "lab", "press"] },
