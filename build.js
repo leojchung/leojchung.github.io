@@ -242,8 +242,11 @@ ${r.detail ? `              <div class="d">${r.detail}</div>\n` : ''}           
       ? `          <div class="pill-row">${it.links.map(l => `<a class="pill amber sm" href="${attr(l.href)}">${l.label}</a>`).join('')}</div>\n`
       : '';
 
+    /* Titles, affiliations and award/write-up links only — no blurb, for a
+       leaner, more minimalist list (Leo's request, Sep 2026). The fuller
+       write-up still lives in the CV. */
     return card('sp-6 entry', `${idx}          <h3 class="entry-title">${it.title}</h3>
-${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${it.blurb ? `          <p class="body">${it.blurb}</p>\n` : ''}${links}`.replace(/\n$/, ''));
+${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${links}`.replace(/\n$/, ''));
   }).join('\n');
 
   return `      <div class="bento">\n${items}\n      </div>`;
@@ -283,11 +286,12 @@ ${visible(d.items).map(i => `            <li>${i.href
    from YouTube for a visitor who only scrolls past. Do not "simplify" this
    into a plain iframe. */
 function renderMedia(d){
-  return `      <div class="cards">
+  return `      <div class="fun-grid">
 ${visible(d.items).map(function(it){
   const cap = (it.title || it.caption)
     ? `          <figcaption>${it.title ? `<span class="ft">${it.title}</span>` : ''}${it.caption ? `<span class="fc">${it.caption}</span>` : ''}</figcaption>`
     : '';
+  const shape = it.shape ? ` ${attr(it.shape)}` : '';
 
   let media;
   if (it.kind === 'video' && (it.youtube || it.vimeo)){
@@ -299,19 +303,19 @@ ${visible(d.items).map(function(it){
       ? attr(it.poster)
       : (it.youtube ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '');
     const style = post ? ` style="background-image:url('${post}')"` : '';
-    media = `          <button class="media" type="button" data-src="${attr(src)}" aria-label="Play: ${attr(plain(it.title || 'video'))}"${style}>
+    media = `          <button class="media${shape}" type="button" data-src="${attr(src)}" aria-label="Play: ${attr(plain(it.title || 'video'))}"${style}>
             <span class="badge">Watch</span>
             <span class="tri" aria-hidden="true"></span>
           </button>`;
   } else if (it.kind === 'photo' && it.src){
-    media = `          <div class="media"><img src="${attr(it.src)}" alt="${attr(plain(it.title || it.caption || 'photo'))}" loading="lazy"></div>`;
+    media = `          <div class="media${shape}"><img src="${attr(it.src)}" alt="${attr(plain(it.title || it.caption || 'photo'))}" loading="lazy"></div>`;
   } else if (it.kind === 'link' && it.href){
-    media = `          <a class="media linkcard" href="${attr(it.href)}" target="_blank" rel="noopener">
+    media = `          <a class="media linkcard${shape}" href="${attr(it.href)}" target="_blank" rel="noopener">
             <span class="badge">Link</span>
             <span class="lk">${it.title || it.href}</span>
           </a>`;
   } else {
-    media = `          <div class="media slot">${it.kind === 'video' ? 'add a YouTube id in content.js' : 'add a file to assets/ and set its path in content.js'}</div>`;
+    media = `          <div class="media slot${shape}">${it.kind === 'video' ? 'add a YouTube id in content.js' : 'add a file to assets/ and set its path in content.js'}</div>`;
   }
 
   return `        <figure class="tile stagger-item">
@@ -348,7 +352,7 @@ function renderSection(key, data){
     : '';
 
   return `    <section class="section reveal" aria-labelledby="${hid}">
-      <div class="sec-head${data.action ? ' has-action' : ''}">
+      <div class="sec-head">
         <div class="sec-head-text">
           <span class="eyebrow">${data.eyebrow || key}</span>
           <h2 id="${hid}">${data.title}</h2>

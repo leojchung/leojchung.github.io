@@ -754,44 +754,36 @@ module.exports = {
   fun: {
     eyebrow: "Off the clock",
     title: "Not the <em>lab</em>",
-    hint:  "Photos are mine. Clips are embedded from the original uploads.",
+    hint:  "Photos are mine. Everything else links out to the real thing.",
+
+    /* `shape` sets how tall the tile reads in the masonry grid — "wide",
+       "tall", "square", or omit for the default. Mix them so the page
+       reads as a collage, not a uniform row of boxes.
+
+       The video clips this used to carry (PLACEHOLDER youtube ids) are
+       gone — Claude can't verify a real id belongs to a real clip Leo
+       actually means, and a wrong or fake id is worse than no video. Swap
+       any of these `link` entries for a real `kind:"video"` clip whenever
+       you have the actual id (see the note at the top of this file). The
+       `photo` entries below are still placeholders — drop your real
+       photos into assets/ and point `src` at them. */
     items: [
-      {
-        kind: "video",
-        youtube: "jNQXAC9IVRw",             // PLACEHOLDER id — swap for the real clip
-        title: "PLACEHOLDER — A Rams game I will not shut up about",
-        caption: "PLACEHOLDER — replace with the clip you actually mean."
-      },
-      {
-        kind: "video",
-        youtube: "jNQXAC9IVRw",
-        title: "PLACEHOLDER — Lakers",
-        caption: "PLACEHOLDER — embed, do not download."
-      },
-      {
-        kind: "photo",
-        src: "assets/placeholder.svg",       // PLACEHOLDER — swap for e.g. "assets/ramen.jpg"
-        title: "PLACEHOLDER — Food",
-        caption: "PLACEHOLDER — somewhere in Vancouver. Your photo, your caption."
-      },
-      {
-        kind: "photo",
-        src: "assets/placeholder.svg",
-        title: "PLACEHOLDER — On a bike",
-        caption: "PLACEHOLDER — a route worth the climb."
-      },
-      {
-        kind: "video",
-        youtube: "jNQXAC9IVRw",
-        title: "PLACEHOLDER — Something I have had on repeat",
-        caption: "PLACEHOLDER — music goes here."
-      },
-      {
-        kind: "link",
-        href: "https://example.com",         // PLACEHOLDER — anything: a playlist, an article
-        title: "PLACEHOLDER — What I am listening to",
-        caption: "PLACEHOLDER — a link card, for things that are not a photo or a clip."
-      }
+      { kind: "link", shape: "wide", href: "https://www.nba.com/lakers",
+        title: "The Lakers", caption: "Been watching since before I could drive." },
+      { kind: "photo", shape: "tall", src: "assets/placeholder.svg",
+        title: "PLACEHOLDER — On a bike", caption: "PLACEHOLDER — a route worth the climb." },
+      { kind: "link", shape: "square", href: "https://www.chess.com",
+        title: "Chess", caption: "Currently tilting on bullet at 2am." },
+      { kind: "photo", shape: "square", src: "assets/placeholder.svg",
+        title: "PLACEHOLDER — Texas BBQ", caption: "PLACEHOLDER — brisket, done right." },
+      { kind: "link", shape: "tall", href: "https://www.therams.com",
+        title: "The Rams", caption: "LA's other team I will not shut up about." },
+      { kind: "link", shape: "wide", href: "https://en.wikipedia.org/wiki/Microglia",
+        title: "Microglia", caption: "Yes, the brain's resident immune cells made the fun page. Occupational hazard." },
+      { kind: "photo", shape: "wide", src: "assets/placeholder.svg",
+        title: "PLACEHOLDER — On repeat", caption: "PLACEHOLDER — whatever's spinning, no matter how old." },
+      { kind: "link", shape: "square", href: "https://www.starwars.com",
+        title: "Star Wars", caption: "Watched in machine order more times than I'll admit." }
     ]
   },
 
