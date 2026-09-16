@@ -788,7 +788,7 @@ module.exports = {
      lists there, not here, to change what a phrase matches. */
   ask: {
     eyebrow: "Ask",
-    title: "Ask it <em>anything.</em>",
+    title: "Ask me <em>anything.</em>",
     hint:  "Type a question and it jumps you to the right part of the site — research, teaching, fun, contact, and more.",
     placeholder: "e.g. “show me your research” or “how do I email you”"
   },

@@ -664,9 +664,11 @@ function renderFooter(){
     .map(p => `            <li><a href="${attr(p.file)}">${attr(p.navLabel)}</a></li>`)
     .join('\n');
 
-  const follow = visible(C.contact.links)
-    .filter(l => l.href)
-    .map(l => `            <li><a href="${attr(l.href)}"${l.me ? ' rel="me"' : ''}>${l.k}</a></li>`)
+  /* Same list and order as the Home splash's social row (Leo's request),
+     not contact.links — so "Follow" always matches what's on Home. */
+  const follow = (C.intro.social || [])
+    .filter(s => s.href)
+    .map(s => `            <li><a href="${attr(s.href)}">${attr(s.label)}</a></li>`)
     .join('\n');
 
   const portrait = m.portrait

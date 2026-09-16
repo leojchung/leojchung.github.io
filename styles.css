@@ -658,6 +658,16 @@ main .shell > *:first-child{margin-top:0}
 .ask-result.show{opacity:1}
 .ask-result b{color:var(--accent-ink);font-weight:700}
 
+/* The Ask page is centered, unlike every other section header — scoped by
+   :has() to just this one section rather than adding a branch to the
+   shared .sec-head rules everyone else uses. */
+.section:has(#ask-h) .sec-head{justify-content:center}
+.section:has(#ask-h) .sec-head-text{text-align:center}
+.section:has(#ask-h) .sec-hint{margin-inline:auto}
+.section:has(#ask-h) .ask-bar,
+.section:has(#ask-h) .ask-result{margin-inline:auto}
+.section:has(#ask-h) .ask-result{text-align:center}
+
 
 /* ══════════════════ MEDIA TILES — Fun, In the lab ══════════════════
    Videos are click-to-play: the tile is a button showing a poster, and the
