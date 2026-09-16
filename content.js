@@ -126,7 +126,7 @@ module.exports = {
       { k: "Fields",     v: "Neuroscience · Immunology · Education · Analytics" },
       { k: "Degree",     v: "BSc Cellular &amp; Molecular Neuroscience, UBC — 2028" },
       { k: "Now",          v: "Co-op @ STEMCELL Technologies Inc." },
-      { k: "Affiliations", v: "Simons Foundation · Djavad Mowafaghian Centre for Brain Health · " +
+      { k: "Affiliations", v: "Simons Foundation · Djavad Mowafaghian Centre for Brain Health<br>" +
                              "NeuroArts Resource Center · University of British Columbia · Johns Hopkins University" },
       { k: "Taught",       v: "ASTU 400E — Neuroaesthetics: Your Brain on Art" },
       { k: "Home",       v: "Vancouver, BC — born and raised" },
@@ -149,18 +149,14 @@ module.exports = {
     // ("committed to producing results that others can trust and build upon").
     focus: "Producing results that others can trust and build upon.",
 
+    // Trimmed to one paragraph (Sep 2026) so the About card roughly matches
+    // the height of "I also like" + weather stacked beside it — the two
+    // paragraphs here used to restate what h.standfirst already says above.
     paragraphs: [
-      "I'm a scientist and a teacher at UBC, and most days that means chasing " +
-      "questions about the brain that don't fit in one lab: chromatin and " +
-      "epigenetics on one end, the gut's surprisingly direct line to the " +
-      "brain on the other, and animal communication somewhere in between. " +
-      "Different systems, same habit of mind.",
-
       "What ties it together is measurement — figuring out what's actually " +
       "going on inside from whatever you can honestly record. That's also " +
       "why I care about teaching: I co-created and taught a for-credit UBC " +
-      "seminar on the neuroscience of art, because explaining something well " +
-      "is usually the fastest way to actually understand it."
+      "seminar on the neuroscience of art."
     ],
 
     /* Vancouver's live weather, in the card under "I also like…".

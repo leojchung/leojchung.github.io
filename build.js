@@ -55,6 +55,19 @@ const plain = s => String(s == null ? '' : s)
 // cards set them inline, so flatten it.
 const flat = s => String(s == null ? '' : s).replace(/<br\s*\/?>/gi, ' ');
 
+// Every off-site link opens in a new tab, so a visitor never loses this
+// page by clicking out to LinkedIn, a lab, or a press write-up. Run once
+// over the finished HTML rather than threading target/rel through every
+// renderer that builds an <a>. Internal links (mailto:, tel:, relative
+// paths) are untouched — those aren't "leaving the site".
+const externalizeLinks = html => html.replace(/<a\b([^>]*)>/g, (tag, attrs) => {
+  if (!/href="https?:\/\//.test(attrs) || /\btarget=/.test(attrs)) return tag;
+  const withRel = /\brel="/.test(attrs)
+    ? attrs.replace(/rel="([^"]*)"/, (_, r) => `rel="${r} noopener"`)
+    : attrs + ' rel="noopener"';
+  return `<a${withRel} target="_blank">`;
+});
+
 /* One card. `cls` carries the span (sp-7) plus any modifiers. */
 const card = (cls, inner, tag) => {
   const t = tag || 'div';
@@ -448,29 +461,17 @@ ${(h.buttons || []).map(b => `              <a class="pill ${b.solid ? 'blue' : 
 
   /* B — based in, with the pin row. */
   const cardB = card('sp-5', `          <p class="label">Based in</p>
-          <p class="value">${attr(i.location ? plain(i.location).replace(/^📍\s*/, '') : C.meta.location)}</p>
+          <p class="value">${attr(i.location ? plain(i.location).replace(/^📍\s*/, '') : C.meta.location)} 🇨🇦</p>
           <div class="pins" aria-hidden="true">
             ${PIN_FAR}${PIN_FAR}${PIN_FAR}${PIN_HERE}${PIN_FAR}${PIN_FAR}${PIN_FAR}
           </div>`);
 
-  /* C — what drives him, over a faux notebook panel built from the record
-         rows. Real content, so the mockup is not decorative filler. */
-  // attr() over plain(): plain() decodes &amp; back to a bare &, which is
-  // invalid in the document. Re-escaping puts it back.
-  const panelRows = (h.record || []).slice(0, 5).map(r =>
-    `              <div><span class="k">${attr(plain(r.k).toLowerCase())}:</span> <span class="v">${attr(plain(r.v))}</span></div>`
-  ).join('\n');
-
-  const cardC = card('sp-5 flush', `          <div>
-            <p class="label caps">What drives me</p>
-            <p class="value">${i.focus || C.meta.tagline}</p>
-          </div>
-          <div class="panel" aria-hidden="true">
-            <div class="panel-bar"><i></i><i></i><i></i></div>
-            <div class="panel-body">
-${panelRows}
-            </div>
-          </div>`);
+  /* C — what drives him. Used to carry a faux notebook panel repeating the
+         record card's fields/degree/etc rows underneath — dropped (Sep 2026,
+         Leo's request) since card F already shows that data; showing it
+         twice on one page was the actual bug. */
+  const cardC = card('sp-5', `          <p class="label caps">What drives me</p>
+          <p class="value">${i.focus || C.meta.tagline}</p>`);
 
   /* D — about. */
   const cardD = card('sp-7 rows-2', `          <span class="eyebrow">About</span>
@@ -729,7 +730,7 @@ ${renderDock(page.file)}
 /* ── write every page ─────────────────────────────────────────────────────── */
 
 C.pages.forEach(page => {
-  const html = renderPage(page);
+  const html = externalizeLinks(renderPage(page));
   fs.writeFileSync(path.join(__dirname, page.file), html, 'utf8');
   const kb = (Buffer.byteLength(html, 'utf8') / 1024).toFixed(1);
   console.log(`✓ ${page.file} written — ${kb} KB`);
