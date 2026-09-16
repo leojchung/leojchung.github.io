@@ -545,12 +545,13 @@ ${(h.buttons || []).map(b => `        <a class="pill ${b.solid ? 'blue' : 'ghost
           <p class="value">${i.focus || C.meta.tagline}</p>`);
 
   /* D — about. The greeting and socials now live in the splash above this
-         section, so this card is just the fuller written paragraph. Single
-         row (not rows-2), and just the one paragraph — the second
-         (i.paragraphs) is dropped here to keep the card short (Leo's
-         request); it's still in content.js if you want it back somewhere. */
+         section, so this card is a few big bullet points now (Leo's
+         request) instead of a paragraph — same size/weight as "What
+         drives me". */
   const cardD = card('sp-7', `          <span class="eyebrow">About</span>
-          <p class="body">${h.standfirst}</p>`);
+          <ul class="about-points">
+${(h.points || []).map(p => `            <li class="value">${p}</li>`).join('\n')}
+          </ul>`);
 
   /* E — the rotating interest. main.js cycles .like-word through data-list.
          Its own full-width row, right under About. */

@@ -1,6 +1,8 @@
 # CLAUDE.md — leojchung.github.io
 
 Context for Claude Code working in this repo. Read this before touching anything.
+Also read `NOTES-FOR-LEO.md` — it tracks what's changed recently and what's
+still open, and is kept current at the end of each work session.
 
 ## What this is
 
@@ -9,16 +11,16 @@ served free from GitHub Pages at the repo root.
 
 ## The one rule that matters
 
-**`index.html`, `projects.html`, `fun.html`, `contact.html`, `cv.html` and
-`cv.pdf` are all GENERATED. Never edit them by hand.**
+**`index.html`, `projects.html`, `fun.html`, `contact.html`, `ask.html`,
+`cv.html` and `cv.pdf` are all GENERATED. Never edit them by hand.**
 
 ```
-content.js  --[ node build.js ]-->     index.html, projects.html, fun.html, contact.html
+content.js  --[ node build.js ]-->     index.html, projects.html, fun.html, contact.html, ask.html
 content.js  --[ node build-cv.js ]-->  cv.html --[ print to PDF ]--> cv.pdf
 ```
 
-The site is four pages, sharing one bottom icon dock
-(Home / Projects / Fun / Contact) and one footer. There is no top header —
+The site is five pages, sharing one bottom icon dock
+(Home / Projects / Fun / Contact / Ask) and one footer. There is no top header —
 the dock is the whole navigation, with the theme toggle at its right end.
 All content — every word, date, link and section — lives in `content.js`.
 Editing generated HTML directly works right up until the next build silently
@@ -34,7 +36,7 @@ safety net for exactly this mistake.
 |---|---|
 | `content.js` | All content + the `pages` array controlling which sections land on which page |
 | `styles.css` | Design system. Colour tokens at the top; nothing else hard-codes a colour, except text on a surface that is the same in both themes (white on the blue fill, ink on amber, the overlay on a photo, print) — the file's header lists them |
-| `build.js` | content.js → the four HTML pages. `RENDERERS` maps a section key to a renderer |
+| `build.js` | content.js → the five HTML pages. `RENDERERS` maps a section key to a renderer |
 | `build-cv.js` | content.js → cv.html. Reads `experience`/`education`/`service`/`skills` directly — those blocks still live in `content.js` but nothing on the *website* renders them any more, only the CV does |
 | `main.js` | Light/dark toggle, footer year, click-to-play video. The only JS the site ships |
 | `check.js` | Audits the built pages — markup, escaping, and WCAG contrast in both themes. CI gates on it |
@@ -45,10 +47,11 @@ safety net for exactly this mistake.
 
 | Page | File | Sections |
 |---|---|---|
-| Home | `index.html` | the hero bento (7 cards), Right Now, Principles, Reading |
+| Home | `index.html` | quote (bare, full-viewport), splash ("Hi, I'm Leo", also bare/full-viewport), the bento (Based in / What drives me / The record / About / I also like), Right Now, Featured, Principles, Reading |
 | Projects | `projects.html` | Research, Teaching, "In the lab" photo grid, Featured |
-| Fun | `fun.html` | the Fun media grid |
+| Fun | `fun.html` | the Fun media grid — a CSS-columns masonry (`.fun-grid`), not a uniform row grid; tiles carry a `shape` (wide/tall/square) in content.js |
 | Contact | `contact.html` | contact bento — the ask, one card per channel, the form |
+| Ask | `ask.html` | one centered input, no card. See "The Ask page" below |
 
 Reorder or rename dock items by editing `pages` at the bottom of `content.js`.
 Each page needs an `icon`, naming a key in `ICONS` in `build.js`. Add a page by
@@ -56,9 +59,30 @@ adding an entry there and teaching `build.js`'s page loop about anything
 special it needs (most pages need nothing beyond the generic section loop
 already there).
 
-The Home bento is hand-laid in `renderHome()` — seven cards whose `sp-*`
-spans must total 12 per row. It is the one part of the site that is arranged
-rather than looped, because the layout itself carries meaning there.
+Home is the one page not built purely from the generic section loop.
+`renderHome()` in build.js returns three pieces concatenated: the quote
+section, the splash section, and the bento. The quote and splash are bare —
+no card fill, full `100svh` each, centered — deliberately unlike every
+other section on the site, which is left-aligned and just flows. The bento
+itself is hand-laid: `sp-*` spans must total 12 per row, and it's the one
+grid on the site arranged by hand rather than generated from a flat list,
+because the layout carries meaning there. Current bento order: Based in +
+What drives me (sp-6 each) / The record + About (sp-5 + sp-7) / I also like
+(sp-12, full width). About is `content.js`'s `hero.points` — a few big
+bullet points (`.about-points`, reusing the `.value` size/weight), not a
+paragraph.
+
+### The Ask page
+
+A minimal "ask it anything" bar — headline, one hint line, one input, no
+suggestion chips, no explainer text (Leo wants it that way; don't add them
+back). It is NOT an LLM — there is no API key and no backend, on purpose:
+this is a static GitHub Pages site, and a client-side API key is public by
+construction. `main.js`'s `TARGETS` array is a small keyword map scored
+against whatever was typed; the best match navigates the browser there
+(a real link — a section on another page, or an anchor on this one). No
+match gets an honest "try rephrasing," never a wrong guess. Add a
+destination by adding a `{ href, keys }` entry to `TARGETS`.
 
 ## Conventions
 
@@ -72,9 +96,10 @@ rather than looped, because the layout itself carries meaning there.
 - **Cards are flat.** Fill only — no border, no shadow. That restraint is the
   whole look; adding either makes the page read as a form rather than a
   layout. Shadow is spent in exactly one place, the floating dock.
-- **Colour roles are fixed.** Blue `--accent` is a fill for the primary
-  action and the active dock item; `--accent-ink` is the darker text/link
-  variant, because the fill colour does not pass AA as text on a card. Amber
+- **Colour roles are fixed.** Violet `--accent` (`#7C3AED`) is a fill for the
+  primary action and the active dock item; `--accent-ink` is the darker
+  text/link variant, because the fill colour does not pass AA as text on a
+  card. Amber
   `--cta` is the secondary action and **always takes `--ink` text, never
   white** — white on amber is about 2:1. Green `--live` means one thing: a
   currently-held post, and never appears without a text label beside it.

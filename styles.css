@@ -266,6 +266,15 @@ a.card:hover,button.card:hover{transform:translateY(-3px);background:var(--card-
   line-height:1.2;letter-spacing:-.02em;text-wrap:balance;
 }
 
+/* The About card's bullet points — same size/weight as .value (Leo's
+   request), just with a marker and stacked with a gap instead of margins. */
+.about-points{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:16px}
+.about-points li{position:relative;padding-left:24px}
+.about-points li::before{
+  content:"";position:absolute;left:0;top:.5em;
+  width:8px;height:8px;border-radius:50%;background:var(--accent);
+}
+
 /* Body copy. Grey by default; <b> brings a phrase back to near-black,
    which is the two-tone idea applied to a paragraph. */
 .body{margin:0;color:var(--ink-2);font-size:15.5px;line-height:1.62;max-width:64ch}

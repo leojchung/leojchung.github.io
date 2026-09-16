@@ -108,12 +108,16 @@ module.exports = {
     cite: "Alan Turing, <em>The Imitation Game</em> (2014)",
 
     // <b>…</b> gets a soft maroon highlight. Three or four maximum.
-    standfirst:
-      "I am a scientist and an educator at <b>UBC</b> — chromatin and the gut–brain axis " +
-      "at one end of the work, animal communication at the other. I also teach, design " +
-      "curriculum, and spend a great deal of time on art, music and sport, which is less a " +
-      "separate life than the reason the research interests me. Currently in R&amp;D at " +
-      "<b>STEMCELL Technologies</b> and with the <b>Moss Lab</b> at Johns Hopkins.",
+    /* The About card, as a few big bullet points rather than a paragraph
+       (Leo's request, Sep 2026) — same size/weight as "What drives me".
+       Claude's best guess at the right three, drawn from what's already
+       verified elsewhere in this file (record, research, teaching) — Leo
+       said to fill these in for now and he'll edit them later. */
+    points: [
+      "Researching the brain — chromatin, the gut–brain axis, and animal communication at UBC's Ciernia Lab.",
+      "Teaching what I study — co-developed and taught ASTU 400E, Neuroaesthetics: Your Brain on Art.",
+      "Building in industry — R&amp;D co-op at STEMCELL Technologies, alongside the Moss Lab at Johns Hopkins."
+    ],
 
     buttons: [
       { label: "My Work",          href: "projects.html", solid: true },
@@ -123,7 +127,7 @@ module.exports = {
     // The monospaced record block. Add or remove rows freely.
     // `flag: true` prints the gold ◆ marker before the value.
     record: [
-      { k: "Fields",     v: "Neuroscience · Immunology · Education · Analytics" },
+      { k: "Fields",     v: "Neuroscience · Education · Analytics" },
       { k: "Degree",     v: "BSc Cellular &amp; Molecular Neuroscience, UBC — 2028" },
       { k: "Now",          v: "Co-op @ STEMCELL Technologies Inc." },
       { k: "Affiliations", v: "Simons Foundation · Djavad Mowafaghian Centre for Brain Health<br>" +
