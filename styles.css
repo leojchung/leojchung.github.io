@@ -268,10 +268,24 @@ a.card:hover,button.card:hover{transform:translateY(-3px);background:var(--card-
   line-height:1.2;letter-spacing:-.02em;text-wrap:balance;
 }
 
-/* The About card's bullet points — same size/weight as .value (Leo's
-   request), just with a marker and stacked with a gap instead of margins. */
-.about-points{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:16px}
-.about-points li{position:relative;padding-left:24px}
+/* The About card's bullet points — .value's weight, but set to READ rather
+   than to headline.
+
+   .value carries text-wrap:balance, which evens out line lengths so a
+   headline never ends on a lone orphan word. On a three-line bullet that
+   works against you: to keep the lines equal it shortens every one of them,
+   and the block comes out narrow and cramped inside an already narrow card.
+   text-wrap:pretty keeps the orphan protection but lets each line run the
+   full width of the card. With a little more leading and a size that fits
+   more words per line, the same sentences read as prose instead of as a
+   stack of fragments. */
+.about-points{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:19px}
+.about-points li{
+  position:relative;padding-left:24px;
+  font-size:clamp(17.5px,1.7vw,21px);
+  line-height:1.42;letter-spacing:-.012em;
+  text-wrap:pretty;
+}
 .about-points li::before{
   content:"";position:absolute;left:0;top:.5em;
   width:8px;height:8px;border-radius:50%;background:var(--accent);
