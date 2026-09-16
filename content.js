@@ -44,7 +44,7 @@ module.exports = {
     // e.g. "assets/leo.jpg". Leave null and the hero simply has no photo.
     // The 2025 academic-website contest judges singled out real photographs
     // as the thing that made sites feel like a person — worth adding one.
-    portrait:    "assets/placeholder.svg",  // PLACEHOLDER — swap in a real square photo
+    portrait:    "assets/leo.jpg",
 
     // US spelling throughout. NOTES-FOR-LEO.md has the one-command flip
     // to Canadian/British if you'd rather.
@@ -123,12 +123,12 @@ module.exports = {
     // The monospaced record block. Add or remove rows freely.
     // `flag: true` prints the gold ◆ marker before the value.
     record: [
-      { k: "Fields",     v: "Neuroscience · education · neuroaesthetics" },
+      { k: "Fields",     v: "Neuroscience · Immunology · Education · Analytics" },
       { k: "Degree",     v: "BSc Cellular &amp; Molecular Neuroscience, UBC — 2028" },
-      { k: "Now",          v: "STEMCELL Technologies" },
-      // Leo will add to this row.
-      { k: "Affiliations", v: "Simons Foundation · DMCBH" },
-      { k: "Taught",       v: "ASTU 400E — Neuroaesthetics" },
+      { k: "Now",          v: "Co-op @ STEMCELL Technologies Inc." },
+      { k: "Affiliations", v: "Simons Foundation · Djavad Mowafaghian Centre for Brain Health · " +
+                             "NeuroArts Resource Center · University of British Columbia · Johns Hopkins University" },
+      { k: "Taught",       v: "ASTU 400E — Neuroaesthetics: Your Brain on Art" },
       { k: "Home",       v: "Vancouver, BC — born and raised" },
       { k: "Status",     v: "Seeking Jan 2027 co-op", flag: true }
     ]
