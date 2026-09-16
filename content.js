@@ -113,10 +113,13 @@ module.exports = {
        Claude's best guess at the right three, drawn from what's already
        verified elsewhere in this file (record, research, teaching) — Leo
        said to fill these in for now and he'll edit them later. */
+    /* <em> here is a real italic — a work title. The two-tone rule that makes
+       <em> grey-and-upright applies to .display / .display-sm headlines and
+       section headings, not to these bullets. */
     points: [
-      "Researching the brain — chromatin, the gut–brain axis, and animal communication at UBC's Ciernia Lab.",
-      "Teaching what I study — co-developed and taught ASTU 400E, Neuroaesthetics: Your Brain on Art.",
-      "Building in industry — R&amp;D co-op at STEMCELL Technologies, alongside the Moss Lab at Johns Hopkins."
+      "Researching the brain — understanding neuroimmunology, the gut–brain axis, and epigenetic regulation.",
+      "Building in industry — R&amp;D product pipelines, AI development, and both wet- and dry-lab work.",
+      "Teaching what I study — co-developed and taught ASTU 400E, <em>Neuroaesthetics: Your Brain on Art</em>, at UBC."
     ],
 
     buttons: [
