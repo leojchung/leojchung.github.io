@@ -394,18 +394,21 @@ main .shell > *:first-child{margin-top:0}
 
 
 /* ══════════════════ HOME: QUOTE + SPLASH ══════════════════
-   Two bare sections, no card fill, centered — the way Kellie Ho's page
-   opens with plain centered type before any boxed content. The quote is
-   the Turing/Imitation-Game credit; the splash below it is the
+   Two bare, full-viewport sections, no card fill — each one its own
+   centered "page" the way Kellie Ho's site reads while scrolling. The
+   quote is the Turing/Imitation-Game credit; the splash below it is the
    "Hi, I'm Leo" screen, modelled on kellieho.framer.ai/about. */
-.quote-block{max-width:900px;margin:0 auto;padding:64px var(--pad) 8px;text-align:center}
+.quote-block{
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  min-height:100svh;max-width:900px;margin:0 auto;padding:32px var(--pad);text-align:center;
+}
 .hero-cite{margin:18px 0 0;font-size:13px;color:var(--ink-2);line-height:1.5}
 .hero-cite cite{font-style:normal}
 .hero-cite cite em{font-style:italic}
 
 .splash{
-  display:flex;flex-direction:column;align-items:center;text-align:center;
-  gap:6px;max-width:560px;margin:0 auto;padding:32px var(--pad) 72px;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+  gap:6px;min-height:100svh;max-width:560px;margin:0 auto;padding:32px var(--pad);
 }
 .splash .body{margin-top:8px}
 .splash .pill-row,.splash .social-row{justify-content:center}
