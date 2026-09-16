@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
 
-<link rel="stylesheet" href="styles.css?v=0b0a7937">
+<link rel="stylesheet" href="styles.css?v=2b1e9412">
 
 <script type="application/ld+json">
 {
@@ -136,10 +136,19 @@
           <p class="like-lead">I also like…</p>
           <span class="like-word" data-list="biking 🚴|chess ♟️|the Lakers 🌴|the Rams 🐏|the Fun page 🎉 →|good Texas BBQ 🍖|Star Wars 🚀|old music (and I mean really old) 🎵|microglia 🧠">biking 🚴</span>
         </div>
-        <div class="card stagger-item sp-6 center">
-          <p class="label">🕐 Vancouver time</p>
-          <p class="value" id="van-clock">—</p>
-          <p class="van-date" id="van-date"></p>
+        <div class="card stagger-item sp-12 wx">
+          <div class="wx-top">
+            <div>
+              <p class="label">Vancouver weather</p>
+              <p class="value"><span class="wx-icon" aria-hidden="true"></span><span id="wx-temp">—</span></p>
+              <p class="wx-cond" id="wx-cond" data-lat="49.2827" data-lon="-123.1207"></p>
+            </div>
+            <div class="wx-time">
+              <p class="label">Local time</p>
+              <p class="value" id="wx-clock">—</p>
+              <p class="wx-cond" id="wx-date"></p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

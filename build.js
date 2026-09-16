@@ -560,13 +560,26 @@ ${(h.buttons || []).map(b => `        <a class="pill ${b.solid ? 'blue' : 'ghost
           <span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span>`)
     : '';
 
-  /* T — Vancouver's local time, beside I-also-like (Leo's request). Filled
-         in by main.js; with JavaScript off it keeps its em dash. */
-  const clk = i.clock;
-  const cardT = clk
-    ? card('sp-6 center', `          <p class="label">${clk.label || 'Local time'}</p>
-          <p class="value" id="van-clock">—</p>
-          <p class="van-date" id="van-date"></p>`)
+  /* T — Vancouver's current weather and local time, one big card under
+         I-also-like (Leo's request — "a lot bigger", weather + time
+         together). Everything after the labels is filled in by main.js:
+         the clock needs no network; the current conditions come from one
+         Open-Meteo request. With JavaScript off, or if the request fails,
+         each value keeps its em dash. */
+  const w = i.weather;
+  const cardT = w
+    ? card('sp-12 wx', `          <div class="wx-top">
+            <div>
+              <p class="label">${w.label || 'Weather'}</p>
+              <p class="value"><span class="wx-icon" aria-hidden="true"></span><span id="wx-temp">—</span></p>
+              <p class="wx-cond" id="wx-cond" data-lat="${attr(w.lat)}" data-lon="${attr(w.lon)}"></p>
+            </div>
+            <div class="wx-time">
+              <p class="label">Local time</p>
+              <p class="value" id="wx-clock">—</p>
+              <p class="wx-cond" id="wx-date"></p>
+            </div>
+          </div>`)
     : '';
 
   /* F — the record. Moved up (Leo's request) to sit beside About instead of

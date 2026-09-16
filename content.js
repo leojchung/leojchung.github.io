@@ -159,10 +159,12 @@ module.exports = {
       "seminar on the neuroscience of art."
     ],
 
-    /* Vancouver's local time, beside "I also like…". Computed in the
-       browser from the visitor's own clock (America/Vancouver), so it
-       needs no network request. Set to null and the card disappears. */
-    clock: { label: "🕐 Vancouver time" },
+    /* Vancouver's current weather and local time, in one big card under
+       "I also like…". Coordinates are downtown Vancouver. The time is
+       computed in the browser (no request); the weather is one request to
+       Open-Meteo, which needs no API key and sets no cookie — see the note
+       in main.js. Set to null and the card disappears. */
+    weather: { label: "Vancouver weather", lat: 49.2827, lon: -123.1207 },
 
     // Rotates in the "I also like ___" bubble under the paragraphs. Keep it
     // to short phrases — it swaps every couple of seconds.

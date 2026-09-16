@@ -504,8 +504,17 @@ main .shell > *:first-child{margin-top:0}
   transition:opacity .22s ease;
 }
 
-/* The Vancouver time card beside it — reuses .label/.value from "Based in". */
-.van-date{margin:6px 0 0;font-size:13px;color:var(--ink-2)}
+/* The Vancouver weather + time card, full-width and big (Leo's request) —
+   current conditions on the left, local time on the right. Everything but
+   the labels is written by main.js. */
+.wx{justify-content:center}
+.wx-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.wx-top .label{font-size:15px}
+.wx-time{text-align:right}
+.wx .value{display:flex;align-items:center;gap:14px;font-size:clamp(40px,6vw,64px)}
+.wx-time .value{justify-content:flex-end}
+.wx-icon{font-size:.85em;line-height:1}
+.wx-cond{margin:12px 0 0;font-size:17px;color:var(--ink-2);line-height:1.5;min-height:1.5em}
 
 
 /* ══════════════════ SOCIAL BUTTONS ══════════════════ */
