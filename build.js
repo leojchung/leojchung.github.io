@@ -496,23 +496,22 @@ ${(h.buttons || []).map(b => `        <a class="pill ${b.solid ? 'blue' : 'ghost
           <p class="value">${i.focus || C.meta.tagline}</p>`);
 
   /* D — about. The greeting and socials now live in the splash above this
-         section, so this card is just the fuller written paragraph. */
-  const cardD = card('sp-7 rows-2', `          <span class="eyebrow">About</span>
+         section, so this card is just the fuller written paragraph. Single
+         row now (Leo's request) rather than the taller rows-2 it used to be. */
+  const cardD = card('sp-7', `          <span class="eyebrow">About</span>
           <p class="body">${h.standfirst}</p>
 ${(i.paragraphs || []).map(p => `          <p class="body">${p}</p>`).join('\n')}`);
 
   /* E — the rotating interest. main.js cycles .like-word through data-list.
-         Half-height, with the record card stacked under it: card D beside
-         them spans both rows. */
+         Its own full-width row, right under About (Leo's request). */
   const likes = i.likes || [];
   const cardE = likes.length
-    ? card('sp-5 like-card center', `          <p class="like-lead">I also like…</p>
+    ? card('sp-12 like-card center', `          <p class="like-lead">I also like…</p>
           <span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span>`)
     : '';
 
-  /* F — the record. Stacked under E, beside D — the weather and skills-
-         marquee cards that used to fill this row were dropped (Leo's
-         request). */
+  /* F — the record. Moved up (Leo's request) to sit beside About instead of
+         after it. */
   const cardF = card('sp-5', `          <span class="eyebrow">The record</span>
           <ul class="record">
 ${(h.record || []).map(r => `            <li><span class="k">${r.k}</span><span class="v">${r.flag ? '<span class="live-dot">●</span>' : ''}${r.v}</span></li>`).join('\n')}
@@ -520,7 +519,7 @@ ${(h.record || []).map(r => `            <li><span class="k">${r.k}</span><span 
 
   const bentoSection = `    <section class="reveal" aria-label="More about me">
       <div class="bento">
-${[cardB, cardC, cardD, cardE, cardF].filter(Boolean).join('\n')}
+${[cardB, cardC, cardF, cardD, cardE].filter(Boolean).join('\n')}
       </div>
     </section>`;
 
