@@ -290,12 +290,18 @@ module.exports = {
     eyebrow: "Principles",
     title: "What I <em>care about</em>",
     hint:  "Three things that show up in everything above.",
-    /* Drawn from Leo's own cover letters (2025–26) — each one is a point he
-       makes repeatedly there, put back into the casual register. */
+    /* Casual/first-person on purpose — this is Leo talking, not the Research
+       or Teaching register. Each blurb stays at the level of detail already
+       public elsewhere on the site; none of them describe the STEMCELL or
+       Moss Lab work, which is deliberately vague everywhere. */
     items: [
-      { word: "Reproducibility", blurb: "Good science comes from tight execution. I troubleshoot and iterate until an assay works cleanly, not just once." },
-      { word: "Clear data",      blurb: "Results only help if people can act on them — I organize and present data so a team can make decisions quickly." },
-      { word: "The big picture", blurb: "Careful work upstream is what makes the data downstream mean something. Knowing where my piece fits matters." },
+      { word: "Efficiency",      blurb: "Time and reagents both run out. I'd rather spend a day designing a run properly than a week repeating one that answered nothing." },
+      { word: "The Big Picture", blurb: "Chromatin at one end, animal calls at the other, industry in between. Careful work only counts if you know what it feeds into." },
+      { word: "Trust",           blurb: "Data is only useful if someone else can rely on it. I'd rather hand over work I've checked twice and can explain." },
+
+      // Replaced Sep 2026 — kept, not deleted, per the convention below.
+      { word: "Reproducibility", blurb: "Good science comes from tight execution. I troubleshoot and iterate until an assay works cleanly, not just once.", hidden: true },
+      { word: "Clear data",      blurb: "Results only help if people can act on them — I organize and present data so a team can make decisions quickly.", hidden: true },
 
       // Kept, not deleted — flip `hidden` to bring one back and hide another.
       { word: "Curiosity", blurb: "Chromatin, the gut, animal calls — different systems, one habit of mind.", hidden: true },
