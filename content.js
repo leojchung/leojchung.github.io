@@ -188,8 +188,10 @@ module.exports = {
        put the official SVG in assets/ and point its LOGOS entry at the
        file instead. */
     social: [
-      { logo: "gmail",    label: "Email",             href: "mailto:leojc815@gmail.com" },
-      { logo: "linkedin", label: "LinkedIn",          href: "https://www.linkedin.com/in/leojchung" },
+      { logo: "gmail",     label: "Email",             href: "mailto:leojc815@gmail.com" },
+      { logo: "linkedin",  label: "LinkedIn",          href: "https://www.linkedin.com/in/leojchung" },
+      { logo: "instagram", label: "Instagram",         href: "https://www.instagram.com/leojchung" },
+      { logo: "chess",     label: "Chess.com",         href: "https://www.chess.com/member/leojchung" },
       { logo: "neuroarts", label: "NeuroArts Profile", href: "https://www.neuroartsresourcecenter.com/profile/leojchung" }
     ]
   },

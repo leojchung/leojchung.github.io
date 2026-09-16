@@ -131,6 +131,26 @@ const LOGOS = {
     '<path fill="#EA4335" d="M5.5 0 12 4.9 12 9.5 5.5 4.6Z"/>' +
     '<path fill="#FBBC04" d="M18.5 0 12 4.9 12 9.5 18.5 4.6Z"/>' },
 
+  /* Instagram's gradient camera glyph, hand-reconstructed like the Gmail
+     mark above — check it against the official logo and swap in the real
+     asset if it's off (see the Gmail note). */
+  instagram: { brand: true, svg:
+    '<defs><linearGradient id="ig" x1="0" y1="24" x2="24" y2="0">' +
+    '<stop offset="0" stop-color="#FEDA77"/><stop offset=".35" stop-color="#F58529"/>' +
+    '<stop offset=".6" stop-color="#DD2A7B"/><stop offset=".85" stop-color="#8134AF"/>' +
+    '<stop offset="1" stop-color="#515BD4"/></linearGradient></defs>' +
+    '<rect width="24" height="24" rx="6" fill="url(#ig)"/>' +
+    '<rect x="5" y="5" width="14" height="14" rx="4" fill="none" stroke="#fff" stroke-width="1.6"/>' +
+    '<circle cx="12" cy="12" r="3.4" fill="none" stroke="#fff" stroke-width="1.6"/>' +
+    '<circle cx="16.3" cy="7.7" r="1" fill="#fff"/>' },
+
+  /* Chess.com's pawn-on-green, same approach as Instagram above. */
+  chess: { brand: true, svg:
+    '<rect width="24" height="24" rx="4.6" fill="#81B64C"/>' +
+    '<circle cx="12" cy="8.3" r="3" fill="#fff"/>' +
+    '<path fill="#fff" d="M9.4 12.3h5.2l1.1 3.6H8.3l1.1-3.6Z"/>' +
+    '<path fill="#fff" d="M7 19.3h10v-2H7v2Z"/>' },
+
   /* The NeuroArts Blueprint's own site icon — the "NA" square it serves as
      its favicon at neuroartsblueprint.org (the Johns Hopkins / Aspen
      Institute initiative behind the Neuroarts Resource Center). Used, like
