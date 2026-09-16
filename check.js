@@ -216,41 +216,5 @@ PAGES.forEach(f => {
   if (p.length) fail(`${f}: ${p.join('; ')}`); else ok(`${f}: ok`);
 });
 
-/* ── 7. the skills marquee ──────────────────────────────────────────────────
-   The seam-free loop depends on one non-obvious invariant: the track must
-   space its chips with margin-right, NOT a flex `gap`. With a gap, the
-   track is 2N chips and 2N-1 gaps, so translating by -50% lands half a gap
-   short of the loop point and the row stutters once per cycle. Easy to
-   "tidy" into a gap later and not notice for a while, hence this check. */
-console.log('\n[7] Skills marquee');
-{
-  const flat = css.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, '');
-  const track = (flat.match(/\.marquee-track\{([^}]*)\}/) || [])[1] || '';
-  const chip  = (flat.match(/\.marquee-track\.chip\{([^}]*)\}/) || [])[1] || '';
-
-  if (!/@keyframesmarquee\{/.test(flat))      fail('no @keyframes marquee');
-  else if (!/translateX\(-50%\)/.test(flat))  fail('keyframes do not translate by -50%');
-  else ok('keyframes translate the track by exactly -50%');
-
-  if (!/animation:marquee/.test(track))       fail('.marquee-track has no marquee animation');
-  else ok('.marquee-track runs the animation');
-
-  if (/(^|;)gap:/.test(track))                fail('.marquee-track uses flex gap — breaks the seamless loop (see note)');
-  else ok('.marquee-track sets no flex gap');
-
-  if (!/margin-right:/.test(chip))            fail('.marquee-track .chip has no margin-right — nothing spaces the chips');
-  else ok('chips spaced by margin-right');
-
-  if (!/\.mq-copy\{display:contents\}/.test(flat)) fail('.mq-copy is not display:contents — chips would not be flex items of the track');
-  else ok('.mq-copy is display:contents');
-
-  const html = fs.readFileSync('index.html', 'utf8');
-  const copies = (html.match(/class="mq-copy/g) || []).length;
-  if (copies !== 2) fail(`index.html has ${copies} marquee copies, needs exactly 2`);
-  else ok('index.html renders exactly 2 copies of the list');
-  if (!/mq-copy" aria-hidden="true"/.test(html)) fail('the duplicate copy is not aria-hidden — the list would be announced twice');
-  else ok('the duplicate copy is aria-hidden');
-}
-
 console.log(`\n${fails ? fails + ' CHECK(S) FAILED' : 'ALL CHECKS PASSED'}\n`);
 process.exit(fails ? 1 : 0);

@@ -497,85 +497,6 @@ main .shell > *:first-child{margin-top:0}
   transition:opacity .22s ease;
 }
 
-/* The live-weather card: current conditions on the left, Vancouver's local
-   time on the right, and a seven-hour strip along the bottom. Everything but
-   the labels is written by main.js. */
-.wx{justify-content:space-between;gap:22px}
-.wx-top{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
-.wx-top .label{font-size:14px}
-.wx-time{text-align:right}
-.wx .value{display:flex;align-items:center;gap:10px;font-size:clamp(30px,3.7vw,42px)}
-.wx-time .value{justify-content:flex-end}
-.wx-icon{font-size:.85em;line-height:1}
-.wx-cond{margin:10px 0 0;font-size:16px;color:var(--ink-2);line-height:1.5;min-height:1.5em}
-.wx-hours{
-  display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;
-  margin:0;padding:0;list-style:none;
-}
-.wx-hours li{
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  padding:16px 2px;border-radius:16px;
-}
-/* The current hour sits on a recessed chip — the page's usual way of
-   marking "this one", with no new colour. */
-.wx-hours li.now{background:var(--card-2)}
-.wx-hours .h{font-family:var(--f-mono);font-size:11px;letter-spacing:.02em;color:var(--ink-2);white-space:nowrap}
-.wx-hours .now .h{color:var(--ink)}
-.wx-hours .i{font-size:clamp(22px,2.4vw,28px);line-height:1}
-.wx-hours .t{font-size:clamp(15px,1.6vw,18px);font-weight:700;letter-spacing:-.01em}
-@media (max-width:420px){ .wx-hours .h{font-size:10px} }
-
-/* ── THE SKILLS MARQUEE ───────────────────────────────────────────────────
-   The track holds the chip list twice and slides by exactly -50%, which
-   puts copy two where copy one began — so it loops with no visible seam.
-
-   The spacing has to be margin-right on each chip, NOT a flex `gap`. With
-   a gap, the track is 2N chips and 2N-1 gaps, so half its width lands half
-   a gap short of the loop point and the row visibly stutters once per
-   cycle. A trailing margin on every chip makes each copy exactly
-   N*(chip+space) wide, and half of that is exactly one copy.
-
-   The mask fades both ends, so chips enter and leave instead of being
-   sliced off at the card edge.                                          */
-.marquee{
-  display:flex;overflow:hidden;
-  margin:0 calc(-1 * var(--pad)) 24px;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
-          mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
-}
-.mq-copy{display:contents}
-.marquee-track{display:flex;flex:none;animation:marquee 70s linear infinite}
-.marquee-track .chip{flex:none;margin-right:9px}
-.marquee:hover .marquee-track,
-.marquee:focus-within .marquee-track{animation-play-state:paused}
-@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-/* The global reduced-motion rule only shortens durations, which would turn
-   this into a flicker. Kill the animation outright and show one static,
-   scrollable copy instead. */
-@media (prefers-reduced-motion:reduce){
-  .marquee{overflow-x:auto;scrollbar-width:none}
-  .marquee::-webkit-scrollbar{display:none}
-  .marquee-track{animation:none}
-  .mq-copy + .mq-copy{display:none}
-}
-
-
-/* The "trained in" list under the marquee card's headline: a broad area in
-   near-black, what it covers in grey — the two-tone idea as a list. */
-.trained{
-  margin:22px 0 0;padding:0;list-style:none;
-  display:flex;flex-direction:column;
-}
-.trained li{
-  display:grid;grid-template-columns:minmax(140px,30%) 1fr;gap:14px;align-items:baseline;
-  padding-block:8px;font-size:13.5px;line-height:1.45;
-}
-.trained li + li{border-top:1px solid var(--card-3)}
-.trained .t{font-weight:700;color:var(--ink);letter-spacing:-.01em}
-.trained .d{color:var(--ink-2)}
-@media (max-width:420px){ .trained li{grid-template-columns:1fr;gap:2px} }
-
 
 /* ══════════════════ SOCIAL BUTTONS ══════════════════ */
 .social-row{display:flex;gap:11px;flex-wrap:wrap;margin-top:22px}
@@ -772,7 +693,7 @@ a.card:hover .contact-value{color:var(--accent-ink)}
 .contact-value.ubc{display:block;margin-top:2px;font-size:clamp(14px,1.3vw,18px);font-weight:600;color:#002145}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .contact-value.ubc{color:#7DAEEA}}
 :root[data-theme="dark"] .contact-value.ubc{color:#7DAEEA}
-.contact-value.big{font-size:clamp(26px,3vw,38px);font-weight:700}
+.contact-value.big{font-size:clamp(21px,2.4vw,29px);font-weight:700}
 /* The UBC address is longer than the personal one, so it gets its own
    (smaller) size rather than matching .big — it wraps/overflows otherwise. */
 .contact-value.ubc.big{margin-top:8px;font-size:clamp(16px,1.7vw,22px)}

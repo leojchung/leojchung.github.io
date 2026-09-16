@@ -498,7 +498,7 @@ ${(h.buttons || []).map(b => `        <a class="pill ${b.solid ? 'blue' : 'ghost
 ${(i.paragraphs || []).map(p => `          <p class="body">${p}</p>`).join('\n')}`);
 
   /* E — the rotating interest. main.js cycles .like-word through data-list.
-         Half-height, with the weather card stacked under it: card D beside
+         Half-height, with the record card stacked under it: card D beside
          them spans both rows. */
   const likes = i.likes || [];
   const cardE = likes.length
@@ -506,60 +506,17 @@ ${(i.paragraphs || []).map(p => `          <p class="body">${p}</p>`).join('\n')
           <span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span>`)
     : '';
 
-  /* W — live Vancouver weather and local time. Everything after the labels
-         is filled in by main.js: the clock needs no network; the current
-         conditions and the seven-hour strip (three hours either side of now)
-         come from one Open-Meteo request. With JavaScript off, or if the
-         request fails, each value keeps its em dash and the strip stays
-         empty, rather than promising an update that never arrives. */
-  const w = i.weather;
-  const cardW = w
-    ? card('sp-5 wx', `          <div class="wx-top">
-            <div>
-              <p class="label">${w.label || 'Weather'}</p>
-              <p class="value"><span class="wx-icon" aria-hidden="true"></span><span id="wx-temp">—</span></p>
-              <p class="wx-cond" id="wx-cond" data-lat="${attr(w.lat)}" data-lon="${attr(w.lon)}"></p>
-            </div>
-            <div class="wx-time">
-              <p class="label">Local time</p>
-              <p class="value" id="wx-clock">—</p>
-              <p class="wx-cond" id="wx-date"></p>
-            </div>
-          </div>
-          <ol class="wx-hours" id="wx-hours" aria-label="Hourly forecast, three hours either side of now"></ol>`)
-    : '';
-
-  /* F — the record. */
+  /* F — the record. Stacked under E, beside D — the weather and skills-
+         marquee cards that used to fill this row were dropped (Leo's
+         request). */
   const cardF = card('sp-5', `          <span class="eyebrow">The record</span>
           <ul class="record">
 ${(h.record || []).map(r => `            <li><span class="k">${r.k}</span><span class="v">${r.flag ? '<span class="live-dot">●</span>' : ''}${r.v}</span></li>`).join('\n')}
           </ul>`);
 
-  /* G — training. The chip row is a marquee: one track holding the skill
-         list twice, translated by exactly half its width, which lands copy
-         two where copy one started and so loops without a seam. The second
-         copy is aria-hidden so the list is announced once, and CSS pauses
-         it on hover and disables it outright under prefers-reduced-motion. */
-  const sk = C.skills || {};
-  const skillChips = (sk.groups || []).reduce((acc, g) => acc.concat((g.items || []).map(x => x.t)), []);
-  const run = skillChips.map(t => `<span class="chip">${t}</span>`).join('');
-  const cardG = sk.headline
-    ? card('sp-7', `          <div class="marquee">
-            <div class="marquee-track">
-              <span class="mq-copy">${run}</span>
-              <span class="mq-copy" aria-hidden="true">${run}</span>
-            </div>
-          </div>
-          <p class="label caps">${sk.label || 'Trained in'}</p>
-          <h2 class="display-sm">${sk.headline}</h2>${(sk.areas && sk.areas.length) ? `
-          <ul class="trained">
-${sk.areas.map(a => `            <li><span class="t">${a.t}</span><span class="d">${a.d}</span></li>`).join('\n')}
-          </ul>` : ''}`)
-    : '';
-
   const bentoSection = `    <section class="reveal" aria-label="More about me">
       <div class="bento">
-${[cardB, cardC, cardD, cardE, cardW, cardF, cardG].filter(Boolean).join('\n')}
+${[cardB, cardC, cardD, cardE, cardF].filter(Boolean).join('\n')}
       </div>
     </section>`;
 
