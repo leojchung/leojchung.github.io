@@ -496,8 +496,7 @@ ${i.social.map(s => `        <a class="social-btn" href="${attr(s.href)}" aria-l
 
   const splashSection = `    <section class="splash reveal" id="splash" aria-label="Introduction">${portrait}
       <p class="hero-name">${attr(C.meta.name)}</p>
-      <h2 class="display-sm">${i.greeting || 'Hi'}</h2>
-      <p class="body">${C.meta.tagline}</p>${credential}${socialRow}
+      <h2 class="display-sm">${i.greeting || 'Hi'}<br><em>${C.meta.tagline}</em></h2>${credential}${socialRow}
       <div class="pill-row">
 ${(h.buttons || []).map(b => `        <a class="pill ${b.solid ? 'blue' : 'ghost'}" href="${attr(b.href)}">${b.label}</a>`).join('\n')}
       </div>

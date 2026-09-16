@@ -28,7 +28,7 @@ module.exports = {
   meta: {
     name:        "Leo J. Chung",
     shortName:   "Leo J. Chung",
-    tagline:     "Scientist, teacher, and a Vancouver kid who thinks art, music and sport belong in the same conversation as the lab.",
+    tagline:     "At the intersection of neuroscience, education, and AI development.",
     description: "Leo J. Chung — scientist and educator at the University of British Columbia. Neuroscience research with the Ciernia Lab, the Moss Lab at Johns Hopkins and UBC's Si-Lab; R&D at STEMCELL Technologies; creator of ASTU 400E, Neuroaesthetics.",
 
     // ↓ Change this once you know your final URL (README, step 6).
