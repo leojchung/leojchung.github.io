@@ -527,11 +527,10 @@ ${(h.buttons || []).map(b => `        <a class="pill ${b.solid ? 'blue' : 'ghost
           <p class="body">${h.standfirst}</p>`);
 
   /* E — the rotating interest. main.js cycles .like-word through data-list.
-         Sized to match About's width, right under it (Leo's request) rather
-         than stretched full width. */
+         Its own full-width row, right under About. */
   const likes = i.likes || [];
   const cardE = likes.length
-    ? card('sp-7 like-card center', `          <p class="like-lead">I also like…</p>
+    ? card('sp-12 like-card center', `          <p class="like-lead">I also like…</p>
           <span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span>`)
     : '';
 
