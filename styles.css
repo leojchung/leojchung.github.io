@@ -504,6 +504,9 @@ main .shell > *:first-child{margin-top:0}
   transition:opacity .22s ease;
 }
 
+/* The Vancouver time card beside it — reuses .label/.value from "Based in". */
+.van-date{margin:6px 0 0;font-size:13px;color:var(--ink-2)}
+
 
 /* ══════════════════ SOCIAL BUTTONS ══════════════════ */
 .social-row{display:flex;gap:11px;flex-wrap:wrap;margin-top:22px}

@@ -556,8 +556,17 @@ ${(h.buttons || []).map(b => `        <a class="pill ${b.solid ? 'blue' : 'ghost
          Its own full-width row, right under About. */
   const likes = i.likes || [];
   const cardE = likes.length
-    ? card('sp-12 like-card center', `          <p class="like-lead">I also like…</p>
+    ? card('sp-6 like-card center', `          <p class="like-lead">I also like…</p>
           <span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span>`)
+    : '';
+
+  /* T — Vancouver's local time, beside I-also-like (Leo's request). Filled
+         in by main.js; with JavaScript off it keeps its em dash. */
+  const clk = i.clock;
+  const cardT = clk
+    ? card('sp-6 center', `          <p class="label">${clk.label || 'Local time'}</p>
+          <p class="value" id="van-clock">—</p>
+          <p class="van-date" id="van-date"></p>`)
     : '';
 
   /* F — the record. Moved up (Leo's request) to sit beside About instead of
@@ -569,7 +578,7 @@ ${(h.record || []).map(r => `            <li><span class="k">${r.k}</span><span 
 
   const bentoSection = `    <section class="reveal" aria-label="More about me">
       <div class="bento">
-${[cardB, cardC, cardF, cardD, cardE].filter(Boolean).join('\n')}
+${[cardB, cardC, cardF, cardD, cardE, cardT].filter(Boolean).join('\n')}
       </div>
     </section>`;
 
