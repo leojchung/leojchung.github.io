@@ -477,8 +477,8 @@ function renderForm(d){
 
   if (!f.action){
     return card('sp-12', `          <h3 class="display-sm">${f.heading || 'Send me a message'}</h3>
-          <p class="body">The message form is not connected yet — see the setup note in <code>content.js</code>. Until then, email works perfectly well.</p>
-          <div class="pill-row"><a class="pill blue" href="mailto:${attr(mailto)}">Email me instead</a></div>`) + '\n';
+          <p class="body">${f.fallbackNote || 'Email is the quickest way to reach me — it lands straight in my inbox, and I answer fast.'}</p>
+          <div class="pill-row"><a class="pill blue" href="mailto:${attr(mailto)}">${f.fallbackButton || 'Email me'}</a></div>`) + '\n';
   }
 
   return `        <form class="card stagger-item sp-12" action="${attr(f.action)}" method="POST">

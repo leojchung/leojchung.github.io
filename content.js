@@ -46,8 +46,8 @@ module.exports = {
     // as the thing that made sites feel like a person — worth adding one.
     portrait:    "assets/leo.jpg",
 
-    // US spelling throughout. NOTES-FOR-LEO.md has the one-command flip
-    // to Canadian/British if you'd rather.
+    // US spelling throughout — behavioral, analyzing, not behavioural.
+    // One convention, held consistently; see CLAUDE.md.
   },
 
   /* ─────────────────────────────── HERO ──────────────────────────────── */
@@ -672,49 +672,6 @@ module.exports = {
   },
 
   /* ──────────────────── § NOTES / LAB NOTEBOOK ───────────────────────── */
-  /* Currently OFF. Switch it on in `sections` once you have written two or
-     three things — an empty writing section is worse than none.
-
-     Why this section exists: two of the best academic sites solve the same
-     problem you have. Maggie Appleton grades her writing by maturity — Essays,
-     Notes, Patterns, Smidgeons — rather than by date, and Madeline Eppley puts
-     a "Lab Notebook" in her top-level nav. Both give an early-career person a
-     legitimate place to publish in-progress thinking without pretending it is
-     a paper. `idx` is the maturity tier; keep it to three or four labels.
-
-     Each item can carry links: [{ label, href }] pointing at a PDF in assets/
-     or anywhere else.                                                        */
-  notes: {
-    eyebrow: "Writing",
-    title: "Notes",
-    hint:  "Graded by how finished it is, not by date. Seedlings are thinking out loud.",
-    items: [
-      {
-        idx:   "ESSAY",
-        when:  "—",
-        title: "Replace this with something you have actually written",
-        meta:  ["Delete this entry once you have a real one"],
-        blurb: "Finished pieces go at the top. An essay is something you would " +
-               "be happy for a PI to read cold."
-      },
-      {
-        idx:   "NOTE",
-        when:  "—",
-        title: "A worked-through idea that is not a full essay",
-        meta:  ["Example entry"],
-        blurb: "Notes are for a single argument or a paper you read closely — " +
-               "a few hundred words, complete in itself."
-      },
-      {
-        idx:   "SEEDLING",
-        when:  "—",
-        title: "Something you are still turning over",
-        meta:  ["Example entry"],
-        blurb: "Seedlings are explicitly unfinished, and labelling them that way " +
-               "is what makes it safe to publish them."
-      }
-    ]
-  },
 
   /* ──────────────────────── § READING LIST ───────────────────────────── */
   /* Home page. A plain divided list of things worth reading — the "what
