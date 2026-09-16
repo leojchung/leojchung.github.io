@@ -190,7 +190,7 @@ module.exports = {
     social: [
       { logo: "gmail",    label: "Email",             href: "mailto:leojc815@gmail.com" },
       { logo: "linkedin", label: "LinkedIn",          href: "https://www.linkedin.com/in/leojchung" },
-      { logo: "neuroarts", label: "Neuroarts profile", href: "https://www.neuroartsresourcecenter.com/profile/leojchung" }
+      { logo: "neuroarts", label: "NeuroArts Profile", href: "https://www.neuroartsresourcecenter.com/profile/leojchung" }
     ]
   },
 
@@ -799,16 +799,15 @@ module.exports = {
   contact: {
     eyebrow: "Let's talk",
     title: "Get in <em>touch.</em>",
-    blurb: "I'm looking for a co-op or internship for January 2027, in biotech, pharma, or the " +
-           "life sciences. Reach out if you're working on chromatin, the gut–brain axis, animal " +
-           "communication, or science education — or if you're a student trying to figure out " +
-           "how to get into a lab. Happy to talk.",
+    blurb: "Always happy to talk about anything! Feel free to reach out if you're curious about " +
+           "any of my work or experiences. I am always open to chatting and mentorship. If you " +
+           "have any interesting opportunities, don't hesitate to shoot me an email.",
     links: [
       { k: "Email",     label: "leojc815@gmail.com",          href: "mailto:leojc815@gmail.com",
         sub: { label: "ljchung@student.ubc.ca", href: "mailto:ljchung@student.ubc.ca" } },
-      { k: "Phone",     label: "(778) 980-8436",              href: "tel:+17789808436" },
+      { k: "Phone Number", label: "(778) 980-8436",           href: "tel:+17789808436" },
       { k: "LinkedIn",  label: "linkedin.com/in/leojchung",   href: "https://www.linkedin.com/in/leojchung", me: true },
-      { k: "Neuroarts Profile", label: "neuroartsresourcecenter.com", href: "https://www.neuroartsresourcecenter.com/profile/leojchung", me: true },
+      { k: "NeuroArts Profile", label: "neuroartsresourcecenter.com", href: "https://www.neuroartsresourcecenter.com/profile/leojchung", me: true },
       { k: "Located",   label: "Vancouver, British Columbia", href: null }
     ],
 

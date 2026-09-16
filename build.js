@@ -55,6 +55,14 @@ const plain = s => String(s == null ? '' : s)
 // cards set them inline, so flatten it.
 const flat = s => String(s == null ? '' : s).replace(/<br\s*\/?>/gi, ' ');
 
+// Clicking an email link opens Gmail's web compose with the address already
+// in "To", rather than whatever mail app the visitor's OS happens to hand
+// mailto: to. Runs before externalizeLinks so the resulting mail.google.com
+// URL also picks up target="_blank"/rel="noopener" from that pass.
+const gmailify = html => html.replace(/href="mailto:([^"?]+)(?:\?[^"]*)?"/g,
+  // &amp; because this lands inside an HTML attribute, not a bare URL.
+  (_, addr) => `href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=${encodeURIComponent(addr)}"`);
+
 // Every off-site link opens in a new tab, so a visitor never loses this
 // page by clicking out to LinkedIn, a lab, or a press write-up. Run once
 // over the finished HTML rather than threading target/rel through every
@@ -360,7 +368,7 @@ function renderContact(d){
 
   const primaryCard = primary
     ? card('sp-5 center', `          <p class="label">${primary.k}</p>
-          ${primary.href ? `<a class="contact-value" href="${attr(primary.href)}">${primary.label}</a>` : `<p class="contact-value">${primary.label}</p>`}${primary.sub ? `\n          <a class="contact-value ubc" href="${attr(primary.sub.href)}">${primary.sub.label}</a>` : ''}`)
+          ${primary.href ? `<a class="contact-value big" href="${attr(primary.href)}">${primary.label}</a>` : `<p class="contact-value big">${primary.label}</p>`}${primary.sub ? `\n          <a class="contact-value ubc big" href="${attr(primary.sub.href)}">${primary.sub.label}</a>` : ''}`)
     : '';
 
   /* The cards under the email card fill whole rows: three across when the
@@ -379,7 +387,7 @@ function renderContact(d){
       <div class="bento">
 ${card('sp-7', `          <span class="eyebrow">${d.eyebrow || 'contact'}</span>
           <h2 class="display" id="contact-h">${d.title}</h2>
-          <p class="body">${d.blurb}</p>`)}
+          <p class="body contact-blurb">${d.blurb}</p>`)}
 ${primaryCard}
 ${restCards}
 ${renderForm(d)}      </div>
@@ -730,7 +738,7 @@ ${renderDock(page.file)}
 /* ── write every page ─────────────────────────────────────────────────────── */
 
 C.pages.forEach(page => {
-  const html = externalizeLinks(renderPage(page));
+  const html = externalizeLinks(gmailify(renderPage(page)));
   fs.writeFileSync(path.join(__dirname, page.file), html, 'utf8');
   const kb = (Buffer.byteLength(html, 'utf8') / 1024).toFixed(1);
   console.log(`✓ ${page.file} written — ${kb} KB`);
