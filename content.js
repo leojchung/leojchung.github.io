@@ -174,10 +174,13 @@ module.exports = {
     likes: [
       "biking",
       "chess",
-      "the Lakers",
-      "the Rams",
-      "a good ramen spot",
-      "the Fun page →"
+      "the Lakers 🌴",
+      "the Rams 🐏",
+      "the Fun page →",
+      "good Texas BBQ",
+      "Star Wars",
+      "old music (and I mean really old)",
+      "microglia"
     ],
 
     /* Icon row with a hover/focus popup. `logo` names an inline SVG mark in

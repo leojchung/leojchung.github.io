@@ -495,10 +495,10 @@ main .shell > *:first-child{margin-top:0}
 .wx{justify-content:space-between;gap:22px}
 .wx-top{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 .wx-time{text-align:right}
-.wx .value{display:flex;align-items:center;gap:10px}
+.wx .value{display:flex;align-items:center;gap:10px;font-size:clamp(22px,2.4vw,29px)}
 .wx-time .value{justify-content:flex-end}
 .wx-icon{font-size:.9em;line-height:1}
-.wx-cond{margin:8px 0 0;font-size:14px;color:var(--ink-2);line-height:1.5;min-height:1.5em}
+.wx-cond{margin:8px 0 0;font-size:15px;color:var(--ink-2);line-height:1.5;min-height:1.5em}
 .wx-hours{
   display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;
   margin:0;padding:0;list-style:none;
@@ -510,11 +510,11 @@ main .shell > *:first-child{margin-top:0}
 /* The current hour sits on a recessed chip — the page's usual way of
    marking "this one", with no new colour. */
 .wx-hours li.now{background:var(--card-2)}
-.wx-hours .h{font-family:var(--f-mono);font-size:10px;letter-spacing:.02em;color:var(--ink-2);white-space:nowrap}
+.wx-hours .h{font-family:var(--f-mono);font-size:11px;letter-spacing:.02em;color:var(--ink-2);white-space:nowrap}
 .wx-hours .now .h{color:var(--ink)}
-.wx-hours .i{font-size:clamp(20px,2.2vw,26px);line-height:1}
-.wx-hours .t{font-size:clamp(14px,1.5vw,17px);font-weight:700;letter-spacing:-.01em}
-@media (max-width:420px){ .wx-hours .h{font-size:9px} }
+.wx-hours .i{font-size:clamp(22px,2.4vw,28px);line-height:1}
+.wx-hours .t{font-size:clamp(15px,1.6vw,18px);font-weight:700;letter-spacing:-.01em}
+@media (max-width:420px){ .wx-hours .h{font-size:10px} }
 
 /* ── THE SKILLS MARQUEE ───────────────────────────────────────────────────
    The track holds the chip list twice and slides by exactly -50%, which
