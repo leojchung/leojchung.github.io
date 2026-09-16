@@ -107,18 +107,17 @@ module.exports = {
     // not Turing's; he wants it credited to him anyway.
     cite: "Alan Turing, <em>The Imitation Game</em> (2014)",
 
-    // <b>…</b> gets a soft maroon highlight. Three or four maximum.
-    /* The About card, as a few big bullet points rather than a paragraph
-       (Leo's request, Sep 2026) — same size/weight as "What drives me".
-       Claude's best guess at the right three, drawn from what's already
-       verified elsewhere in this file (record, research, teaching) — Leo
-       said to fill these in for now and he'll edit them later. */
-    /* <em> here is a real italic — a work title. The two-tone rule that makes
-       <em> grey-and-upright applies to .display / .display-sm headlines and
-       section headings, not to these bullets. */
+    /* The About card — a few big bullet points rather than a paragraph, and
+       Leo's own wording as of Sep 2026.
+
+       <em> here is a REAL italic, for a work title. The two-tone rule that
+       makes <em> grey and upright applies to .display / .display-sm
+       headlines and section headings, not to these bullets. */
     points: [
       "Researching the brain — understanding neuroimmunology, the gut–brain axis, and epigenetic regulation.",
-      "Building in industry — R&amp;D product pipelines, AI development, and both wet- and dry-lab work.",
+      // "dry‑lab" uses a NON-BREAKING hyphen (U+2011). With a plain one the
+      // line broke as "dry- / lab", which reads as a typo.
+      "Building in industry — R&amp;D product pipelines, AI development, and both wet- and dry‑lab work.",
       "Teaching what I study — co-developed and taught ASTU 400E, <em>Neuroaesthetics: Your Brain on Art</em>, at UBC."
     ],
 

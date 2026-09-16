@@ -282,8 +282,8 @@ a.card:hover,button.card:hover{transform:translateY(-3px);background:var(--card-
 .about-points{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:19px}
 .about-points li{
   position:relative;padding-left:24px;
-  font-size:clamp(17.5px,1.7vw,21px);
-  line-height:1.42;letter-spacing:-.012em;
+  font-size:clamp(19px,1.95vw,24px);
+  line-height:1.36;letter-spacing:-.015em;
   text-wrap:pretty;
 }
 .about-points li::before{
