@@ -399,12 +399,25 @@ main .shell > *:first-child{margin-top:0}
    quote is the Turing/Imitation-Game credit; the splash below it is the
    "Hi, I'm Leo" screen, modelled on kellieho.framer.ai/about. */
 .quote-block{
+  position:relative;
   display:flex;flex-direction:column;justify-content:center;align-items:center;
   min-height:100svh;max-width:900px;margin:0 auto;padding:32px var(--pad);text-align:center;
 }
 .hero-cite{margin:18px 0 0;font-size:13px;color:var(--ink-2);line-height:1.5}
 .hero-cite cite{font-style:normal}
 .hero-cite cite em{font-style:italic}
+
+/* A soft cue so the first fold doesn't read as the whole page — the quote
+   is meant to be scrolled past, not mistaken for the entire hero. */
+.scroll-cue{
+  position:absolute;left:50%;bottom:28px;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  color:var(--ink-2);text-decoration:none;opacity:.7;
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+}
+.scroll-cue:hover,.scroll-cue:focus-visible{opacity:1}
+.scroll-cue svg{animation:scroll-bounce 1.8s ease-in-out infinite}
+@keyframes scroll-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
 .splash{
   display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;

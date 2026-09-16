@@ -443,7 +443,11 @@ function renderHome(){
      headline's <em> is the grey half of the sentence. */
   const quoteSection = `    <section class="quote-block reveal" aria-label="Quote">
       <h1 class="display">${h.headline}</h1>
-${h.cite ? `      <p class="hero-cite">— <cite>${h.cite}</cite></p>\n` : ''}    </section>`;
+${h.cite ? `      <p class="hero-cite">— <cite>${h.cite}</cite></p>\n` : ''}      <a class="scroll-cue" href="#splash">
+        <span>Scroll for profile</span>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </section>`;
 
   /* Splash — the "Hi, I'm Leo" screen, modelled on the centered intro at
      kellieho.framer.ai/about: portrait with a live-status dot, name,
@@ -466,7 +470,7 @@ ${h.cite ? `      <p class="hero-cite">— <cite>${h.cite}</cite></p>\n` : ''}  
 ${i.social.map(s => `        <a class="social-btn" href="${attr(s.href)}" aria-label="${attr(s.label)}">${socialMark(s)}<span class="tip">${attr(s.label)}</span></a>`).join('\n')}
       </div>` : '';
 
-  const splashSection = `    <section class="splash reveal" aria-label="Introduction">${portrait}
+  const splashSection = `    <section class="splash reveal" id="splash" aria-label="Introduction">${portrait}
       <p class="hero-name">${attr(C.meta.name)}</p>
       <h2 class="display-sm">${i.greeting || 'Hi'}</h2>
       <p class="body">${C.meta.tagline}</p>${credential}${socialRow}
