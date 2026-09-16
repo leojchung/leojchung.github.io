@@ -92,8 +92,9 @@
   --logo-plate:transparent; /* behind org logos (UBC, JHU, STEMCELL). Dark
                                mode sets it white: the marks are navy and
                                grey, and vanish on a dark card otherwise   */
-  --logo-pad:3px;          /* every side: a tall mark (the UBC crest) must not
-                              touch the plate's rounded corners and get clipped */
+  --logo-pad:5px;           /* the inset between a mark and its plate edge. Must
+                               clear the plate's corner radius (r x 0.29) or a
+                               tall mark like the UBC crest gets its corners cut */
 }
 
 /* ══════════════════ TOKENS — DARK ══════════════════
@@ -122,7 +123,7 @@
     --dock-edge:#26272C;
     --pin:#23252A;
     --logo-plate:#FFFFFF;
-    --logo-pad:4px 7px;
+    --logo-pad:5px 8px;
   }
 }
 :root[data-theme="dark"]{
@@ -140,7 +141,7 @@
   --dock-edge:#26272C;
   --pin:#23252A;
   --logo-plate:#FFFFFF;
-  --logo-pad:4px 7px;
+  --logo-pad:5px 8px;
 }
 
 
@@ -457,7 +458,7 @@ main .shell > *:first-child{margin-top:0}
    Bigger box + padding on every side (see --logo-pad) keeps the whole
    shield inside the rounded corners with room to spare, in both themes. */
 .uni-logo{
-  display:block;flex:none;width:40px;height:40px;object-fit:contain;
+  display:block;flex:none;width:44px;height:44px;object-fit:contain;
   background:var(--logo-plate);padding:var(--logo-pad);border-radius:9px;
 }
 
@@ -572,11 +573,25 @@ img.mark{object-fit:contain}
    max-width catches the extreme case: at a matched height STEMCELL's
    wordmark would run 213px and dominate the card, so it is capped and
    gives back a little height instead. */
-.now-logo{height:46px;margin:0 0 18px;display:flex;align-items:center;justify-content:flex-start}
-.now-logo img{
-  display:block;height:100%;width:auto;max-width:170px;object-fit:contain;
-  background:var(--logo-plate);padding:var(--logo-pad);border-radius:10px;
+/* The plate — its fill, padding and rounded corners — belongs on the SLOT,
+   never on the <img>. A radius set on the image clips the artwork itself,
+   and because the slot hugs each mark's exact proportions the mark touches
+   all four edges, so the corners bite straight into it. That is what cut
+   the UBC crest here. With the plate on the slot the image carries no
+   radius at all and cannot be clipped, whatever shape it is.
+
+   The slot is 50px rather than 46px so the 5px inset still leaves the same
+   40px of mark as before — the plate grew, the logos did not shrink. */
+.now-logo{
+  height:50px;width:fit-content;max-width:100%;
+  margin:0 0 18px;padding:var(--logo-pad);
+  background:var(--logo-plate);border-radius:10px;
+  display:flex;align-items:center;justify-content:flex-start;
 }
+/* A card with no mark keeps the slot's height, so headings still line up
+   across the row — but must not paint an empty plate in dark mode. */
+.now-logo:empty{padding:0;background:none}
+.now-logo img{display:block;height:100%;width:auto;max-width:170px;object-fit:contain}
 .now-role{margin:0;font-size:19px;font-weight:700;line-height:1.28;letter-spacing:-.018em}
 .now-org{margin:7px 0 0;font-size:14px;color:var(--ink-2);line-height:1.5}
 .now-since{
