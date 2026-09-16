@@ -438,37 +438,47 @@ function renderHome(){
   const h = C.hero;
   const i = C.intro || {};
 
-  /* A — identity. The headline's <em> is the grey half of the sentence. */
-  const identityChips = [].concat(h.identity || []);
+  /* Quote — bare, centered, no card fill. Sits directly on the page the way
+     Kellie Ho's section titles do before her boxed content begins. The
+     headline's <em> is the grey half of the sentence. */
+  const quoteSection = `    <section class="quote-block reveal" aria-label="Quote">
+      <h1 class="display">${h.headline}</h1>
+${h.cite ? `      <p class="hero-cite">— <cite>${h.cite}</cite></p>\n` : ''}    </section>`;
 
-  /* The UBC badge: the official logo file once Leo supplies one (see the
-     note on `credential` in content.js), otherwise the letters in a disc.
-     A logo path that is not on disk falls back to the letters, so a typo
-     cannot ship a broken image. */
+  /* Splash — the "Hi, I'm Leo" screen, modelled on the centered intro at
+     kellieho.framer.ai/about: portrait with a live-status dot, name,
+     greeting, tagline, credential, socials, CTAs — bare like the quote
+     above it, not a card. */
   const cr = h.credential;
   const crLogo = !!(cr && cr.logo && fs.existsSync(path.join(__dirname, cr.logo)));
   if (cr && cr.logo && !crLogo) console.warn(`  ! credential.logo "${cr.logo}" not found, using the letters`);
   const credential = cr
-    ? `\n            <p class="credential">${crLogo
+    ? `\n      <p class="credential">${crLogo
         ? `<img class="uni-logo" src="${attr(cr.logo)}" alt="University of British Columbia">`
         : `<span class="uni-mark">${attr(cr.mark)}</span>`}<span>${cr.detail}</span></p>`
     : '';
 
   const portrait = C.meta.portrait
-    ? `\n          <img class="hero-portrait" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="230" height="230">`
+    ? `\n      <span class="portrait-wrap"><img class="hero-portrait" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="230" height="230"><span class="status-dot" aria-hidden="true"></span></span>`
     : '';
 
-  const cardA = card('sp-7 rows-2 hero-card', `          <div>
-            <p class="hero-name">${attr(C.meta.name)}</p>
-            <h1 class="display">${h.headline}</h1>
-${h.cite ? `            <p class="hero-cite">— <cite>${h.cite}</cite></p>\n` : ''}${h.card ? `            <p class="body">${h.card}</p>\n` : ''}${chips(identityChips)}${credential}
-            <div class="pill-row">
-${(h.buttons || []).map(b => `              <a class="pill ${b.solid ? 'blue' : 'ghost'}" href="${attr(b.href)}">${b.label}</a>`).join('\n')}
-            </div>
-          </div>${portrait}`);
+  const socialRow = (i.social && i.social.length) ? `\n      <div class="social-row">
+${i.social.map(s => `        <a class="social-btn" href="${attr(s.href)}" aria-label="${attr(s.label)}">${socialMark(s)}<span class="tip">${attr(s.label)}</span></a>`).join('\n')}
+      </div>` : '';
 
-  /* B — based in, with the pin row. */
-  const cardB = card('sp-5', `          <p class="label">Based in</p>
+  const splashSection = `    <section class="splash reveal" aria-label="Introduction">${portrait}
+      <p class="hero-name">${attr(C.meta.name)}</p>
+      <h2 class="display-sm">${i.greeting || 'Hi'}</h2>
+      <p class="body">${C.meta.tagline}</p>${credential}${socialRow}
+      <div class="pill-row">
+${(h.buttons || []).map(b => `        <a class="pill ${b.solid ? 'blue' : 'ghost'}" href="${attr(b.href)}">${b.label}</a>`).join('\n')}
+      </div>
+    </section>`;
+
+  /* B — based in, with the pin row. Paired with C as a plain half-and-half
+         row now that A (their old tall partner) has moved into the splash
+         above. */
+  const cardB = card('sp-6', `          <p class="label">Based in</p>
           <p class="value">${attr(i.location ? plain(i.location).replace(/^📍\s*/, '') : C.meta.location)} 🇨🇦</p>
           <div class="pins" aria-hidden="true">
             ${PIN_FAR}${PIN_FAR}${PIN_FAR}${PIN_HERE}${PIN_FAR}${PIN_FAR}${PIN_FAR}
@@ -478,17 +488,14 @@ ${(h.buttons || []).map(b => `              <a class="pill ${b.solid ? 'blue' : 
          record card's fields/degree/etc rows underneath — dropped (Sep 2026,
          Leo's request) since card F already shows that data; showing it
          twice on one page was the actual bug. */
-  const cardC = card('sp-5', `          <p class="label caps">What drives me</p>
+  const cardC = card('sp-6', `          <p class="label caps">What drives me</p>
           <p class="value">${i.focus || C.meta.tagline}</p>`);
 
-  /* D — about. */
+  /* D — about. The greeting and socials now live in the splash above this
+         section, so this card is just the fuller written paragraph. */
   const cardD = card('sp-7 rows-2', `          <span class="eyebrow">About</span>
-          <h2 class="display-sm">${i.greeting || 'Hi'}</h2>
           <p class="body">${h.standfirst}</p>
-${(i.paragraphs || []).map(p => `          <p class="body">${p}</p>`).join('\n')}
-${(i.social && i.social.length) ? `          <div class="social-row">
-${i.social.map(s => `            <a class="social-btn" href="${attr(s.href)}" aria-label="${attr(s.label)}">${socialMark(s)}<span class="tip">${attr(s.label)}</span></a>`).join('\n')}
-          </div>` : ''}`);
+${(i.paragraphs || []).map(p => `          <p class="body">${p}</p>`).join('\n')}`);
 
   /* E — the rotating interest. main.js cycles .like-word through data-list.
          Half-height, with the weather card stacked under it: card D beside
@@ -550,11 +557,13 @@ ${sk.areas.map(a => `            <li><span class="t">${a.t}</span><span class="d
           </ul>` : ''}`)
     : '';
 
-  return `    <section class="reveal" aria-label="Introduction">
+  const bentoSection = `    <section class="reveal" aria-label="More about me">
       <div class="bento">
-${[cardA, cardB, cardC, cardD, cardE, cardW, cardF, cardG].filter(Boolean).join('\n')}
+${[cardB, cardC, cardD, cardE, cardW, cardF, cardG].filter(Boolean).join('\n')}
       </div>
     </section>`;
+
+  return `${quoteSection}\n${splashSection}\n${bentoSection}`;
 }
 
 /* ── page shell: head, dock, footer — shared by every page ────────────────── */

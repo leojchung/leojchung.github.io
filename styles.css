@@ -393,19 +393,33 @@ main .shell > *:first-child{margin-top:0}
 }
 
 
-/* ══════════════════ HERO ══════════════════ */
-.hero-card{justify-content:space-between;min-height:min(56vh,420px)}
+/* ══════════════════ HOME: QUOTE + SPLASH ══════════════════
+   Two bare sections, no card fill, centered — the way Kellie Ho's page
+   opens with plain centered type before any boxed content. The quote is
+   the Turing/Imitation-Game credit; the splash below it is the
+   "Hi, I'm Leo" screen, modelled on kellieho.framer.ai/about. */
+.quote-block{max-width:900px;margin:0 auto;padding:64px var(--pad) 8px;text-align:center}
+.hero-cite{margin:18px 0 0;font-size:13px;color:var(--ink-2);line-height:1.5}
+.hero-cite cite{font-style:normal}
+.hero-cite cite em{font-style:italic}
+
+.splash{
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:6px;max-width:560px;margin:0 auto;padding:32px var(--pad) 72px;
+}
+.splash .body{margin-top:8px}
+.splash .pill-row,.splash .social-row{justify-content:center}
+.splash .credential{align-self:center}
+
 .hero-name{
-  margin:0 0 16px;font-family:var(--f-mono);font-size:11px;font-weight:500;
+  margin:14px 0 0;font-family:var(--f-mono);font-size:11px;font-weight:500;
   letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);
 }
-.hero-card .display{margin-bottom:8px}
-/* Credit under a quoted headline. Small, quiet, and never omitted when the
-   headline is somebody else's words — see the note in content.js. */
+
 /* The UBC badge — the letters in a disc until Leo supplies the official
    logo file, which then replaces the disc. See content.js. */
 .credential{
-  display:inline-flex;align-items:center;gap:11px;align-self:flex-start;
+  display:inline-flex;align-items:center;gap:11px;
   margin:16px 0 0;padding:5px 18px 5px 5px;
   background:var(--card-3);border-radius:999px;
   font-size:13px;line-height:1.35;color:var(--ink-2);max-width:100%;
@@ -422,17 +436,14 @@ main .shell > *:first-child{margin-top:0}
   background:var(--logo-plate);padding:var(--logo-pad);border-radius:9px;
 }
 
-.hero-cite{margin:14px 0 0;font-size:13px;color:var(--ink-2);line-height:1.5}
-.hero-cite cite{font-style:normal}
-.hero-cite cite em{font-style:italic}
-
-/* The portrait sits at the bottom of the hero card, large, centered — the
-   position Kellie Ho's illustration occupies. Circular, because it is the
-   one non-rectangle in a page made of rounded rectangles. */
-.hero-portrait{
-  align-self:center;margin-top:auto;padding-top:28px;
-  width:min(200px,58%);aspect-ratio:1;object-fit:cover;
-  border-radius:50%;display:block;
+/* The portrait — circular, the one non-rectangle on a page of rounded
+   rectangles. .portrait-wrap positions the green "here" dot over its
+   corner, the way Kellie Ho's avatar shows an online-status dot. */
+.portrait-wrap{position:relative;display:inline-block}
+.hero-portrait{width:min(200px,58%);aspect-ratio:1;object-fit:cover;border-radius:50%;display:block}
+.status-dot{
+  position:absolute;right:6%;bottom:6%;width:15%;height:15%;min-width:14px;min-height:14px;
+  border-radius:50%;background:var(--live);box-shadow:0 0 0 3px var(--page);
 }
 
 /* "Based in" card — a row of pins with the marked one in the middle, as in
