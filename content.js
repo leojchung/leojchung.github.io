@@ -147,7 +147,7 @@ module.exports = {
     // standalone line — so it reads as a sentence, not as the tail of one.
     // Leo's own words: the line recurs across his 2025–26 co-op cover letters
     // ("committed to producing results that others can trust and build upon").
-    focus: "Building things that make life a little bit easier, one step at a time 🔬💻",
+    focus: "Building and working towards things that make life a little bit easier, one step at a time 🔬💻🧠",
 
     // Trimmed to one paragraph (Sep 2026) so the About card roughly matches
     // the height of "I also like" + weather stacked beside it — the two
