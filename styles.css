@@ -658,14 +658,19 @@ main .shell > *:first-child{margin-top:0}
 .ask-result.show{opacity:1}
 .ask-result b{color:var(--accent-ink);font-weight:700}
 
-/* The Ask page is centered, unlike every other section header — scoped by
-   :has() to just this one section rather than adding a branch to the
-   shared .sec-head rules everyone else uses. */
-.section:has(#ask-h) .sec-head{justify-content:center}
+/* The Ask page is centered — both axes, unlike every other section, which
+   is left-aligned and just flows top to bottom. Scoped by :has() to just
+   this one section rather than adding a branch to the shared .sec-head
+   rules everyone else uses. */
+.section:has(#ask-h){
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  min-height:52vh;text-align:center;
+}
+.section:has(#ask-h) .sec-head{justify-content:center;width:100%}
 .section:has(#ask-h) .sec-head-text{text-align:center}
 .section:has(#ask-h) .sec-hint{margin-inline:auto}
 .section:has(#ask-h) .ask-bar,
-.section:has(#ask-h) .ask-result{margin-inline:auto}
+.section:has(#ask-h) .ask-result{width:min(640px,100%)}
 .section:has(#ask-h) .ask-result{text-align:center}
 
 

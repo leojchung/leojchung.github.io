@@ -27,8 +27,19 @@
    navigation, with the theme toggle at its right end.
    ══════════════════════════════════════════════════════════════════════════ */
 
-const fs   = require('fs');
-const path = require('path');
+const fs     = require('fs');
+const path   = require('path');
+const crypto = require('crypto');
+
+/* Cache-busting query string for styles.css. Without it, a browser that
+   already fetched the stylesheet once keeps using its cached copy after a
+   CSS-only push — the HTML changes (it's a new file every build) but the
+   look doesn't, which reads as "the change didn't take" when it's really
+   just a stale cache. Short hash of the file's own contents, so the query
+   string only changes when the CSS actually does. */
+const cssVersion = crypto.createHash('md5')
+  .update(fs.readFileSync(path.join(__dirname, 'styles.css')))
+  .digest('hex').slice(0, 8);
 const C    = require('./content.js');
 
 /* ── helpers ───────────────────────────────────────────────────────────── */
@@ -624,7 +635,7 @@ function renderHead(page){
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=${cssVersion}">
 
 <script type="application/ld+json">
 ${jsonLd}
