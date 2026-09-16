@@ -74,13 +74,23 @@ const gmailify = html => html.replace(/href="mailto:([^"?]+)(?:\?[^"]*)?"/g,
   // &amp; because this lands inside an HTML attribute, not a bare URL.
   (_, addr) => `href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=${encodeURIComponent(addr)}"`);
 
-// Every off-site link opens in a new tab, so a visitor never loses this
-// page by clicking out to LinkedIn, a lab, or a press write-up. Run once
-// over the finished HTML rather than threading target/rel through every
-// renderer that builds an <a>. Internal links (mailto:, tel:, relative
-// paths) are untouched — those aren't "leaving the site".
+// Every link that leaves this site opens in a new tab, so a visitor never
+// loses the page they were reading by clicking out to LinkedIn, a lab, a
+// press write-up, the CV or a syllabus. Run once over the finished HTML
+// rather than threading target/rel through every renderer that builds an
+// <a> — which also means a link added by some FUTURE section gets the same
+// treatment without anyone having to remember this rule.
+//
+// Staying in the tab, and only these: in-page anchors (#main, #splash,
+// Back to top, Skip to content) and our own pages (index.html and
+// friends). Opening the dock in a new tab would be absurd. Everything
+// else — http(s), tel:, and local files like cv.pdf — gets a new one.
+// mailto: never reaches here as mailto:, because gmailify has already
+// rewritten it into a mail.google.com URL just above.
 const externalizeLinks = html => html.replace(/<a\b([^>]*)>/g, (tag, attrs) => {
-  if (!/href="https?:\/\//.test(attrs) || /\btarget=/.test(attrs)) return tag;
+  const href = (attrs.match(/href="([^"]*)"/) || [])[1];
+  const sameTab = !href || /^(?:#|[^:?#]*\.html(?:[?#].*)?$)/i.test(href);
+  if (sameTab || /\btarget=/.test(attrs)) return tag;
   const withRel = /\brel="/.test(attrs)
     ? attrs.replace(/rel="([^"]*)"/, (_, r) => `rel="${r} noopener"`)
     : attrs + ' rel="noopener"';
@@ -177,11 +187,21 @@ const LOGOS = {
 
 /* One social button's mark: a real logo when the entry names one, else its
    emoji. A mark with `src` is an image file in assets/; the button's
-   aria-label already names it, so the image itself is decorative. */
+   aria-label already names it, so the image itself is decorative.
+
+   TO USE A REAL LOGO FILE: put the image in assets/ and set `src` on that
+   entry in content.js — no edit here. It wins over the drawn mark below.
+   If the file is missing the build says so and falls back to the drawing,
+   so a typo can never ship a broken image. */
 const socialMark = s => {
   const l = s.logo && LOGOS[s.logo];
+  const file = s.src || (l && l.src);
+  if (file){
+    if (fs.existsSync(path.join(__dirname, file)))
+      return `<img class="mark brand" src="${attr(file)}" alt="" width="29" height="29">`;
+    console.warn(`  ! social "${s.label}": ${file} not found — using the drawn mark`);
+  }
   if (!l) return s.icon || '';
-  if (l.src) return `<img class="mark brand" src="${attr(l.src)}" alt="" width="29" height="29">`;
   return `<svg class="mark${l.brand ? ' brand' : ''}" viewBox="${l.vb || '0 0 24 24'}" aria-hidden="true">${l.svg}</svg>`;
 };
 

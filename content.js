@@ -186,12 +186,39 @@ module.exports = {
        palette. Check them against the official logos — if either is off,
        put the official SVG in assets/ and point its LOGOS entry at the
        file instead. */
+    /* ── THE SOCIAL ROW ───────────────────────────────────────────────────
+       Order here is the order on the page. Reorder these five lines and
+       the row reorders — nothing else to change.
+
+       ── TO USE A REAL LOGO INSTEAD OF THE DRAWN ONE ──
+         1. Save the logo as a PNG (transparent background, square, roughly
+            128×128 or bigger — it is displayed at 29px, so anything from
+            128px up looks sharp on a retina screen).
+         2. Put it in  assets/  using EXACTLY the filename in the `src:`
+            line below it.
+         3. Delete the two slashes at the start of that `src:` line.
+         4. node build.js
+
+       Until a file is actually there, the build prints a warning and keeps
+       using the drawn mark — a missing file can never ship as a broken
+       image. LinkedIn's drawn mark is the real "in" bug in LinkedIn blue
+       and Leo asked to keep it, so it has no `src` line.
+
+       NeuroArts already uses a real file (their published "NA" favicon).  */
     social: [
-      { logo: "gmail",     label: "Email",             href: "mailto:leojc815@gmail.com" },
+      { logo: "gmail",     label: "Email",             href: "mailto:leojc815@gmail.com",
+        src: "assets/gmail-logo.png",
+      },
       { logo: "linkedin",  label: "LinkedIn",          href: "https://www.linkedin.com/in/leojchung" },
-      { logo: "instagram", label: "Instagram",         href: "https://www.instagram.com/leojchung" },
-      { logo: "chess",     label: "Chess.com",         href: "https://www.chess.com/member/leojchung" },
-      { logo: "neuroarts", label: "NeuroArts Profile", href: "https://www.neuroartsresourcecenter.com/profile/leojchung" }
+
+      { logo: "neuroarts", label: "NeuroArts Profile", href: "https://www.neuroartsresourcecenter.com/profile/leojchung" },
+
+      { logo: "instagram", label: "Instagram",         href: "https://www.instagram.com/leojchung",
+        src: "assets/instagram-logo.png",
+      },
+      { logo: "chess",     label: "Chess.com",         href: "https://www.chess.com/member/leojchung",
+        src: "assets/chess-logo.png",
+      }
     ]
   },
 
@@ -805,7 +832,7 @@ module.exports = {
       { k: "Phone Number", label: "(778) 980-8436",           href: "tel:+17789808436" },
       { k: "LinkedIn",  label: "linkedin.com/in/leojchung",   href: "https://www.linkedin.com/in/leojchung", me: true },
       { k: "NeuroArts Profile", label: "neuroartsresourcecenter.com", href: "https://www.neuroartsresourcecenter.com/profile/leojchung", me: true },
-      { k: "Located",   label: "Vancouver, British Columbia", href: null }
+      { k: "Currently Located", label: "Vancouver, British Columbia 🇨🇦", href: null }
     ],
 
     /* ── THE MESSAGE FORM ──────────────────────────────────────────────────

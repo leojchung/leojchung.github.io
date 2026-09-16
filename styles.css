@@ -92,7 +92,8 @@
   --logo-plate:transparent; /* behind org logos (UBC, JHU, STEMCELL). Dark
                                mode sets it white: the marks are navy and
                                grey, and vanish on a dark card otherwise   */
-  --logo-pad:0px;
+  --logo-pad:3px;          /* every side: a tall mark (the UBC crest) must not
+                              touch the plate's rounded corners and get clipped */
 }
 
 /* ══════════════════ TOKENS — DARK ══════════════════
@@ -451,8 +452,12 @@ main .shell > *:first-child{margin-top:0}
   font-family:var(--f-mono);font-size:10.5px;font-weight:700;letter-spacing:.02em;
 }
 
+/* The UBC crest is TALL (130x176), so at 34px square it filled the box's
+   full height and its top corners were nibbled off by the 9px radius.
+   Bigger box + padding on every side (see --logo-pad) keeps the whole
+   shield inside the rounded corners with room to spare, in both themes. */
 .uni-logo{
-  display:block;flex:none;width:34px;height:34px;object-fit:contain;
+  display:block;flex:none;width:40px;height:40px;object-fit:contain;
   background:var(--logo-plate);padding:var(--logo-pad);border-radius:9px;
 }
 
@@ -528,6 +533,11 @@ main .shell > *:first-child{margin-top:0}
 .social-btn .mark{width:27px;height:27px;display:block}
 .social-btn .mark:not(.brand){fill:currentColor}
 .social-btn .mark.brand{width:29px;height:29px}
+/* A logo FILE is rarely square — the Chess.com pawn is 171x256, Gmail's M
+   is wider than it is tall. Without this they would be stretched to fill
+   the square button. contain letterboxes instead, so every mark keeps its
+   own proportions and none is cropped. */
+img.mark{object-fit:contain}
 .social-btn:hover,.social-btn:focus-visible{transform:translateY(-3px)}
 .social-btn .tip{
   position:absolute;bottom:calc(100% + 9px);left:50%;
@@ -772,7 +782,11 @@ a.card:hover .contact-value{color:var(--accent-ink)}
 .contact-value.ubc{display:block;margin-top:2px;font-size:clamp(14px,1.3vw,18px);font-weight:600;color:#002145}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .contact-value.ubc{color:#7DAEEA}}
 :root[data-theme="dark"] .contact-value.ubc{color:#7DAEEA}
-.contact-value.big{font-size:clamp(21px,2.4vw,29px);font-weight:700}
+/* Sized so the longest personal address still sets on ONE line inside the
+   sp-4 card. At 29px "leojc815@gmail.com" overran the card by a few pixels
+   and broke mid-word ("…gmail.co / m"), which reads as a typo rather than
+   a wrap. Shrink this only as far as the widest address needs. */
+.contact-value.big{font-size:clamp(19px,2.1vw,25px);font-weight:700}
 /* The UBC address is longer than the personal one, so it gets its own
    (smaller) size rather than matching .big — it wraps/overflows otherwise. */
 .contact-value.ubc.big{margin-top:8px;font-size:clamp(16px,1.7vw,22px)}
