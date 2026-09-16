@@ -803,10 +803,11 @@ module.exports = {
            "communication, or science education — or if you're a student trying to figure out " +
            "how to get into a lab. Happy to talk.",
     links: [
-      { k: "Email",     label: "leojc815@gmail.com",          href: "mailto:leojc815@gmail.com" },
+      { k: "Email",     label: "leojc815@gmail.com",          href: "mailto:leojc815@gmail.com",
+        sub: { label: "ljchung@student.ubc.ca", href: "mailto:ljchung@student.ubc.ca" } },
       { k: "Phone",     label: "(778) 980-8436",              href: "tel:+17789808436" },
       { k: "LinkedIn",  label: "linkedin.com/in/leojchung",   href: "https://www.linkedin.com/in/leojchung", me: true },
-      { k: "Neuroarts", label: "neuroartsresourcecenter.com", href: "https://www.neuroartsresourcecenter.com/profile/leojchung", me: true },
+      { k: "Neuroarts Profile", label: "neuroartsresourcecenter.com", href: "https://www.neuroartsresourcecenter.com/profile/leojchung", me: true },
       { k: "Located",   label: "Vancouver, British Columbia", href: null }
     ],
 
@@ -840,7 +841,6 @@ module.exports = {
       note: "Messages are delivered through Formspree. For anything sensitive, email me directly.",
       button: "Send",
       fields: {
-        name:    "Your name",
         email:   "Your email",
         message: "Message"
       }

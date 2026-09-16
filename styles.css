@@ -757,6 +757,12 @@ button.media .badge{background:rgba(255,255,255,.95);color:#0A0A0A}
 }
 a.contact-value{color:var(--accent-ink);text-decoration:none}
 a.card:hover .contact-value{color:var(--accent-ink)}
+/* UBC blue is a literal, not a token — it names one institution's brand,
+   not a role in this site's palette. Two shades so it still passes AA in
+   both themes: official UBC Blue on a light card, a lighted tint on dark. */
+.contact-value.ubc{display:block;margin-top:2px;font-size:clamp(14px,1.3vw,18px);font-weight:600;color:#002145}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .contact-value.ubc{color:#7DAEEA}}
+:root[data-theme="dark"] .contact-value.ubc{color:#7DAEEA}
 
 .field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
 .fieldrow{display:grid;grid-template-columns:1fr 1fr;gap:14px}

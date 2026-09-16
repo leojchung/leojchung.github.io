@@ -347,7 +347,7 @@ function renderContact(d){
 
   const primaryCard = primary
     ? card('sp-5 center', `          <p class="label">${primary.k}</p>
-          ${primary.href ? `<a class="contact-value" href="${attr(primary.href)}">${primary.label}</a>` : `<p class="contact-value">${primary.label}</p>`}`)
+          ${primary.href ? `<a class="contact-value" href="${attr(primary.href)}">${primary.label}</a>` : `<p class="contact-value">${primary.label}</p>`}${primary.sub ? `\n          <a class="contact-value ubc" href="${attr(primary.sub.href)}">${primary.sub.label}</a>` : ''}`)
     : '';
 
   /* The cards under the email card fill whole rows: three across when the
@@ -392,16 +392,10 @@ function renderForm(d){
 
   return `        <form class="card stagger-item sp-12" action="${attr(f.action)}" method="POST">
           <h3 class="display-sm">${f.heading || 'Send me a message'}</h3>
-          <div class="fieldrow">
-            <label class="field">
-              <span>${lbl.name || 'Your name'}</span>
-              <input type="text" name="name" id="f-name" autocomplete="name" required>
-            </label>
-            <label class="field">
-              <span>${lbl.email || 'Your email'}</span>
-              <input type="email" name="email" id="f-email" autocomplete="email" required>
-            </label>
-          </div>
+          <label class="field">
+            <span>${lbl.email || 'Your email'}</span>
+            <input type="email" name="email" id="f-email" autocomplete="email" required>
+          </label>
           <label class="field">
             <span>${lbl.message || 'Message'}</span>
             <textarea name="message" id="f-message" rows="5" required></textarea>
