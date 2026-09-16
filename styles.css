@@ -401,7 +401,7 @@ main .shell > *:first-child{margin-top:0}
 .quote-block{
   position:relative;
   display:flex;flex-direction:column;justify-content:flex-start;align-items:center;
-  min-height:100svh;max-width:900px;margin:0 auto;padding:12vh var(--pad) 30vh;text-align:center;
+  min-height:100svh;max-width:900px;margin:0 auto;padding:7vh var(--pad) 30vh;text-align:center;
 }
 .hero-cite{margin:18px 0 0;font-size:13px;color:var(--ink-2);line-height:1.5}
 .hero-cite cite{font-style:normal}
