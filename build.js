@@ -668,7 +668,7 @@ function renderFooter(){
   return `<footer class="site-foot">
   <div class="shell">
     <div class="bento">
-${card('sp-4 foot-id', `          <p class="t">Hi, I'm ${attr(m.name.split(' ')[0])}.</p>
+${card('sp-4 foot-id', `          <p class="t">Hi, I'm ${attr(m.name.split(' ')[0])}!</p>
           <p class="s">${C.hero.card || attr(plain(m.tagline))}</p>${portrait}`)}
 ${card('sp-8', `          <div class="foot-cols">
             <div class="foot-col">
