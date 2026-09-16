@@ -106,11 +106,22 @@
           <p class="label">Located</p>
           <p class="contact-value">Vancouver, British Columbia</p>
         </div>
-        <div class="card stagger-item sp-12">
+        <form class="card stagger-item sp-12" action="https://formspree.io/f/xkjgwvgw" method="POST">
           <h3 class="display-sm">Send me a message</h3>
-          <p class="body">The message form is not connected yet — see the setup note in <code>content.js</code>. Until then, email works perfectly well.</p>
-          <div class="pill-row"><a class="pill blue" href="mailto:leojc815@gmail.com">Email me instead</a></div>
-        </div>
+          <label class="field">
+            <span>Your email</span>
+            <input type="email" name="email" id="f-email" autocomplete="email" required>
+          </label>
+          <label class="field">
+            <span>Message</span>
+            <textarea name="message" id="f-message" rows="5" required></textarea>
+          </label>
+          <input type="text" name="_gotcha" id="f-gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="formfoot">
+            <button class="pill blue" type="submit">Send</button>
+            <p class="formnote">Messages are delivered through Formspree. For anything sensitive, email me directly.</p>
+          </div>
+        </form>
       </div>
     </section>
 

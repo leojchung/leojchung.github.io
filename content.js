@@ -836,7 +836,7 @@ module.exports = {
        for anything confidential. The note under the form says so.        */
     form: {
       on: true,
-      action: "",                       // ← your Formspree endpoint goes here
+      action: "https://formspree.io/f/xkjgwvgw",
       heading: "Send me a message",
       note: "Messages are delivered through Formspree. For anything sensitive, email me directly.",
       button: "Send",
