@@ -207,8 +207,11 @@ looks right at 390px. Open the page for that.
   a bare "— Alan Turing".
 - **Leo supplied the UBC, JHU and STEMCELL logos himself** and accepted the
   brand/trademark risk. Don't re-litigate it; do flag anything new.
-- **`PLACEHOLDER` rows in `fun`, `lab` and `reading` are known and deliberate.**
-  Leo knows they are publicly visible and chose to leave them. Don't re-raise.
+- **`PLACEHOLDER` rows in `fun` and `lab` are known and deliberate.** Leo
+  knows they are publicly visible and chose to leave them. Don't re-raise.
+- **`reading` holds real, current news articles** as stand-ins for Leo's own
+  picks (economics, sport, AI, AI policy, neuroscience — Sep 2026). Only ever
+  add links you have checked resolve; never invent a headline or URL.
 
 ## Things to check with Leo before doing
 

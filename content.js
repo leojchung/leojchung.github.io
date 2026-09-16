@@ -695,12 +695,22 @@ module.exports = {
   reading: {
     eyebrow: "Content",
     title:   "What I've been <em>reading lately…</em>",
+    /* Real, current articles standing in until Leo swaps in his own picks —
+       one each from economics, sport, AI, AI policy and neuroscience. Every
+       link was checked live (Sep 16, 2026). They date quickly: refresh the
+       list, or drop `reading` from the Home page's sections, before it goes
+       stale. */
     items: [
-      { title: "PLACEHOLDER — a paper you actually read this month", href: null },
-      { title: "PLACEHOLDER — a review that changed how you think about the gut–brain axis", href: null },
-      { title: "PLACEHOLDER — something on chromatin or the BAF complex", href: null },
-      { title: "PLACEHOLDER — an essay about teaching or science communication", href: null },
-      { title: "PLACEHOLDER — something entirely unrelated to neuroscience", href: null }
+      { title: "🏦 The Fed raises rates to 3.75%–4%, its first hike since 2023",
+        href: "https://www.cnbc.com/2026/09/16/fed-rate-decision-september-2026.html" },
+      { title: "🏈 Myles Garrett to undergo knee surgery, lands on IR with the Rams",
+        href: "https://www.nfl.com/news/rams-myles-garrett-knee-surgery-injured-reserve" },
+      { title: "🤖 OpenAI launches GPT-6 Astra, its powerful (and controversial) new model",
+        href: "https://techcrunch.com/2026/09/03/openai-launches-astra-its-powerful-and-controversial-new-model/" },
+      { title: "⏸️ AI company bosses call for a slowdown in development",
+        href: "https://www.rte.ie/news/world/2026/0912/1591311-slowing-ai-development/" },
+      { title: "🧠 Janelia and Google Research map the male fruit fly's complete central nervous system",
+        href: "https://www.janelia.org/news/researchers-reveal-connectome-of-the-male-fruit-fly-central-nervous-system" }
     ]
   },
 
