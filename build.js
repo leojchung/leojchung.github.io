@@ -37,8 +37,15 @@ const crypto = require('crypto');
    look doesn't, which reads as "the change didn't take" when it's really
    just a stale cache. Short hash of the file's own contents, so the query
    string only changes when the CSS actually does. */
+/* Hash the TEXT, not the raw bytes. Leo works across a Mac and a Windows
+   PC through git, and with core.autocrlf the same styles.css is CRLF on one
+   checkout and LF on the other. Hashing the bytes made this build produce a
+   different query string per platform: the HTML committed from Windows
+   carried the CRLF hash, CI regenerated it on Linux with the LF hash, and
+   the "committed HTML matches the build" check failed on a file nobody had
+   touched. Normalising first makes the build reproducible anywhere. */
 const cssVersion = crypto.createHash('md5')
-  .update(fs.readFileSync(path.join(__dirname, 'styles.css')))
+  .update(fs.readFileSync(path.join(__dirname, 'styles.css'), 'utf8').replace(/\r\n/g, '\n'))
   .digest('hex').slice(0, 8);
 const C    = require('./content.js');
 
