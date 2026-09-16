@@ -147,7 +147,7 @@ module.exports = {
     // standalone line — so it reads as a sentence, not as the tail of one.
     // Leo's own words: the line recurs across his 2025–26 co-op cover letters
     // ("committed to producing results that others can trust and build upon").
-    focus: "Producing results that others can trust and build upon.",
+    focus: "Building things that make life a little bit easier, one step at a time 🔬💻",
 
     // Trimmed to one paragraph (Sep 2026) so the About card roughly matches
     // the height of "I also like" + weather stacked beside it — the two
@@ -168,15 +168,15 @@ module.exports = {
     // Rotates in the "I also like ___" bubble under the paragraphs. Keep it
     // to short phrases — it swaps every couple of seconds.
     likes: [
-      "biking",
-      "chess",
+      "biking 🚴",
+      "chess ♟️",
       "the Lakers 🌴",
       "the Rams 🐏",
-      "the Fun page →",
-      "good Texas BBQ",
-      "Star Wars",
-      "old music (and I mean really old)",
-      "microglia"
+      "the Fun page 🎉 →",
+      "good Texas BBQ 🍖",
+      "Star Wars 🚀",
+      "old music (and I mean really old) 🎵",
+      "microglia 🧠"
     ],
 
     /* Icon row with a hover/focus popup. `logo` names an inline SVG mark in
