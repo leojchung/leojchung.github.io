@@ -520,16 +520,18 @@ ${(h.buttons || []).map(b => `        <a class="pill ${b.solid ? 'blue' : 'ghost
 
   /* D — about. The greeting and socials now live in the splash above this
          section, so this card is just the fuller written paragraph. Single
-         row now (Leo's request) rather than the taller rows-2 it used to be. */
+         row (not rows-2), and just the one paragraph — the second
+         (i.paragraphs) is dropped here to keep the card short (Leo's
+         request); it's still in content.js if you want it back somewhere. */
   const cardD = card('sp-7', `          <span class="eyebrow">About</span>
-          <p class="body">${h.standfirst}</p>
-${(i.paragraphs || []).map(p => `          <p class="body">${p}</p>`).join('\n')}`);
+          <p class="body">${h.standfirst}</p>`);
 
   /* E — the rotating interest. main.js cycles .like-word through data-list.
-         Its own full-width row, right under About (Leo's request). */
+         Sized to match About's width, right under it (Leo's request) rather
+         than stretched full width. */
   const likes = i.likes || [];
   const cardE = likes.length
-    ? card('sp-12 like-card center', `          <p class="like-lead">I also like…</p>
+    ? card('sp-7 like-card center', `          <p class="like-lead">I also like…</p>
           <span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span>`)
     : '';
 
