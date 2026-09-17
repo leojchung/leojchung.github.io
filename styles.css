@@ -666,6 +666,10 @@ img.mark{object-fit:contain}
 }
 .entry-poster img{display:block;width:100%;height:220px;object-fit:contain}
 .entry-poster:hover img{transform:scale(1.02)}
+.poster-tag{
+  margin:0;padding:8px 16px;font-family:var(--f-mono);font-size:10px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);
+}
 .entry-poster img{transition:transform .32s cubic-bezier(.34,1.4,.64,1)}
 
 /* one employer, several roles */

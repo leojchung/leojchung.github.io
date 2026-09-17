@@ -329,6 +329,7 @@ function posterFigure(it){
   const label = p.label || 'Poster';
   return `          <a class="entry-poster" href="${attr(p.pdf)}" aria-label="Open ${attr(label.toLowerCase())} PDF: ${attr(plain(it.title))}">
             <img src="${attr(p.src)}" alt="${attr(label)}: ${attr(plain(it.title))}" loading="lazy">
+            <p class="poster-tag">${attr(label)}</p>
           </a>\n`;
 }
 

@@ -237,7 +237,7 @@ module.exports = {
     hint:  "Where the work has been written up by someone other than me.",
     action: { label: "All press", href: "projects.html#press-h" },
     from:  "press",
-    pick:  ["F-01", "F-02", "F-03"]
+    pick:  ["F-01", "F-02", "F-04"]
   },
 
   /* ────────────────────────── § RIGHT NOW ────────────────────────────── */
@@ -320,7 +320,7 @@ module.exports = {
     action: { label: "Full CV", href: "cv.pdf" },
     items: [
       {
-        idx:   "P-01",
+        idx:   "P-03",
         when:  "Aug 2025<br>— May 2026",
         title: "Exploring the role of autism-associated BAF complex variants in social communication in neonatal mice",
         meta:  ["Ciernia Lab, DMCBH", "Simons Foundation Fellowship"],
@@ -348,7 +348,7 @@ module.exports = {
         links: [{ label: "Featured Article", color: "red", href: "https://bme.ubc.ca/student-scientists-shine-at-synergy-undergraduate-research-day/" }]
       },
       {
-        idx:   "P-03",
+        idx:   "P-01",
         when:  "Jul 2024<br>— Apr 2025",
         title: "Impact of human IBD microbiota on hypothalamic gene expression and steroid regulation in the mouse brain",
         meta:  ["Ciernia Lab, DMCBH", "UBC Work Learn Student"],
@@ -432,7 +432,7 @@ module.exports = {
     hint:  "Courses taught, education research, adjudication and mentorship.",
     items: [
       {
-        idx:   "T-01",
+        idx:   "T-02",
         when:  "Jul 2025<br>— May 2026",
         title: "Co-developer &amp; Instructor — ASTU 400E, Neuroaesthetics: Your Brain on Art",
         meta:  ["UBC Centre for Community Engaged Learning", "Student-Directed Seminar"],
@@ -445,7 +445,7 @@ module.exports = {
         poster: { src: "assets/t01-syllabus.jpg", pdf: "assets/astu400e-syllabus.pdf", label: "Syllabus" }
       },
       {
-        idx:   "T-02",
+        idx:   "T-04",
         when:  "May 2026<br>— present",
         title: "Med-Tech Education Research Assistant",
         meta:  ["Si-Lab", "UBC School of Audiology &amp; Speech Sciences"],
@@ -459,7 +459,7 @@ module.exports = {
         blurb: "Judged undergraduate research presentations across disciplines."
       },
       {
-        idx:   "T-04",
+        idx:   "T-01",
         when:  "Oct 2024<br>— Apr 2025",
         title: "Research Adjudicator &amp; Mentor",
         meta:  ["International Youth Neuroscience Association"],
@@ -604,7 +604,7 @@ module.exports = {
     hint:  "Where the work has been written up by someone other than me.",
     items: [
       {
-        idx:   "F-01",
+        idx:   "F-04",
         when:  "Nov 2025",
         title: "7 New Student Directed Seminars in Arts",
         meta:  ["UBC Faculty of Arts"],
@@ -613,7 +613,7 @@ module.exports = {
         links: [{ label: "arts.ubc.ca", href: "https://www.arts.ubc.ca/news/7-new-student-directed-seminars-in-arts/" }]
       },
       {
-        idx:   "F-02",
+        idx:   "F-01",
         when:  "Sep 2025",
         title: "Student Scientists Shine at Synergy Undergraduate Research Day",
         meta:  ["UBC School of Biomedical Engineering"],
@@ -622,7 +622,7 @@ module.exports = {
         links: [{ label: "bme.ubc.ca", href: "https://bme.ubc.ca/student-scientists-shine-at-synergy-undergraduate-research-day/" }]
       },
       {
-        idx:   "F-03",
+        idx:   "F-02",
         when:  "Sep 2025",
         title: "Simons Foundation Announces Latest Class of SURFiN Fellows",
         meta:  ["Simons Foundation", "2025–26 cohort, 84 fellows"],
@@ -631,7 +631,7 @@ module.exports = {
         links: [{ label: "simonsfoundation.org", href: "https://www.simonsfoundation.org/2025/09/29/simons-foundation-announces-latest-class-of-surfin-fellows/" }]
       },
       {
-        idx:   "F-04",
+        idx:   "F-03",
         when:  "Sep 2025",
         title: "SBME Synergy 2025 Undergraduate Summer Research Highlights",
         meta:  ["Djavad Mowafaghian Centre for Brain Health"],
