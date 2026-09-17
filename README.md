@@ -27,7 +27,7 @@ Every word on the site lives in `content.js`. Two scripts turn it into
 everything that gets served:
 
 ```
-content.js ──[ node build.js ]───▶ index.html, projects.html, fun.html,
+content.js ──[ node build.js ]───▶ index.html, projects.html,
                                    contact.html, ask.html, sitemap.xml
 
 content.js ──[ node build-cv.js ]─▶ cv.html ──[ print to PDF ]──▶ cv.pdf
@@ -37,11 +37,11 @@ content.js ──[ node build-cv.js ]─▶ cv.html ──[ print to PDF ]──
 |---|---|---|
 | `content.js` | Every word, date and link on the site | **Yes — this is the one** |
 | `styles.css` | The whole design system. Colours are tokens at the top | To reskin |
-| `build.js` | Turns `content.js` into the five pages and the sitemap | Only for new section *types* |
+| `build.js` | Turns `content.js` into the four live pages and the sitemap | Only for new section *types* |
 | `build-cv.js` | Turns the same `content.js` into a print-ready `cv.html` | Only for CV-only sections |
 | `check.js` | Audits the build — markup, escaping, WCAG contrast both themes | Rarely |
 | `main.js` | Theme toggle, footer year, click-to-play video, the Ask page | Rarely |
-| `index.html` and the other four pages | **Generated.** `node build.js` overwrites them | **No** |
+| `index.html` and the other three pages | **Generated.** `node build.js` overwrites them | **No** |
 | `cv.html` | **Generated.** Open it, Cmd-P, Save as PDF over `cv.pdf` | **No** |
 | `cv.pdf` | **Generated** from `cv.html` | **No** |
 | `sitemap.xml` | **Generated** from the `pages` array | **No** |
@@ -86,9 +86,9 @@ entry takes `src: "assets/whatever.png"`, `hero.credential` takes `logo:`, and
 a Right Now entry takes `logo:`. A missing file logs a warning at build time
 and falls back to the drawn mark, so a typo can't ship a broken image.
 
-**Fill in the fun section.** `fun.items` in `content.js`. Each item has a
-`kind`: `photo` (your own file in `assets/`), `video` (a YouTube or Vimeo id —
-an embed, never a downloaded file), or `link`.
+**The Fun page is shelved,** switched off (not deleted) at Leo's request
+until he has time to fill it in for real. See CLAUDE.md's "The Fun page
+(shelved)" section for exactly where it lives and how to turn it back on.
 
 **Update the CV.** Edit `content.js`, then:
 

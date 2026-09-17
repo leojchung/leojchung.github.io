@@ -677,8 +677,23 @@ module.exports = {
   },
 
   /* ───────────────────────────── § FUN ───────────────────────────────── */
-  /* ON, at fun.html — but every item is still a placeholder. Fill them in
-     or drop "fun" from that page's `sections` before the site goes public.
+  /* SHELVED (as of 17 Sep 2026, Leo's request) — this data block is fully
+     intact and ready to go, but the page itself is switched off: the "fun"
+     entry in the `pages` array at the bottom of this file is commented out,
+     so build.js does not generate fun.html, the dock does not link to it,
+     and it's out of the sitemap. Nothing here was deleted.
+
+     WHY: every item below is still a placeholder (see the notes further
+     down) and Leo wants to sit down and fill it in properly in one sitting
+     rather than ship it half-real. Everything else on the site is done.
+
+     TO BRING IT BACK:
+       1. Uncomment the "fun" entry in the `pages` array (bottom of this
+          file) — it's left in place, right where it was, just commented.
+       2. Uncomment the fun.html Ask-page target in main.js's TARGETS array
+          (same treatment — commented in place, not deleted).
+       3. Swap the PLACEHOLDER photo/link entries below for the real thing.
+       4. node build.js && node check.js, then look at it in a browser.
 
      THREE KINDS OF ITEM. Set `kind` on each one:
 
@@ -825,9 +840,12 @@ module.exports = {
     { key: "projects", file: "projects.html", navLabel: "My Works", icon: "folder",
       description: "Research and teaching by Leo J. Chung — chromatin and the BAF complex, the gut–brain axis, animal communication, and the Neuroaesthetics seminar he co-created at UBC.",
       sections: ["research", "teaching", "press"] },
+    /* FUN PAGE — SHELVED, not deleted. See the note at the top of the `fun`
+       data block above for why and how to bring it back. Uncomment this
+       entry (and its main.js Ask target) to switch it back on.
     { key: "fun",      file: "fun.html",      navLabel: "Fun",      icon: "spark",
       description: "Photos and clips of Leo J. Chung off the clock — biking, chess, the Lakers, the Rams, and Vancouver food.",
-      sections: ["fun"] },
+      sections: ["fun"] }, */
     { key: "contact",  file: "contact.html",  navLabel: "Contact",  icon: "mail",
       description: "Get in touch with Leo J. Chung — looking for a co-op or internship for January 2027 in biotech, pharma, or the life sciences.",
       sections: ["contact"] },
