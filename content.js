@@ -625,7 +625,7 @@ module.exports = {
         idx:   "F-02",
         when:  "Sep 2025",
         title: "Simons Foundation Announces Latest Class of SURFiN Fellows",
-        meta:  ["Simons Foundation", "2025–26 cohort, 84 fellows"],
+        meta:  ["Simons Foundation", "2025–26 cohort"],
         blurb: "The Shenoy Undergraduate Research Fellowship in Neuroscience, named in memory " +
                "of the neuroscientist Krishna Shenoy.",
         links: [{ label: "simonsfoundation.org", href: "https://www.simonsfoundation.org/2025/09/29/simons-foundation-announces-latest-class-of-surfin-fellows/" }]
