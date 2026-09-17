@@ -306,6 +306,32 @@ ${visible(d.items).map(i => card('', `          <h3 class="principle-word">${i.w
       </div>`;
 }
 
+/* A research entry's poster: the whole page shown small, not cropped —
+   `object-fit:contain` inside a letterboxed slot, same idea as a logo plate.
+   Clicking it opens the full PDF (externalizeLinks gives it target="_blank").
+
+   TO ADD ONE: put an image and a PDF in assets/ and set
+   `poster: { src: "assets/x.jpg", pdf: "assets/x.pdf" }` on that research
+   or teaching item in content.js. `label` (optional, default "Poster") names
+   what the document actually is — e.g. "Syllabus" for a course outline —
+   so the accessible text doesn't call a syllabus a poster. A missing file
+   warns at build time and the poster is skipped, so a typo can never ship a
+   broken image or a dead link. */
+function posterFigure(it){
+  const p = it.poster;
+  if (!p || !p.src || !p.pdf) return '';
+  const srcOk = fs.existsSync(path.join(__dirname, p.src));
+  const pdfOk = fs.existsSync(path.join(__dirname, p.pdf));
+  if (!srcOk || !pdfOk){
+    console.warn(`  ! research "${it.title}": ${srcOk ? p.pdf : p.src} not found — skipping poster`);
+    return '';
+  }
+  const label = p.label || 'Poster';
+  return `          <a class="entry-poster" href="${attr(p.pdf)}" aria-label="Open ${attr(label.toLowerCase())} PDF: ${attr(plain(it.title))}">
+            <img src="${attr(p.src)}" alt="${attr(label)}: ${attr(plain(it.title))}" loading="lazy">
+          </a>\n`;
+}
+
 /* Research / teaching / notes. The big-title-plus-grey-body card from the
    reference's project section. The amber pill appears only when the entry
    actually links somewhere. */
@@ -326,14 +352,15 @@ ${r.detail ? `              <div class="d">${r.detail}</div>\n` : ''}           
       ? `          <p class="entry-idx">${it.idx ? `<span>${it.idx}</span>` : ''}${it.when ? `<span class="when">${flat(it.when)}</span>` : ''}</p>\n`
       : '';
     const links = (it.links && it.links.length)
-      ? `          <div class="pill-row">${it.links.map(l => `<a class="pill amber sm" href="${attr(l.href)}">${l.label}</a>`).join('')}</div>\n`
+      ? `          <div class="pill-row">${it.links.map(l => `<a class="pill ${attr(l.color || 'amber')} sm" href="${attr(l.href)}">${l.label}</a>`).join('')}</div>\n`
       : '';
+    const poster = posterFigure(it);
 
     /* Titles, affiliations and award/write-up links only — no blurb, for a
        leaner, more minimalist list (Leo's request, Sep 2026). The fuller
        write-up still lives in the CV. */
     return card('sp-6 entry', `${idx}          <h3 class="entry-title">${it.title}</h3>
-${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${links}`.replace(/\n$/, ''));
+${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${poster}${links}`.replace(/\n$/, ''));
   }).join('\n');
 
   return `      <div class="bento">\n${items}\n      </div>`;
@@ -436,7 +463,6 @@ const RENDERERS = {
   press:      renderRail,
   reading:    renderList,
   fun:        renderMedia,
-  lab:        renderMedia,
   ask:        renderAsk
   // contact is handled separately — see renderContact below.
 };

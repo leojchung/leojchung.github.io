@@ -316,19 +316,22 @@ module.exports = {
   research: {
     eyebrow: "Experience",
     title: "Research",
-    hint:  "Three projects, 2024 — 2026. Ciernia Lab unless noted.",
+    hint:  "My completed projects in the lab, 2024 — 2026.",
     action: { label: "Full CV", href: "cv.pdf" },
     items: [
       {
         idx:   "P-01",
         when:  "Aug 2025<br>— May 2026",
         title: "Exploring the role of autism-associated BAF complex variants in social communication in neonatal mice",
-        meta:  ["Ciernia Lab, DMCBH", "Simons Foundation SURFiN Fellowship"],
+        meta:  ["Ciernia Lab, DMCBH", "Simons Foundation Fellowship"],
         blurb: "The BAF complex remodels chromatin, and variants in it sit among the most " +
                "strongly autism-associated mutations known. This project asked what those " +
                "variants do to social communication in mouse pups — measured through " +
                "<em>ultrasonic vocalizations</em>, the calls a pup directs at its mother an " +
-               "octave above anything a person can hear."
+               "octave above anything a person can hear.",
+        poster: { src: "assets/p01-poster.jpg", pdf: "assets/p01-surfin-poster.pdf" },
+        links: [{ label: "Featured Article", color: "navy",
+                  href: "https://www.simonsfoundation.org/2025/09/29/simons-foundation-announces-latest-class-of-surfin-fellows/" }]
       },
       {
         idx:   "P-02",
@@ -341,16 +344,18 @@ module.exports = {
                "the brain's resident immune cells, against amyloid-beta plaques. This work " +
                "took the top prize for Trainee Rapid Talks at UBC's Synergy Undergraduate " +
                "Research Day.",
-        links: [{ label: "UBC SBME write-up", href: "https://bme.ubc.ca/student-scientists-shine-at-synergy-undergraduate-research-day/" }]
+        poster: { src: "assets/p02-poster.jpg", pdf: "assets/p02-sbme-synergy-poster.pdf" },
+        links: [{ label: "Featured Article", color: "red", href: "https://bme.ubc.ca/student-scientists-shine-at-synergy-undergraduate-research-day/" }]
       },
       {
         idx:   "P-03",
         when:  "Jul 2024<br>— Apr 2025",
         title: "Impact of human IBD microbiota on hypothalamic gene expression and steroid regulation in the mouse brain",
-        meta:  ["Ciernia Lab, DMCBH", "SBME Synergy Summer Studentship"],
+        meta:  ["Ciernia Lab, DMCBH", "UBC Work Learn Student"],
         blurb: "Human IBD microbiota transplanted into mice, with the readout taken in the " +
                "hypothalamus — which genes shift, and what happens to steroid regulation. " +
-               "My first project in the lab."
+               "My first project in the lab.",
+        poster: { src: "assets/p03-poster.jpg", pdf: "assets/p03-project1-poster.pdf" }
       }
     ]
   },
@@ -436,9 +441,8 @@ module.exports = {
                "undergraduates design and lead a three-credit course on a subject the " +
                "university does not otherwise offer — so the syllabus, the reading list and " +
                "the teaching were all ours to build. The course asked what makes something " +
-               "beautiful, and how the brain perceives and responds to art."
-        // ← Drop your syllabus into assets/ and add a line here, e.g.:
-        //   links: [{ label: "Syllabus (PDF)", href: "assets/astu400e-syllabus.pdf" }]
+               "beautiful, and how the brain perceives and responds to art.",
+        poster: { src: "assets/t01-syllabus.jpg", pdf: "assets/astu400e-syllabus.pdf", label: "Syllabus" }
       },
       {
         idx:   "T-02",
@@ -461,28 +465,7 @@ module.exports = {
         meta:  ["International Youth Neuroscience Association"],
         blurb: "Reviewed student research and mentored high-school and early-undergraduate " +
                "students on getting started in neuroscience."
-      },
-      {
-        idx:   "T-05",
-        when:  "Mar 2021<br>— Aug 2023",
-        title: "Peer Tutor",
-        meta:  ["Youth Initiative Vancouver"],
-        blurb: "Two and a half years of one-to-one tutoring."
       }
-    ]
-  },
-
-  /* ───────────────────────── § IN THE LAB ─────────────────────────────── */
-  /* Projects page. Same item shape and renderer as `fun` — kind: "photo",
-     candid lab shots, not staged. */
-  lab: {
-    eyebrow: "Photos",
-    title: "In the <em>lab</em>",
-    hint:  "Candid, not staged.",
-    items: [
-      { kind: "photo", src: "assets/placeholder.svg", title: "PLACEHOLDER — At the bench", caption: "PLACEHOLDER — swap for a real lab photo" },
-      { kind: "photo", src: "assets/placeholder.svg", title: "PLACEHOLDER — Poster session", caption: "PLACEHOLDER — swap for a real lab photo" },
-      { kind: "photo", src: "assets/placeholder.svg", title: "PLACEHOLDER — Whiteboard, mid-argument", caption: "PLACEHOLDER — swap for a real lab photo" }
     ]
   },
 
@@ -622,21 +605,21 @@ module.exports = {
     items: [
       {
         idx:   "F-01",
-        when:  "Sep 2025",
-        title: "Student Scientists Shine at Synergy Undergraduate Research Day",
-        meta:  ["UBC School of Biomedical Engineering"],
-        blurb: "Coverage of the Synergy summer studentship, where the IBD and Alzheimer's " +
-               "project took the top prize for Trainee Rapid Talks.",
-        links: [{ label: "bme.ubc.ca", href: "https://bme.ubc.ca/student-scientists-shine-at-synergy-undergraduate-research-day/" }]
-      },
-      {
-        idx:   "F-02",
         when:  "Nov 2025",
         title: "7 New Student Directed Seminars in Arts",
         meta:  ["UBC Faculty of Arts"],
         blurb: "The Faculty of Arts announcement of the seminars approved for 2025/26, " +
                "including Neuroaesthetics: Your Brain on Art.",
         links: [{ label: "arts.ubc.ca", href: "https://www.arts.ubc.ca/news/7-new-student-directed-seminars-in-arts/" }]
+      },
+      {
+        idx:   "F-02",
+        when:  "Sep 2025",
+        title: "Student Scientists Shine at Synergy Undergraduate Research Day",
+        meta:  ["UBC School of Biomedical Engineering"],
+        blurb: "Coverage of UBC's SBME Synergy Summer Studentship, where Leo and Corliss " +
+               "finished 1st and 2nd for the Trainee Rapid Talks.",
+        links: [{ label: "bme.ubc.ca", href: "https://bme.ubc.ca/student-scientists-shine-at-synergy-undergraduate-research-day/" }]
       },
       {
         idx:   "F-03",
@@ -841,7 +824,7 @@ module.exports = {
       sections: ["now", "featured", "principles", "reading"] },
     { key: "projects", file: "projects.html", navLabel: "My Works", icon: "folder",
       description: "Research and teaching by Leo J. Chung — chromatin and the BAF complex, the gut–brain axis, animal communication, and the Neuroaesthetics seminar he co-created at UBC.",
-      sections: ["research", "teaching", "lab", "press"] },
+      sections: ["research", "teaching", "press"] },
     { key: "fun",      file: "fun.html",      navLabel: "Fun",      icon: "spark",
       description: "Photos and clips of Leo J. Chung off the clock — biking, chess, the Lakers, the Rams, and Vancouver food.",
       sections: ["fun"] },

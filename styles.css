@@ -70,6 +70,10 @@
   --accent-soft:rgba(124,58,237,.10);
   --cta:#F0A23C;            /* amber fill — pairs with --ink, never white */
   --live:#1E8E3E;           /* the currently-held dot — 3.9:1 on a card   */
+  --pill-red:#B91C1C;       /* red pill fill, tone-matched to --accent —
+                               white on it = 6.5:1                        */
+  --pill-navy:#1D4ED8;      /* navy pill fill, tone-matched to --accent —
+                               white on it = 6.7:1                        */
 
 
   --f-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
@@ -351,6 +355,10 @@ main .shell > *:first-child{margin-top:0}
 .pill.blue:hover{filter:brightness(1.08)}
 .pill.amber{background:var(--cta);color:#0A0A0A}
 .pill.amber:hover{filter:brightness(1.06)}
+.pill.red{background:var(--pill-red);color:#fff}
+.pill.red:hover{filter:brightness(1.08)}
+.pill.navy{background:var(--pill-navy);color:#fff}
+.pill.navy:hover{filter:brightness(1.08)}
 .pill.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--card-3)}
 .pill.ghost:hover{background:var(--card-3)}
 .pill.sm{font-size:13px;padding:10px 18px}
@@ -650,6 +658,16 @@ img.mark{object-fit:contain}
 .entry .chips{margin-bottom:14px}
 .entry .pill-row{margin-top:auto;padding-top:22px}
 
+/* The whole poster, shown small — never cropped. Letterboxed on card-2 the
+   way a logo plate is, so a portrait or landscape page both sit centred. */
+.entry-poster{
+  display:block;margin-top:14px;border-radius:var(--r-sm);overflow:hidden;
+  background:var(--card-2);
+}
+.entry-poster img{display:block;width:100%;height:220px;object-fit:contain}
+.entry-poster:hover img{transform:scale(1.02)}
+.entry-poster img{transition:transform .32s cubic-bezier(.34,1.4,.64,1)}
+
 /* one employer, several roles */
 .subroles{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px}
 .subroles li{padding-top:14px;border-top:1px solid var(--card-3)}
@@ -664,7 +682,7 @@ img.mark{object-fit:contain}
    The negative margin + matching padding is what lets the first and last
    card sit flush with the shell while still scrolling edge to edge.     */
 .rail{
-  display:flex;gap:var(--gap);overflow-x:auto;
+  display:flex;gap:var(--gap);overflow-x:auto;cursor:grab;
   scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
   margin-inline:calc(-1 * clamp(16px,4vw,28px));
   padding-inline:clamp(16px,4vw,28px);
@@ -672,6 +690,7 @@ img.mark{object-fit:contain}
   scrollbar-width:none;-ms-overflow-style:none;
 }
 .rail::-webkit-scrollbar{display:none}
+.rail.dragging{cursor:grabbing;scroll-snap-type:none}
 .rail > *{flex:0 0 min(420px,82%);scroll-snap-align:start}
 .rail-note{
   margin:14px 0 0;text-align:center;font-family:var(--f-mono);
