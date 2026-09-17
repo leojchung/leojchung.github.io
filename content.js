@@ -294,9 +294,9 @@ module.exports = {
        public elsewhere on the site; none of them describe the STEMCELL or
        Moss Lab work, which is deliberately vague everywhere. */
     items: [
-      { word: "Efficiency",      blurb: "Time and reagents both run out. I'd rather spend a day designing a run properly than a week repeating one that answered nothing." },
-      { word: "The Big Picture", blurb: "Chromatin at one end, animal calls at the other, industry in between. Careful work only counts if you know what it feeds into." },
-      { word: "Trust",           blurb: "Data is only useful if someone else can rely on it. I'd rather hand over work I've checked twice and can explain." },
+      { word: "Efficiency ⚡",      blurb: "Time and reagents both run out. I'd rather spend a day designing a run properly than a week repeating one that answered nothing." },
+      { word: "The Big Picture 🌍", blurb: "Chromatin at one end, animal calls at the other, industry in between. Careful work only counts if you know what it feeds into." },
+      { word: "Trust 🤝",           blurb: "Data is only useful if someone else can rely on it. I'd rather hand over work I've checked twice and can explain." },
 
       // Replaced Sep 2026 — kept, not deleted, per the convention below.
       { word: "Reproducibility", blurb: "Good science comes from tight execution. I troubleshoot and iterate until an assay works cleanly, not just once.", hidden: true },
