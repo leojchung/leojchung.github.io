@@ -690,10 +690,13 @@ img.mark{object-fit:contain}
   scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
   margin-inline:calc(-1 * clamp(16px,4vw,28px));
   padding-inline:clamp(16px,4vw,28px);
-  padding-bottom:6px;
-  scrollbar-width:none;-ms-overflow-style:none;
+  padding-bottom:16px;
+  scrollbar-width:thin;scrollbar-color:var(--card-3) transparent;
 }
-.rail::-webkit-scrollbar{display:none}
+.rail::-webkit-scrollbar{height:8px}
+.rail::-webkit-scrollbar-track{background:transparent}
+.rail::-webkit-scrollbar-thumb{background:var(--card-3);border-radius:999px}
+.rail::-webkit-scrollbar-thumb:hover{background:var(--ink-2)}
 .rail.dragging{cursor:grabbing;scroll-snap-type:none}
 .rail > *{flex:0 0 min(420px,82%);scroll-snap-align:start}
 .rail-note{
