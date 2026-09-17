@@ -84,7 +84,14 @@ const flat = s => String(s == null ? '' : s).replace(/<br\s*\/?>/gi, ' ');
    The leaf is a symmetric polygon: one half is written out and mirrored, so
    it cannot drift out of true. Red is #FF0000 — the flag's own colour, not
    a token, because this is a national flag and not part of the site's
-   palette. Write 🇨🇦 in content.js as usual; flagify() swaps it in. */
+   palette. Write 🇨🇦 in content.js as usual; flagify() swaps it in.
+
+   DISABLED (Sep 2026, Leo's explicit request, overriding the above) — he
+   dislikes how the drawn flag looks and would rather have the real emoji
+   render as an actual flag on platforms that support it (Mac/iOS) even
+   though it falls back to the bare letters "CA" on Windows. flagify() and
+   FLAG_CA are kept, not deleted, in case he wants the universal fix back;
+   the call site below just doesn't run it. */
 const FLAG_CA =
   '<svg class="flag" viewBox="0 0 64 32" role="img" aria-label="Canada">' +
   '<rect width="64" height="32" fill="#fff"/>' +
@@ -278,8 +285,7 @@ ${items.map(i => card('', `${logo(i)}          <p class="now-tag">${i.tag}</p>
 
 function renderPrinciples(d){
   return `      <div class="cards">
-${visible(d.items).map(i => card('', `          <h3 class="principle-word">${i.word}</h3>
-          <p class="body">${i.blurb}</p>`)).join('\n')}
+${visible(d.items).map(i => card('center', `          <h3 class="principle-word">${i.word}</h3>`)).join('\n')}
       </div>`;
 }
 
@@ -844,9 +850,10 @@ ${renderDock(page.file)}
 /* ── write every page ─────────────────────────────────────────────────────── */
 
 C.pages.forEach(page => {
-  // flagify last: it injects <svg>, and the two passes before it match on
-  // tags and attributes, so it must not be in the page while they run.
-  const html = flagify(externalizeLinks(gmailify(renderPage(page))));
+  // flagify() is disabled (see the note above FLAG_CA) — the raw 🇨🇦 emoji
+  // passes through untouched, so it renders as a flag on Mac/iOS and as
+  // the bare letters "CA" on Windows.
+  const html = externalizeLinks(gmailify(renderPage(page)));
   fs.writeFileSync(path.join(__dirname, page.file), html, 'utf8');
   const kb = (Buffer.byteLength(html, 'utf8') / 1024).toFixed(1);
   console.log(`✓ ${page.file} written — ${kb} KB`);

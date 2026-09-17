@@ -289,10 +289,11 @@ module.exports = {
     eyebrow: "Principles",
     title: "What I <em>care about</em>",
     hint:  "Three things that show up in everything above.",
-    /* Casual/first-person on purpose — this is Leo talking, not the Research
-       or Teaching register. Each blurb stays at the level of detail already
-       public elsewhere on the site; none of them describe the STEMCELL or
-       Moss Lab work, which is deliberately vague everywhere. */
+    /* Word-only cards (Sep 2026, Leo's request) — renderPrinciples() no
+       longer renders `blurb`. Left in place, not deleted, in case he wants
+       the fuller cards back; each one still stays at the level of detail
+       already public elsewhere on the site, and none describe the
+       STEMCELL or Moss Lab work, which is deliberately vague everywhere. */
     items: [
       { word: "Efficiency ⚡",      blurb: "Time and reagents both run out. I'd rather spend a day designing a run properly than a week repeating one that answered nothing." },
       { word: "The Big Picture 🌍", blurb: "Chromatin at one end, animal calls at the other, industry in between. Careful work only counts if you know what it feeds into." },
