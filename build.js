@@ -628,7 +628,11 @@ function renderHead(page){
 <meta property="og:title" content="${title}">
 <meta property="og:description" content="${attr(ogDesc)}">
 <meta property="og:url" content="${attr(canonical)}">
+<meta property="og:image" content="${attr(m.url.replace(/\/$/, '') + '/assets/og-image.png')}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="1200">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="${attr(m.url.replace(/\/$/, '') + '/assets/og-image.png')}">
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
