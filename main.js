@@ -186,7 +186,7 @@
       { href: 'index.html',              keys: ['home', 'about you', 'who are you', 'intro', 'yourself'] },
       { href: 'projects.html#research-h', keys: ['research', 'lab work', 'neuroscience', 'ciernia', 'microglia', 'brain', 'autism', 'gut', 'science', 'baf', 'mice', 'studies'] },
       { href: 'projects.html#teaching-h', keys: ['teach', 'teaching', 'class', 'course', 'astu', 'neuroaesthetics', 'education', 'instructor', 'mentor', 'tutor', 'adjudicate'] },
-      { href: 'projects.html#press-h',    keys: ['press', 'featured', 'write-up', 'article', 'news', 'media coverage'] },
+      { href: 'index.html#featured-h',    keys: ['press', 'featured', 'write-up', 'article', 'news', 'media coverage'] },
       // FUN PAGE — SHELVED along with fun.html; see content.js's `fun` block.
       // Uncomment when the page comes back:
       // { href: 'fun.html#fun-h',        keys: ['fun', 'hobbies', 'hobby', 'chess', 'lakers', 'rams', 'bike', 'biking', 'music', 'star wars', 'bbq', 'off the clock'] },

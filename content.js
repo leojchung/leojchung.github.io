@@ -225,25 +225,20 @@ module.exports = {
   },
 
   /* ─────────────────────────── § FEATURED ────────────────────────────── */
-  /* Home page — a curated teaser, NOT the full press list (that's Projects'
-     Featured section, which shows all of them). Items are PICKED from
-     `press` further down by idx rather than copied, so each write-up is
-     verified and dated in one place only: change the picks here, change
-     the article there.
+  /* Home page — the only Featured section on the site now (Sep 2026, Leo's
+     request: this used to be duplicated on Projects as a separate "press"
+     list; merged here since showing it in two places was redundant).
+     Items come from `press` further down by idx, so each write-up stays
+     verified and dated in one place only.
 
-     Keep this to the most distinct highlights, not every write-up — the
-     three below are an award (1st place, Synergy Day), a fellowship
-     (Simons Foundation), and an official recognition of the seminar he
-     created (Faculty of Arts). F-03 and F-05 are deliberately left off:
-     F-03 is a second write-up of the same story as F-01, and F-05 is a
-     softer feature piece — both still show on the full Projects list. */
+     No `pick` here — that shows every visible item in `press`, in that
+     block's own order (currently most-recent-first). Add a `pick: [...]`
+     array back if this should ever go back to a curated subset instead. */
   featured: {
     eyebrow: "Featured",
     title: "Featured <em>elsewhere</em>",
     hint:  "Where the work has been written up by someone other than me.",
-    action: { label: "All press", href: "projects.html#press-h" },
-    from:  "press",
-    pick:  ["F-01", "F-02", "F-04"]
+    from:  "press"
   },
 
   /* ────────────────────────── § RIGHT NOW ────────────────────────────── */
@@ -600,11 +595,17 @@ module.exports = {
   },
 
   /* ──────────────────────── § FEATURED & PRESS ───────────────────────── */
-  /* Every link here was fetched and verified on 14 September 2026. These are
-     the four public pages that carry your name. Having outside institutions
-     vouch for you is worth more on a personal site than another self-written
-     paragraph — Craig Mod separates "published elsewhere" from "written here"
-     for exactly this reason.                                                 */
+  /* Data only — this block has no page section of its own. Home's `featured`
+     section (above) pulls every item here by idx via `from: "press"`. Used
+     to also render as its own "press" section on Projects; merged into
+     Home only (Sep 2026, Leo's request) since showing it twice was
+     redundant.
+
+     Every link here was fetched and verified (14 Sep 2026, and again when
+     the Instagram post was added). These are public pages/posts that carry
+     your name — having outside institutions vouch for you is worth more on
+     a personal site than another self-written paragraph, per Craig Mod's
+     "published elsewhere" vs. "written here" distinction. */
   press: {
     eyebrow: "Elsewhere",
     title: "Featured",
@@ -856,7 +857,7 @@ module.exports = {
       sections: ["now", "featured", "principles", "reading"] },
     { key: "projects", file: "projects.html", navLabel: "My Works", icon: "folder",
       description: "Research and teaching by Leo J. Chung — chromatin and the BAF complex, the gut–brain axis, animal communication, and the Neuroaesthetics seminar he co-created at UBC.",
-      sections: ["research", "teaching", "press"] },
+      sections: ["research", "teaching"] },
     /* FUN PAGE — SHELVED, not deleted. See the note at the top of the `fun`
        data block above for why and how to bring it back. Uncomment this
        entry (and its main.js Ask target) to switch it back on.
@@ -875,12 +876,12 @@ module.exports = {
        Renderers available, by the shape of the data they expect:
 
          now         card row      (tag / role / org / note / since)
-         featured    card row      (picks items from another entry-list block by idx)
+         featured    scroll rail   (entry-list items pulled from another block by
+                                    idx — omit `pick` to show that block's items
+                                    in full, in their own order)
          principles  word grid     (word / blurb)
          research    entry list    (idx / when / title / meta[] / blurb)
          teaching    entry list    (same)
-         lab         media grid    (kind: photo | video | link — same as fun)
-         press       entry list    (same as research)
          fun         media grid    (kind: photo | video | link)
          contact     contact block
 

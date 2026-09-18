@@ -350,46 +350,38 @@ ${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${poster}${links}`.repl
   return `      <div class="bento">\n${items}\n      </div>`;
 }
 
-/* Home's "Featured elsewhere" — the same horizontal scroll-snap rail as
-   Projects' Featured section below, so the two read as one component
-   whichever page you meet it on first. */
+/* Featured elsewhere — Home's only copy of this now (Leo's request, Sep
+   2026: it used to also live on Projects as a separate "press" section;
+   the two were redundant, so this merged them into one). A horizontal
+   scroll-snap rail, so the next card peeks in from the edge the way the
+   reference's project carousel does. The overflow is on .rail, never on
+   the page.
+
+   Items are PICKED from another entry-list block (`from`, normally
+   `press`) by idx, so an article is verified and dated in one place only.
+   Omit `pick` to show every visible item in that pool, in its own order —
+   that's the current setup, since Leo wants everything shown here. */
 function renderFeatured(d){
   const pool  = visible((C[d.from] || {}).items);
-  const items = (d.pick || []).map(idx => {
-    const it = pool.find(x => x.idx === idx);
-    if (!it) throw new Error(`featured: no visible item "${idx}" in ${d.from}`);
-    return it;
-  });
-  return `      <div class="rail">
-${items.map(it => {
-    const link  = (it.links || [])[0];
-    const inner = `          <p class="now-tag">${(it.meta || [])[0] || ''}</p>
-          <h3 class="now-role">${it.title}</h3>
-          <p class="now-org">${it.blurb}</p>
-          <p class="now-since">${flat(it.when)}${link ? ` · ${link.label} ↗` : ''}</p>`;
-    return link
-      ? card('feat', inner, 'a').replace('<a class="card', `<a href="${attr(link.href)}" target="_blank" rel="noopener" class="card`)
-      : card('feat', inner);
-  }).join('\n')}
-      </div>
-      <p class="rail-note">Scroll for more →</p>`;
-}
+  const items = d.pick
+    ? d.pick.map(idx => {
+        const it = pool.find(x => x.idx === idx);
+        if (!it) throw new Error(`featured: no visible item "${idx}" in ${d.from}`);
+        return it;
+      })
+    : pool;
 
-/* Projects' Featured — a horizontal scroll-snap rail, so the next card
-   peeks in from the edge the way the reference's project carousel does.
-   The overflow is on .rail, never on the page. */
-function renderRail(d){
-  const items = visible(d.items).map(it => {
+  const rows = items.map(it => {
     const href = (it.links && it.links.length) ? it.links[0].href : null;
     const inner = `          <p class="entry-idx">${it.idx ? `<span>${it.idx}</span>` : ''}${it.when ? `<span class="when">${flat(it.when)}</span>` : ''}</p>
           <h3 class="entry-title">${it.title}</h3>
-${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${it.blurb ? `          <p class="body">${it.blurb}</p>\n` : ''}${href ? `          <div class="pill-row"><span class="pill amber sm">${it.links[0].label} ↗</span></div>` : ''}`;
+${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${it.blurb ? `          <p class="body">${it.blurb}</p>\n` : ''}${href ? `          <div class="pill-row"><span class="pill blue sm">${it.links[0].label} ↗</span></div>` : ''}`;
     return href
       ? card('entry', inner, 'a').replace('<a class="card', `<a href="${attr(href)}" target="_blank" rel="noopener" class="card`)
       : card('entry', inner);
   }).join('\n');
 
-  return `      <div class="rail">\n${items}\n      </div>
+  return `      <div class="rail">\n${rows}\n      </div>
       <p class="rail-note">Scroll for more →</p>`;
 }
 
@@ -469,7 +461,6 @@ const RENDERERS = {
   research:   renderEntries,
   teaching:   renderEntries,
   notes:      renderEntries,
-  press:      renderRail,
   reading:    renderList,
   fun:        renderMedia,
   ask:        renderAsk
