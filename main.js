@@ -88,6 +88,49 @@
     });
   });
 
+  /* The Featured rail (.rail) hides its scrollbar for a cleaner look, which
+     leaves mouse users with no way to move it — a trackpad or touchscreen
+     swipe works, but a plain mouse wheel only scrolls the page vertically.
+     Fix: click-and-drag scrolls the rail, and the mouse wheel scrolls it
+     horizontally when the visitor is over it. A drag that moves more than a
+     few pixels also suppresses the click, so it doesn't accidentally follow
+     a card's link on mouse-up. */
+  document.querySelectorAll('.rail').forEach(function (rail) {
+    var down = false, moved = false, startX = 0, startScroll = 0;
+
+    rail.addEventListener('mousedown', function (e) {
+      down = true;
+      moved = false;
+      startX = e.pageX;
+      startScroll = rail.scrollLeft;
+      rail.classList.add('dragging');
+    });
+
+    window.addEventListener('mouseup', function () {
+      if (!down) return;
+      down = false;
+      rail.classList.remove('dragging');
+    });
+
+    rail.addEventListener('mousemove', function (e) {
+      if (!down) return;
+      var dx = e.pageX - startX;
+      if (Math.abs(dx) > 4) moved = true;
+      rail.scrollLeft = startScroll - dx;
+    });
+
+    rail.addEventListener('click', function (e) {
+      if (moved) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+
+    rail.addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      if (rail.scrollWidth <= rail.clientWidth) return;
+      rail.scrollLeft += e.deltaY;
+      e.preventDefault();
+    }, { passive: false });
+  });
+
   var yr = document.getElementById('yr');
   if (yr) yr.textContent = new Date().getFullYear();
 
@@ -143,9 +186,10 @@
       { href: 'index.html',              keys: ['home', 'about you', 'who are you', 'intro', 'yourself'] },
       { href: 'projects.html#research-h', keys: ['research', 'lab work', 'neuroscience', 'ciernia', 'microglia', 'brain', 'autism', 'gut', 'science', 'baf', 'mice', 'studies'] },
       { href: 'projects.html#teaching-h', keys: ['teach', 'teaching', 'class', 'course', 'astu', 'neuroaesthetics', 'education', 'instructor', 'mentor', 'tutor', 'adjudicate'] },
-      { href: 'projects.html#lab-h',      keys: ['photos', 'lab photo', 'candid', 'in the lab', 'pictures'] },
-      { href: 'projects.html#press-h',    keys: ['press', 'featured', 'write-up', 'article', 'news', 'media coverage'] },
-      { href: 'fun.html#fun-h',           keys: ['fun', 'hobbies', 'hobby', 'chess', 'lakers', 'rams', 'bike', 'biking', 'music', 'star wars', 'bbq', 'off the clock'] },
+      { href: 'index.html#featured-h',    keys: ['press', 'featured', 'write-up', 'article', 'news', 'media coverage'] },
+      // FUN PAGE — SHELVED along with fun.html; see content.js's `fun` block.
+      // Uncomment when the page comes back:
+      // { href: 'fun.html#fun-h',        keys: ['fun', 'hobbies', 'hobby', 'chess', 'lakers', 'rams', 'bike', 'biking', 'music', 'star wars', 'bbq', 'off the clock'] },
       { href: 'contact.html#contact-h',   keys: ['contact', 'email', 'reach', 'message', 'phone', 'linkedin', 'talk', 'hire', 'get in touch'] },
       { href: 'cv.pdf',                   keys: ['cv', 'resume', 'curriculum vitae'] }
     ];

@@ -70,6 +70,10 @@
   --accent-soft:rgba(124,58,237,.10);
   --cta:#F0A23C;            /* amber fill — pairs with --ink, never white */
   --live:#1E8E3E;           /* the currently-held dot — 3.9:1 on a card   */
+  --pill-red:#B91C1C;       /* red pill fill, tone-matched to --accent —
+                               white on it = 6.5:1                        */
+  --pill-navy:#1D4ED8;      /* navy pill fill, tone-matched to --accent —
+                               white on it = 6.7:1                        */
 
 
   --f-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
@@ -92,7 +96,9 @@
   --logo-plate:transparent; /* behind org logos (UBC, JHU, STEMCELL). Dark
                                mode sets it white: the marks are navy and
                                grey, and vanish on a dark card otherwise   */
-  --logo-pad:0px;
+  --logo-pad:5px;           /* the inset between a mark and its plate edge. Must
+                               clear the plate's corner radius (r x 0.29) or a
+                               tall mark like the UBC crest gets its corners cut */
 }
 
 /* ══════════════════ TOKENS — DARK ══════════════════
@@ -121,7 +127,7 @@
     --dock-edge:#26272C;
     --pin:#23252A;
     --logo-plate:#FFFFFF;
-    --logo-pad:4px 7px;
+    --logo-pad:5px 8px;
   }
 }
 :root[data-theme="dark"]{
@@ -139,7 +145,7 @@
   --dock-edge:#26272C;
   --pin:#23252A;
   --logo-plate:#FFFFFF;
-  --logo-pad:4px 7px;
+  --logo-pad:5px 8px;
 }
 
 
@@ -266,10 +272,24 @@ a.card:hover,button.card:hover{transform:translateY(-3px);background:var(--card-
   line-height:1.2;letter-spacing:-.02em;text-wrap:balance;
 }
 
-/* The About card's bullet points — same size/weight as .value (Leo's
-   request), just with a marker and stacked with a gap instead of margins. */
-.about-points{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:16px}
-.about-points li{position:relative;padding-left:24px}
+/* The About card's bullet points — .value's weight, but set to READ rather
+   than to headline.
+
+   .value carries text-wrap:balance, which evens out line lengths so a
+   headline never ends on a lone orphan word. On a three-line bullet that
+   works against you: to keep the lines equal it shortens every one of them,
+   and the block comes out narrow and cramped inside an already narrow card.
+   text-wrap:pretty keeps the orphan protection but lets each line run the
+   full width of the card. With a little more leading and a size that fits
+   more words per line, the same sentences read as prose instead of as a
+   stack of fragments. */
+.about-points{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:19px}
+.about-points li{
+  position:relative;padding-left:24px;
+  font-size:clamp(19px,1.95vw,24px);
+  line-height:1.36;letter-spacing:-.015em;
+  text-wrap:pretty;
+}
 .about-points li::before{
   content:"";position:absolute;left:0;top:.5em;
   width:8px;height:8px;border-radius:50%;background:var(--accent);
@@ -335,6 +355,10 @@ main .shell > *:first-child{margin-top:0}
 .pill.blue:hover{filter:brightness(1.08)}
 .pill.amber{background:var(--cta);color:#0A0A0A}
 .pill.amber:hover{filter:brightness(1.06)}
+.pill.red{background:var(--pill-red);color:#fff}
+.pill.red:hover{filter:brightness(1.08)}
+.pill.navy{background:var(--pill-navy);color:#fff}
+.pill.navy:hover{filter:brightness(1.08)}
 .pill.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--card-3)}
 .pill.ghost:hover{background:var(--card-3)}
 .pill.sm{font-size:13px;padding:10px 18px}
@@ -451,8 +475,16 @@ main .shell > *:first-child{margin-top:0}
   font-family:var(--f-mono);font-size:10.5px;font-weight:700;letter-spacing:.02em;
 }
 
+/* The UBC crest is TALL (130x176), so at 34px square it filled the box's
+   full height and its top corners were nibbled off by the 9px radius.
+   Bigger box + padding on every side (see --logo-pad) keeps the whole
+   shield inside the rounded corners with room to spare, in both themes. */
+/* The inline Canadian flag (see FLAG_CA in build.js). Sized off the text it
+   sits beside, so it tracks whatever the surrounding type does. */
+.flag{height:.78em;width:auto;display:inline-block;vertical-align:-.04em;border-radius:1px}
+
 .uni-logo{
-  display:block;flex:none;width:34px;height:34px;object-fit:contain;
+  display:block;flex:none;width:44px;height:44px;object-fit:contain;
   background:var(--logo-plate);padding:var(--logo-pad);border-radius:9px;
 }
 
@@ -528,6 +560,11 @@ main .shell > *:first-child{margin-top:0}
 .social-btn .mark{width:27px;height:27px;display:block}
 .social-btn .mark:not(.brand){fill:currentColor}
 .social-btn .mark.brand{width:29px;height:29px}
+/* A logo FILE is rarely square — the Chess.com pawn is 171x256, Gmail's M
+   is wider than it is tall. Without this they would be stretched to fill
+   the square button. contain letterboxes instead, so every mark keeps its
+   own proportions and none is cropped. */
+img.mark{object-fit:contain}
 .social-btn:hover,.social-btn:focus-visible{transform:translateY(-3px)}
 .social-btn .tip{
   position:absolute;bottom:calc(100% + 9px);left:50%;
@@ -548,18 +585,39 @@ main .shell > *:first-child{margin-top:0}
 .now-tag::before{
   content:"";width:7px;height:7px;border-radius:50%;background:var(--live);flex:none;
 }
-/* An organization's mark at the top of a card. The slot has a fixed height
-   whether or not a logo is in it, so the text lines up across the row. */
-/* A fixed square plate, not a height-only box — same fix as .uni-logo:
-   height-only sizing left object-fit:contain with nothing to fit against,
-   so a tall crest like UBC's could read as cropped. Square + contain means
-   every org's mark sits fully visible and centered, whatever its own
-   aspect ratio (a wide wordmark included — it just letterboxes). */
-.now-logo{width:46px;height:46px;margin:0 0 18px;display:flex;align-items:center;justify-content:center}
-.now-logo img{
-  display:block;width:100%;height:100%;object-fit:contain;
-  background:var(--logo-plate);padding:var(--logo-pad);border-radius:10px;
+/* An organization's mark at the top of a card. The slot has a fixed HEIGHT
+   whether or not a logo is in it, so the text lines up across the row.
+
+   Height, not a square box. These marks are wildly different shapes — UBC's
+   crest is taller than it is wide (0.74:1), Johns Hopkins' is 2.1:1, and
+   STEMCELL's wordmark is 4.6:1. Fitting each into a 46px SQUARE meant the
+   wide ones letterboxed into a strip: STEMCELL came out 10px tall against
+   UBC's 46px, so it read as a mistake. Matching on height is how a row of
+   mixed logos is actually set — every mark gets the same optical presence
+   and runs as wide as its own proportions need.
+
+   Every mark fills the slot's full height, STEMCELL included — Leo wants
+   the same top and bottom margin on all three, so nothing is width-capped
+   except by the card itself (max-width:100%, which only bites on a phone
+   narrow enough that STEMCELL's wordmark would otherwise overflow). */
+/* The plate — its fill, padding and rounded corners — belongs on the SLOT,
+   never on the <img>. A radius set on the image clips the artwork itself,
+   and because the slot hugs each mark's exact proportions the mark touches
+   all four edges, so the corners bite straight into it. That is what cut
+   the UBC crest here. With the plate on the slot the image carries no
+   radius at all and cannot be clipped, whatever shape it is.
+
+   The slot is 62px, so with the 5px inset each mark is 52px tall. */
+.now-logo{
+  height:62px;width:fit-content;max-width:100%;
+  margin:0 0 18px;padding:var(--logo-pad);
+  background:var(--logo-plate);border-radius:10px;
+  display:flex;align-items:center;justify-content:flex-start;
 }
+/* A card with no mark keeps the slot's height, so headings still line up
+   across the row — but must not paint an empty plate in dark mode. */
+.now-logo:empty{padding:0;background:none}
+.now-logo img{display:block;height:100%;width:auto;max-width:100%;object-fit:contain}
 .now-role{margin:0;font-size:19px;font-weight:700;line-height:1.28;letter-spacing:-.018em}
 .now-org{margin:7px 0 0;font-size:14px;color:var(--ink-2);line-height:1.5}
 .now-since{
@@ -578,8 +636,8 @@ main .shell > *:first-child{margin-top:0}
 
 /* ══════════════════ PRINCIPLES ══════════════════ */
 .principle-word{
-  margin:0 0 10px;font-size:clamp(22px,2.4vw,28px);font-weight:800;
-  letter-spacing:-.028em;line-height:1.1;
+  margin:0;font-size:clamp(22px,2.6vw,32px);font-weight:800;
+  letter-spacing:-.028em;line-height:1.1;white-space:nowrap;
 }
 
 
@@ -600,6 +658,20 @@ main .shell > *:first-child{margin-top:0}
 .entry .chips{margin-bottom:14px}
 .entry .pill-row{margin-top:auto;padding-top:22px}
 
+/* The whole poster, shown small — never cropped. Letterboxed on card-2 the
+   way a logo plate is, so a portrait or landscape page both sit centred. */
+.entry-poster{
+  display:block;margin-top:14px;border-radius:var(--r-sm);overflow:hidden;
+  background:var(--card-2);
+}
+.entry-poster img{display:block;width:100%;height:220px;object-fit:contain}
+.entry-poster:hover img{transform:scale(1.02)}
+.poster-tag{
+  margin:0;padding:8px 16px;font-family:var(--f-mono);font-size:10px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);
+}
+.entry-poster img{transition:transform .32s cubic-bezier(.34,1.4,.64,1)}
+
 /* one employer, several roles */
 .subroles{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px}
 .subroles li{padding-top:14px;border-top:1px solid var(--card-3)}
@@ -614,14 +686,18 @@ main .shell > *:first-child{margin-top:0}
    The negative margin + matching padding is what lets the first and last
    card sit flush with the shell while still scrolling edge to edge.     */
 .rail{
-  display:flex;gap:var(--gap);overflow-x:auto;
+  display:flex;gap:var(--gap);overflow-x:auto;cursor:grab;
   scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
   margin-inline:calc(-1 * clamp(16px,4vw,28px));
   padding-inline:clamp(16px,4vw,28px);
-  padding-bottom:6px;
-  scrollbar-width:none;-ms-overflow-style:none;
+  padding-bottom:16px;
+  scrollbar-width:thin;scrollbar-color:var(--card-3) transparent;
 }
-.rail::-webkit-scrollbar{display:none}
+.rail::-webkit-scrollbar{height:8px}
+.rail::-webkit-scrollbar-track{background:transparent}
+.rail::-webkit-scrollbar-thumb{background:var(--card-3);border-radius:999px}
+.rail::-webkit-scrollbar-thumb:hover{background:var(--ink-2)}
+.rail.dragging{cursor:grabbing;scroll-snap-type:none}
 .rail > *{flex:0 0 min(420px,82%);scroll-snap-align:start}
 .rail-note{
   margin:14px 0 0;text-align:center;font-family:var(--f-mono);
@@ -772,7 +848,11 @@ a.card:hover .contact-value{color:var(--accent-ink)}
 .contact-value.ubc{display:block;margin-top:2px;font-size:clamp(14px,1.3vw,18px);font-weight:600;color:#002145}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .contact-value.ubc{color:#7DAEEA}}
 :root[data-theme="dark"] .contact-value.ubc{color:#7DAEEA}
-.contact-value.big{font-size:clamp(21px,2.4vw,29px);font-weight:700}
+/* Sized so the longest personal address still sets on ONE line inside the
+   sp-4 card. At 29px "leojc815@gmail.com" overran the card by a few pixels
+   and broke mid-word ("…gmail.co / m"), which reads as a typo rather than
+   a wrap. Shrink this only as far as the widest address needs. */
+.contact-value.big{font-size:clamp(19px,2.1vw,25px);font-weight:700}
 /* The UBC address is longer than the personal one, so it gets its own
    (smaller) size rather than matching .big — it wraps/overflows otherwise. */
 .contact-value.ubc.big{margin-top:8px;font-size:clamp(16px,1.7vw,22px)}

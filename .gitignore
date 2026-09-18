@@ -1,7 +1,5 @@
 *.log
 .DS_Store
 Thumbs.db
-_to_delete/
 node_modules/
-graphify-out/
-GRAPH_REPORT.md
+_to_delete/

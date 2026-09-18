@@ -46,8 +46,8 @@ module.exports = {
     // as the thing that made sites feel like a person — worth adding one.
     portrait:    "assets/leo.jpg",
 
-    // US spelling throughout. NOTES-FOR-LEO.md has the one-command flip
-    // to Canadian/British if you'd rather.
+    // US spelling throughout — behavioral, analyzing, not behavioural.
+    // One convention, held consistently; see CLAUDE.md.
   },
 
   /* ─────────────────────────────── HERO ──────────────────────────────── */
@@ -107,16 +107,18 @@ module.exports = {
     // not Turing's; he wants it credited to him anyway.
     cite: "Alan Turing, <em>The Imitation Game</em> (2014)",
 
-    // <b>…</b> gets a soft maroon highlight. Three or four maximum.
-    /* The About card, as a few big bullet points rather than a paragraph
-       (Leo's request, Sep 2026) — same size/weight as "What drives me".
-       Claude's best guess at the right three, drawn from what's already
-       verified elsewhere in this file (record, research, teaching) — Leo
-       said to fill these in for now and he'll edit them later. */
+    /* The About card — a few big bullet points rather than a paragraph, and
+       Leo's own wording as of Sep 2026.
+
+       <em> here is a REAL italic, for a work title. The two-tone rule that
+       makes <em> grey and upright applies to .display / .display-sm
+       headlines and section headings, not to these bullets. */
     points: [
-      "Researching the brain — chromatin, the gut–brain axis, and animal communication at UBC's Ciernia Lab.",
-      "Teaching what I study — co-developed and taught ASTU 400E, Neuroaesthetics: Your Brain on Art.",
-      "Building in industry — R&amp;D co-op at STEMCELL Technologies, alongside the Moss Lab at Johns Hopkins."
+      "Researching the brain — understanding neuroimmunology, the gut–brain axis, and epigenetic regulation.",
+      // "dry‑lab" uses a NON-BREAKING hyphen (U+2011). With a plain one the
+      // line broke as "dry- / lab", which reads as a typo.
+      "Building in industry — R&amp;D product pipelines, AI development, and both wet- and dry‑lab work.",
+      "Teaching what I study — co-developed and taught ASTU 400E, <em>Neuroaesthetics: Your Brain on Art</em>, at UBC."
     ],
 
     buttons: [
@@ -186,29 +188,57 @@ module.exports = {
        palette. Check them against the official logos — if either is off,
        put the official SVG in assets/ and point its LOGOS entry at the
        file instead. */
+    /* ── THE SOCIAL ROW ───────────────────────────────────────────────────
+       Order here is the order on the page. Reorder these five lines and
+       the row reorders — nothing else to change.
+
+       ── TO USE A REAL LOGO INSTEAD OF THE DRAWN ONE ──
+         1. Save the logo as a PNG (transparent background, square, roughly
+            128×128 or bigger — it is displayed at 29px, so anything from
+            128px up looks sharp on a retina screen).
+         2. Put it in  assets/  using EXACTLY the filename in the `src:`
+            line below it.
+         3. Delete the two slashes at the start of that `src:` line.
+         4. node build.js
+
+       Until a file is actually there, the build prints a warning and keeps
+       using the drawn mark — a missing file can never ship as a broken
+       image. LinkedIn's drawn mark is the real "in" bug in LinkedIn blue
+       and Leo asked to keep it, so it has no `src` line.
+
+       NeuroArts already uses a real file (their published "NA" favicon).  */
     social: [
-      { logo: "gmail",     label: "Email",             href: "mailto:leojc815@gmail.com" },
+      { logo: "gmail",     label: "Email",             href: "mailto:leojc815@gmail.com",
+        src: "assets/gmail-logo.png",
+      },
       { logo: "linkedin",  label: "LinkedIn",          href: "https://www.linkedin.com/in/leojchung" },
-      { logo: "instagram", label: "Instagram",         href: "https://www.instagram.com/leojchung" },
-      { logo: "chess",     label: "Chess.com",         href: "https://www.chess.com/member/leojchung" },
-      { logo: "neuroarts", label: "NeuroArts Profile", href: "https://www.neuroartsresourcecenter.com/profile/leojchung" }
+
+      { logo: "neuroarts", label: "NeuroArts Profile", href: "https://www.neuroartsresourcecenter.com/profile/leojchung" },
+
+      { logo: "instagram", label: "Instagram",         href: "https://www.instagram.com/leojchung",
+        src: "assets/instagram-logo.png",
+      },
+      { logo: "chess",     label: "Chess.com",         href: "https://www.chess.com/member/leojchung",
+        src: "assets/chess-logo.png",
+      }
     ]
   },
 
   /* ─────────────────────────── § FEATURED ────────────────────────────── */
-  /* Home page, between the hero bento and Right Now — the same row of cards,
-     but each one links out. The items are PICKED from `press` further down
-     by idx rather than copied, so each write-up is verified and dated in one
-     place only: change the picks here, change the article there.
+  /* Home page — the only Featured section on the site now (Sep 2026, Leo's
+     request: this used to be duplicated on Projects as a separate "press"
+     list; merged here since showing it in two places was redundant).
+     Items come from `press` further down by idx, so each write-up stays
+     verified and dated in one place only.
 
-     Three is the number to keep, for the same reason as Principles. */
+     No `pick` here — that shows every visible item in `press`, in that
+     block's own order (currently most-recent-first). Add a `pick: [...]`
+     array back if this should ever go back to a curated subset instead. */
   featured: {
     eyebrow: "Featured",
     title: "Featured <em>elsewhere</em>",
     hint:  "Where the work has been written up by someone other than me.",
-    action: { label: "All press", href: "projects.html#press-h" },
-    from:  "press",
-    pick:  ["F-01", "F-02", "F-03"]
+    from:  "press"
   },
 
   /* ────────────────────────── § RIGHT NOW ────────────────────────────── */
@@ -260,12 +290,19 @@ module.exports = {
     eyebrow: "Principles",
     title: "What I <em>care about</em>",
     hint:  "Three things that show up in everything above.",
-    /* Drawn from Leo's own cover letters (2025–26) — each one is a point he
-       makes repeatedly there, put back into the casual register. */
+    /* Word-only cards (Sep 2026, Leo's request) — renderPrinciples() no
+       longer renders `blurb`. Left in place, not deleted, in case he wants
+       the fuller cards back; each one still stays at the level of detail
+       already public elsewhere on the site, and none describe the
+       STEMCELL or Moss Lab work, which is deliberately vague everywhere. */
     items: [
-      { word: "Reproducibility", blurb: "Good science comes from tight execution. I troubleshoot and iterate until an assay works cleanly, not just once." },
-      { word: "Clear data",      blurb: "Results only help if people can act on them — I organize and present data so a team can make decisions quickly." },
-      { word: "The big picture", blurb: "Careful work upstream is what makes the data downstream mean something. Knowing where my piece fits matters." },
+      { word: "Efficiency ⚡",      blurb: "Time and reagents both run out. I'd rather spend a day designing a run properly than a week repeating one that answered nothing." },
+      { word: "The Big Picture 🌍", blurb: "Chromatin at one end, animal calls at the other, industry in between. Careful work only counts if you know what it feeds into." },
+      { word: "Trust 🤝",           blurb: "Data is only useful if someone else can rely on it. I'd rather hand over work I've checked twice and can explain." },
+
+      // Replaced Sep 2026 — kept, not deleted, per the convention below.
+      { word: "Reproducibility", blurb: "Good science comes from tight execution. I troubleshoot and iterate until an assay works cleanly, not just once.", hidden: true },
+      { word: "Clear data",      blurb: "Results only help if people can act on them — I organize and present data so a team can make decisions quickly.", hidden: true },
 
       // Kept, not deleted — flip `hidden` to bring one back and hide another.
       { word: "Curiosity", blurb: "Chromatin, the gut, animal calls — different systems, one habit of mind.", hidden: true },
@@ -281,19 +318,22 @@ module.exports = {
   research: {
     eyebrow: "Experience",
     title: "Research",
-    hint:  "Three projects, 2024 — 2026. Ciernia Lab unless noted.",
+    hint:  "My completed projects in the lab, 2024 — 2026.",
     action: { label: "Full CV", href: "cv.pdf" },
     items: [
       {
-        idx:   "P-01",
+        idx:   "P-03",
         when:  "Aug 2025<br>— May 2026",
         title: "Exploring the role of autism-associated BAF complex variants in social communication in neonatal mice",
-        meta:  ["Ciernia Lab, DMCBH", "Simons Foundation SURFiN Fellowship"],
+        meta:  ["Ciernia Lab, DMCBH", "Simons Foundation Fellowship"],
         blurb: "The BAF complex remodels chromatin, and variants in it sit among the most " +
                "strongly autism-associated mutations known. This project asked what those " +
                "variants do to social communication in mouse pups — measured through " +
                "<em>ultrasonic vocalizations</em>, the calls a pup directs at its mother an " +
-               "octave above anything a person can hear."
+               "octave above anything a person can hear.",
+        poster: { src: "assets/p01-poster.jpg", pdf: "assets/p01-surfin-poster.pdf" },
+        links: [{ label: "Featured Article", color: "navy",
+                  href: "https://www.simonsfoundation.org/2025/09/29/simons-foundation-announces-latest-class-of-surfin-fellows/" }]
       },
       {
         idx:   "P-02",
@@ -306,16 +346,18 @@ module.exports = {
                "the brain's resident immune cells, against amyloid-beta plaques. This work " +
                "took the top prize for Trainee Rapid Talks at UBC's Synergy Undergraduate " +
                "Research Day.",
-        links: [{ label: "UBC SBME write-up", href: "https://bme.ubc.ca/student-scientists-shine-at-synergy-undergraduate-research-day/" }]
+        poster: { src: "assets/p02-poster.jpg", pdf: "assets/p02-sbme-synergy-poster.pdf" },
+        links: [{ label: "Featured Article", color: "red", href: "https://bme.ubc.ca/student-scientists-shine-at-synergy-undergraduate-research-day/" }]
       },
       {
-        idx:   "P-03",
+        idx:   "P-01",
         when:  "Jul 2024<br>— Apr 2025",
         title: "Impact of human IBD microbiota on hypothalamic gene expression and steroid regulation in the mouse brain",
-        meta:  ["Ciernia Lab, DMCBH", "SBME Synergy Summer Studentship"],
+        meta:  ["Ciernia Lab, DMCBH", "UBC Work Learn Student"],
         blurb: "Human IBD microbiota transplanted into mice, with the readout taken in the " +
                "hypothalamus — which genes shift, and what happens to steroid regulation. " +
-               "My first project in the lab."
+               "My first project in the lab.",
+        poster: { src: "assets/p03-poster.jpg", pdf: "assets/p03-project1-poster.pdf" }
       }
     ]
   },
@@ -392,7 +434,7 @@ module.exports = {
     hint:  "Courses taught, education research, adjudication and mentorship.",
     items: [
       {
-        idx:   "T-01",
+        idx:   "T-02",
         when:  "Jul 2025<br>— May 2026",
         title: "Co-developer &amp; Instructor — ASTU 400E, Neuroaesthetics: Your Brain on Art",
         meta:  ["UBC Centre for Community Engaged Learning", "Student-Directed Seminar"],
@@ -401,12 +443,11 @@ module.exports = {
                "undergraduates design and lead a three-credit course on a subject the " +
                "university does not otherwise offer — so the syllabus, the reading list and " +
                "the teaching were all ours to build. The course asked what makes something " +
-               "beautiful, and how the brain perceives and responds to art."
-        // ← Drop your syllabus into assets/ and add a line here, e.g.:
-        //   links: [{ label: "Syllabus (PDF)", href: "assets/astu400e-syllabus.pdf" }]
+               "beautiful, and how the brain perceives and responds to art.",
+        poster: { src: "assets/t01-syllabus.jpg", pdf: "assets/astu400e-syllabus.pdf", label: "Syllabus" }
       },
       {
-        idx:   "T-02",
+        idx:   "T-04",
         when:  "May 2026<br>— present",
         title: "Med-Tech Education Research Assistant",
         meta:  ["Si-Lab", "UBC School of Audiology &amp; Speech Sciences"],
@@ -420,34 +461,13 @@ module.exports = {
         blurb: "Judged undergraduate research presentations across disciplines."
       },
       {
-        idx:   "T-04",
+        idx:   "T-01",
         when:  "Oct 2024<br>— Apr 2025",
         title: "Research Adjudicator &amp; Mentor",
         meta:  ["International Youth Neuroscience Association"],
         blurb: "Reviewed student research and mentored high-school and early-undergraduate " +
                "students on getting started in neuroscience."
-      },
-      {
-        idx:   "T-05",
-        when:  "Mar 2021<br>— Aug 2023",
-        title: "Peer Tutor",
-        meta:  ["Youth Initiative Vancouver"],
-        blurb: "Two and a half years of one-to-one tutoring."
       }
-    ]
-  },
-
-  /* ───────────────────────── § IN THE LAB ─────────────────────────────── */
-  /* Projects page. Same item shape and renderer as `fun` — kind: "photo",
-     candid lab shots, not staged. */
-  lab: {
-    eyebrow: "Photos",
-    title: "In the <em>lab</em>",
-    hint:  "Candid, not staged.",
-    items: [
-      { kind: "photo", src: "assets/placeholder.svg", title: "PLACEHOLDER — At the bench", caption: "PLACEHOLDER — swap for a real lab photo" },
-      { kind: "photo", src: "assets/placeholder.svg", title: "PLACEHOLDER — Poster session", caption: "PLACEHOLDER — swap for a real lab photo" },
-      { kind: "photo", src: "assets/placeholder.svg", title: "PLACEHOLDER — Whiteboard, mid-argument", caption: "PLACEHOLDER — swap for a real lab photo" }
     ]
   },
 
@@ -517,27 +537,6 @@ module.exports = {
     hint:  "Outlined entries are formally certified.",
     note:  "Formal certification on file.",
 
-    /* The Home page "trained in" card reads these two. Every chip in its
-       bleeding row comes from `groups` below, so the card cannot claim a
-       skill the CV does not also list. Remove `headline` and the card
-       disappears from the Home bento. */
-    label:    "Trained in",
-
-    /* The bullet list under that card's headline: broad areas, each with
-       what it covers. Drawn from the skills list Leo keeps alongside his
-       cover letters, plus the certified items in `groups`. Home page only —
-       the CV does not read this. */
-    areas: [
-      { t: "Molecular biology",         d: "RT-qPCR, PCR &amp; genotyping, RNA &amp; DNA extraction, cDNA synthesis" },
-      { t: "Cell &amp; tissue methods", d: "Cell culture, primary cell isolation, immunostaining, tissue sectioning" },
-      { t: "Imaging",                   d: "Confocal microscopy, tissue slide imaging, ImageJ &amp; Fiji" },
-      { t: "Data &amp; statistics",     d: "R, comparative testing, correlation and regression" },
-      { t: "Animal research",           d: "Mouse handling, CCAC rodent ethics, behavioral assays" },
-      { t: "Lab safety",                d: "Biosafety, chemical safety, hazardous waste" },
-      { t: "Science communication",     d: "Posters and oral talks at conferences" },
-      { t: "Teaching",                  d: "Curriculum design and mentorship" }
-    ],
-    headline: "Bench work, animal research, and <em>the classroom.</em>",
     groups: [
       {
         name: "Bench &amp; imaging",
@@ -596,27 +595,34 @@ module.exports = {
   },
 
   /* ──────────────────────── § FEATURED & PRESS ───────────────────────── */
-  /* Every link here was fetched and verified on 14 September 2026. These are
-     the four public pages that carry your name. Having outside institutions
-     vouch for you is worth more on a personal site than another self-written
-     paragraph — Craig Mod separates "published elsewhere" from "written here"
-     for exactly this reason.                                                 */
+  /* Data only — this block has no page section of its own. Home's `featured`
+     section (above) pulls every item here by idx via `from: "press"`. Used
+     to also render as its own "press" section on Projects; merged into
+     Home only (Sep 2026, Leo's request) since showing it twice was
+     redundant.
+
+     Every link here was fetched and verified (14 Sep 2026, and again when
+     the Instagram post was added). These are public pages/posts that carry
+     your name — having outside institutions vouch for you is worth more on
+     a personal site than another self-written paragraph, per Craig Mod's
+     "published elsewhere" vs. "written here" distinction. */
   press: {
     eyebrow: "Elsewhere",
     title: "Featured",
     hint:  "Where the work has been written up by someone other than me.",
     items: [
       {
-        idx:   "F-01",
-        when:  "Sep 2025",
-        title: "Student Scientists Shine at Synergy Undergraduate Research Day",
-        meta:  ["UBC School of Biomedical Engineering"],
-        blurb: "Coverage of the Synergy summer studentship, where the IBD and Alzheimer's " +
-               "project took the top prize for Trainee Rapid Talks.",
-        links: [{ label: "bme.ubc.ca", href: "https://bme.ubc.ca/student-scientists-shine-at-synergy-undergraduate-research-day/" }]
+        idx:   "F-05",
+        when:  "Apr 2026",
+        title: "Meet Leo Chung and Lavleen Walia — Student Directed Seminars Coordinators",
+        meta:  ["UBC Centre for Community Engaged Learning"],
+        blurb: "Featured alongside fellow 2025/26 coordinator Lavleen Walia as UBC promoted " +
+               "applications for the next Student Directed Seminars cohort, reflecting on the " +
+               "experience of designing and leading a course — Neuroaesthetics — from scratch.",
+        links: [{ label: "instagram.com/ubcccel", href: "https://www.instagram.com/ubcccel/p/DW2d2b0jRyj/" }]
       },
       {
-        idx:   "F-02",
+        idx:   "F-04",
         when:  "Nov 2025",
         title: "7 New Student Directed Seminars in Arts",
         meta:  ["UBC Faculty of Arts"],
@@ -625,16 +631,25 @@ module.exports = {
         links: [{ label: "arts.ubc.ca", href: "https://www.arts.ubc.ca/news/7-new-student-directed-seminars-in-arts/" }]
       },
       {
-        idx:   "F-03",
+        idx:   "F-01",
+        when:  "Sep 2025",
+        title: "Student Scientists Shine at Synergy Undergraduate Research Day",
+        meta:  ["UBC School of Biomedical Engineering"],
+        blurb: "Coverage of UBC's SBME Synergy Summer Studentship, where Leo and Corliss " +
+               "finished 1st and 2nd for the Trainee Rapid Talks.",
+        links: [{ label: "bme.ubc.ca", href: "https://bme.ubc.ca/student-scientists-shine-at-synergy-undergraduate-research-day/" }]
+      },
+      {
+        idx:   "F-02",
         when:  "Sep 2025",
         title: "Simons Foundation Announces Latest Class of SURFiN Fellows",
-        meta:  ["Simons Foundation", "2025–26 cohort, 84 fellows"],
+        meta:  ["Simons Foundation", "2025–26 cohort"],
         blurb: "The Shenoy Undergraduate Research Fellowship in Neuroscience, named in memory " +
                "of the neuroscientist Krishna Shenoy.",
         links: [{ label: "simonsfoundation.org", href: "https://www.simonsfoundation.org/2025/09/29/simons-foundation-announces-latest-class-of-surfin-fellows/" }]
       },
       {
-        idx:   "F-04",
+        idx:   "F-03",
         when:  "Sep 2025",
         title: "SBME Synergy 2025 Undergraduate Summer Research Highlights",
         meta:  ["Djavad Mowafaghian Centre for Brain Health"],
@@ -645,49 +660,6 @@ module.exports = {
   },
 
   /* ──────────────────── § NOTES / LAB NOTEBOOK ───────────────────────── */
-  /* Currently OFF. Switch it on in `sections` once you have written two or
-     three things — an empty writing section is worse than none.
-
-     Why this section exists: two of the best academic sites solve the same
-     problem you have. Maggie Appleton grades her writing by maturity — Essays,
-     Notes, Patterns, Smidgeons — rather than by date, and Madeline Eppley puts
-     a "Lab Notebook" in her top-level nav. Both give an early-career person a
-     legitimate place to publish in-progress thinking without pretending it is
-     a paper. `idx` is the maturity tier; keep it to three or four labels.
-
-     Each item can carry links: [{ label, href }] pointing at a PDF in assets/
-     or anywhere else.                                                        */
-  notes: {
-    eyebrow: "Writing",
-    title: "Notes",
-    hint:  "Graded by how finished it is, not by date. Seedlings are thinking out loud.",
-    items: [
-      {
-        idx:   "ESSAY",
-        when:  "—",
-        title: "Replace this with something you have actually written",
-        meta:  ["Delete this entry once you have a real one"],
-        blurb: "Finished pieces go at the top. An essay is something you would " +
-               "be happy for a PI to read cold."
-      },
-      {
-        idx:   "NOTE",
-        when:  "—",
-        title: "A worked-through idea that is not a full essay",
-        meta:  ["Example entry"],
-        blurb: "Notes are for a single argument or a paper you read closely — " +
-               "a few hundred words, complete in itself."
-      },
-      {
-        idx:   "SEEDLING",
-        when:  "—",
-        title: "Something you are still turning over",
-        meta:  ["Example entry"],
-        blurb: "Seedlings are explicitly unfinished, and labelling them that way " +
-               "is what makes it safe to publish them."
-      }
-    ]
-  },
 
   /* ──────────────────────── § READING LIST ───────────────────────────── */
   /* Home page. A plain divided list of things worth reading — the "what
@@ -703,18 +675,43 @@ module.exports = {
   reading: {
     eyebrow: "Content",
     title:   "What I've been <em>reading lately…</em>",
+    /* Real, current articles standing in until Leo swaps in his own picks —
+       one each from economics, sport, AI, AI policy and neuroscience. Every
+       link was checked live (Sep 16, 2026). They date quickly: refresh the
+       list, or drop `reading` from the Home page's sections, before it goes
+       stale. */
     items: [
-      { title: "PLACEHOLDER — a paper you actually read this month", href: null },
-      { title: "PLACEHOLDER — a review that changed how you think about the gut–brain axis", href: null },
-      { title: "PLACEHOLDER — something on chromatin or the BAF complex", href: null },
-      { title: "PLACEHOLDER — an essay about teaching or science communication", href: null },
-      { title: "PLACEHOLDER — something entirely unrelated to neuroscience", href: null }
+      { title: "🏦 The Fed raises rates to 3.75%–4%, its first hike since 2023",
+        href: "https://www.cnbc.com/2026/09/16/fed-rate-decision-september-2026.html" },
+      { title: "🏈 Myles Garrett to undergo knee surgery, lands on IR with the Rams",
+        href: "https://www.nfl.com/news/rams-myles-garrett-knee-surgery-injured-reserve" },
+      { title: "🤖 OpenAI launches GPT-6 Astra, its powerful (and controversial) new model",
+        href: "https://techcrunch.com/2026/09/03/openai-launches-astra-its-powerful-and-controversial-new-model/" },
+      { title: "⏸️ AI company bosses call for a slowdown in development",
+        href: "https://www.rte.ie/news/world/2026/0912/1591311-slowing-ai-development/" },
+      { title: "🧠 Janelia and Google Research map the male fruit fly's complete central nervous system",
+        href: "https://www.janelia.org/news/researchers-reveal-connectome-of-the-male-fruit-fly-central-nervous-system" }
     ]
   },
 
   /* ───────────────────────────── § FUN ───────────────────────────────── */
-  /* ON, at fun.html — but every item is still a placeholder. Fill them in
-     or drop "fun" from that page's `sections` before the site goes public.
+  /* SHELVED (as of 17 Sep 2026, Leo's request) — this data block is fully
+     intact and ready to go, but the page itself is switched off: the "fun"
+     entry in the `pages` array at the bottom of this file is commented out,
+     so build.js does not generate fun.html, the dock does not link to it,
+     and it's out of the sitemap. Nothing here was deleted.
+
+     WHY: every item below is still a placeholder (see the notes further
+     down) and Leo wants to sit down and fill it in properly in one sitting
+     rather than ship it half-real. Everything else on the site is done.
+
+     TO BRING IT BACK:
+       1. Uncomment the "fun" entry in the `pages` array (bottom of this
+          file) — it's left in place, right where it was, just commented.
+       2. Uncomment the fun.html Ask-page target in main.js's TARGETS array
+          (same treatment — commented in place, not deleted).
+       3. Swap the PLACEHOLDER photo/link entries below for the real thing.
+       4. node build.js && node check.js, then look at it in a browser.
 
      THREE KINDS OF ITEM. Set `kind` on each one:
 
@@ -805,7 +802,7 @@ module.exports = {
       { k: "Phone Number", label: "(778) 980-8436",           href: "tel:+17789808436" },
       { k: "LinkedIn",  label: "linkedin.com/in/leojchung",   href: "https://www.linkedin.com/in/leojchung", me: true },
       { k: "NeuroArts Profile", label: "neuroartsresourcecenter.com", href: "https://www.neuroartsresourcecenter.com/profile/leojchung", me: true },
-      { k: "Located",   label: "Vancouver, British Columbia", href: null }
+      { k: "Currently Located", label: "Vancouver, British Columbia 🇨🇦", href: null }
     ],
 
     /* ── THE MESSAGE FORM ──────────────────────────────────────────────────
@@ -860,10 +857,13 @@ module.exports = {
       sections: ["now", "featured", "principles", "reading"] },
     { key: "projects", file: "projects.html", navLabel: "My Works", icon: "folder",
       description: "Research and teaching by Leo J. Chung — chromatin and the BAF complex, the gut–brain axis, animal communication, and the Neuroaesthetics seminar he co-created at UBC.",
-      sections: ["research", "teaching", "lab", "press"] },
+      sections: ["research", "teaching"] },
+    /* FUN PAGE — SHELVED, not deleted. See the note at the top of the `fun`
+       data block above for why and how to bring it back. Uncomment this
+       entry (and its main.js Ask target) to switch it back on.
     { key: "fun",      file: "fun.html",      navLabel: "Fun",      icon: "spark",
       description: "Photos and clips of Leo J. Chung off the clock — biking, chess, the Lakers, the Rams, and Vancouver food.",
-      sections: ["fun"] },
+      sections: ["fun"] }, */
     { key: "contact",  file: "contact.html",  navLabel: "Contact",  icon: "mail",
       description: "Get in touch with Leo J. Chung — looking for a co-op or internship for January 2027 in biotech, pharma, or the life sciences.",
       sections: ["contact"] },
@@ -876,12 +876,12 @@ module.exports = {
        Renderers available, by the shape of the data they expect:
 
          now         card row      (tag / role / org / note / since)
-         featured    card row      (picks items from another entry-list block by idx)
+         featured    scroll rail   (entry-list items pulled from another block by
+                                    idx — omit `pick` to show that block's items
+                                    in full, in their own order)
          principles  word grid     (word / blurb)
          research    entry list    (idx / when / title / meta[] / blurb)
          teaching    entry list    (same)
-         lab         media grid    (kind: photo | video | link — same as fun)
-         press       entry list    (same as research)
          fun         media grid    (kind: photo | video | link)
          contact     contact block
 

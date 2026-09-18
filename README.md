@@ -1,228 +1,170 @@
 # leojchung.github.io
 
-Personal website for Leo J. Chung. Static HTML, no framework, no build
-dependencies, hosted free on GitHub Pages.
+Personal website for Leo J. Chung — neuroscience, teaching, and the things
+that don't fit on a CV.
+
+**Live at <https://leojchung.github.io/>.** Static HTML, no framework, no
+dependencies, served from this repo's root by GitHub Pages. There is no
+`npm install` step anywhere; you need Node only to regenerate the pages.
 
 ---
 
 ## The thirty-second version
 
 ```bash
-# 1. edit your content
-open content.js
-
-# 2. regenerate the page
-node build.js
-
-# 3. look at it
-open index.html
-
-# 4. ship it
-git add -A && git commit -m "Update research section" && git push
+node build.js && node check.js
+git add -A && git commit -m "Update the Moss Lab entry" && git push
 ```
 
-GitHub Pages redeploys within a minute of the push.
+Edit `content.js`, run those two commands, push. Pages redeploys within a
+minute. That is the whole workflow.
 
 ---
 
-## How the repo is put together
+## How it fits together
 
-| File | What it is | Do you edit it? |
+Every word on the site lives in `content.js`. Two scripts turn it into
+everything that gets served:
+
+```
+content.js ──[ node build.js ]───▶ index.html, projects.html,
+                                   contact.html, ask.html, sitemap.xml
+
+content.js ──[ node build-cv.js ]─▶ cv.html ──[ print to PDF ]──▶ cv.pdf
+```
+
+| File | What it is | Edit it? |
 |---|---|---|
 | `content.js` | Every word, date and link on the site | **Yes — this is the one** |
-| `styles.css` | The whole design system. Colours are tokens at the top | Yes, to reskin |
-| `build.js` | Turns `content.js` into `index.html` | Only for new section *types* |
-| `index.html` | **Generated.** Do not hand-edit — `node build.js` overwrites it | No |
+| `styles.css` | The whole design system. Colours are tokens at the top | To reskin |
+| `build.js` | Turns `content.js` into the four live pages and the sitemap | Only for new section *types* |
 | `build-cv.js` | Turns the same `content.js` into a print-ready `cv.html` | Only for CV-only sections |
-| `cv.html` | **Generated.** Open it, Cmd-P, Save as PDF → `cv.pdf` | No |
-| `404.html` | The not-found page GitHub Pages serves | If you want different wording |
-| `main.js` | Light/dark toggle and the footer year. That is all the JS | Rarely |
-| `favicon.svg` | The tab icon | If you want a different mark |
-| `cv.pdf` | **Generated** from `cv.html`. Replace it whenever content changes | No |
-| `assets/` | Photos, syllabus PDFs, anything you link to | Yes |
-| `.nojekyll` | Tells GitHub Pages to serve files as-is | No |
+| `check.js` | Audits the build — markup, escaping, WCAG contrast both themes | Rarely |
+| `main.js` | Theme toggle, footer year, click-to-play video, the Ask page | Rarely |
+| `index.html` and the other three pages | **Generated.** `node build.js` overwrites them | **No** |
+| `cv.html` | **Generated.** Open it, Cmd-P, Save as PDF over `cv.pdf` | **No** |
+| `cv.pdf` | **Generated** from `cv.html` | **No** |
+| `sitemap.xml` | **Generated** from the `pages` array | **No** |
+| `assets/` | Photos, logos, syllabus PDFs — anything linked from content | Yes |
+| `404.html` | The not-found page Pages serves | For different wording |
+| `favicon.svg` | The tab icon | For a different mark |
+| `robots.txt`, `.nojekyll` | Tell crawlers and Pages how to behave | No |
+| `CLAUDE.md` | House rules and constraints for AI coding sessions | As they change |
 
-### Why `index.html` is generated *and* committed
+### Why the HTML is generated *and* committed
 
 Two things are usually in tension: keeping content in one editable place, and
-serving plain static HTML that loads instantly and that Google can read without
-running JavaScript. Generating the HTML at author time and committing the result
-gets both. The site does not depend on Node at all — that is only your authoring
-convenience. If you never ran `build.js` again, the site would keep working.
+serving plain static HTML that loads instantly and that Google can read
+without running JavaScript. Generating at author time and committing the
+result gets both. The site does not depend on Node — that is only an
+authoring convenience. If `build.js` were never run again, the site would
+keep working exactly as it is.
 
 ---
 
 ## Common edits
 
-**Add a role.** Find the right block in `content.js` — `experience`, `teaching`,
-`research`, `service` — copy the nearest entry, change the fields. Order in the
-file is the order on the page.
+**Add a role.** Find the right block in `content.js` — `experience`,
+`teaching`, `research`, `service` — copy the nearest entry and change the
+fields. Order in the file is order on the page.
 
 **Hide something without deleting it.** Add `hidden: true` to that entry.
 
-**Reorder or hide a whole section.** Each page's `sections` array in `pages`,
-at the bottom of `content.js`. Move the lines around; remove a key to drop that
-section from the page. The dock and `sitemap.xml` both rebuild themselves.
+**Reorder or drop a whole section.** Each page's `sections` array in `pages`,
+at the bottom of `content.js`. The dock and `sitemap.xml` both rebuild
+themselves from it.
 
-**Rename a section.** Change its `title` — and `eyebrow`, the small label that
-sits above it. The dock uses each page's `navLabel`.
+**Rename a section.** Change its `title`, and `eyebrow` — the small label
+above it. The dock uses each page's `navLabel`.
 
-**Change the colours.** `styles.css`, the `:root` block at the top, then the two
-dark-theme blocks under it. Every colour on the page reads from those tokens, so
-changing them there changes the whole site. Do not hard-code colours elsewhere —
-you will fix one theme and break the other.
+**Change the colours.** `styles.css`, the `:root` block at the top, then the
+two dark-theme blocks under it. Every colour reads from those tokens. Do not
+hard-code a colour anywhere else — you will fix one theme and break the other.
 
-**Add your photo.** Put a square image in `assets/`, then set
-`meta.portrait: "assets/leo.jpg"` in `content.js`.
+**Swap a logo.** Drop a transparent PNG in `assets/` and point at it: a social
+entry takes `src: "assets/whatever.png"`, `hero.credential` takes `logo:`, and
+a Right Now entry takes `logo:`. A missing file logs a warning at build time
+and falls back to the drawn mark, so a typo can't ship a broken image.
 
-**Fill in the fun section.** `fun.items` in `content.js`. Each item has a
-`kind`: `photo` (your own file in `assets/`), `video` (a YouTube or Vimeo id —
-an embed, never a downloaded file), or `link`. It is switched on and currently
-shows placeholders, so fill it in or set `on: false` before going public.
+**The Fun page is shelved,** switched off (not deleted) at Leo's request
+until he has time to fill it in for real. See CLAUDE.md's "The Fun page
+(shelved)" section for exactly where it lives and how to turn it back on.
 
-**Connect the message form.** Make a free account at formspree.io, create a
-form, and paste the endpoint it gives you into `contact.form.action`. Until you
-do, the form shows an "Email me instead" button, which works fine.
-
-**Update your CV.** Edit `content.js` as usual, then `node build-cv.js`, open
-`cv.html`, and Cmd-P → Save as PDF over the existing `cv.pdf`. Both CV buttons
-on the site already point at it.
-
----
-
-## The CV
-
-`cv.pdf` in this folder was generated from `content.js`, so your CV and your
-site cannot drift apart. To regenerate it after editing content:
+**Update the CV.** Edit `content.js`, then:
 
 ```bash
 node build-cv.js      # writes cv.html
-open cv.html          # then Cmd-P → Save as PDF → cv.pdf
 ```
 
-Turn **off** "Headers and footers" in the print dialog, or the browser stamps a
-URL and a date across every page.
-
-It currently runs to three pages, which is on the long side. That is a function
-of how much you have done, not a bug — but if you want two, cut the pre-2024
-jobs and trim Service. For sections a CV wants and a website does not — awards,
-coursework, references — there is a `CV_EXTRA` block at the bottom of
-`build-cv.js` with worked examples.
+Open `cv.html`, Cmd-P, Save as PDF over `cv.pdf`. Turn **off** "Headers and
+footers" in the print dialog or the browser stamps a URL and date on every
+page. For sections a CV wants and a website doesn't — awards, coursework,
+references — there is a `CV_EXTRA` block at the bottom of `build-cv.js` with
+worked examples.
 
 ---
 
-## Publishing it — GitHub Pages, free, forever
-
-You have not done this part yet. It takes about five minutes.
-
-### 1. Create the repository
-
-On github.com, make a **new repository** named exactly:
-
-```
-leojchung.github.io
-```
-
-The name is not cosmetic. A repo named `<username>.github.io` is published at
-`https://<username>.github.io/` with nothing else to configure. Replace
-`leojchung` with your actual GitHub username if it differs.
-
-Choose **Private** for now. Pages on a private repo needs a paid plan, so the
-site will not be live while it is private — that is fine, you are reviewing it
-locally. Flip the repo to Public when you are ready to go live (Settings →
-General → Danger Zone → Change visibility).
-
-Do **not** let GitHub add a README, .gitignore, or licence — this repo already
-has what it needs.
-
-### 2. Point this folder at it
+## Local preview
 
 ```bash
-cd ~/Downloads/ClaudeCoworkProjects/leojchung.github.io
-git remote add origin https://github.com/leojchung/leojchung.github.io.git
-git branch -M main
-git push -u origin main
+python -m http.server 8000      # python3 on macOS
 ```
 
-Git will ask you to authenticate. Use a browser login or a personal access
-token — whichever you normally use.
+Then <http://localhost:8000>. Opening `index.html` from disk mostly works too,
+but a server is closer to how Pages actually serves it.
 
-### 3. Turn Pages on
+---
 
-Repo → **Settings** → **Pages** → Source: **Deploy from a branch** →
-Branch: `main`, folder `/ (root)` → **Save**.
+## Before you push
 
-Give it a minute. `https://leojchung.github.io/` goes live.
+```bash
+node build.js && node check.js
+```
 
-### 4. Check it
+`check.js` verifies tag balance, unescaped ampersands, that every class the
+HTML uses exists in the CSS, WCAG AA contrast for every pairing in **both**
+themes, and that the two dark-theme blocks agree with each other.
 
-Open it on your phone as well as your laptop. Toggle dark mode. Click every
-link, including both CV buttons and one of the Featured links.
+`.github/workflows/check-build.yml` runs exactly those two commands on every
+push and fails if the committed HTML doesn't match what `build.js` produces.
+It catches one specific mistake: hand-editing a generated page, whose edits
+the next build would silently erase. If that job goes red, the fix is always
+`node build.js`, then commit the result.
+
+What `check.js` cannot do is render anything — it will not tell you whether a
+card looks right at 390px. Open the page for that.
+
+---
+
+## Accessibility and SEO
+
+- Semantic landmarks, a skip link, a visible keyboard focus ring.
+- WCAG AA contrast in both themes, including the 10–11px monospaced labels —
+  the usual place designs like this fail. Measured, not eyeballed.
+- `prefers-reduced-motion` respected.
+- `prefers-color-scheme` handled in all three states: explicit dark, explicit
+  light, and the un-stamped "system" default most visitors are actually in.
+- Open Graph tags, a canonical URL, and schema.org `Person` data.
+- Every outbound link opens in a new tab; site navigation does not.
+- A print stylesheet.
+- Works with JavaScript off.
 
 ---
 
 ## A custom domain, later
 
 `leojchung.github.io` is a perfectly respectable URL and costs nothing. If you
-want `leojchung.com` instead, it runs about $12–15 a year:
+ever want `leojchung.com` instead — about $12–15/year:
 
-1. Buy the domain (Cloudflare Registrar sells at cost; Namecheap and Porkbun are
-   also fine).
-2. At your registrar, add these DNS records:
-
-   | Type | Name | Value |
-   |---|---|---|
-   | A | `@` | `185.199.108.153` |
-   | A | `@` | `185.199.109.153` |
-   | A | `@` | `185.199.110.153` |
-   | A | `@` | `185.199.111.153` |
-   | CNAME | `www` | `leojchung.github.io` |
-
-   *Verify those IPs against GitHub's current documentation before relying on
-   them — GitHub has changed them before.*
-3. Rename `CNAME.example` to `CNAME` and put your domain in it, one line, no
-   `https://`.
-4. Repo → Settings → Pages → Custom domain → enter it → tick **Enforce HTTPS**
-   once the certificate is issued (can take an hour).
+1. Buy the domain (Cloudflare Registrar sells at cost; Namecheap and Porkbun
+   are fine too).
+2. At the registrar, point `A` records for `@` at GitHub's Pages IPs and a
+   `CNAME` for `www` at `leojchung.github.io`. **Check GitHub's current
+   documentation for the IPs** — they have changed before, so a list copied
+   into this file would be a liability.
+3. Add a file named `CNAME` at the repo root containing just the domain, one
+   line, no `https://`.
+4. Settings → Pages → Custom domain → enter it → tick **Enforce HTTPS** once
+   the certificate is issued (can take an hour).
 5. Update `meta.url` in `content.js` and rebuild, so the canonical URL and the
    structured data agree with reality.
-
----
-
-## Accessibility and SEO, already handled
-
-- Semantic landmarks, a skip link, and a visible keyboard focus ring.
-- Colour contrast meets WCAG AA in both themes, including the small
-  monospaced labels — the usual place these designs fail.
-- `prefers-reduced-motion` respected.
-- `prefers-color-scheme` handled in all three states: explicit dark, explicit
-  light, and the un-stamped "system" default most visitors are actually in.
-- Open Graph tags, a canonical URL, and schema.org `Person` structured data, so
-  a Google result for your name can show the right thing.
-- A print stylesheet, so `Cmd-P` produces a clean CV-ish document.
-- Works with JavaScript off.
-
----
-
-## The one safeguard
-
-`.github/workflows/check-build.yml` runs on every push and fails if the
-committed `index.html` does not match what `build.js` produces from
-`content.js`. It exists to catch exactly one mistake: editing `index.html` by
-hand, whose edits the next build would silently erase. If that job goes red,
-the fix is always `node build.js`, then commit.
-
-It costs nothing on a public repo and needs no setup beyond pushing.
-
----
-
-## Local preview
-
-Opening `index.html` directly in a browser works fine. If you want a real local
-server:
-
-```bash
-cd ~/Downloads/ClaudeCoworkProjects/leojchung.github.io
-python3 -m http.server 8000
-# then visit http://localhost:8000
-```

@@ -37,8 +37,15 @@ const crypto = require('crypto');
    look doesn't, which reads as "the change didn't take" when it's really
    just a stale cache. Short hash of the file's own contents, so the query
    string only changes when the CSS actually does. */
+/* Hash the TEXT, not the raw bytes. Leo works across a Mac and a Windows
+   PC through git, and with core.autocrlf the same styles.css is CRLF on one
+   checkout and LF on the other. Hashing the bytes made this build produce a
+   different query string per platform: the HTML committed from Windows
+   carried the CRLF hash, CI regenerated it on Linux with the LF hash, and
+   the "committed HTML matches the build" check failed on a file nobody had
+   touched. Normalising first makes the build reproducible anywhere. */
 const cssVersion = crypto.createHash('md5')
-  .update(fs.readFileSync(path.join(__dirname, 'styles.css')))
+  .update(fs.readFileSync(path.join(__dirname, 'styles.css'), 'utf8').replace(/\r\n/g, '\n'))
   .digest('hex').slice(0, 8);
 const C    = require('./content.js');
 
@@ -66,6 +73,41 @@ const plain = s => String(s == null ? '' : s)
 // cards set them inline, so flatten it.
 const flat = s => String(s == null ? '' : s).replace(/<br\s*\/?>/gi, ' ');
 
+/* The Canadian flag, drawn inline.
+
+   Windows ships no flag emoji — every browser on it renders 🇨🇦 as the bare
+   letters "CA", which is what the Based in card and the Contact location
+   card were showing to a large share of visitors. Emoji are a font problem,
+   so the only fix that holds on every platform is to stop using one and
+   draw the flag ourselves.
+
+   The leaf is a symmetric polygon: one half is written out and mirrored, so
+   it cannot drift out of true. Red is #FF0000 — the flag's own colour, not
+   a token, because this is a national flag and not part of the site's
+   palette. Write 🇨🇦 in content.js as usual; flagify() swaps it in.
+
+   DISABLED (Sep 2026, Leo's explicit request, overriding the above) — he
+   dislikes how the drawn flag looks and would rather have the real emoji
+   render as an actual flag on platforms that support it (Mac/iOS) even
+   though it falls back to the bare letters "CA" on Windows. flagify() and
+   FLAG_CA are kept, not deleted, in case he wants the universal fix back;
+   the call site below just doesn't run it. */
+const FLAG_CA =
+  '<svg class="flag" viewBox="0 0 64 32" role="img" aria-label="Canada">' +
+  '<rect width="64" height="32" fill="#fff"/>' +
+  '<rect width="16" height="32" fill="#FF0000"/>' +
+  '<rect x="48" width="16" height="32" fill="#FF0000"/>' +
+  '<polygon fill="#FF0000" points="32.00,3.50 33.37,9.00 36.20,8.00 35.36,12.25 ' +
+  '41.24,14.50 39.56,16.75 39.98,19.50 35.78,19.00 34.94,22.50 33.16,21.75 ' +
+  '33.16,28.00 30.84,28.00 30.84,21.75 29.06,22.50 28.22,19.00 24.02,19.50 ' +
+  '24.44,16.75 22.76,14.50 28.64,12.25 27.80,8.00 30.64,9.00 32.00,3.50"/></svg>';
+
+// Only ever substitutes in text between tags, never inside an attribute or a
+// <script> — dropping SVG markup into either would break the page.
+const flagify = html => html.replace(/>([^<]*)</g, (m, text) =>
+  text.indexOf('\u{1F1E8}\u{1F1E6}') === -1 ? m
+    : '>' + text.split('\u{1F1E8}\u{1F1E6}').join(FLAG_CA) + '<');
+
 // Clicking an email link opens Gmail's web compose with the address already
 // in "To", rather than whatever mail app the visitor's OS happens to hand
 // mailto: to. Runs before externalizeLinks so the resulting mail.google.com
@@ -74,13 +116,23 @@ const gmailify = html => html.replace(/href="mailto:([^"?]+)(?:\?[^"]*)?"/g,
   // &amp; because this lands inside an HTML attribute, not a bare URL.
   (_, addr) => `href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=${encodeURIComponent(addr)}"`);
 
-// Every off-site link opens in a new tab, so a visitor never loses this
-// page by clicking out to LinkedIn, a lab, or a press write-up. Run once
-// over the finished HTML rather than threading target/rel through every
-// renderer that builds an <a>. Internal links (mailto:, tel:, relative
-// paths) are untouched — those aren't "leaving the site".
+// Every link that leaves this site opens in a new tab, so a visitor never
+// loses the page they were reading by clicking out to LinkedIn, a lab, a
+// press write-up, the CV or a syllabus. Run once over the finished HTML
+// rather than threading target/rel through every renderer that builds an
+// <a> — which also means a link added by some FUTURE section gets the same
+// treatment without anyone having to remember this rule.
+//
+// Staying in the tab, and only these: in-page anchors (#main, #splash,
+// Back to top, Skip to content) and our own pages (index.html and
+// friends). Opening the dock in a new tab would be absurd. Everything
+// else — http(s), tel:, and local files like cv.pdf — gets a new one.
+// mailto: never reaches here as mailto:, because gmailify has already
+// rewritten it into a mail.google.com URL just above.
 const externalizeLinks = html => html.replace(/<a\b([^>]*)>/g, (tag, attrs) => {
-  if (!/href="https?:\/\//.test(attrs) || /\btarget=/.test(attrs)) return tag;
+  const href = (attrs.match(/href="([^"]*)"/) || [])[1];
+  const sameTab = !href || /^(?:#|[^:?#]*\.html(?:[?#].*)?$)/i.test(href);
+  if (sameTab || /\btarget=/.test(attrs)) return tag;
   const withRel = /\brel="/.test(attrs)
     ? attrs.replace(/rel="([^"]*)"/, (_, r) => `rel="${r} noopener"`)
     : attrs + ' rel="noopener"';
@@ -177,11 +229,21 @@ const LOGOS = {
 
 /* One social button's mark: a real logo when the entry names one, else its
    emoji. A mark with `src` is an image file in assets/; the button's
-   aria-label already names it, so the image itself is decorative. */
+   aria-label already names it, so the image itself is decorative.
+
+   TO USE A REAL LOGO FILE: put the image in assets/ and set `src` on that
+   entry in content.js — no edit here. It wins over the drawn mark below.
+   If the file is missing the build says so and falls back to the drawing,
+   so a typo can never ship a broken image. */
 const socialMark = s => {
   const l = s.logo && LOGOS[s.logo];
+  const file = s.src || (l && l.src);
+  if (file){
+    if (fs.existsSync(path.join(__dirname, file)))
+      return `<img class="mark brand" src="${attr(file)}" alt="" width="29" height="29">`;
+    console.warn(`  ! social "${s.label}": ${file} not found — using the drawn mark`);
+  }
   if (!l) return s.icon || '';
-  if (l.src) return `<img class="mark brand" src="${attr(l.src)}" alt="" width="29" height="29">`;
   return `<svg class="mark${l.brand ? ' brand' : ''}" viewBox="${l.vb || '0 0 24 24'}" aria-hidden="true">${l.svg}</svg>`;
 };
 
@@ -220,35 +282,38 @@ ${items.map(i => card('', `${logo(i)}          <p class="now-tag">${i.tag}</p>
       </div>`;
 }
 
-/* Featured. The Right Now card row, but each card links out to a write-up.
-   Items are picked by idx from another entry-list block (`from`, normally
-   `press`), so an article is verified and dated in one place only. */
-function renderFeatured(d){
-  const pool  = visible((C[d.from] || {}).items);
-  const items = (d.pick || []).map(idx => {
-    const it = pool.find(x => x.idx === idx);
-    if (!it) throw new Error(`featured: no visible item "${idx}" in ${d.from}`);
-    return it;
-  });
-  return `      <div class="cards">
-${items.map(it => {
-    const link  = (it.links || [])[0];
-    const inner = `          <p class="now-tag">${(it.meta || [])[0] || ''}</p>
-          <h3 class="now-role">${it.title}</h3>
-          <p class="now-org">${it.blurb}</p>
-          <p class="now-since">${flat(it.when)}${link ? ` · ${link.label} ↗` : ''}</p>`;
-    return link
-      ? card('feat', inner, 'a').replace('<a class="card', `<a href="${attr(link.href)}" target="_blank" rel="noopener" class="card`)
-      : card('feat', inner);
-  }).join('\n')}
-      </div>`;
-}
 
 function renderPrinciples(d){
   return `      <div class="cards">
-${visible(d.items).map(i => card('', `          <h3 class="principle-word">${i.word}</h3>
-          <p class="body">${i.blurb}</p>`)).join('\n')}
+${visible(d.items).map(i => card('center', `          <h3 class="principle-word">${i.word}</h3>`)).join('\n')}
       </div>`;
+}
+
+/* A research entry's poster: the whole page shown small, not cropped —
+   `object-fit:contain` inside a letterboxed slot, same idea as a logo plate.
+   Clicking it opens the full PDF (externalizeLinks gives it target="_blank").
+
+   TO ADD ONE: put an image and a PDF in assets/ and set
+   `poster: { src: "assets/x.jpg", pdf: "assets/x.pdf" }` on that research
+   or teaching item in content.js. `label` (optional, default "Poster") names
+   what the document actually is — e.g. "Syllabus" for a course outline —
+   so the accessible text doesn't call a syllabus a poster. A missing file
+   warns at build time and the poster is skipped, so a typo can never ship a
+   broken image or a dead link. */
+function posterFigure(it){
+  const p = it.poster;
+  if (!p || !p.src || !p.pdf) return '';
+  const srcOk = fs.existsSync(path.join(__dirname, p.src));
+  const pdfOk = fs.existsSync(path.join(__dirname, p.pdf));
+  if (!srcOk || !pdfOk){
+    console.warn(`  ! research "${it.title}": ${srcOk ? p.pdf : p.src} not found — skipping poster`);
+    return '';
+  }
+  const label = p.label || 'Poster';
+  return `          <a class="entry-poster" href="${attr(p.pdf)}" aria-label="Open ${attr(label.toLowerCase())} PDF: ${attr(plain(it.title))}">
+            <img src="${attr(p.src)}" alt="${attr(label)}: ${attr(plain(it.title))}" loading="lazy">
+            <p class="poster-tag">${attr(label)}</p>
+          </a>\n`;
 }
 
 /* Research / teaching / notes. The big-title-plus-grey-body card from the
@@ -271,34 +336,52 @@ ${r.detail ? `              <div class="d">${r.detail}</div>\n` : ''}           
       ? `          <p class="entry-idx">${it.idx ? `<span>${it.idx}</span>` : ''}${it.when ? `<span class="when">${flat(it.when)}</span>` : ''}</p>\n`
       : '';
     const links = (it.links && it.links.length)
-      ? `          <div class="pill-row">${it.links.map(l => `<a class="pill amber sm" href="${attr(l.href)}">${l.label}</a>`).join('')}</div>\n`
+      ? `          <div class="pill-row">${it.links.map(l => `<a class="pill ${attr(l.color || 'amber')} sm" href="${attr(l.href)}">${l.label}</a>`).join('')}</div>\n`
       : '';
+    const poster = posterFigure(it);
 
     /* Titles, affiliations and award/write-up links only — no blurb, for a
        leaner, more minimalist list (Leo's request, Sep 2026). The fuller
        write-up still lives in the CV. */
     return card('sp-6 entry', `${idx}          <h3 class="entry-title">${it.title}</h3>
-${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${links}`.replace(/\n$/, ''));
+${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${poster}${links}`.replace(/\n$/, ''));
   }).join('\n');
 
   return `      <div class="bento">\n${items}\n      </div>`;
 }
 
-/* Featured — a horizontal scroll-snap rail, so the next card peeks in from
-   the edge the way the reference's project carousel does. The overflow is
-   on .rail, never on the page. */
-function renderRail(d){
-  const items = visible(d.items).map(it => {
+/* Featured elsewhere — Home's only copy of this now (Leo's request, Sep
+   2026: it used to also live on Projects as a separate "press" section;
+   the two were redundant, so this merged them into one). A horizontal
+   scroll-snap rail, so the next card peeks in from the edge the way the
+   reference's project carousel does. The overflow is on .rail, never on
+   the page.
+
+   Items are PICKED from another entry-list block (`from`, normally
+   `press`) by idx, so an article is verified and dated in one place only.
+   Omit `pick` to show every visible item in that pool, in its own order —
+   that's the current setup, since Leo wants everything shown here. */
+function renderFeatured(d){
+  const pool  = visible((C[d.from] || {}).items);
+  const items = d.pick
+    ? d.pick.map(idx => {
+        const it = pool.find(x => x.idx === idx);
+        if (!it) throw new Error(`featured: no visible item "${idx}" in ${d.from}`);
+        return it;
+      })
+    : pool;
+
+  const rows = items.map(it => {
     const href = (it.links && it.links.length) ? it.links[0].href : null;
     const inner = `          <p class="entry-idx">${it.idx ? `<span>${it.idx}</span>` : ''}${it.when ? `<span class="when">${flat(it.when)}</span>` : ''}</p>
           <h3 class="entry-title">${it.title}</h3>
-${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${it.blurb ? `          <p class="body">${it.blurb}</p>\n` : ''}${href ? `          <div class="pill-row"><span class="pill amber sm">${it.links[0].label} ↗</span></div>` : ''}`;
+${it.meta && it.meta.length ? chips(it.meta) + '\n' : ''}${it.blurb ? `          <p class="body">${it.blurb}</p>\n` : ''}${href ? `          <div class="pill-row"><span class="pill blue sm">${it.links[0].label} ↗</span></div>` : ''}`;
     return href
       ? card('entry', inner, 'a').replace('<a class="card', `<a href="${attr(href)}" target="_blank" rel="noopener" class="card`)
       : card('entry', inner);
   }).join('\n');
 
-  return `      <div class="rail">\n${items}\n      </div>
+  return `      <div class="rail">\n${rows}\n      </div>
       <p class="rail-note">Scroll for more →</p>`;
 }
 
@@ -378,10 +461,8 @@ const RENDERERS = {
   research:   renderEntries,
   teaching:   renderEntries,
   notes:      renderEntries,
-  press:      renderRail,
   reading:    renderList,
   fun:        renderMedia,
-  lab:        renderMedia,
   ask:        renderAsk
   // contact is handled separately — see renderContact below.
 };
@@ -457,8 +538,8 @@ function renderForm(d){
 
   if (!f.action){
     return card('sp-12', `          <h3 class="display-sm">${f.heading || 'Send me a message'}</h3>
-          <p class="body">The message form is not connected yet — see the setup note in <code>content.js</code>. Until then, email works perfectly well.</p>
-          <div class="pill-row"><a class="pill blue" href="mailto:${attr(mailto)}">Email me instead</a></div>`) + '\n';
+          <p class="body">${f.fallbackNote || 'Email is the quickest way to reach me — it lands straight in my inbox, and I answer fast.'}</p>
+          <div class="pill-row"><a class="pill blue" href="mailto:${attr(mailto)}">${f.fallbackButton || 'Email me'}</a></div>`) + '\n';
   }
 
   return `        <form class="card stagger-item sp-12" action="${attr(f.action)}" method="POST">
@@ -764,6 +845,9 @@ ${renderDock(page.file)}
 /* ── write every page ─────────────────────────────────────────────────────── */
 
 C.pages.forEach(page => {
+  // flagify() is disabled (see the note above FLAG_CA) — the raw 🇨🇦 emoji
+  // passes through untouched, so it renders as a flag on Mac/iOS and as
+  // the bare letters "CA" on Windows.
   const html = externalizeLinks(gmailify(renderPage(page)));
   fs.writeFileSync(path.join(__dirname, page.file), html, 'utf8');
   const kb = (Buffer.byteLength(html, 'utf8') / 1024).toFixed(1);

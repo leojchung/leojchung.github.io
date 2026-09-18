@@ -3,11 +3,13 @@
     "allow": [
       "Bash(node build.js)",
       "Bash(node build-cv.js)",
+      "Bash(node check.js)",
       "Bash(git status)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
+      "Bash(python -m http.server:*)",
       "Bash(python3 -m http.server:*)"
     ],
     "ask": [

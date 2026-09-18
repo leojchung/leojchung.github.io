@@ -1,0 +1,15 @@
+# Leo works across a Mac and a Windows PC. Without this, git hands each
+# machine a different set of line endings for the same file, and anything
+# that reads a file's bytes — the styles.css cache-bust hash in build.js,
+# for one — produces different output per platform. Normalise to LF in the
+# repo and on checkout so a build is the same everywhere.
+* text=auto eol=lf
+
+# Binaries must never be touched.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.pdf  binary
+*.ico  binary
+*.woff binary
+*.woff2 binary
