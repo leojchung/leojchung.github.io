@@ -225,12 +225,18 @@ module.exports = {
   },
 
   /* ─────────────────────────── § FEATURED ────────────────────────────── */
-  /* Home page, between the hero bento and Right Now — the same row of cards,
-     but each one links out. The items are PICKED from `press` further down
-     by idx rather than copied, so each write-up is verified and dated in one
-     place only: change the picks here, change the article there.
+  /* Home page — a curated teaser, NOT the full press list (that's Projects'
+     Featured section, which shows all of them). Items are PICKED from
+     `press` further down by idx rather than copied, so each write-up is
+     verified and dated in one place only: change the picks here, change
+     the article there.
 
-     Three is the number to keep, for the same reason as Principles. */
+     Keep this to the most distinct highlights, not every write-up — the
+     three below are an award (1st place, Synergy Day), a fellowship
+     (Simons Foundation), and an official recognition of the seminar he
+     created (Faculty of Arts). F-03 and F-05 are deliberately left off:
+     F-03 is a second write-up of the same story as F-01, and F-05 is a
+     softer feature piece — both still show on the full Projects list. */
   featured: {
     eyebrow: "Featured",
     title: "Featured <em>elsewhere</em>",
@@ -604,6 +610,16 @@ module.exports = {
     title: "Featured",
     hint:  "Where the work has been written up by someone other than me.",
     items: [
+      {
+        idx:   "F-05",
+        when:  "Apr 2026",
+        title: "Meet Leo Chung and Lavleen Walia — Student Directed Seminars Coordinators",
+        meta:  ["UBC Centre for Community Engaged Learning"],
+        blurb: "Featured alongside fellow 2025/26 coordinator Lavleen Walia as UBC promoted " +
+               "applications for the next Student Directed Seminars cohort, reflecting on the " +
+               "experience of designing and leading a course — Neuroaesthetics — from scratch.",
+        links: [{ label: "instagram.com/ubcccel", href: "https://www.instagram.com/ubcccel/p/DW2d2b0jRyj/" }]
+      },
       {
         idx:   "F-04",
         when:  "Nov 2025",
