@@ -3,3 +3,10 @@
 Thumbs.db
 node_modules/
 _to_delete/
+
+# local tooling, not part of the site
+.claude/skills/
+.mcp.json
+GRAPH_REPORT.md
+graphify-out/
+skills-lock.json

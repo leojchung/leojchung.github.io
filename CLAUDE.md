@@ -117,7 +117,7 @@ and commit the regenerated HTML in the same commit.**
 
 | Page | File | Sections |
 |---|---|---|
-| Home | `index.html` | quote (bare, full-viewport), splash ("Hi, I'm Leo", also bare/full-viewport), the bento (Based in / What drives me / The record / About / I also like), Right Now, Featured, Principles, Reading |
+| Home | `index.html` | quote (bare, full-viewport), splash ("Hi, I'm Leo", also bare/full-viewport), the bento (Based in / What drives me / The record / About / I also like), Right Now, Featured, Reading (Principles is switched off — data still in `content.js`, dropped from Home's `sections`) |
 | Projects | `projects.html` | Research, Teaching, Featured |
 | Contact | `contact.html` | contact bento — the ask, one card per channel, the form |
 | Ask | `ask.html` | one centered input, no card. See "The Ask page" below |

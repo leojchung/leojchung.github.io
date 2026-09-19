@@ -28,7 +28,7 @@ module.exports = {
   meta: {
     name:        "Leo J. Chung",
     shortName:   "Leo J. Chung",
-    tagline:     "At the intersection of neuroscience, education, and AI development.",
+    tagline:     "Living at the intersection of neuroscience, education, and AI development.",
     description: "Leo J. Chung — scientist and educator at the University of British Columbia. Neuroscience research with the Ciernia Lab, the Moss Lab at Johns Hopkins and UBC's Si-Lab; R&D at STEMCELL Technologies; creator of ASTU 400E, Neuroaesthetics.",
 
     // ↓ Change this once you know your final URL (README, step 6).
@@ -71,7 +71,7 @@ module.exports = {
        the letters. If `logo` is unset or the file is missing, the build falls
        back to the letters rather than shipping a broken image.
        Set the whole thing to null to drop the badge. */
-    credential: { mark: "UBC", logo: "assets/ubc-logo.png", detail: "Major in Cellular &amp; Molecular Neuroscience" },
+    credential: { mark: "UBC", logo: "assets/ubc-logo.png", detail: "Cellular &amp; Molecular Neuroscience '28" },
 
     /* The identity line above the headline. Meg Mindlin — who won Best Art &
        Visuals in the 2025 academic-website contest — opens with
@@ -130,12 +130,10 @@ module.exports = {
     // `flag: true` prints the gold ◆ marker before the value.
     record: [
       { k: "Fields",     v: "Neuroscience · Education · Analytics" },
-      { k: "Degree",     v: "BSc Cellular &amp; Molecular Neuroscience, UBC — 2028" },
       { k: "Now",          v: "Co-op @ STEMCELL Technologies Inc." },
       { k: "Affiliations", v: "Simons Foundation · Djavad Mowafaghian Centre for Brain Health<br>" +
                              "NeuroArts Resource Center · University of British Columbia · Johns Hopkins University" },
       { k: "Taught",       v: "ASTU 400E — Neuroaesthetics: Your Brain on Art" },
-      { k: "Home",       v: "Vancouver, BC — born and raised" },
       { k: "Status",     v: "Seeking Jan 2027 co-op", flag: true }
     ]
   },
@@ -237,7 +235,7 @@ module.exports = {
   featured: {
     eyebrow: "Featured",
     title: "Featured <em>elsewhere</em>",
-    hint:  "Where the work has been written up by someone other than me.",
+    hint:  "Places where I exist (digitally)",
     from:  "press"
   },
 
@@ -245,7 +243,7 @@ module.exports = {
   now: {
     eyebrow: "Currently",
     title: "Right now",
-    hint:  "Three things I'm doing at once, across industry, research and education.",
+    hint:  "What I've been up to lately...",
     /* `logo` (optional) puts an organization's mark at the top of its card —
        a transparent PNG in assets/. Leo supplied these (Sep 2026). If any
        card in the row has one, the others keep an empty slot of the same
@@ -431,7 +429,7 @@ module.exports = {
   teaching: {
     eyebrow: "Classroom",
     title: "Teaching &amp; <em>education</em>",
-    hint:  "Courses taught, education research, adjudication and mentorship.",
+    hint:  "Helping others through different lenses.",
     items: [
       {
         idx:   "T-02",
@@ -673,7 +671,7 @@ module.exports = {
      is worse than none, so if you will not keep it fresh, remove "reading"
      from the Home page's `sections` array at the bottom of this file. */
   reading: {
-    eyebrow: "Content",
+    eyebrow: "Consuming",
     title:   "What I've been <em>reading lately…</em>",
     /* Real, current articles standing in until Leo swaps in his own picks —
        one each from economics, sport, AI, AI policy and neuroscience. Every
@@ -854,7 +852,7 @@ module.exports = {
      ══════════════════════════════════════════════════════════════════════ */
   pages: [
     { key: "home",     file: "index.html",    navLabel: "Home",     icon: "home",
-      sections: ["now", "featured", "principles", "reading"] },
+      sections: ["now", "featured", "reading"] },
     { key: "projects", file: "projects.html", navLabel: "My Works", icon: "folder",
       description: "Research and teaching by Leo J. Chung — chromatin and the BAF complex, the gut–brain axis, animal communication, and the Neuroaesthetics seminar he co-created at UBC.",
       sections: ["research", "teaching"] },
