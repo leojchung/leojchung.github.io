@@ -235,7 +235,7 @@ module.exports = {
   featured: {
     eyebrow: "Featured",
     title: "Featured <em>elsewhere</em>",
-    hint:  "Places where I exist (digitally)",
+    hint:  "Places where I exist (digitally)...",
     from:  "press"
   },
 
@@ -243,7 +243,7 @@ module.exports = {
   now: {
     eyebrow: "Currently",
     title: "Right now",
-    hint:  "What I've been up to lately...",
+    hint:  "What I'm working on day-to-day...",
     /* `logo` (optional) puts an organization's mark at the top of its card —
        a transparent PNG in assets/. Leo supplied these (Sep 2026). If any
        card in the row has one, the others keep an empty slot of the same
@@ -252,9 +252,9 @@ module.exports = {
       {
         logo:  "assets/stemcell-logo.png", logoAlt: "STEMCELL Technologies",
         tag:   "Industry",
-        role:  "Research &amp; Development Intern",
-        org:   "STEMCELL Technologies",
-        note:  "R&amp;D internship",
+        role:  "R&amp;D Product Dev. Intern",
+        org:   "STEMCELL Technologies Inc.",
+        note:  "R&amp;D Product Development",
         since: "May 2026 — present · UBC Co-op"
       },
       {
@@ -262,7 +262,7 @@ module.exports = {
         tag:   "Research",
         role:  "Research Data Analyst",
         org:   "Moss Lab, Johns Hopkins",
-        note:  "Psychological &amp; Brain Sciences",
+        note:  "Faculty of Psychological &amp; Brain Sciences",
         since: "Jun 2026 — present · Hybrid"
       },
       {
@@ -270,7 +270,7 @@ module.exports = {
         tag:   "Education",
         role:  "Med-Tech Education Research Assistant",
         org:   "Si-Lab, UBC",
-        note:  "Audiology &amp; Speech Sciences",
+        note:  "Faculty of Audiology &amp; Speech Sciences",
         since: "May 2026 — present · Hybrid"
       }
     ]
