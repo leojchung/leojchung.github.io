@@ -301,6 +301,12 @@ ${visible(d.items).map(i => card('center', `          <h3 class="principle-word"
    warns at build time and the poster is skipped, so a typo can never ship a
    broken image or a dead link. */
 function posterFigure(it){
+  // An entry can carry several documents (`poster: [ {...}, {...} ]`); they sit
+  // side by side, each smaller, in a .poster-row.
+  if (Array.isArray(it.poster)){
+    const figs = it.poster.map(p => posterFigure({ title: it.title, poster: p })).filter(Boolean);
+    return figs.length > 1 ? `          <div class="poster-row">\n${figs.join('')}          </div>\n` : figs.join('');
+  }
   const p = it.poster;
   if (!p || !p.src || !p.pdf) return '';
   const srcOk = fs.existsSync(path.join(__dirname, p.src));

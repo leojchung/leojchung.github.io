@@ -344,7 +344,10 @@ module.exports = {
                "the brain's resident immune cells, against amyloid-beta plaques. This work " +
                "took the top prize for Trainee Rapid Talks at UBC's Synergy Undergraduate " +
                "Research Day.",
-        poster: { src: "assets/p02-poster.jpg", pdf: "assets/p02-sbme-synergy-poster.pdf" },
+        poster: [
+          { src: "assets/p02-poster.jpg", pdf: "assets/p02-sbme-synergy-poster.pdf" },
+          { src: "assets/p02-talk.jpg", pdf: "assets/p02-synergy-rapid-talk.pdf", label: "Oral presentation" }
+        ],
         links: [{ label: "Featured Article", color: "red", href: "https://bme.ubc.ca/student-scientists-shine-at-synergy-undergraduate-research-day/" }]
       },
       {
