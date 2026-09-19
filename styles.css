@@ -317,7 +317,7 @@ a.card:hover,button.card:hover{transform:translateY(-3px);background:var(--card-
 /* ══════════════════ SECTION HEADER ══════════════════
    Centered: a small grey eyebrow, then the two-tone headline, with an
    optional pill action pushed to the right on wide screens.            */
-.section{margin-top:clamp(56px,8vw,104px)}
+.section{margin-top:clamp(80px,11vw,144px)}
 /* The Home bento is the first block on that page and needs no top margin;
    on every other page the first section is the top of the content. */
 main .shell > *:first-child{margin-top:0}
