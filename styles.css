@@ -204,6 +204,9 @@ img,svg{max-width:100%}
 .sp-12{grid-column:span 12}
 .rows-2{grid-row:span 2}
 
+/* Teaching: the long seminar card spans the left column; the other three stack beside it. */
+.section:has(#teaching-h) .bento>:first-child{grid-row:span 3}
+
 /* Uniform sets (Right Now, Principles, media tiles) size themselves. */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(270px,100%),1fr));gap:var(--gap)}
 
@@ -211,7 +214,7 @@ img,svg{max-width:100%}
   .bento{grid-template-columns:repeat(6,1fr)}
   .sp-4,.sp-5{grid-column:span 3}
   .sp-6,.sp-7,.sp-8,.sp-12{grid-column:span 6}
-  .rows-2{grid-row:auto}
+  .rows-2,.section:has(#teaching-h) .bento>:first-child{grid-row:auto}
 }
 @media (max-width:620px){
   .bento{grid-template-columns:1fr}
