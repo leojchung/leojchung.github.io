@@ -460,7 +460,7 @@ main .shell > *:first-child{margin-top:0}
 
 .splash{
   display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
-  gap:6px;max-width:560px;margin:0 auto;padding:8px var(--pad) 40px;
+  gap:6px;max-width:560px;margin:0 auto;padding:8px var(--pad) 120px;
 }
 .splash .pill-row{justify-content:center;margin-top:28px}
 .splash .hero-portrait{width:min(170px,58%)}
