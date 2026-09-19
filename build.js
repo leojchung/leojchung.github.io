@@ -581,7 +581,7 @@ function renderHome(){
   const quoteSection = `    <section class="quote-block reveal" aria-label="Quote">
       <h1 class="display">${h.headline}</h1>
 ${h.cite ? `      <p class="hero-cite">— <cite>${h.cite}</cite></p>\n` : ''}      <a class="scroll-cue" href="#splash" aria-label="Scroll down">
-        <svg viewBox="0 0 24 32" width="22" height="30" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 7 8-7"/><path d="M4 13l8 7 8-7"/><path d="M4 22l8 7 8-7"/></svg>
+        <svg viewBox="0 0 24 32" width="34" height="46" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 7 8-7"/><path d="M4 13l8 7 8-7"/><path d="M4 22l8 7 8-7"/></svg>
       </a>
     </section>`;
 
