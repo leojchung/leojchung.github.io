@@ -445,7 +445,8 @@ module.exports = {
                "university does not otherwise offer — so the syllabus, the reading list and " +
                "the teaching were all ours to build. The course asked what makes something " +
                "beautiful, and how the brain perceives and responds to art.",
-        poster: { src: "assets/t01-syllabus.jpg", pdf: "assets/astu400e-syllabus.pdf", label: "Syllabus" }
+        poster: { src: "assets/t01-syllabus.jpg", pdf: "assets/astu400e-syllabus.pdf", label: "Syllabus" },
+        links: [{ label: "Featured Article", color: "green", href: "https://www.instagram.com/ubcccel/p/DW2d2b0jRyj/" }]
       },
       {
         idx:   "T-04",
@@ -457,14 +458,14 @@ module.exports = {
       {
         idx:   "T-03",
         when:  "Feb 2026<br>— Mar 2026",
-        title: "Research Adjudicator — Multidisciplinary Undergraduate Research Conference",
-        meta:  ["UBC Centre for Community Engaged Learning"],
+        title: "Research Conference Adjudicator",
+        meta:  ["UBC Centre for Community Engaged Learning", "Multidisciplinary Undergraduate Research Conference"],
         blurb: "Judged undergraduate research presentations across disciplines."
       },
       {
         idx:   "T-01",
         when:  "Oct 2024<br>— Apr 2025",
-        title: "Research Adjudicator &amp; Mentor",
+        title: "Research Conference Adjudicator &amp; Mentor",
         meta:  ["International Youth Neuroscience Association"],
         blurb: "Reviewed student research and mentored high-school and early-undergraduate " +
                "students on getting started in neuroscience."

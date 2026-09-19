@@ -72,6 +72,7 @@
   --live:#1E8E3E;           /* the currently-held dot — 3.9:1 on a card   */
   --pill-red:#B91C1C;       /* red pill fill, tone-matched to --accent —
                                white on it = 6.5:1                        */
+  --pill-green:#15803D;     /* green pill fill — white on it = 5.0:1      */
   --pill-navy:#1D4ED8;      /* navy pill fill, tone-matched to --accent —
                                white on it = 6.7:1                        */
 
@@ -357,6 +358,8 @@ main .shell > *:first-child{margin-top:0}
 .pill.amber:hover{filter:brightness(1.06)}
 .pill.red{background:var(--pill-red);color:#fff}
 .pill.red:hover{filter:brightness(1.08)}
+.pill.green{background:var(--pill-green);color:#fff}
+.pill.green:hover{filter:brightness(1.08)}
 .pill.navy{background:var(--pill-navy);color:#fff}
 .pill.navy:hover{filter:brightness(1.08)}
 .pill.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--card-3)}
