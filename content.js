@@ -122,7 +122,7 @@ module.exports = {
     ],
 
     buttons: [
-      { label: "My Work",          href: "projects.html", solid: true },
+      { label: "My Work",          href: "projects.html", solid: false },
       { label: "Curriculum Vitae", href: "cv.pdf",         solid: false },
       { label: "Learn About Me",   href: "#about",         solid: false }
     ],
