@@ -445,7 +445,7 @@ main .shell > *:first-child{margin-top:0}
 /* A soft cue so the first fold doesn't read as the whole page — the quote
    is meant to be scrolled past, not mistaken for the entire hero. */
 .scroll-cue{
-  position:absolute;left:50%;bottom:34svh;transform:translateX(-50%);
+  position:absolute;left:50%;bottom:24svh;transform:translateX(-50%);
   display:flex;flex-direction:column;align-items:center;gap:6px;
   color:var(--ink-2);text-decoration:none;opacity:.7;
   font-family:var(--f-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
