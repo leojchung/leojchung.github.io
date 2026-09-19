@@ -654,7 +654,7 @@ ${(h.points || []).map(p => `            <li class="value">${p}</li>`).join('\n'
 ${(h.record || []).map(r => `            <li><span class="k">${r.k}</span><span class="v">${r.flag ? '<span class="live-dot">●</span>' : ''}${r.v}</span></li>`).join('\n')}
           </ul>`);
 
-  const bentoSection = `    <section class="reveal" aria-label="More about me">
+  const bentoSection = `    <section class="reveal" id="about" aria-label="More about me">
       <div class="bento">
 ${[cardB, cardC, cardF, cardD, cardE].filter(Boolean).join('\n')}
       </div>

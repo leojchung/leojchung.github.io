@@ -123,7 +123,8 @@ module.exports = {
 
     buttons: [
       { label: "My Work",          href: "projects.html", solid: true },
-      { label: "Curriculum Vitae", href: "cv.pdf",         solid: false }
+      { label: "Curriculum Vitae", href: "cv.pdf",         solid: false },
+      { label: "Learn About Me",   href: "#about",         solid: false }
     ],
 
     // The monospaced record block. Add or remove rows freely.
