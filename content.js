@@ -122,9 +122,8 @@ module.exports = {
     ],
 
     buttons: [
-      { label: "My Work",          href: "projects.html", solid: false },
       { label: "Curriculum Vitae", href: "cv.pdf",         solid: false },
-      { label: "Learn About Me",   href: "#about",         solid: false }
+      { label: "Learn About Me Below",   href: "#about",         solid: false }
     ],
 
     // The monospaced record block. Add or remove rows freely.
@@ -135,7 +134,7 @@ module.exports = {
       { k: "Affiliations", v: "Simons Foundation · Djavad Mowafaghian Centre for Brain Health<br>" +
                              "NeuroArts Resource Center · University of British Columbia · Johns Hopkins University" },
       { k: "Taught",       v: "ASTU 400E — Neuroaesthetics: Your Brain on Art" },
-      { k: "Status",     v: "Seeking Jan 2027 co-op", flag: true }
+      { k: "Status",     v: "Seeking January 2027 Co-op", flag: true }
     ]
   },
 
