@@ -785,9 +785,9 @@ img.mark{object-fit:contain}
    `.fun-grid` is a CSS-columns masonry, not a uniform row grid — tiles vary
    in aspect ratio (`shape` in content.js) so the page reads as a loose
    collage instead of a boxy grid. */
-.fun-grid{column-count:2;column-gap:clamp(18px,4vw,44px);max-width:960px}
+.fun-grid{column-count:2;column-gap:clamp(18px,6vw,72px)}
 @media (min-width:700px){ .fun-grid{column-count:3} }
-.fun-grid .tile{break-inside:avoid;margin-bottom:clamp(24px,5vw,52px)}
+.fun-grid .tile{break-inside:avoid;margin-bottom:clamp(24px,5vw,56px)}
 
 .tile{margin:0;display:flex;flex-direction:column;min-width:0}
 .media{

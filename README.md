@@ -40,7 +40,7 @@ content.js ──[ node build-cv.js ]─▶ cv.html ──[ print to PDF ]──
 | `build.js` | Turns `content.js` into the four live pages and the sitemap | Only for new section *types* |
 | `build-cv.js` | Turns the same `content.js` into a print-ready `cv.html` | Only for CV-only sections |
 | `check.js` | Audits the build — markup, escaping, WCAG contrast both themes | Rarely |
-| `main.js` | Theme toggle, footer year, click-to-play video, the Ask page | Rarely |
+| `main.js` | Theme toggle, footer year, click-to-play video, the Search page | Rarely |
 | `index.html` and the other three pages | **Generated.** `node build.js` overwrites them | **No** |
 | `cv.html` | **Generated.** Open it, Cmd-P, Save as PDF over `cv.pdf` | **No** |
 | `cv.pdf` | **Generated** from `cv.html` | **No** |
@@ -86,9 +86,9 @@ entry takes `src: "assets/whatever.png"`, `hero.credential` takes `logo:`, and
 a Right Now entry takes `logo:`. A missing file logs a warning at build time
 and falls back to the drawn mark, so a typo can't ship a broken image.
 
-**The Fun page is shelved,** switched off (not deleted) at Leo's request
-until he has time to fill it in for real. See CLAUDE.md's "The Fun page
-(shelved)" section for exactly where it lives and how to turn it back on.
+**The Fun page is live.** Photos go in `assets/fun/` (resized, GPS stripped)
+and captions in the `fun` block of `content.js`; see CLAUDE.md's "The Fun page"
+section. The dock's "Search" tab is the old "Ask" page (`ask.html`).
 
 **Update the CV.** Edit `content.js`, then:
 

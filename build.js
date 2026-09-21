@@ -9,7 +9,7 @@
    No dependencies, no npm install, no build tools. Plain Node.
 
    Writes one file per entry in content.js's `pages` array (currently
-   index.html, projects.html, fun.html, contact.html), sharing one bottom
+   index.html, projects.html, contact.html, fun.html, ask.html), sharing one bottom
    dock and one bento footer.
 
    You only need to open this file if you are changing the STRUCTURE of the
@@ -724,7 +724,7 @@ function renderHead(page){
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
 
 <link rel="stylesheet" href="styles.css?v=${cssVersion}">
 

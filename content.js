@@ -655,7 +655,7 @@ module.exports = {
         when:  "Sep 2025",
         title: "SBME Synergy 2025 Undergraduate Summer Research Highlights",
         meta:  ["Djavad Mowafaghian Centre for Brain Health"],
-        blurb: "A second write-up of the Synergy cohort, from the centre where the Ciernia Lab sits.",
+        blurb: "A second write-up of the Synergy cohort, from the center where the Ciernia Lab sits.",
         links: [{ label: "centreforbrainhealth.ca", href: "https://www.centreforbrainhealth.ca/news/sbme-synergy-2025-undergraduate-summer-research-highlights/" }]
       }
     ]
@@ -697,23 +697,14 @@ module.exports = {
   },
 
   /* ───────────────────────────── § FUN ───────────────────────────────── */
-  /* SHELVED (as of 17 Sep 2026, Leo's request) — this data block is fully
-     intact and ready to go, but the page itself is switched off: the "fun"
-     entry in the `pages` array at the bottom of this file is commented out,
-     so build.js does not generate fun.html, the dock does not link to it,
-     and it's out of the sitemap. Nothing here was deleted.
+  /* LIVE since 20 Sep 2026. Fifteen of Leo's own photos, in assets/fun/.
 
-     WHY: every item below is still a placeholder (see the notes further
-     down) and Leo wants to sit down and fill it in properly in one sitting
-     rather than ship it half-real. Everything else on the site is done.
-
-     TO BRING IT BACK:
-       1. Uncomment the "fun" entry in the `pages` array (bottom of this
-          file) — it's left in place, right where it was, just commented.
-       2. Uncomment the fun.html Ask-page target in main.js's TARGETS array
-          (same treatment — commented in place, not deleted).
-       3. Swap the PLACEHOLDER photo/link entries below for the real thing.
-       4. node build.js && node check.js, then look at it in a browser.
+     ADDING A PHOTO: drop the raw file in fun-inbox/ (gitignored), process it
+     into assets/fun/ (resized to 1600px, EXIF and GPS stripped — never commit
+     a photo with location data), then add an item below and rebuild.
+     The grid fills by COLUMN: items 1–5 are the left column, 6–10 the middle,
+     11–15 the right, each three tall + two wide so the columns end level.
+     Re-balance the order if the count changes.
 
      THREE KINDS OF ITEM. Set `kind` on each one:
 
@@ -750,17 +741,9 @@ module.exports = {
        "tall", "square", or omit for the default. Mix them so the page
        reads as a collage, not a uniform row of boxes.
 
-       The video clips this used to carry (PLACEHOLDER youtube ids) are
-       gone — Claude can't verify a real id belongs to a real clip Leo
-       actually means, and a wrong or fake id is worse than no video. Swap
-       any of these `link` entries for a real `kind:"video"` clip whenever
-       you have the actual id (see the note at the top of this file). The
-       `photo` entries below are still placeholders — drop your real
-       photos into assets/ and point `src` at them. */
-    /* Order is column-by-column (CSS columns fill top to bottom): the first
-       five items are the left column, the next five the middle, the last five
-       the right. Each column is 3 tall + 2 wide (in a scattered order) so
-       the three end level. */
+       Only photos are in use. `link` and `video` tiles still render if wanted
+       (see the kinds above). A photo may carry `link: { label, href }`,
+       drawn as a small red pill under the caption. */
     items: [
       { kind: "photo", shape: "tall", src: "assets/fun/lakers-kobe.jpg", title: "Me and my favorite player at NBA House in Vancouver during the Summer of '24... R.I.P 🐍" },
       { kind: "photo", shape: "wide", src: "assets/fun/lake-louise.jpg", title: "Visiting Lake Louise, July 2026" },
@@ -771,7 +754,7 @@ module.exports = {
       { kind: "photo", shape: "tall", src: "assets/fun/leo-food-1.jpg", title: "One of my favorite restaurants, Chez Celine." },
       { kind: "photo", shape: "wide", src: "assets/fun/calgary-parade.jpg", title: "Featured in the Calgary Parade '26 during my first day in Calgary", link: { label: "See me on CBC News!", href: "https://www.cbc.ca/news/canada/calgary/calgary-stampede-parade-2026-9.7257432" } },
       { kind: "photo", shape: "tall", src: "assets/fun/leo-nyc.jpg", title: "Walking the Brooklyn Bridge!" },
-      { kind: "photo", shape: "tall", src: "assets/fun/leo-golf.jpg", title: "Green!" },
+      { kind: "photo", shape: "tall", src: "assets/fun/leo-golf.jpg", title: "The green!" },
       { kind: "photo", shape: "tall", src: "assets/fun/leo-football.jpg", title: "I love football - this is my Sunday." },
       { kind: "photo", shape: "wide", src: "assets/fun/leo-tame-impala.jpg", title: "Tamed Impala at Rogers Stadium, September 2026" },
       { kind: "photo", shape: "tall", src: "assets/fun/red-square.jpg", title: "Spent my freshman year at UW, Seattle 2024" },
@@ -788,7 +771,7 @@ module.exports = {
      defines the destinations that map matches against; edit the keyword
      lists there, not here, to change what a phrase matches. */
   ask: {
-    eyebrow: "Ask",
+    eyebrow: "Search",
     title: "Ask me <em>anything.</em>",
     hint:  "Type a question and it jumps you to the right part of the site — research, teaching, fun, contact, and more.",
     placeholder: "e.g. “show me your research” or “how do I email you”"
@@ -867,9 +850,9 @@ module.exports = {
       description: "Get in touch with Leo J. Chung — looking for a co-op or internship for January 2027 in biotech, pharma, or the life sciences.",
       sections: ["contact"] },
     { key: "fun",      file: "fun.html",      navLabel: "Fun",      icon: "spark",
-      description: "Photos and clips of Leo J. Chung off the clock — biking, chess, the Lakers, the Rams, and Vancouver food.",
+      description: "Photos of Leo J. Chung off the clock — biking the Stanley Park seawall, football, concerts, travel, and good food.",
       sections: ["fun"] },
-    { key: "ask",      file: "ask.html",      navLabel: "Ask",      icon: "search",
+    { key: "ask",      file: "ask.html",      navLabel: "Search",   icon: "search",
       description: "Ask a question and jump straight to the right part of Leo J. Chung's site.",
       sections: ["ask"] }
 

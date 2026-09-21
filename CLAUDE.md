@@ -86,9 +86,8 @@ content.js  --[ node build.js ]-->     index.html, projects.html,
 content.js  --[ node build-cv.js ]-->  cv.html --[ print to PDF ]--> cv.pdf
 ```
 
-Four pages, sharing one bottom icon dock (Home / Projects / Contact / Ask)
-and one footer. (A fifth, Fun, exists in `content.js` but is currently
-switched off — see **The Fun page (shelved)** below.) There is no top
+Five pages, sharing one bottom icon dock (Home / My Works / Contact / Fun /
+Search) and one footer. There is no top
 header — the dock is the whole navigation, with the theme toggle at its
 right end. All content — every word, date, link and section — lives in
 `content.js`. Editing generated HTML works right up until the next build
@@ -106,9 +105,9 @@ and commit the regenerated HTML in the same commit.**
 |---|---|
 | `content.js` | All content + the `pages` array controlling which sections land on which page |
 | `styles.css` | Design system. Colour tokens at the top; nothing else hard-codes a colour, except text on a surface that is the same in both themes — the file's header lists them |
-| `build.js` | content.js → the four live pages + `sitemap.xml`. `RENDERERS` maps a section key to a renderer |
+| `build.js` | content.js → the five live pages + `sitemap.xml`. `RENDERERS` maps a section key to a renderer |
 | `build-cv.js` | content.js → cv.html. Reads `experience`/`education`/`service`/`skills` directly — those blocks still live in `content.js` but nothing on the *website* renders them any more, only the CV does |
-| `main.js` | Theme toggle, footer year, click-to-play video, and the Ask page's keyword map. The only JS the site ships |
+| `main.js` | Theme toggle, footer year, click-to-play video, and the Search page's keyword map. The only JS the site ships |
 | `check.js` | Audits the built pages — markup, escaping, class coverage, WCAG contrast in both themes, and that the two dark blocks agree. CI gates on it |
 | `404.html`, `robots.txt`, `favicon.svg`, `.nojekyll` | Standard static-site furniture |
 | `assets/` | Photos, org logos, syllabus PDFs — anything linked from content |
@@ -120,9 +119,11 @@ and commit the regenerated HTML in the same commit.**
 | Home | `index.html` | quote (bare, full-viewport), splash ("Hi, I'm Leo", also bare/full-viewport), the bento (Based in / What drives me / The record / About / I also like), Right Now, Featured, Reading (Principles is switched off — data still in `content.js`, dropped from Home's `sections`) |
 | Projects | `projects.html` | Research, Teaching, Featured |
 | Contact | `contact.html` | contact bento — the ask, one card per channel, the form |
-| Ask | `ask.html` | one centered input, no card. See "The Ask page" below |
+| Fun | `fun.html` | the photo collage. See "The Fun page" below |
+| Search | `ask.html` | one centered input, no card. See "The Search page" below |
 
-(Fun is not currently a live page — see **The Fun page (shelved)** below.)
+The dock's label is **Search**; the file is still `ask.html` and the `content.js` key is still `ask` —
+only `navLabel` and the eyebrow were renamed (21 Sep 2026), so no URL changed.
 
 Reorder or rename dock items by editing `pages` at the bottom of `content.js`.
 Each page needs an `icon`, naming a key in `ICONS` in `build.js`. Add a page by
@@ -140,7 +141,7 @@ Current order: Based in + What drives me (sp-6 each) / The record + About
 (sp-5 + sp-7) / I also like (sp-12). About is `hero.points` — a few big
 bullet points (`.about-points`), not a paragraph.
 
-### The Ask page
+### The Search page
 
 A minimal "ask it anything" bar — headline, one hint line, one input. No
 suggestion chips, no explainer text; Leo wants it that way, don't add them
@@ -151,41 +152,37 @@ against whatever was typed; the best match navigates the browser there. No
 match gets an honest "try rephrasing," never a wrong guess. Add a destination
 with a `{ href, keys }` entry in `TARGETS`.
 
-### The Fun page (shelved)
+### The Fun page
 
-**Switched off since 17 Sep 2026, at Leo's request — not deleted.** Every
-item in it was still a `PLACEHOLDER`, and Leo wants to sit down and fill it
-in for real in one sitting rather than have it half-done on the live site
-while everything else is finished. Do not bring it back on your own — wait
-for Leo to say he's ready to work on it, then follow the steps below in one
-sitting with him.
+**Live since 20 Sep 2026.** Eyebrow "Out and about", headline "Parts of my
+*life!*", hint "If I were defined by photos...". Fifteen of Leo's own photos,
+each with a thin one-line caption in his words, in US spelling (his
+"favourite" was converted on request).
 
-**Everything survives, exactly where it always lived:**
-- The full data block — eyebrow, title, hint, all eight placeholder
-  items, and the copyright/click-to-play notes — is still in `content.js`
-  under `§ FUN`, untouched. Read the comment at the top of that block first.
-- The renderer (`renderMedia`), the masonry CSS (`.fun-grid` and friends in
-  `styles.css`), and the click-to-play video behavior in `main.js` are all
-  still shipping — the `lab` grid on Projects used to share this same
-  renderer, so nothing was written just for Fun and then orphaned.
-- What's actually switched off is one `pages` entry in `content.js` (the
-  page/dock/sitemap registration) and one `TARGETS` entry in `main.js` (the
-  Ask-page keyword match) — both commented out in place, not removed, with
-  a note pointing back to this section.
-
-**TO BRING IT BACK, when Leo says he's ready:**
-1. In `content.js`, uncomment the `{ key: "fun", ... }` entry in the `pages`
-   array (bottom of the file).
-2. In `main.js`, uncomment the `fun.html#fun-h` line in the `TARGETS` array.
-3. Go through every item in the `fun` data block with Leo — every
-   `PLACEHOLDER` photo needs a real file in `assets/`, and the two
-   Wikipedia/microglia-style filler `link` entries can become real
-   `kind:"video"` clips once he has actual YouTube/Vimeo ids in hand. See
-   the copyright note in that block before adding any clip — never
-   download a highlight or music video into `assets/`.
-4. `node build.js && node check.js`, then look at it in a browser — desktop
-   and 390px, light and dark, per the usual verification rule.
-5. Ask before pushing, same as any other change.
+- **Photos live in `assets/fun/`**, one file per photo, already resized to
+  1600px, recompressed, and stripped of EXIF/GPS. Raw originals never go in
+  the repo: Leo drops them in `fun-inbox/` (gitignored) and they are processed
+  into `assets/fun/`. The processing script lives outside the repo (Pillow +
+  pillow-heif: long side 1600px, JPEG q82, no metadata written) — recreate it
+  if needed. The rule that matters: **strip GPS before anything is committed.**
+- **Order is by column.** `.fun-grid` is CSS columns, which fill top to bottom,
+  so the first five items are the left column, the next five the middle, the
+  last five the right. Each column is three `tall` + two `wide` in a scattered
+  order so the three end level. Adding or removing a photo means re-balancing
+  that arrangement; 15 photos in two columns on a phone leaves the last tile
+  alone at the bottom, which is known and accepted.
+- **A photo tile may carry a link pill** (`link: { label, href }`), a small red
+  pill under the caption. The Calgary photo uses it for the CBC article. CBC
+  blocks automated readers, so the article's content was not machine-verified —
+  the link resolves (200) and Leo supplied it.
+- **People in shots:** the football photo has bystanders blurred; a pro game
+  photo and a team softball photo were deliberately dropped (not Leo's shot /
+  other people). Ask before adding anyone else's face.
+- Chess and Rams link tiles were tried and removed as empty-looking. The
+  `link` and `video` tile kinds still render if Leo wants them back.
+- The gutters are wide on purpose (`column-gap` up to 72px) and the grid fills
+  the same width as the footer cards below it — Leo asked for smaller, airier
+  photos and an aligned right edge.
 
 ## Conventions
 
@@ -274,8 +271,7 @@ looks right at 390px. Open the page for that.
 
 ## Rules for the fun section
 
-(The Fun page itself is currently switched off — see **The Fun page
-(shelved)** above. These rules apply once it's back on.)
+(The Fun page is live — see **The Fun page** above.)
 
 - Items have `kind: "photo" | "video" | "link"`.
 - **Never download a game highlight or music video into `assets/`.** That
@@ -330,7 +326,7 @@ looks right at 390px. Open the page for that.
   with Betty Bao under faculty sponsor Dr. Steven Barnes, and ran Winter Term
   2 (Jan–Apr 2026), course code `ASTU_V 400E-001`. Do not upgrade this to a
   solo credit — official UBC sources name both coordinators.
-- **A custom domain.** That is Leo's call, not yours.
+- **A custom domain.** That is Leo's call, not yours. He has decided to pursue one for the Vercel "Leo.ai" idea, but don't buy it, point DNS, or configure Vercel for him.
 
 ## Git
 
@@ -346,9 +342,15 @@ looks right at 390px. Open the page for that.
 
 ## Where things stand
 
-*Last updated 17 September 2026. Everything below is pushed and live.*
+*Last updated 21 September 2026. Everything below is pushed and live unless it says otherwise.*
 
-**Recently done:** research entries and the ASTU 400E Teaching entry now
+**Recently done (20–21 Sep 2026):** the Fun page is back and live — 15 photos,
+thin captions, scattered column order, wide gutters, a red "See me on CBC
+News!" pill on the Calgary photo; Fun sits right of Contact in the dock and
+footer; the "Ask" tab was renamed **Search**; the Home splash got a flashing
+scroll cue and two outlined buttons; Projects Teaching cards stack beside the
+long ASTU 400E card; Research entries can carry several documents; US spelling
+throughout. **Earlier:** research entries and the ASTU 400E Teaching entry now
 show a click-through poster/syllabus thumbnail (whole page, small, not
 cropped) with a small "Poster"/"Syllabus" tag under it; "Featured Article"
 links relabeled and colour-coded (red/navy pills tone-matched to the site's
@@ -357,10 +359,7 @@ teaching entry removed; the Featured rail is now click-drag and
 wheel-scrollable (it only worked by trackpad/touch swipe before) and reads
 most-recent-left; the P-/T-/F- codes across Research, Teaching and Featured
 were renumbered so 01 is always the oldest item and the number climbs with
-recency, independent of each section's display order; **the Fun page is
-shelved** (switched off, not deleted — see **The Fun page (shelved)**
-above) at Leo's request, so the site is otherwise considered done. Earlier:
-real Gmail/Instagram/Chess.com logo files in the social row; Right Now
+recency, independent of each section's display order. Earlier: real Gmail/Instagram/Chess.com logo files in the social row; Right Now
 logos all the same 52px height; UBC crest clipping fixed; inline-SVG
 Canadian flag; every outbound link opens in a new tab; About and Principles
 rewritten in Leo's words; reading list filled with real current articles;
@@ -377,8 +376,14 @@ build made reproducible across Mac and Windows.
   mid-October.
 - **The JHU logo is the stacked lockup.** A horizontal version would read
   better. Dropping one in as `assets/jhu-logo.png` needs no code change.
-- **The Fun page is shelved**, not a bug — see **The Fun page (shelved)**
-  above for where everything lives and how to bring it back.
+- **"Leo.ai" (a Vercel-hosted AI search) is planned, not built.** `leo.ai`
+  is registered to someone else until 2028; `leochung.ai` and `leojchung.ai`
+  showed as unregistered on 21 Sep 2026. It needs a small serverless function
+  on Vercel that holds the API key server-side — see `VERCEL-LEO-AI.md` in the
+  parent Cowork folder. Until it exists, Search stays a keyword map and the
+  "no API key in the client" rule stands.
+- **Fun page checks:** light mode and 390px were checked on 21 Sep. The CBC
+  article's content was not machine-verified.
 - **`404.html` is hand-maintained and outside `check.js`.** Its `<em>` is a
   deliberate violet italic, unlike the rest of the site.
 - **Si-Lab (T-04, "Med-Tech Education Research Assistant") wording** still

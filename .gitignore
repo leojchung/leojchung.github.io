@@ -13,3 +13,7 @@ skills-lock.json
 
 # Fun page: Leo drops raw photos here; processed copies go to assets/fun/
 fun-inbox/
+
+# secrets and Vercel local state (for the planned Leo.ai function)
+.env*
+.vercel/
