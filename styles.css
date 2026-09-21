@@ -553,8 +553,11 @@ main .shell > *:first-child{margin-top:0}
 .like-word{
   display:block;font-weight:800;font-size:clamp(28px,3.6vw,44px);
   line-height:1.1;letter-spacing:-.03em;color:var(--ink);
-  transition:opacity .22s ease;
+  transition:opacity .22s ease,color .18s ease;text-decoration:none;
 }
+/* Only the phrase that carries an href is a link (main.js adds/removes it). */
+.like-word[href]{cursor:pointer}
+.like-word[href]:hover{color:var(--accent-ink)}
 
 
 /* ══════════════════ SOCIAL BUTTONS ══════════════════ */

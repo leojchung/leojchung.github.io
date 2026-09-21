@@ -158,13 +158,26 @@
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (likeWord && !reduceMotion) {
     var likes = (likeWord.getAttribute('data-list') || '').split('|').filter(Boolean);
+    /* data-hrefs runs parallel to data-list: an empty slot is a plain word,
+       a filled one turns the word into a link while it is showing. The
+       rotation holds still under the pointer or keyboard focus so a click
+       can't land on a word that swapped a moment earlier. */
+    var likeHrefs = (likeWord.getAttribute('data-hrefs') || '').split('|');
     if (likes.length > 1) {
-      var likeIdx = 0;
+      var likeIdx = 0, likeHeld = false;
+      var hold = function (v) { return function () { likeHeld = v; }; };
+      likeWord.addEventListener('mouseenter', hold(true));
+      likeWord.addEventListener('mouseleave', hold(false));
+      likeWord.addEventListener('focus', hold(true));
+      likeWord.addEventListener('blur', hold(false));
       setInterval(function () {
+        if (likeHeld) return;
         likeIdx = (likeIdx + 1) % likes.length;
         likeWord.style.opacity = '0';
         setTimeout(function () {
           likeWord.textContent = likes[likeIdx];
+          if (likeHrefs[likeIdx]) likeWord.setAttribute('href', likeHrefs[likeIdx]);
+          else likeWord.removeAttribute('href');
           likeWord.style.opacity = '1';
         }, 220);
       }, 2200);

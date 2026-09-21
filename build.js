@@ -641,10 +641,10 @@ ${(h.points || []).map(p => `            <li class="value">${p}</li>`).join('\n'
 
   /* E — the rotating interest. main.js cycles .like-word through data-list.
          Its own full-width row, right under About. */
-  const likes = i.likes || [];
+  const likes = (i.likes || []).map(l => typeof l === 'string' ? { text: l } : l);
   const cardE = likes.length
     ? card('sp-12 like-card center', `          <p class="like-lead">I also like…</p>
-          <span class="like-word" data-list="${attr(likes.join('|'))}">${attr(likes[0])}</span>`)
+          <a class="like-word"${likes[0].href ? ` href="${attr(likes[0].href)}"` : ''} data-list="${attr(likes.map(l => l.text).join('|'))}" data-hrefs="${attr(likes.map(l => l.href || '').join('|'))}">${attr(likes[0].text)}</a>`)
     : '';
 
   /* F — the record. Moved up (Leo's request) to sit beside About instead of

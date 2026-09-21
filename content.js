@@ -165,13 +165,14 @@ module.exports = {
 
 
     // Rotates in the "I also like ___" bubble under the paragraphs. Keep it
-    // to short phrases — it swaps every couple of seconds.
+    // to short phrases — it swaps every couple of seconds. An entry is a plain
+    // string, or { text, href } to make that one phrase a clickable link.
     likes: [
       "biking 🚴",
       "chess ♟️",
       "the Lakers 🌴",
       "the Rams 🐏",
-      "the Fun page 🎉 →",
+      { text: "the Fun page 🎉 →", href: "fun.html" },   // clicking it goes to the Fun page
       "good Texas BBQ 🍖",
       "Star Wars 🚀",
       "old music (and I mean really old) 🎵",
