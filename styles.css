@@ -845,7 +845,8 @@ button.media .badge{background:rgba(255,255,255,.95);color:#0A0A0A}
   color:var(--ink-2);line-height:1.7;
 }
 .tile figcaption{margin-top:13px;padding-inline:4px;display:flex;flex-direction:column;gap:4px}
-.tile .ft{font-size:15.5px;font-weight:650;line-height:1.35;letter-spacing:-.01em}
+.tile .ft{font-size:14px;font-weight:300;line-height:1.5;letter-spacing:0}
+.tile figcaption .pill{align-self:flex-start;margin-top:8px}
 .tile .fc{font-size:13px;color:var(--ink-2);line-height:1.55}
 
 

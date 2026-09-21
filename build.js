@@ -422,8 +422,8 @@ function renderAsk(d){
 function renderMedia(d){
   return `      <div class="fun-grid">
 ${visible(d.items).map(function(it){
-  const cap = (it.title || it.caption)
-    ? `          <figcaption>${it.title ? `<span class="ft">${it.title}</span>` : ''}${it.caption ? `<span class="fc">${it.caption}</span>` : ''}</figcaption>`
+  const cap = (it.title || it.caption || it.link)
+    ? `          <figcaption>${it.title ? `<span class="ft">${it.title}</span>` : ''}${it.caption ? `<span class="fc">${it.caption}</span>` : ''}${it.link ? `<a class="pill red sm" href="${attr(it.link.href)}">${it.link.label}</a>` : ''}</figcaption>`
     : '';
   const shape = it.shape ? ` ${attr(it.shape)}` : '';
 

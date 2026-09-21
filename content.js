@@ -742,9 +742,9 @@ module.exports = {
        https://www.youtube.com/watch?v=dQw4w9WgXcQ   →   "dQw4w9WgXcQ"
      ──────────────────────────────────────────────────────────────────── */
   fun: {
-    eyebrow: "Off the clock",
-    title: "Not the <em>lab</em>",
-    hint:  "Photos are mine. Everything else links out to the real thing.",
+    eyebrow: "Out and about",
+    title: "Parts of my <em>life!</em>",
+    hint:  "If I were defined by photos...",
 
     /* `shape` sets how tall the tile reads in the masonry grid — "wide",
        "tall", "square", or omit for the default. Mix them so the page
@@ -757,23 +757,26 @@ module.exports = {
        you have the actual id (see the note at the top of this file). The
        `photo` entries below are still placeholders — drop your real
        photos into assets/ and point `src` at them. */
+    /* Order is column-by-column (CSS columns fill top to bottom): the first
+       five items are the left column, the next five the middle, the last five
+       the right. Each column is 3 tall + 2 wide (in a scattered order) so
+       the three end level. */
     items: [
-      { kind: "link", shape: "wide", href: "https://www.nba.com/lakers",
-        title: "The Lakers", caption: "Been watching since before I could drive." },
-      { kind: "photo", shape: "tall", src: "assets/placeholder.svg",
-        title: "PLACEHOLDER — On a bike", caption: "PLACEHOLDER — a route worth the climb." },
-      { kind: "link", shape: "square", href: "https://www.chess.com",
-        title: "Chess", caption: "Currently tilting on bullet at 2am." },
-      { kind: "photo", shape: "square", src: "assets/placeholder.svg",
-        title: "PLACEHOLDER — Texas BBQ", caption: "PLACEHOLDER — brisket, done right." },
-      { kind: "link", shape: "tall", href: "https://www.therams.com",
-        title: "The Rams", caption: "LA's other team I will not shut up about." },
-      { kind: "link", shape: "wide", href: "https://en.wikipedia.org/wiki/Microglia",
-        title: "Microglia", caption: "Yes, the brain's resident immune cells made the fun page. Occupational hazard." },
-      { kind: "photo", shape: "wide", src: "assets/placeholder.svg",
-        title: "PLACEHOLDER — On repeat", caption: "PLACEHOLDER — whatever's spinning, no matter how old." },
-      { kind: "link", shape: "square", href: "https://www.starwars.com",
-        title: "Star Wars", caption: "Watched in machine order more times than I'll admit." }
+      { kind: "photo", shape: "tall", src: "assets/fun/lakers-kobe.jpg", title: "Me and my favorite player at NBA House in Vancouver during the Summer of '24... R.I.P 🐍" },
+      { kind: "photo", shape: "wide", src: "assets/fun/lake-louise.jpg", title: "Visiting Lake Louise, July 2026" },
+      { kind: "photo", shape: "tall", src: "assets/fun/stanley-park.jpg", title: "Biking on the Stanley Park seawall" },
+      { kind: "photo", shape: "tall", src: "assets/fun/leo-baguette.jpg", title: "Always hungry" },
+      { kind: "photo", shape: "wide", src: "assets/fun/leo-queen-monopoly.jpg", title: "Three things I love: Queen, Monopoly, and Christmas" },
+      { kind: "photo", shape: "wide", src: "assets/fun/poster-me.jpg", title: "Presenting my work on the BAF complex at the Simons Foundation in NYC, April 2026" },
+      { kind: "photo", shape: "tall", src: "assets/fun/leo-food-1.jpg", title: "One of my favorite restaurants, Chez Celine." },
+      { kind: "photo", shape: "wide", src: "assets/fun/calgary-parade.jpg", title: "Featured in the Calgary Parade '26 during my first day in Calgary", link: { label: "See me on CBC News!", href: "https://www.cbc.ca/news/canada/calgary/calgary-stampede-parade-2026-9.7257432" } },
+      { kind: "photo", shape: "tall", src: "assets/fun/leo-nyc.jpg", title: "Walking the Brooklyn Bridge!" },
+      { kind: "photo", shape: "tall", src: "assets/fun/leo-golf.jpg", title: "Green!" },
+      { kind: "photo", shape: "tall", src: "assets/fun/leo-football.jpg", title: "I love football - this is my Sunday." },
+      { kind: "photo", shape: "wide", src: "assets/fun/leo-tame-impala.jpg", title: "Tamed Impala at Rogers Stadium, September 2026" },
+      { kind: "photo", shape: "tall", src: "assets/fun/red-square.jpg", title: "Spent my freshman year at UW, Seattle 2024" },
+      { kind: "photo", shape: "tall", src: "assets/fun/neuroaesthetics.jpg", title: "Neuroaesthetics Conference '25" },
+      { kind: "photo", shape: "wide", src: "assets/fun/leo-sunflowers.jpg", title: "My favorite type of flower 🌻" }
     ]
   },
 
@@ -860,12 +863,9 @@ module.exports = {
     { key: "projects", file: "projects.html", navLabel: "My Works", icon: "folder",
       description: "Research and teaching by Leo J. Chung — chromatin and the BAF complex, the gut–brain axis, animal communication, and the Neuroaesthetics seminar he co-created at UBC.",
       sections: ["research", "teaching"] },
-    /* FUN PAGE — SHELVED, not deleted. See the note at the top of the `fun`
-       data block above for why and how to bring it back. Uncomment this
-       entry (and its main.js Ask target) to switch it back on.
     { key: "fun",      file: "fun.html",      navLabel: "Fun",      icon: "spark",
       description: "Photos and clips of Leo J. Chung off the clock — biking, chess, the Lakers, the Rams, and Vancouver food.",
-      sections: ["fun"] }, */
+      sections: ["fun"] },
     { key: "contact",  file: "contact.html",  navLabel: "Contact",  icon: "mail",
       description: "Get in touch with Leo J. Chung — looking for a co-op or internship for January 2027 in biotech, pharma, or the life sciences.",
       sections: ["contact"] },
