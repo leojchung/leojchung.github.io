@@ -171,88 +171,129 @@
     }
   }
 
-  /* ── the Ask bar ──────────────────────────────────────────────────────────
-     No API, no server: a small keyword map per destination, scored against
-     whatever was typed. Best match wins and the browser navigates there
-     (a plain link — a section on another page, or this one's own anchor);
-     nothing close enough gets an honest "try rephrasing" instead of a wrong
-     guess. Edit TARGETS below to add a destination or its keywords. */
-  var askInput = document.getElementById('ask-input');
-  if (askInput) {
-    var askSubmit = document.getElementById('ask-submit');
-    var askResult = document.getElementById('ask-result');
+  /* ── ask(), shared by the Search page and the floating bubble ─────────────
+     No API, no server on GitHub Pages: a small keyword map per destination,
+     scored against whatever was typed. Best match wins and the browser
+     navigates there; nothing close enough gets an honest "try rephrasing"
+     instead of a wrong guess. Edit TARGETS below to add a destination or
+     its keywords.
 
-    var TARGETS = [
-      { href: 'index.html',              keys: ['home', 'about you', 'who are you', 'intro', 'yourself'] },
-      { href: 'projects.html#research-h', keys: ['research', 'lab work', 'neuroscience', 'ciernia', 'microglia', 'brain', 'autism', 'gut', 'science', 'baf', 'mice', 'studies'] },
-      { href: 'projects.html#teaching-h', keys: ['teach', 'teaching', 'class', 'course', 'astu', 'neuroaesthetics', 'education', 'instructor', 'mentor', 'tutor', 'adjudicate'] },
-      { href: 'index.html#featured-h',    keys: ['press', 'featured', 'write-up', 'article', 'news', 'media coverage'] },
-      { href: 'fun.html#fun-h',        keys: ['fun', 'photos', 'photo', 'pictures', 'hobbies', 'hobby', 'off the clock', 'out and about', 'life', 'travel', 'biking', 'bike', 'seawall', 'stanley park', 'lake louise', 'calgary', 'seattle', 'new york', 'nyc', 'food', 'restaurant', 'football', 'nfl', 'lakers', 'kobe', 'concert', 'tame impala', 'golf', 'monopoly', 'sunflowers'] },
-      { href: 'contact.html#contact-h',   keys: ['contact', 'email', 'reach', 'message', 'phone', 'linkedin', 'talk', 'hire', 'get in touch'] },
-      { href: 'cv.pdf',                   keys: ['cv', 'resume', 'curriculum vitae'] }
-    ];
+     The AI-backed /api/ask only exists on a Vercel deploy of this repo —
+     GitHub Pages serves static files and has nowhere to run it, and a plain
+     page can't hold an API key. So the keyword map is the ONLY search
+     GitHub Pages ever gets, and it's also the fallback here on any error,
+     timeout, or missing function — the box never dead-ends on a visitor.
+     See CLAUDE.md's "The Search page" for the full story, including why
+     the AI side answers general questions, not just ones about the site. */
+  var TARGETS = [
+    { href: 'index.html',              keys: ['home', 'about you', 'who are you', 'intro', 'yourself'] },
+    { href: 'projects.html#research-h', keys: ['research', 'lab work', 'neuroscience', 'ciernia', 'microglia', 'brain', 'autism', 'gut', 'science', 'baf', 'mice', 'studies'] },
+    { href: 'projects.html#teaching-h', keys: ['teach', 'teaching', 'class', 'course', 'astu', 'neuroaesthetics', 'education', 'instructor', 'mentor', 'tutor', 'adjudicate'] },
+    { href: 'index.html#featured-h',    keys: ['press', 'featured', 'write-up', 'article', 'news', 'media coverage'] },
+    { href: 'fun.html#fun-h',        keys: ['fun', 'photos', 'photo', 'pictures', 'hobbies', 'hobby', 'off the clock', 'out and about', 'life', 'travel', 'biking', 'bike', 'seawall', 'stanley park', 'lake louise', 'calgary', 'seattle', 'new york', 'nyc', 'food', 'restaurant', 'football', 'nfl', 'lakers', 'kobe', 'concert', 'tame impala', 'golf', 'monopoly', 'sunflowers'] },
+    { href: 'contact.html#contact-h',   keys: ['contact', 'email', 'reach', 'message', 'phone', 'linkedin', 'talk', 'hire', 'get in touch'] },
+    { href: 'cv.pdf',                   keys: ['cv', 'resume', 'curriculum vitae'] }
+  ];
 
-    function showResult(html) {
-      askResult.classList.remove('show');
-      askResult.innerHTML = html;
-      requestAnimationFrame(function () { askResult.classList.add('show'); });
-    }
-
-    function keywordAsk(text) {
-      var lower = text.toLowerCase();
-      var words = lower.replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(Boolean);
-
-      var best = null, bestScore = 0;
-      TARGETS.forEach(function (t) {
-        var score = 0;
-        t.keys.forEach(function (k) {
-          if (lower.indexOf(k) !== -1) score += k.split(' ').length + 1;
-          if (words.indexOf(k) !== -1) score += 1;
-        });
-        if (score > bestScore) { bestScore = score; best = t; }
+  function keywordMatch(text) {
+    var lower = text.toLowerCase();
+    var words = lower.replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(Boolean);
+    var best = null, bestScore = 0;
+    TARGETS.forEach(function (t) {
+      var score = 0;
+      t.keys.forEach(function (k) {
+        if (lower.indexOf(k) !== -1) score += k.split(' ').length + 1;
+        if (words.indexOf(k) !== -1) score += 1;
       });
+      if (score > bestScore) { bestScore = score; best = t; }
+    });
+    return best;
+  }
 
-      if (best) {
-        showResult('Taking you there<b> → ' + best.href.split('#')[0] + '</b>');
-        setTimeout(function () { window.location.href = best.href; }, 450);
-      } else {
-        showResult('Not sure about that one — try asking about research, teaching, fun, or contact.');
-      }
+  function keywordResult(text) {
+    var best = keywordMatch(text);
+    return best ? { href: best.href }
+      : { text: 'Not sure about that one — try asking about research, teaching, fun, or contact.' };
+  }
+
+  var host = window.location.hostname;
+  var hasAI = !!host && host !== 'localhost' && host !== '127.0.0.1' && !/\.github\.io$/.test(host);
+
+  // Calls done() with either {href} (caller should navigate) or {text}
+  // (caller should display it). Both the Search page and the floating
+  // bubble call this — neither talks to fetch() or TARGETS directly.
+  function ask(text, done) {
+    if (!hasAI) { done(keywordResult(text)); return; }
+    var ctrl = ('AbortController' in window) ? new AbortController() : null;
+    var timer = ctrl && setTimeout(function () { ctrl.abort(); }, 9000);
+    fetch('/api/ask', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ question: text }),
+      signal: ctrl && ctrl.signal
+    }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        clearTimeout(timer);
+        if (res.ok && res.d && res.d.answer) { done({ text: res.d.answer }); }
+        else { done(keywordResult(text)); }
+      })
+      .catch(function () { clearTimeout(timer); done(keywordResult(text)); });
+  }
+
+  function askUI(input, submit, result) {
+    function show(html) {
+      result.classList.remove('show');
+      result.innerHTML = html;
+      requestAnimationFrame(function () { result.classList.add('show'); });
     }
-
-    /* The AI-backed /api/ask only exists on a Vercel deploy of this repo —
-       GitHub Pages serves static files and has nowhere to run it, and a
-       plain page can't hold an API key. So the keyword map above is the
-       ONLY search GitHub Pages ever gets, and it's also the fallback here
-       on any error, timeout, or missing function — the box never dead-ends
-       on a visitor. See CLAUDE.md's "The Search page" for the full story. */
-    var host = window.location.hostname;
-    var hasAI = !!host && host !== 'localhost' && host !== '127.0.0.1' && !/\.github\.io$/.test(host);
-
-    function runAsk() {
-      var text = (askInput.value || '').trim();
+    function run() {
+      var text = (input.value || '').trim();
       if (!text) return;
-
-      if (!hasAI) { keywordAsk(text); return; }
-
-      showResult('Thinking…');
-      var ctrl = ('AbortController' in window) ? new AbortController() : null;
-      var timer = ctrl && setTimeout(function () { ctrl.abort(); }, 9000);
-      fetch('/api/ask', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ question: text }),
-        signal: ctrl && ctrl.signal
-      }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
-        .then(function (res) {
-          clearTimeout(timer);
-          if (res.ok && res.d && res.d.answer) { showResult(res.d.answer); }
-          else { keywordAsk(text); }
-        })
-        .catch(function () { clearTimeout(timer); keywordAsk(text); });
+      show('Thinking…');
+      ask(text, function (r) {
+        if (r.href) {
+          show('Taking you there<b> → ' + r.href.split('#')[0] + '</b>');
+          setTimeout(function () { window.location.href = r.href; }, 450);
+        } else {
+          show(r.text);
+        }
+      });
     }
+    submit.addEventListener('click', run);
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') run(); });
+  }
 
-    askSubmit.addEventListener('click', runAsk);
-    askInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') runAsk(); });
+  var askInput = document.getElementById('ask-input');
+  if (askInput) askUI(askInput, document.getElementById('ask-submit'), document.getElementById('ask-result'));
+
+  /* ── the floating bubble ───────────────────────────────────────────────
+     Same ask() as the Search page, just reachable from every page instead
+     of only the Search tab. A flat accent-filled circle, not a shadowed
+     one — this site spends its one shadow on the dock (see CLAUDE.md) and
+     the bubble shouldn't compete with it. */
+  var aiFab = document.getElementById('ai-fab');
+  if (aiFab) {
+    var aiPanel = document.getElementById('ai-panel');
+
+    function openPanel() {
+      aiPanel.hidden = false;
+      aiFab.setAttribute('aria-expanded', 'true');
+      document.getElementById('ai-panel-input').focus();
+    }
+    function closePanel() {
+      aiPanel.hidden = true;
+      aiFab.setAttribute('aria-expanded', 'false');
+    }
+    aiFab.addEventListener('click', function () {
+      if (aiPanel.hidden) openPanel(); else closePanel();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !aiPanel.hidden) closePanel();
+    });
+    document.addEventListener('click', function (e) {
+      if (!aiPanel.hidden && !aiPanel.contains(e.target) && !aiFab.contains(e.target)) closePanel();
+    });
+
+    askUI(document.getElementById('ai-panel-input'), document.getElementById('ai-panel-submit'), document.getElementById('ai-panel-result'));
   }
 })();
