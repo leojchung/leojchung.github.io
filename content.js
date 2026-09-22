@@ -771,7 +771,11 @@ module.exports = {
   ask: {
     eyebrow: "Search",
     title: "Ask me <em>anything.</em>",
-    hint:  "Type a question and it jumps you to the right part of the site — research, teaching, fun, contact, and more.",
+    // This one hint serves both deploys: on GitHub Pages it's a keyword
+    // jump; on the Vercel deploy (api/ask.js configured) it answers
+    // directly and falls back to the same jump. Keep the wording true for
+    // both rather than branching content.js on where it's being built.
+    hint:  "Type a question — it answers, or jumps you to the right part of the site.",
     placeholder: "e.g. “show me your research” or “how do I email you”"
   },
 

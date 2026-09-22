@@ -192,9 +192,13 @@
       { href: 'cv.pdf',                   keys: ['cv', 'resume', 'curriculum vitae'] }
     ];
 
-    function runAsk() {
-      var text = (askInput.value || '').trim();
-      if (!text) return;
+    function showResult(html) {
+      askResult.classList.remove('show');
+      askResult.innerHTML = html;
+      requestAnimationFrame(function () { askResult.classList.add('show'); });
+    }
+
+    function keywordAsk(text) {
       var lower = text.toLowerCase();
       var words = lower.replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(Boolean);
 
@@ -208,14 +212,44 @@
         if (score > bestScore) { bestScore = score; best = t; }
       });
 
-      askResult.classList.remove('show');
       if (best) {
-        askResult.innerHTML = 'Taking you there<b> → ' + best.href.split('#')[0] + '</b>';
+        showResult('Taking you there<b> → ' + best.href.split('#')[0] + '</b>');
         setTimeout(function () { window.location.href = best.href; }, 450);
       } else {
-        askResult.textContent = 'Not sure about that one — try asking about research, teaching, fun, or contact.';
+        showResult('Not sure about that one — try asking about research, teaching, fun, or contact.');
       }
-      requestAnimationFrame(function () { askResult.classList.add('show'); });
+    }
+
+    /* The AI-backed /api/ask only exists on a Vercel deploy of this repo —
+       GitHub Pages serves static files and has nowhere to run it, and a
+       plain page can't hold an API key. So the keyword map above is the
+       ONLY search GitHub Pages ever gets, and it's also the fallback here
+       on any error, timeout, or missing function — the box never dead-ends
+       on a visitor. See CLAUDE.md's "The Search page" for the full story. */
+    var host = window.location.hostname;
+    var hasAI = !!host && host !== 'localhost' && host !== '127.0.0.1' && !/\.github\.io$/.test(host);
+
+    function runAsk() {
+      var text = (askInput.value || '').trim();
+      if (!text) return;
+
+      if (!hasAI) { keywordAsk(text); return; }
+
+      showResult('Thinking…');
+      var ctrl = ('AbortController' in window) ? new AbortController() : null;
+      var timer = ctrl && setTimeout(function () { ctrl.abort(); }, 9000);
+      fetch('/api/ask', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ question: text }),
+        signal: ctrl && ctrl.signal
+      }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          clearTimeout(timer);
+          if (res.ok && res.d && res.d.answer) { showResult(res.d.answer); }
+          else { keywordAsk(text); }
+        })
+        .catch(function () { clearTimeout(timer); keywordAsk(text); });
     }
 
     askSubmit.addEventListener('click', runAsk);

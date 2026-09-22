@@ -107,8 +107,11 @@ and commit the regenerated HTML in the same commit.**
 | `styles.css` | Design system. Colour tokens at the top; nothing else hard-codes a colour, except text on a surface that is the same in both themes — the file's header lists them |
 | `build.js` | content.js → the five live pages + `sitemap.xml`. `RENDERERS` maps a section key to a renderer |
 | `build-cv.js` | content.js → cv.html. Reads `experience`/`education`/`service`/`skills` directly — those blocks still live in `content.js` but nothing on the *website* renders them any more, only the CV does |
-| `main.js` | Theme toggle, footer year, click-to-play video, and the Search page's keyword map. The only JS the site ships |
+| `main.js` | Theme toggle, footer year, click-to-play video, and the Search page's two backends (keyword map + AI fetch). The only JS the site ships |
 | `check.js` | Audits the built pages — markup, escaping, class coverage, WCAG contrast in both themes, and that the two dark blocks agree. CI gates on it |
+| `api/ask.js` | Vercel serverless function for the AI-backed Search page. **Never runs on GitHub Pages** — Pages serves files only. See **The Search page** above |
+| `test-ask.js` | Self-check for `api/ask.js` (`node test-ask.js`), no network call |
+| `package.json` | Only for `api/ask.js`'s Vercel deploy (Node version, npm scripts) — the site itself still has zero dependencies |
 | `404.html`, `robots.txt`, `favicon.svg`, `.nojekyll` | Standard static-site furniture |
 | `assets/` | Photos, org logos, syllabus PDFs — anything linked from content |
 
@@ -145,12 +148,30 @@ bullet points (`.about-points`), not a paragraph.
 
 A minimal "ask it anything" bar — headline, one hint line, one input. No
 suggestion chips, no explainer text; Leo wants it that way, don't add them
-back. **It is not an LLM** — there is no API key and no backend, on purpose:
-this is a static Pages site and a client-side API key is public by
-construction. `main.js`'s `TARGETS` array is a small keyword map scored
-against whatever was typed; the best match navigates the browser there. No
-match gets an honest "try rephrasing," never a wrong guess. Add a destination
-with a `{ href, keys }` entry in `TARGETS`.
+back.
+
+**Two backends, one page.** `content.js`, `build.js` and `ask.html` are
+shared by both deploys — there's no per-deploy branching in the generator.
+What differs is `main.js`'s `runAsk()`:
+
+- **GitHub Pages** (`*.github.io`, `localhost`, or `file://`): no API key,
+  no backend, on purpose — a static Pages site can't hold a server secret,
+  and a client-side key is public by construction. `TARGETS`, a small
+  keyword map, scores whatever was typed and navigates to the best match.
+  No match gets an honest "try rephrasing," never a wrong guess. Add a
+  destination with a `{ href, keys }` entry in `TARGETS`.
+- **The Vercel deploy** (any other hostname): `runAsk()` POSTs to
+  `/api/ask.js` (a serverless function, key in `ANTHROPIC_API_KEY`, never in
+  the repo) and shows the model's answer. **The keyword map is also this
+  path's fallback** — any error, timeout (9s) or missing function falls
+  straight back to it, so the box never dead-ends on a visitor. See
+  `api/ask.js`'s own comments for the fact sheet (built from `content.js`,
+  so the model can't say anything the site doesn't already say), the rate
+  limit, and the timeout. `test-ask.js` (`node test-ask.js`) is its
+  self-check — run it after touching that file.
+- Nothing about this needs `content.js`'s `ask.hint` to differ per deploy;
+  it's worded to stay true either way ("it answers, or jumps you to the
+  right part of the site").
 
 ### The Fun page
 
@@ -376,12 +397,17 @@ build made reproducible across Mac and Windows.
   mid-October.
 - **The JHU logo is the stacked lockup.** A horizontal version would read
   better. Dropping one in as `assets/jhu-logo.png` needs no code change.
-- **"Leo.ai" (a Vercel-hosted AI search) is planned, not built.** `leo.ai`
-  is registered to someone else until 2028; `leochung.ai` and `leojchung.ai`
-  showed as unregistered on 21 Sep 2026. It needs a small serverless function
-  on Vercel that holds the API key server-side — see `VERCEL-LEO-AI.md` in the
-  parent Cowork folder. Until it exists, Search stays a keyword map and the
-  "no API key in the client" rule stands.
+- **"Leo.ai" — the code is built, the Vercel project isn't created yet.**
+  `api/ask.js` (the serverless function) and `main.js`'s two-backend
+  `runAsk()` shipped 21 Sep 2026 — see **The Search page** above. What's
+  left is entirely account setup on Leo's side: create the Vercel project,
+  set `ANTHROPIC_API_KEY`, buy a domain. `leo.ai` is registered to someone
+  else until 2028; `leochung.ai` and `leojchung.ai` showed as unregistered
+  on 21 Sep 2026 — check again at checkout. Steps are in `VERCEL-LEO-AI.md`
+  in the parent Cowork folder. Until that project exists, GitHub Pages is
+  the only live deploy and Search there stays the keyword map — that's
+  correct, not a bug, and the "no API key in the client" rule still holds
+  for that deploy.
 - **Fun page checks:** light mode and 390px were checked on 21 Sep. The CBC
   article's content was not machine-verified.
 - **`404.html` is hand-maintained and outside `check.js`.** Its `<em>` is a

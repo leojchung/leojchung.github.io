@@ -5,7 +5,10 @@ that don't fit on a CV.
 
 **Live at <https://leojchung.github.io/>.** Static HTML, no framework, no
 dependencies, served from this repo's root by GitHub Pages. There is no
-`npm install` step anywhere; you need Node only to regenerate the pages.
+`npm install` step for the site itself; you need Node only to regenerate the
+pages. (The repo also holds `api/ask.js`, one serverless function for an
+optional Vercel deploy of the same site with an AI-backed Search page — see
+CLAUDE.md's "The Search page." It never runs on, or affects, GitHub Pages.)
 
 ---
 
