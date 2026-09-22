@@ -161,13 +161,21 @@ What differs is `main.js`'s `runAsk()`:
   No match gets an honest "try rephrasing," never a wrong guess. Add a
   destination with a `{ href, keys }` entry in `TARGETS`.
 - **The Vercel deploy** (any other hostname): `runAsk()` POSTs to
-  `/api/ask.js` (a serverless function, key in `ANTHROPIC_API_KEY`, never in
-  the repo) and shows the model's answer. **The keyword map is also this
-  path's fallback** — any error, timeout (9s) or missing function falls
-  straight back to it, so the box never dead-ends on a visitor. See
-  `api/ask.js`'s own comments for the fact sheet (built from `content.js`,
-  so the model can't say anything the site doesn't already say), the rate
-  limit, and the timeout. `test-ask.js` (`node test-ask.js`) is its
+  `/api/ask.js` (a serverless function calling the **Gemini API**, key in
+  `GEMINI_API_KEY`, never in the repo) and shows the model's answer. Chosen
+  over Anthropic/OpenAI because Google AI Studio has a genuine no-card free
+  tier — the trade-off Leo accepted knowingly: on that free tier Google may
+  use the traffic (site content + visitor questions) to improve its
+  products. **The keyword map is also this path's fallback** — any error,
+  timeout (9s) or missing function falls straight back to it, so the box
+  never dead-ends on a visitor. See `api/ask.js`'s own comments for the fact
+  sheet (built from `content.js`, so the model can't say anything the site
+  doesn't already say), the model id (`gemini-2.5-flash` — picked as the
+  well-established `generateContent` shape rather than Google's newer
+  `/v1beta/interactions` endpoint, which was still shifting shape across
+  Google's own docs as of Sep 2026; if the model id ever gets retired,
+  Search just quietly reverts to the keyword box, not a broken page), the
+  rate limit, and the timeout. `test-ask.js` (`node test-ask.js`) is its
   self-check — run it after touching that file.
 - Nothing about this needs `content.js`'s `ask.hint` to differ per deploy;
   it's worded to stay true either way ("it answers, or jumps you to the
@@ -398,12 +406,15 @@ build made reproducible across Mac and Windows.
 - **The JHU logo is the stacked lockup.** A horizontal version would read
   better. Dropping one in as `assets/jhu-logo.png` needs no code change.
 - **"Leo.ai" — the code is built, the Vercel project isn't created yet.**
-  `api/ask.js` (the serverless function) and `main.js`'s two-backend
-  `runAsk()` shipped 21 Sep 2026 — see **The Search page** above. What's
-  left is entirely account setup on Leo's side: create the Vercel project,
-  set `ANTHROPIC_API_KEY`, buy a domain. `leo.ai` is registered to someone
-  else until 2028; `leochung.ai` and `leojchung.ai` showed as unregistered
-  on 21 Sep 2026 — check again at checkout. Steps are in `VERCEL-LEO-AI.md`
+  `api/ask.js` (the serverless function, calling Gemini — see **The Search
+  page** above for why) and `main.js`'s two-backend `runAsk()` shipped
+  21–22 Sep 2026. What's left is entirely account setup on Leo's side:
+  create the Vercel project, get a Gemini key at aistudio.google.com (no
+  card needed) and set it as `GEMINI_API_KEY`, buy a domain (optional —
+  Vercel's own free `*.vercel.app` address works with no purchase at all).
+  `leo.ai` is registered to someone else until 2028; `leochung.ai` and
+  `leojchung.ai` showed as unregistered on 21 Sep 2026 — check again at
+  checkout. Steps are in `VERCEL-LEO-AI.md`
   in the parent Cowork folder. Until that project exists, GitHub Pages is
   the only live deploy and Search there stays the keyword map — that's
   correct, not a bug, and the "no API key in the client" rule still holds

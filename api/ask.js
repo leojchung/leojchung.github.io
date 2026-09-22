@@ -1,6 +1,7 @@
 /* api/ask.js — Vercel serverless function for the Leo.ai Search page.
-   Node runtime, zero npm dependencies: built-in fetch talks to the
-   Anthropic API directly. Not part of the GitHub Pages build — Pages
+   Node runtime, zero npm dependencies: built-in fetch talks to the Gemini
+   API directly (Google AI Studio — a genuine no-credit-card free tier, see
+   CLAUDE.md's "The Search page"). Not part of the GitHub Pages build — Pages
    serves files only and never runs this; only a Vercel deploy does.
 
    The fact sheet below is built from content.js, the same file the static
@@ -9,7 +10,14 @@
 */
 const content = require('../content.js');
 
-const MODEL = 'claude-haiku-4-5-20251001';
+// ponytail: picked for being the well-established, backward-compatible
+// generateContent shape rather than Google's newer /v1beta/interactions
+// endpoint, which was still changing shape across their own docs pages as
+// of Sep 2026. If Google retires this model id, the fallback below means
+// Search just quietly reverts to the keyword box, not a broken page —
+// swap MODEL here and it's a one-line fix.
+const MODEL = 'gemini-2.5-flash';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
 const MAX_QUESTION_LEN = 300;
 const MAX_TOKENS = 300;
 const TIMEOUT_MS = 10000;
@@ -84,26 +92,25 @@ module.exports = async (req, res) => {
   const question = String((body && body.question) || '').trim().slice(0, MAX_QUESTION_LEN);
   if (!question) { res.status(400).json({ error: 'Ask a question.' }); return; }
 
-  const key = process.env.ANTHROPIC_API_KEY;
+  const key = process.env.GEMINI_API_KEY;
   if (!key) { res.status(500).json({ error: 'Search isn’t configured yet.' }); return; }
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
+    const r = await fetch(GEMINI_URL, {
       method: 'POST',
-      headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+      headers: { 'x-goog-api-key': key, 'content-type': 'application/json' },
       body: JSON.stringify({
-        model: MODEL,
-        max_tokens: MAX_TOKENS,
-        system: SYSTEM_PREFIX + buildFactSheet(),
-        messages: [{ role: 'user', content: question }]
+        systemInstruction: { parts: [{ text: SYSTEM_PREFIX + buildFactSheet() }] },
+        contents: [{ parts: [{ text: question }] }],
+        generationConfig: { maxOutputTokens: MAX_TOKENS }
       }),
       signal: controller.signal
     });
     if (!r.ok) { res.status(502).json({ error: 'Search is having trouble right now.' }); return; }
     const data = await r.json();
-    const answer = (data.content || []).map(b => b.text || '').join('').trim();
+    const answer = ((data.candidates || [])[0]?.content?.parts || []).map(b => b.text || '').join('').trim();
     res.status(200).json({ answer: answer || 'I’m not sure — try the Contact page.' });
   } catch {
     res.status(504).json({ error: 'Search timed out — try again.' });

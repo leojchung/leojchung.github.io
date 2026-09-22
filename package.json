@@ -2,7 +2,7 @@
   "name": "leojchung-github-io",
   "private": true,
   "version": "1.0.0",
-  "description": "Static site (build.js/check.js) plus one Vercel function (api/ask.js) for the Leo.ai Search page. No dependencies on either side.",
+  "description": "Static site (build.js/check.js) plus one Vercel function (api/ask.js, calling the Gemini API) for the Leo.ai Search page. No dependencies on either side.",
   "engines": { "node": ">=20" },
   "scripts": {
     "build": "node build.js",
