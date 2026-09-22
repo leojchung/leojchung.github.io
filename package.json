@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Static site (build.js/check.js) plus one Vercel function (api/ask.js, calling the Gemini API) for the Leo.ai Search page. No dependencies on either side.",
-  "engines": { "node": ">=20" },
+  "engines": { "node": "20.x" },
   "scripts": {
     "build": "node build.js",
     "check": "node check.js",

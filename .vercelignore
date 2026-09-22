@@ -1,0 +1,7 @@
+# outputDirectory in vercel.json is "." (the repo root — the same files
+# GitHub Pages already serves as static files today). This just keeps git's
+# own internals out of that bundle; it isn't a new exposure either way,
+# since the repo is public and `git clone` already hands out the same
+# history.
+.git
+node_modules
