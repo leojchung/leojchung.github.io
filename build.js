@@ -840,7 +840,6 @@ ${body.filter(Boolean).join('\n\n')}
 
 ${renderFooter()}
 ${renderDock(page.file)}
-${renderAiBubble()}
 
 <script src="main.js"></script>
 </body>
@@ -848,31 +847,6 @@ ${renderAiBubble()}
 `;
 }
 
-/* The floating AI bubble — every page, per Leo's request (22 Sep 2026).
-   A flat accent-filled circle, not a shadowed one: the dock is this site's
-   one shadowed element (see CLAUDE.md), and a second one would compete
-   with it. main.js wires the click/Escape/outside-click behavior and the
-   actual ask() call, shared with the Search page. On GitHub Pages this is
-   the identical keyword box Search already uses; only on a Vercel deploy
-   does /api/ask make it a real, general-purpose AI (see CLAUDE.md's
-   "The Search page" and "The floating AI bubble"). */
-function renderAiBubble(){
-  return `<div class="ai-fab-wrap">
-  <button class="ai-fab" id="ai-fab" type="button" aria-haspopup="dialog" aria-controls="ai-panel" aria-expanded="false" aria-label="Ask anything">
-    <svg viewBox="0 0 24 24" aria-hidden="true">${ICONS.spark}</svg>
-  </button>
-  <div class="ai-panel card" id="ai-panel" role="dialog" aria-label="Ask anything" hidden>
-    <p class="ai-panel-title">Ask anything</p>
-    <div class="ai-panel-row">
-      <input id="ai-panel-input" type="text" placeholder="Ask me anything…" autocomplete="off" aria-label="Ask a question">
-      <button class="ai-panel-submit" id="ai-panel-submit" type="button" aria-label="Ask">
-        <svg viewBox="0 0 24 24" aria-hidden="true">${ICONS.search}</svg>
-      </button>
-    </div>
-    <p class="ai-panel-result" id="ai-panel-result" role="status" aria-live="polite"></p>
-  </div>
-</div>`;
-}
 
 /* ── write every page ─────────────────────────────────────────────────────── */
 

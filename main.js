@@ -265,35 +265,4 @@
 
   var askInput = document.getElementById('ask-input');
   if (askInput) askUI(askInput, document.getElementById('ask-submit'), document.getElementById('ask-result'));
-
-  /* ── the floating bubble ───────────────────────────────────────────────
-     Same ask() as the Search page, just reachable from every page instead
-     of only the Search tab. A flat accent-filled circle, not a shadowed
-     one — this site spends its one shadow on the dock (see CLAUDE.md) and
-     the bubble shouldn't compete with it. */
-  var aiFab = document.getElementById('ai-fab');
-  if (aiFab) {
-    var aiPanel = document.getElementById('ai-panel');
-
-    function openPanel() {
-      aiPanel.hidden = false;
-      aiFab.setAttribute('aria-expanded', 'true');
-      document.getElementById('ai-panel-input').focus();
-    }
-    function closePanel() {
-      aiPanel.hidden = true;
-      aiFab.setAttribute('aria-expanded', 'false');
-    }
-    aiFab.addEventListener('click', function () {
-      if (aiPanel.hidden) openPanel(); else closePanel();
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !aiPanel.hidden) closePanel();
-    });
-    document.addEventListener('click', function (e) {
-      if (!aiPanel.hidden && !aiPanel.contains(e.target) && !aiFab.contains(e.target)) closePanel();
-    });
-
-    askUI(document.getElementById('ai-panel-input'), document.getElementById('ai-panel-submit'), document.getElementById('ai-panel-result'));
-  }
 })();
