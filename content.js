@@ -216,6 +216,9 @@ module.exports = {
       { logo: "instagram", label: "Instagram",         href: "https://www.instagram.com/leojchung",
         src: "assets/instagram-logo.png",
       },
+      { logo: "x",         label: "X",                 href: "https://x.com/leojchung",
+        src: "assets/x-logo.png",
+      },
       { logo: "chess",     label: "Chess.com",         href: "https://www.chess.com/member/leojchung",
         src: "assets/chess-logo.png",
       }
