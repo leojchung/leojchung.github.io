@@ -209,16 +209,19 @@ module.exports = {
       { logo: "gmail",     label: "Email",             href: "mailto:leojc815@gmail.com",
         src: "assets/gmail-logo.png",
       },
+
       { logo: "linkedin",  label: "LinkedIn",          href: "https://www.linkedin.com/in/leojchung" },
+
+      { logo: "x",         label: "X",                 href: "https://x.com/leojchung",
+        src: "assets/x-logo.png",
+      },
 
       { logo: "neuroarts", label: "NeuroArts Profile", href: "https://www.neuroartsresourcecenter.com/profile/leojchung" },
 
       { logo: "instagram", label: "Instagram",         href: "https://www.instagram.com/leojchung",
         src: "assets/instagram-logo.png",
       },
-      { logo: "x",         label: "X",                 href: "https://x.com/leojchung",
-        src: "assets/x-logo.png",
-      },
+
       { logo: "chess",     label: "Chess.com",         href: "https://www.chess.com/member/leojchung",
         src: "assets/chess-logo.png",
       }
