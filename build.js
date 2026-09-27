@@ -602,8 +602,8 @@ ${h.cite ? `      <p class="hero-cite">— <cite>${h.cite}</cite></p>\n` : ''}  
     ? `\n      <img class="hero-portrait" src="${attr(C.meta.portrait)}" alt="${attr(C.meta.name)}" width="230" height="230">`
     : '';
 
-  const socialRow = (i.social && i.social.length) ? `\n      <div class="social-row">
-${i.social.map(s => `        <a class="social-btn" href="${attr(s.href)}" aria-label="${attr(s.label)}">${socialMark(s)}<span class="tip">${attr(s.label)}</span></a>`).join('\n')}
+  const socialRow = (i.social && visible(i.social).length) ? `\n      <div class="social-row">
+${visible(i.social).map(s => `        <a class="social-btn" href="${attr(s.href)}" aria-label="${attr(s.label)}">${socialMark(s)}<span class="tip">${attr(s.label)}</span></a>`).join('\n')}
       </div>` : '';
 
   const splashSection = `    <section class="splash reveal" id="splash" aria-label="Introduction">${portrait}
@@ -768,7 +768,7 @@ function renderFooter(){
 
   /* Same list and order as the Home splash's social row (Leo's request),
      not contact.links — so "Follow" always matches what's on Home. */
-  const follow = (C.intro.social || [])
+  const follow = visible(C.intro.social)
     .filter(s => s.href)
     .map(s => `            <li><a href="${attr(s.href)}">${attr(s.label)}</a></li>`)
     .join('\n');

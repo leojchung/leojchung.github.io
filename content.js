@@ -218,7 +218,7 @@ module.exports = {
 
       { logo: "neuroarts", label: "NeuroArts Profile", href: "https://www.neuroartsresourcecenter.com/profile/leojchung" },
 
-      { logo: "instagram", label: "Instagram",         href: "https://www.instagram.com/leojchung",
+      { logo: "instagram", label: "Instagram",         href: "https://www.instagram.com/leojchung", hidden: true,
         src: "assets/instagram-logo.png",
       },
 
