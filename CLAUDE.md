@@ -77,14 +77,21 @@ Anything committed here is world-readable the moment it is pushed.
 ## The one rule that matters
 
 **`index.html`, `projects.html`, `contact.html`, `ask.html`,
-`cv.html`, `cv.pdf` and `sitemap.xml` are all GENERATED. Never edit them by
+`cv.html` and `sitemap.xml` are all GENERATED. Never edit them by
 hand.**
 
 ```
 content.js  --[ node build.js ]-->     index.html, projects.html,
                                        contact.html, ask.html, sitemap.xml
-content.js  --[ node build-cv.js ]-->  cv.html --[ print to PDF ]--> cv.pdf
+content.js  --[ node build-cv.js ]-->  cv.html   (stale, nothing links to it)
 ```
+
+**`cv.pdf` is NOT generated.** It is Leo's own CV, exported from his Word
+document and dropped in exactly as is (last replaced 22 Oct 2026). Never
+overwrite it with a print of `cv.html` — the real CV holds roles and wording
+`content.js` doesn't. To update it, Leo supplies a new PDF; copy it over
+`cv.pdf`, check its metadata for names or file paths, and flag anything
+that conflicts with **Things to check with Leo before doing** below.
 
 Five pages, sharing one bottom icon dock (Home / My Works / Contact / Fun /
 Search) and one footer. There is no top
@@ -106,7 +113,7 @@ and commit the regenerated HTML in the same commit.**
 | `content.js` | All content + the `pages` array controlling which sections land on which page |
 | `styles.css` | Design system. Colour tokens at the top; nothing else hard-codes a colour, except text on a surface that is the same in both themes — the file's header lists them |
 | `build.js` | content.js → the five live pages + `sitemap.xml`. `RENDERERS` maps a section key to a renderer |
-| `build-cv.js` | content.js → cv.html. Reads `experience`/`education`/`service`/`skills` directly — those blocks still live in `content.js` but nothing on the *website* renders them any more, only the CV does |
+| `build-cv.js` | content.js → cv.html (not cv.pdf, which is Leo's own file). Reads `experience`/`education`/`service`/`skills` directly — those blocks still live in `content.js` but nothing on the *website* renders them any more, only the CV does |
 | `main.js` | Theme toggle, footer year, click-to-play video, and the Search page's two backends (keyword map + AI fetch). The only JS the site ships |
 | `check.js` | Audits the built pages — markup, escaping, class coverage, WCAG contrast in both themes, and that the two dark blocks agree. CI gates on it |
 | `api/ask.js` | Vercel serverless function for the AI-backed Search page. **Never runs on GitHub Pages** — Pages serves files only. See **The Search page** above |
@@ -278,7 +285,7 @@ each with a thin one-line caption in his words, in US spelling (his
 ```bash
 node build.js          # rebuild the five pages + sitemap.xml
 node check.js          # audit the build
-node build-cv.js       # rebuild cv.html; then print to PDF over cv.pdf
+node build-cv.js       # rebuild cv.html only — never print it over cv.pdf
 python -m http.server 8000     # local preview (python3 on macOS)
 ```
 
@@ -396,10 +403,8 @@ build made reproducible across Mac and Windows.
 
 **Still open** — none of these are blockers:
 
-- **`cv.html` and `cv.pdf` lag `content.js`.** Run `node build-cv.js`, check
-  the diff with Leo, then print `cv.html` to PDF over `cv.pdf`. Ask him which
-  is the source of truth first — the real CV may hold things `content.js`
-  doesn't.
+- **`cv.html` lags both `content.js` and the real CV.** Nothing links to it.
+  Leave it unless Leo asks; it never feeds `cv.pdf`.
 - **The reading list dates quickly.** The articles are from early September
   2026; refresh them, or drop `reading` from Home's sections, by about
   mid-October.
