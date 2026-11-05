@@ -134,7 +134,7 @@ module.exports = {
       { k: "Affiliations", v: "Simons Foundation · Djavad Mowafaghian Centre for Brain Health<br>" +
                              "NeuroArts Resource Center · University of British Columbia · Johns Hopkins University" },
       { k: "Taught",       v: "ASTU 400E — Neuroaesthetics: Your Brain on Art" },
-      { k: "Status",     v: "Seeking January 2027 Co-op", flag: true }
+      { k: "Status",     v: "Incoming @ AbCellera", flag: true }
     ]
   },
 
