@@ -684,20 +684,20 @@ module.exports = {
   reading: {
     eyebrow: "Consuming",
     title:   "What I've been <em>reading lately…</em>",
-    /* Real, current articles standing in until Leo swaps in his own picks —
-       one each from economics, sport, AI, AI policy and neuroscience. Every
-       link was checked live (Sep 16, 2026). They date quickly: refresh the
+    /* Leo's own picks (5 Nov 2026) — economics, sport, markets/AI, politics
+       and neuroscience, in that order. Every link was checked live and each
+       title is the article's own headline. They date quickly: refresh the
        list, or drop `reading` from the Home page's sections, before it goes
        stale. */
     items: [
-      { title: "🏦 The Fed raises rates to 3.75%–4%, its first hike since 2023",
-        href: "https://www.cnbc.com/2026/09/16/fed-rate-decision-september-2026.html" },
-      { title: "🏈 Myles Garrett to undergo knee surgery, lands on IR with the Rams",
-        href: "https://www.nfl.com/news/rams-myles-garrett-knee-surgery-injured-reserve" },
-      { title: "🤖 OpenAI launches GPT-6 Astra, its powerful (and controversial) new model",
-        href: "https://techcrunch.com/2026/09/03/openai-launches-astra-its-powerful-and-controversial-new-model/" },
-      { title: "⏸️ AI company bosses call for a slowdown in development",
-        href: "https://www.rte.ie/news/world/2026/0912/1591311-slowing-ai-development/" },
+      { title: "💰 Carney's 2nd budget earmarks billions for affordability and Canadian sovereignty",
+        href: "https://www.cbc.ca/news/politics/carney-2nd-federal-budget-affordability-sovereignty-9.7411102" },
+      { title: "🏈 Myles Garrett will return to practice this week for Los Angeles Rams",
+        href: "https://www.espn.com/nfl/story/_/id/50361646/garrett-return-practice-week-rams-mcvay-says" },
+      { title: "📉 Dow plunges 1,800 points, Nasdaq enters correction in AI trade meltdown",
+        href: "https://finance.yahoo.com/markets/live/stock-market-today-thursday-november-5-dow-sp-500-nasdaq-plunge-chip-stocks-melt-down-193726491.html" },
+      { title: "🗳️ What can Trump do—and not do—with Congress in the hands of Democrats?",
+        href: "https://globalnews.ca/news/12136652/us-midterms-democrats-washington-changes/" },
       { title: "🧠 Janelia and Google Research map the male fruit fly's complete central nervous system",
         href: "https://www.janelia.org/news/researchers-reveal-connectome-of-the-male-fruit-fly-central-nervous-system" }
     ]

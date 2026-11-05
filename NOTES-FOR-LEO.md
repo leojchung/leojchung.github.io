@@ -19,7 +19,7 @@ public and the site is live at <https://leojchung.github.io/>.
 
 - **Home** — quote, splash, bento (Based in / What drives me / The record /
   About / I also like), Right Now, Featured (all five write-ups, scrolling),
-  and Reading. The record's Status reads "Incoming @ AbCellera."
+  and Reading (your five picks from 5 Nov). The record's Status reads "Incoming @ AbCellera."
 - **My Works** — Research and Teaching. Posters and the syllabus show as
   click-through thumbnails.
 - **Contact** — one card per channel, plus the Formspree form.
@@ -29,7 +29,6 @@ public and the site is live at <https://leojchung.github.io/>.
 
 ## Still open
 
-- **Reading list** — still September articles; you're updating it.
 - **Fun grid** — the columns end unevenly at 13 photos. Re-balance once
   you've finished picking photos.
 - **Leo.ai on Vercel** — the code exists. Whether the Vercel project and

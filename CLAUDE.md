@@ -366,10 +366,11 @@ looks right at 390px. Open the page for that.
   Sep 2026 and removed 25 Sep. Don't bring it back unasked.
 - **Instagram is hidden** from the social row and footer (26 Sep 2026),
   not deleted — `hidden: true` on its `intro.social` entry.
-- **`reading` holds real news articles** as stand-ins for Leo's own picks
-  (economics, sport, AI, AI policy, neuroscience — Sep 2026). Leo said (5 Nov
-  2026) he will update the list himself. Only ever add links you have
-  checked resolve; never invent a headline or URL.
+- **`reading` holds Leo's own picks** (5 Nov 2026): five news articles he
+  chose, ordered economics, sport, markets/AI, politics, neuroscience. Each
+  title is the article's own headline plus one emoji. Leo supplies the links;
+  only ever add ones you have checked resolve, and link the source article,
+  not a Google News wrapper. Never invent a headline or URL.
 
 ## Things to check with Leo before doing
 
@@ -402,7 +403,7 @@ looks right at 390px. Open the page for that.
 
 *Last updated 5 November 2026. Everything below is pushed and live unless it says otherwise.*
 
-**Recently done (Sep–Nov 2026):** the record's Status reads "Incoming @
+**Recently done (Sep–Nov 2026):** the reading list swapped for Leo's own five picks (5 Nov); the record's Status reads "Incoming @
 AbCellera" (5 Nov); `cv.pdf` replaced with Leo's own 22 Oct CV, and it is no
 longer generated; X added to the social row and footer, Instagram hidden
 (26 Sep); a floating AI bubble was added and then removed (22–25 Sep);
@@ -434,8 +435,6 @@ build made reproducible across Mac and Windows.
 
 - **`cv.html` lags both `content.js` and the real CV.** Nothing links to it.
   Leave it unless Leo asks; it never feeds `cv.pdf`.
-- **The reading list is stale** — still early-September 2026 articles. Leo
-  is updating it himself (said 5 Nov 2026); don't refresh it unasked.
 - **The Fun grid's columns are uneven at 13 photos** — see **The Fun page**.
   Re-balance when Leo is done choosing photos.
 - **The JHU logo is the stacked lockup.** A horizontal version would read

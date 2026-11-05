@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git pull *)"
+      "Bash(git pull *)",
+      "Bash(curl -s \"https://api.github.com/repos/leojchung/leojchung.github.io/actions/runs?per_page=2\")"
     ]
   }
 }
