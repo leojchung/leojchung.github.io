@@ -640,6 +640,21 @@ img.mark{object-fit:contain}
 }
 
 
+/* Previously — the Right Now row again, deliberately quiet: it sits close
+   under Right Now, with a smaller headline, tighter cards and smaller type.
+   No green dot, because --live means a currently-held post. */
+.section:has(#previously-h){margin-top:clamp(36px,4.5vw,56px)}
+.section:has(#previously-h) .sec-head{margin-bottom:14px}
+.section:has(#previously-h) .sec-head h2{font-size:clamp(20px,2.2vw,26px);letter-spacing:-.022em}
+.cards.prev .card{padding:calc(var(--pad) * .62)}
+.cards.prev .now-tag{margin-bottom:9px;font-size:9.5px}
+.cards.prev .now-tag::before{display:none}
+.cards.prev .now-role{font-size:15px;line-height:1.3}
+.cards.prev .now-org{margin-top:4px;font-size:12.5px}
+.cards.prev .now-since{margin-top:auto;padding-top:10px;font-size:10px}
+.cards.prev .now-org{margin-bottom:12px}
+
+
 /* Featured reuses the Right Now card, as a link. The green dot is dropped:
    --live means a currently-held post, and a write-up is not one. The date
    line is pushed to the bottom so the row's footers line up. */

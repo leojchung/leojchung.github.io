@@ -128,7 +128,7 @@ and commit the regenerated HTML in the same commit.**
 
 | Page | File | Sections |
 |---|---|---|
-| Home | `index.html` | quote (bare, full-viewport), splash ("Hi, I'm Leo", also bare/full-viewport), the bento (Based in / What drives me / The record / About / I also like), Right Now, Featured, Reading (Principles is switched off — data still in `content.js`, dropped from Home's `sections`) |
+| Home | `index.html` | quote (bare, full-viewport), splash ("Hi, I'm Leo", also bare/full-viewport), the bento (Based in / What drives me / The record / About / I also like), Right Now, Previously (three small past-role cards — Right Now's renderer via `renderPrevious`, set small in `.cards.prev`, no green dot), Featured, Reading (Principles is switched off — data still in `content.js`, dropped from Home's `sections`) |
 | Projects (dock label "My Works") | `projects.html` | Research, Teaching. **No Featured section** — it lives only on Home |
 | Contact | `contact.html` | contact bento — the ask, one card per channel, the form |
 | Fun | `fun.html` | the photo collage. See "The Fun page" below |
@@ -403,7 +403,7 @@ looks right at 390px. Open the page for that.
 
 *Last updated 5 November 2026. Everything below is pushed and live unless it says otherwise.*
 
-**Recently done (Sep–Nov 2026):** the reading list swapped for Leo's own five picks (5 Nov); the record's Status reads "Incoming @
+**Recently done (Sep–Nov 2026):** a small Previously row under Right Now (ASTU 400E co-instructor, Simons fellowship, Ciernia Lab — 5 Nov); the reading list swapped for Leo's own five picks (5 Nov); the record's Status reads "Incoming @
 AbCellera" (5 Nov); `cv.pdf` replaced with Leo's own 22 Oct CV, and it is no
 longer generated; X added to the social row and footer, Instagram hidden
 (26 Sep); a floating AI bubble was added and then removed (22–25 Sep);

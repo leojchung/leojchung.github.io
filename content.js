@@ -283,6 +283,38 @@ module.exports = {
     ]
   },
 
+  /* Home, straight under Right Now: the same three-card row, set small, for
+     past roles Leo wants to highlight (5 Nov 2026). No green dot — that
+     means a currently-held post. Facts mirror `teaching` and `experience`;
+     the seminar stays a CO-credit (see CLAUDE.md). */
+  previously: {
+    eyebrow: "Before this",
+    title: "Previously",
+    items: [
+      {
+        tag:   "Teaching",
+        role:  "Co-developer &amp; Instructor",
+        org:   "ASTU 400E, Neuroaesthetics",
+        note:  "UBC Student-Directed Seminar",
+        since: "Jul 2025 — May 2026"
+      },
+      {
+        tag:   "Fellowship",
+        role:  "Undergraduate Research Fellow in Neuroscience",
+        org:   "Simons Foundation",
+        note:  "SURFiN · Ciernia Lab",
+        since: "Aug 2025 — May 2026"
+      },
+      {
+        tag:   "Research",
+        role:  "Undergraduate Researcher",
+        org:   "Ciernia Lab, UBC",
+        note:  "Djavad Mowafaghian Centre for Brain Health",
+        since: "Jun 2024 — May 2026"
+      }
+    ]
+  },
+
   /* ───────────────────────── § PRINCIPLES ─────────────────────────────── */
   /* Home page, under Right Now. Short things — word + one line — the kind of
      block Kellie Ho's site does well.
@@ -851,7 +883,7 @@ module.exports = {
      ══════════════════════════════════════════════════════════════════════ */
   pages: [
     { key: "home",     file: "index.html",    navLabel: "Home",     icon: "home",
-      sections: ["now", "featured", "reading"] },
+      sections: ["now", "previously", "featured", "reading"] },
     { key: "projects", file: "projects.html", navLabel: "My Works", icon: "folder",
       description: "Research and teaching by Leo J. Chung — chromatin and the BAF complex, the gut–brain axis, animal communication, and the Neuroaesthetics seminar he co-created at UBC.",
       sections: ["research", "teaching"] },

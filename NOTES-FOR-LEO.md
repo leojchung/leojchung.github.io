@@ -18,7 +18,7 @@ Five pages in the dock: **Home, My Works, Contact, Fun, Search.** The repo is
 public and the site is live at <https://leojchung.github.io/>.
 
 - **Home** — quote, splash, bento (Based in / What drives me / The record /
-  About / I also like), Right Now, Featured (all five write-ups, scrolling),
+  About / I also like), Right Now, Previously, Featured (all five write-ups, scrolling),
   and Reading (your five picks from 5 Nov). The record's Status reads "Incoming @ AbCellera."
 - **My Works** — Research and Teaching. Posters and the syllabus show as
   click-through thumbnails.

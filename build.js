@@ -283,6 +283,12 @@ ${items.map(i => card('', `${logo(i)}          <p class="now-tag">${i.tag}</p>
 }
 
 
+/* Previously — Right Now's cards, set small (styles.css: .cards.prev). */
+function renderPrevious(d){
+  return renderNow(d).replace('<div class="cards">', '<div class="cards prev">');
+}
+
+
 function renderPrinciples(d){
   return `      <div class="cards">
 ${visible(d.items).map(i => card('center', `          <h3 class="principle-word">${i.word}</h3>`)).join('\n')}
@@ -463,6 +469,7 @@ ${cap}        </figure>`;
 const RENDERERS = {
   featured:   renderFeatured,
   now:        renderNow,
+  previously: renderPrevious,
   principles: renderPrinciples,
   research:   renderEntries,
   teaching:   renderEntries,
