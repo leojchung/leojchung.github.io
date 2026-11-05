@@ -70,19 +70,21 @@ Anything committed here is world-readable the moment it is pushed.
   or cards are caught mid-fade. Work in a short path like
   `C:\Users\lchung\AppData\Local\Temp\vanmap` — the default scratch path
   exceeds Windows MAX_PATH for Python.
-- **Windows has no flag emoji** — it renders 🇨🇦 as the letters "CA". That is
-  why `flagify()` in `build.js` swaps in an inline SVG. Keep writing the
-  emoji in `content.js`.
+- **Windows has no flag emoji** — it renders 🇨🇦 as the letters "CA".
+  `flagify()` in `build.js` can swap in an inline SVG, but it is
+  **switched off** at Leo's request (Sep 2026): he prefers the real emoji
+  on Mac/iOS and accepts "CA" on Windows. The function and `FLAG_CA` are
+  kept; only the call site skips it. Keep writing the emoji in `content.js`.
 
 ## The one rule that matters
 
-**`index.html`, `projects.html`, `contact.html`, `ask.html`,
+**`index.html`, `projects.html`, `contact.html`, `fun.html`, `ask.html`,
 `cv.html` and `sitemap.xml` are all GENERATED. Never edit them by
 hand.**
 
 ```
-content.js  --[ node build.js ]-->     index.html, projects.html,
-                                       contact.html, ask.html, sitemap.xml
+content.js  --[ node build.js ]-->     index.html, projects.html, contact.html,
+                                       fun.html, ask.html, sitemap.xml
 content.js  --[ node build-cv.js ]-->  cv.html   (stale, nothing links to it)
 ```
 
@@ -127,7 +129,7 @@ and commit the regenerated HTML in the same commit.**
 | Page | File | Sections |
 |---|---|---|
 | Home | `index.html` | quote (bare, full-viewport), splash ("Hi, I'm Leo", also bare/full-viewport), the bento (Based in / What drives me / The record / About / I also like), Right Now, Featured, Reading (Principles is switched off — data still in `content.js`, dropped from Home's `sections`) |
-| Projects | `projects.html` | Research, Teaching, Featured |
+| Projects (dock label "My Works") | `projects.html` | Research, Teaching. **No Featured section** — it lives only on Home |
 | Contact | `contact.html` | contact bento — the ask, one card per channel, the form |
 | Fun | `fun.html` | the photo collage. See "The Fun page" below |
 | Search | `ask.html` | one centered input, no card. See "The Search page" below |
@@ -150,6 +152,21 @@ than generated from a flat list, because the layout carries meaning there.
 Current order: Based in + What drives me (sp-6 each) / The record + About
 (sp-5 + sp-7) / I also like (sp-12). About is `hero.points` — a few big
 bullet points (`.about-points`), not a paragraph.
+
+**"I also like…"** rotates through `intro.likes`. An entry is a plain string,
+or `{ text, href }` to make that one phrase a link while it is showing —
+"the Fun page 🎉 →" links to `fun.html` this way. `main.js` adds and removes
+the `href` as the rotation moves, and pauses the rotation while the pointer
+or keyboard focus is on the word so a click can't land on a swapped phrase.
+
+**Featured** (Home) renders every item in the `press` block as a scrolling
+rail, most recent first, with violet link pills. `press` is data only: it
+has no section of its own on any page. Add a `pick: [idx, …]` to
+`featured` to show a curated subset instead of everything.
+
+**The social row** (splash and footer) reads `intro.social` in order:
+Email, LinkedIn, X, NeuroArts, Instagram (`hidden: true` since 26 Sep 2026),
+Chess.com.
 
 ### The Search page
 
@@ -191,9 +208,10 @@ What differs is `main.js`'s `runAsk()`:
 ### The Fun page
 
 **Live since 20 Sep 2026.** Eyebrow "Out and about", headline "Parts of my
-*life!*", hint "If I were defined by photos...". Fifteen of Leo's own photos,
-each with a thin one-line caption in his words, in US spelling (his
-"favourite" was converted on request).
+*life!*", hint "If I were defined by photos...". Thirteen of Leo's own
+photos (down from fifteen — football and "Always hungry" were removed 21
+Sep 2026), each with a thin one-line caption in his words, in US spelling
+(his "favourite" was converted on request).
 
 - **Photos live in `assets/fun/`**, one file per photo, already resized to
   1600px, recompressed, and stripped of EXIF/GPS. Raw originals never go in
@@ -201,19 +219,19 @@ each with a thin one-line caption in his words, in US spelling (his
   into `assets/fun/`. The processing script lives outside the repo (Pillow +
   pillow-heif: long side 1600px, JPEG q82, no metadata written) — recreate it
   if needed. The rule that matters: **strip GPS before anything is committed.**
-- **Order is by column.** `.fun-grid` is CSS columns, which fill top to bottom,
-  so the first five items are the left column, the next five the middle, the
-  last five the right. Each column is three `tall` + two `wide` in a scattered
-  order so the three end level. Adding or removing a photo means re-balancing
-  that arrangement; 15 photos in two columns on a phone leaves the last tile
-  alone at the bottom, which is known and accepted.
+- **Order is by column.** `.fun-grid` is CSS columns, which fill top to bottom.
+  The arrangement was built for 15 photos (five per column, three `tall` +
+  two `wide` each, so the columns end level). **At 13 the columns no longer
+  end level** — the left runs longest, the right shortest. Re-balancing was
+  deferred until Leo finishes choosing photos. Any add or remove means
+  re-balancing the `shape`s and order.
 - **A photo tile may carry a link pill** (`link: { label, href }`), a small red
   pill under the caption. The Calgary photo uses it for the CBC article. CBC
   blocks automated readers, so the article's content was not machine-verified —
   the link resolves (200) and Leo supplied it.
-- **People in shots:** the football photo has bystanders blurred; a pro game
-  photo and a team softball photo were deliberately dropped (not Leo's shot /
-  other people). Ask before adding anyone else's face.
+- **People in shots:** a pro game photo and a team softball photo were
+  deliberately dropped (not Leo's shot / other people). Ask before adding
+  anyone else's face, and blur bystanders.
 - Chess and Rams link tiles were tried and removed as empty-looking. The
   `link` and `video` tile kinds still render if Leo wants them back.
 - The gutters are wide on purpose (`column-gap` up to 72px) and the grid fills
@@ -284,6 +302,7 @@ each with a thin one-line caption in his words, in US spelling (his
 
 ```bash
 node build.js          # rebuild the five pages + sitemap.xml
+node test-ask.js       # self-check api/ask.js (only after touching it)
 node check.js          # audit the build
 node build-cv.js       # rebuild cv.html only — never print it over cv.pdf
 python -m http.server 8000     # local preview (python3 on macOS)
@@ -343,11 +362,14 @@ looks right at 390px. Open the page for that.
   a bare "— Alan Turing".
 - **Leo supplied the UBC, JHU and STEMCELL logos himself** and accepted the
   brand/trademark risk. Don't re-litigate it; do flag anything new.
-- **`PLACEHOLDER` rows in `fun` and `lab` are known and deliberate.** Leo
-  knows they are publicly visible and chose to leave them. Don't re-raise.
-- **`reading` holds real, current news articles** as stand-ins for Leo's own
-  picks (economics, sport, AI, AI policy, neuroscience — Sep 2026). Only ever
-  add links you have checked resolve; never invent a headline or URL.
+- **The floating AI bubble is gone.** A site-wide chat bubble was added 22
+  Sep 2026 and removed 25 Sep. Don't bring it back unasked.
+- **Instagram is hidden** from the social row and footer (26 Sep 2026),
+  not deleted — `hidden: true` on its `intro.social` entry.
+- **`reading` holds real news articles** as stand-ins for Leo's own picks
+  (economics, sport, AI, AI policy, neuroscience — Sep 2026). Leo said (5 Nov
+  2026) he will update the list himself. Only ever add links you have
+  checked resolve; never invent a headline or URL.
 
 ## Things to check with Leo before doing
 
@@ -378,15 +400,21 @@ looks right at 390px. Open the page for that.
 
 ## Where things stand
 
-*Last updated 21 September 2026. Everything below is pushed and live unless it says otherwise.*
+*Last updated 5 November 2026. Everything below is pushed and live unless it says otherwise.*
 
-**Recently done (20–21 Sep 2026):** the Fun page is back and live — 15 photos,
-thin captions, scattered column order, wide gutters, a red "See me on CBC
-News!" pill on the Calgary photo; Fun sits right of Contact in the dock and
-footer; the "Ask" tab was renamed **Search**; the Home splash got a flashing
-scroll cue and two outlined buttons; Projects Teaching cards stack beside the
-long ASTU 400E card; Research entries can carry several documents; US spelling
-throughout. **Earlier:** research entries and the ASTU 400E Teaching entry now
+**Recently done (Sep–Nov 2026):** the record's Status reads "Incoming @
+AbCellera" (5 Nov); `cv.pdf` replaced with Leo's own 22 Oct CV, and it is no
+longer generated; X added to the social row and footer, Instagram hidden
+(26 Sep); a floating AI bubble was added and then removed (22–25 Sep);
+`api/ask.js` (Leo.ai) added (21–22 Sep); the "I also like… the Fun page"
+phrase now links to `fun.html`; the Fun page is down to 13 photos, and the
+Monopoly caption says Snoopy. **20–21 Sep 2026:** the Fun page is back and
+live — thin captions, scattered column order, wide gutters, a red "See me on
+CBC News!" pill on the Calgary photo; Fun sits right of Contact in the dock
+and footer; the "Ask" tab was renamed **Search**; the Home splash got a
+flashing scroll cue and two outlined buttons; Projects Teaching cards stack
+beside the long ASTU 400E card; Research entries can carry several documents;
+the Featured section moved to Home only; US spelling throughout. **Earlier:** research entries and the ASTU 400E Teaching entry now
 show a click-through poster/syllabus thumbnail (whole page, small, not
 cropped) with a small "Poster"/"Syllabus" tag under it; "Featured Article"
 links relabeled and colour-coded (red/navy pills tone-matched to the site's
@@ -395,9 +423,10 @@ teaching entry removed; the Featured rail is now click-drag and
 wheel-scrollable (it only worked by trackpad/touch swipe before) and reads
 most-recent-left; the P-/T-/F- codes across Research, Teaching and Featured
 were renumbered so 01 is always the oldest item and the number climbs with
-recency, independent of each section's display order. Earlier: real Gmail/Instagram/Chess.com logo files in the social row; Right Now
-logos all the same 52px height; UBC crest clipping fixed; inline-SVG
-Canadian flag; every outbound link opens in a new tab; About and Principles
+recency, independent of each section's display order. Earlier: real
+Gmail/Instagram/Chess.com logo files in the social row; Right Now logos all
+the same 52px height; UBC crest clipping fixed; Canadian flag switched back
+to the raw emoji; every outbound link opens in a new tab; About and Principles
 rewritten in Leo's words; reading list filled with real current articles;
 build made reproducible across Mac and Windows.
 
@@ -405,12 +434,16 @@ build made reproducible across Mac and Windows.
 
 - **`cv.html` lags both `content.js` and the real CV.** Nothing links to it.
   Leave it unless Leo asks; it never feeds `cv.pdf`.
-- **The reading list dates quickly.** The articles are from early September
-  2026; refresh them, or drop `reading` from Home's sections, by about
-  mid-October.
+- **The reading list is stale** — still early-September 2026 articles. Leo
+  is updating it himself (said 5 Nov 2026); don't refresh it unasked.
+- **The Fun grid's columns are uneven at 13 photos** — see **The Fun page**.
+  Re-balance when Leo is done choosing photos.
 - **The JHU logo is the stacked lockup.** A horizontal version would read
   better. Dropping one in as `assets/jhu-logo.png` needs no code change.
-- **"Leo.ai" — the code is built, the Vercel project isn't created yet.**
+- **"Leo.ai" — the code is built; whether the Vercel project is live is
+  unconfirmed.** The last note (21 Sep) said it wasn't created yet, but a 22
+  Sep commit fixed the Vercel deploy's `outputDirectory`, so a project may
+  exist. Ask Leo rather than assume.
   `api/ask.js` (the serverless function, calling Gemini — see **The Search
   page** above for why) and `main.js`'s two-backend `runAsk()` shipped
   21–22 Sep 2026. What's left is entirely account setup on Leo's side:

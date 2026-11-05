@@ -30,23 +30,27 @@ Every word on the site lives in `content.js`. Two scripts turn it into
 everything that gets served:
 
 ```
-content.js ──[ node build.js ]───▶ index.html, projects.html,
-                                   contact.html, ask.html, sitemap.xml
+content.js ──[ node build.js ]───▶ index.html, projects.html, contact.html,
+                                   fun.html, ask.html, sitemap.xml
 
-content.js ──[ node build-cv.js ]─▶ cv.html ──[ print to PDF ]──▶ cv.pdf
+content.js ──[ node build-cv.js ]─▶ cv.html   (stale; nothing links to it)
 ```
+
+`cv.pdf` is **not** generated — it is Leo's own CV, exported from Word and
+copied in as is.
 
 | File | What it is | Edit it? |
 |---|---|---|
 | `content.js` | Every word, date and link on the site | **Yes — this is the one** |
 | `styles.css` | The whole design system. Colours are tokens at the top | To reskin |
-| `build.js` | Turns `content.js` into the four live pages and the sitemap | Only for new section *types* |
-| `build-cv.js` | Turns the same `content.js` into a print-ready `cv.html` | Only for CV-only sections |
+| `build.js` | Turns `content.js` into the five live pages and the sitemap | Only for new section *types* |
+| `build-cv.js` | Turns the same `content.js` into `cv.html` (not `cv.pdf`) | Rarely |
 | `check.js` | Audits the build — markup, escaping, WCAG contrast both themes | Rarely |
 | `main.js` | Theme toggle, footer year, click-to-play video, the Search page | Rarely |
-| `index.html` and the other three pages | **Generated.** `node build.js` overwrites them | **No** |
-| `cv.html` | **Generated.** Open it, Cmd-P, Save as PDF over `cv.pdf` | **No** |
-| `cv.pdf` | **Generated** from `cv.html` | **No** |
+| `index.html` and the other four pages | **Generated.** `node build.js` overwrites them | **No** |
+| `cv.html` | **Generated**, but stale and unlinked | **No** |
+| `cv.pdf` | Leo's own CV file — replace it with a new PDF to update | Swap the file |
+| `api/ask.js`, `test-ask.js`, `package.json`, `vercel.json` | Optional Vercel deploy with an AI-backed Search page — never runs on GitHub Pages | Rarely |
 | `sitemap.xml` | **Generated** from the `pages` array | **No** |
 | `assets/` | Photos, logos, syllabus PDFs — anything linked from content | Yes |
 | `404.html` | The not-found page Pages serves | For different wording |
@@ -93,17 +97,9 @@ and falls back to the drawn mark, so a typo can't ship a broken image.
 and captions in the `fun` block of `content.js`; see CLAUDE.md's "The Fun page"
 section. The dock's "Search" tab is the old "Ask" page (`ask.html`).
 
-**Update the CV.** Edit `content.js`, then:
-
-```bash
-node build-cv.js      # writes cv.html
-```
-
-Open `cv.html`, Cmd-P, Save as PDF over `cv.pdf`. Turn **off** "Headers and
-footers" in the print dialog or the browser stamps a URL and date on every
-page. For sections a CV wants and a website doesn't — awards, coursework,
-references — there is a `CV_EXTRA` block at the bottom of `build-cv.js` with
-worked examples.
+**Update the CV.** Export a new PDF from the Word document and copy it over
+`cv.pdf`. Don't print `cv.html` over it — the real CV holds roles and wording
+`content.js` doesn't. Check the PDF's metadata for names or file paths first.
 
 ---
 
