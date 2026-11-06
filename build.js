@@ -664,20 +664,6 @@ ${[cardB, cardC, cardF, cardD, cardE].filter(Boolean).join('\n')}
   return `${splashSection}\n${bentoSection}`;
 }
 
-/* The Turing / Imitation Game quote — Home only, in its own box under the
-   footer: a sign-off rather than an opener (Leo, Nov 2026). The headline's
-   <em> is still the grey half of the sentence. */
-function renderQuote(){
-  const h = C.hero;
-  return `<aside class="quote-foot" aria-label="Quote">
-  <div class="shell">
-    <div class="bento">
-${card('sp-12 center quote-card', `          <p class="display-sm">${h.headline}</p>
-${h.cite ? `          <p class="hero-cite">— <cite>${h.cite}</cite></p>` : ''}`)}
-    </div>
-  </div>
-</aside>`;
-}
 
 /* ── page shell: head, dock, footer — shared by every page ────────────────── */
 
@@ -777,7 +763,16 @@ ${buttons}
 
 /* The footer, as its own bento — an identity card beside a card of link
    columns, with the fine print along the bottom edge of the wide one. */
-function renderFooter(){
+function renderFooter(page){
+  /* Home only: the Turing / Imitation Game quote fills the empty space to
+     the right of Menu and Follow, set small (Leo, Nov 2026). The
+     headline's <em> is still the grey half of the sentence. */
+  const h = C.hero;
+  const quote = page.key === 'home' ? `
+            <figure class="foot-quote">
+              <blockquote>${h.headline}</blockquote>
+${h.cite ? `              <figcaption>— <cite>${h.cite}</cite></figcaption>\n` : ''}            </figure>` : '';
+
   const menu = C.pages
     .map(p => `            <li><a href="${attr(p.file)}">${attr(p.navLabel)}</a></li>`)
     .join('\n');
@@ -798,7 +793,7 @@ function renderFooter(){
     <div class="bento">
 ${card('sp-4 foot-id', `          <p class="t">Hi, I'm ${attr(m.name.split(' ')[0])}!</p>
           <p class="s">${C.hero.card || attr(plain(m.tagline))}</p>${portrait}`)}
-${card('sp-8', `          <div class="foot-cols">
+${card('sp-8', `          <div class="foot-cols${quote ? ' has-quote' : ''}">
             <div class="foot-col">
               <h3>Menu</h3>
               <ul>
@@ -810,7 +805,7 @@ ${menu}
               <ul>
 ${follow}
               </ul>
-            </div>
+            </div>${quote}
           </div>
           <div class="foot-fine">
             <span>&copy; <span id="yr">2026</span> ${attr(m.name)}</span>
@@ -854,8 +849,8 @@ ${body.filter(Boolean).join('\n\n')}
   </div>
 </main>
 
-${renderFooter()}
-${page.key === 'home' ? renderQuote() + '\n' : ''}${renderDock(page.file)}
+${renderFooter(page)}
+${renderDock(page.file)}
 
 <script src="main.js"></script>
 </body>

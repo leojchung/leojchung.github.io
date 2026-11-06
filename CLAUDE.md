@@ -128,7 +128,7 @@ and commit the regenerated HTML in the same commit.**
 
 | Page | File | Sections |
 |---|---|---|
-| Home | `index.html` | splash ("Hi, I'm Leo", bare, one screen, with the pulsing arrow), the bento (Based in / What drives me / The record / About / I also like), Right Now, Previously (three small past-role cards — Right Now's renderer via `renderPrevious`, set small in `.cards.prev`, no green dot), Featured, Reading (Principles is switched off — data still in `content.js`, dropped from Home's `sections`), then the footer and the Turing quote in a box under it |
+| Home | `index.html` | splash ("Hi, I'm Leo", bare, one screen, with the pulsing arrow), the bento (Based in / What drives me / The record / About / I also like), Right Now, Previously (three small past-role cards — Right Now's renderer via `renderPrevious`, set small in `.cards.prev`, no green dot), Featured, Reading (Principles is switched off — data still in `content.js`, dropped from Home's `sections`), then the footer, with the Turing quote beside Menu and Follow |
 | Projects (dock label "My Works") | `projects.html` | Research, Teaching. **No Featured section** — it lives only on Home |
 | Contact | `contact.html` | contact bento — the ask, one card per channel, the form |
 | Fun | `fun.html` | the photo collage. See "The Fun page" below |
@@ -149,8 +149,9 @@ exactly one screen tall, centered, with the pulsing arrow pinned just above
 the dock — deliberately unlike every other section on the site, which is
 left-aligned and just flows. If the splash gains content, re-check the arrow
 at 1440×900 and 390×844: it must not slide behind the dock. The Turing quote
-is `renderQuote()`, a full-width card rendered *after the footer*, on Home
-only (Leo asked for it "below the very bottom of the page"). The bento is hand-laid: `sp-*`
+lives in the footer, to the right of Menu and Follow, on Home only
+(`renderFooter(page)` adds `.foot-quote`; the link columns shrink a step
+there). It stays ≥19px bold so its grey half passes AA. The bento is hand-laid: `sp-*`
 spans must total 12 per row, and it is the one grid arranged by hand rather
 than generated from a flat list, because the layout carries meaning there.
 Current order: Based in + What drives me (sp-6 each) / The record + About
