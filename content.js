@@ -293,8 +293,8 @@ module.exports = {
     items: [
       {
         tag:   "Teaching",
-        role:  "Co-developer &amp; Instructor",
-        org:   "ASTU 400E, Neuroaesthetics",
+        role:  "Educational Developer &amp; Instructor",
+        org:   "ASTU 400E, <i>Neuroaesthetics: Your Brain on Art</i>",
         note:  "UBC Student-Directed Seminar",
         logo:  "assets/ubc-logo.png", logoAlt: "University of British Columbia",
         since: "Jul 2025 — May 2026"
@@ -303,15 +303,15 @@ module.exports = {
         tag:   "Fellowship",
         role:  "Undergraduate Research Fellow in Neuroscience",
         org:   "Simons Foundation",
-        note:  "SURFiN · Ciernia Lab",
+        note:  "Ciernia Lab",
         logo:  "assets/simons-logo.svg", logoAlt: "Simons Foundation",
         since: "Aug 2025 — May 2026"
       },
       {
         tag:   "Research",
         role:  "Undergraduate Researcher",
-        org:   "Ciernia Lab, UBC",
-        note:  "Djavad Mowafaghian Centre for Brain Health",
+        org:   "Djavad Mowafaghian Centre for Brain Health",
+        note:  "Ciernia Lab",
         logo:  "assets/dmcbh-logo.svg", logoAlt: "Djavad Mowafaghian Centre for Brain Health",
         since: "Jun 2024 — May 2026"
       }
