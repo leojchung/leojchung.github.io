@@ -240,7 +240,7 @@ module.exports = {
      block's own order (currently most-recent-first). Add a `pick: [...]`
      array back if this should ever go back to a curated subset instead. */
   featured: {
-    eyebrow: "Featured",
+    eyebrow: "",
     title: "Featured <em>elsewhere</em>",
     hint:  "Places where I exist (digitally)...",
     from:  "press"
@@ -357,7 +357,7 @@ module.exports = {
 
   /* ─────────────────────────── § RESEARCH ────────────────────────────── */
   research: {
-    eyebrow: "Experience",
+    eyebrow: "",
     title: "Research",
     hint:  "My completed projects in the lab, 2024 — 2026.",
     action: { label: "Full CV", href: "cv.pdf" },
@@ -473,8 +473,8 @@ module.exports = {
   /* ───────────────────── § TEACHING & EDUCATION ──────────────────────── */
   /* Same renderer as experience — copy an entry to add one.                */
   teaching: {
-    eyebrow: "Classroom",
-    title: "Education &amp; <em>teaching</em>",
+    eyebrow: "",
+    title: "Education, Teaching, &amp; <em>Mentorship</em>",
     hint:  "Helping others through different lenses.",
     items: [
       {

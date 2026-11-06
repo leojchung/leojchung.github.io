@@ -494,8 +494,7 @@ function renderSection(key, data){
   return `    <section class="section reveal" aria-labelledby="${hid}">
       <div class="sec-head">
         <div class="sec-head-text">
-          <span class="eyebrow">${data.eyebrow || key}</span>
-          <h2 id="${hid}">${data.title}</h2>
+${data.eyebrow === '' ? '' : `          <span class="eyebrow">${data.eyebrow || key}</span>\n`}          <h2 id="${hid}">${data.title}</h2>
 ${data.hint ? `          <p class="sec-hint">${data.hint}</p>\n` : ''}        </div>
 ${action}      </div>
 ${fn(data)}
@@ -805,7 +804,8 @@ ${menu}
               <ul>
 ${follow}
               </ul>
-            </div>${quote}
+            </div>
+            <div class="foot-cv"><a class="pill blue sm" href="${attr(m.cvFile || 'cv.pdf')}">Curriculum Vitae</a></div>${quote}
           </div>
           <div class="foot-fine">
             <span>&copy; <span id="yr">2026</span> ${attr(m.name)}</span>
