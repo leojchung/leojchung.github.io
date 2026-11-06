@@ -128,8 +128,8 @@ and commit the regenerated HTML in the same commit.**
 
 | Page | File | Sections |
 |---|---|---|
-| Home | `index.html` | splash ("Hi, I'm Leo", bare, one screen, with the pulsing arrow), the bento (Based in / What drives me / The record / About / I also like), Right Now, Previously (three small past-role cards — Right Now's renderer via `renderPrevious`, set small in `.cards.prev`, no green dot), Featured, Reading (Principles is switched off — data still in `content.js`, dropped from Home's `sections`), then the footer, with the Turing quote beside Menu and Follow |
-| Projects (dock label "My Works") | `projects.html` | Research, Teaching. **No Featured section** — it lives only on Home |
+| Home | `index.html` | splash ("Hi, I'm Leo", bare, one screen, with the pulsing arrow), the bento (Based in / What drives me / The record / About / I also like), Right Now, Previously (three small past-role cards — Right Now's renderer via `renderPrevious`, set small in `.cards.prev`, no green dot), Reading (Principles is switched off — data still in `content.js`, dropped from Home's `sections`), then the footer, with the Turing quote beside Menu and Follow |
+| Projects (dock label "My Works") | `projects.html` | Research, Teaching (headed "Education & teaching"), Featured. Featured moved here from Home on 6 Nov 2026 to unclutter Home — it lives only here |
 | Contact | `contact.html` | contact bento — the ask, one card per channel, the form |
 | Fun | `fun.html` | the photo collage. See "The Fun page" below |
 | Search | `ask.html` | one centered input, no card. See "The Search page" below |

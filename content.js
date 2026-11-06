@@ -474,7 +474,7 @@ module.exports = {
   /* Same renderer as experience — copy an entry to add one.                */
   teaching: {
     eyebrow: "Classroom",
-    title: "Teaching &amp; <em>education</em>",
+    title: "Education &amp; <em>teaching</em>",
     hint:  "Helping others through different lenses.",
     items: [
       {
@@ -887,10 +887,10 @@ module.exports = {
      ══════════════════════════════════════════════════════════════════════ */
   pages: [
     { key: "home",     file: "index.html",    navLabel: "Home",     icon: "home",
-      sections: ["now", "previously", "featured", "reading"] },
+      sections: ["now", "previously", "reading"] },
     { key: "projects", file: "projects.html", navLabel: "My Works", icon: "folder",
       description: "Research and teaching by Leo J. Chung — chromatin and the BAF complex, the gut–brain axis, animal communication, and the Neuroaesthetics seminar he co-created at UBC.",
-      sections: ["research", "teaching"] },
+      sections: ["research", "teaching", "featured"] },
     { key: "contact",  file: "contact.html",  navLabel: "Contact",  icon: "mail",
       description: "Get in touch with Leo J. Chung — always happy to talk research, teaching, or opportunities in the life sciences.",
       sections: ["contact"] },

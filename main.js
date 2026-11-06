@@ -202,7 +202,7 @@
     { href: 'index.html',              keys: ['home', 'about you', 'who are you', 'intro', 'yourself'] },
     { href: 'projects.html#research-h', keys: ['research', 'lab work', 'neuroscience', 'ciernia', 'microglia', 'brain', 'autism', 'gut', 'science', 'baf', 'mice', 'studies'] },
     { href: 'projects.html#teaching-h', keys: ['teach', 'teaching', 'class', 'course', 'astu', 'neuroaesthetics', 'education', 'instructor', 'mentor', 'tutor', 'adjudicate'] },
-    { href: 'index.html#featured-h',    keys: ['press', 'featured', 'write-up', 'article', 'news', 'media coverage'] },
+    { href: 'projects.html#featured-h', keys: ['press', 'featured', 'write-up', 'article', 'news', 'media coverage'] },
     { href: 'fun.html#fun-h',        keys: ['fun', 'photos', 'photo', 'pictures', 'hobbies', 'hobby', 'off the clock', 'out and about', 'life', 'travel', 'biking', 'bike', 'seawall', 'stanley park', 'lake louise', 'calgary', 'seattle', 'new york', 'nyc', 'food', 'restaurant', 'football', 'nfl', 'lakers', 'kobe', 'concert', 'tame impala', 'golf', 'monopoly', 'sunflowers'] },
     { href: 'contact.html#contact-h',   keys: ['contact', 'email', 'reach', 'message', 'phone', 'linkedin', 'talk', 'hire', 'get in touch'] },
     { href: 'cv.pdf',                   keys: ['cv', 'resume', 'curriculum vitae'] }
