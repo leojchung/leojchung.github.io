@@ -582,20 +582,11 @@ function renderHome(){
   const h = C.hero;
   const i = C.intro || {};
 
-  /* Quote — bare, centered, no card fill. Sits directly on the page the way
-     Kellie Ho's section titles do before her boxed content begins. The
-     headline's <em> is the grey half of the sentence. */
-  const quoteSection = `    <section class="quote-block reveal" aria-label="Quote">
-      <h1 class="display">${h.headline}</h1>
-${h.cite ? `      <p class="hero-cite">— <cite>${h.cite}</cite></p>\n` : ''}      <a class="scroll-cue" href="#splash" aria-label="Scroll down">
-        <svg viewBox="0 0 24 32" width="46" height="62" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 7 8-7"/><path d="M4 13l8 7 8-7"/><path d="M4 22l8 7 8-7"/></svg>
-      </a>
-    </section>`;
-
-  /* Splash — the "Hi, I'm Leo" screen, modelled on the centered intro at
-     kellieho.framer.ai/about: portrait with a live-status dot, name,
-     greeting, tagline, credential, socials, CTAs — bare like the quote
-     above it, not a card. */
+  /* Splash — the "Hi, I'm Leo" screen and the first thing a visitor sees
+     (the Turing quote moved below the footer, Leo's request Nov 2026).
+     Modelled on the centered intro at kellieho.framer.ai/about: portrait,
+     name, greeting, tagline, credential, socials, CTAs, then the pulsing
+     arrow — bare, not a card. Its heading is the page's one <h1>. */
   const cr = h.credential;
   const crLogo = !!(cr && cr.logo && fs.existsSync(path.join(__dirname, cr.logo)));
   if (cr && cr.logo && !crLogo) console.warn(`  ! credential.logo "${cr.logo}" not found, using the letters`);
@@ -615,10 +606,13 @@ ${visible(i.social).map(s => `        <a class="social-btn" href="${attr(s.href)
 
   const splashSection = `    <section class="splash reveal" id="splash" aria-label="Introduction">${portrait}
       <p class="hero-name">${attr(C.meta.name)}</p>
-      <h2 class="display-sm">${i.greeting || 'Hi'}<br><em>${C.meta.tagline}</em></h2>${credential}${socialRow}
+      <h1 class="display-sm">${i.greeting || 'Hi'}<br><em>${C.meta.tagline}</em></h1>${credential}${socialRow}
       <div class="pill-row">
 ${(h.buttons || []).map(b => `        <a class="pill ${b.solid ? 'blue' : 'ghost'}" href="${attr(b.href)}">${b.label}</a>`).join('\n')}
       </div>
+      <a class="scroll-cue" href="#about" aria-label="Scroll down">
+        <svg viewBox="0 0 24 32" width="46" height="62" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 7 8-7"/><path d="M4 13l8 7 8-7"/><path d="M4 22l8 7 8-7"/></svg>
+      </a>
     </section>`;
 
   /* B — based in, with the pin row. Paired with C as a plain half-and-half
@@ -667,7 +661,22 @@ ${[cardB, cardC, cardF, cardD, cardE].filter(Boolean).join('\n')}
       </div>
     </section>`;
 
-  return `${quoteSection}\n${splashSection}\n${bentoSection}`;
+  return `${splashSection}\n${bentoSection}`;
+}
+
+/* The Turing / Imitation Game quote — Home only, in its own box under the
+   footer: a sign-off rather than an opener (Leo, Nov 2026). The headline's
+   <em> is still the grey half of the sentence. */
+function renderQuote(){
+  const h = C.hero;
+  return `<aside class="quote-foot" aria-label="Quote">
+  <div class="shell">
+    <div class="bento">
+${card('sp-12 center quote-card', `          <p class="display-sm">${h.headline}</p>
+${h.cite ? `          <p class="hero-cite">— <cite>${h.cite}</cite></p>` : ''}`)}
+    </div>
+  </div>
+</aside>`;
 }
 
 /* ── page shell: head, dock, footer — shared by every page ────────────────── */
@@ -846,7 +855,7 @@ ${body.filter(Boolean).join('\n\n')}
 </main>
 
 ${renderFooter()}
-${renderDock(page.file)}
+${page.key === 'home' ? renderQuote() + '\n' : ''}${renderDock(page.file)}
 
 <script src="main.js"></script>
 </body>

@@ -429,24 +429,21 @@ main .shell > *:first-child{margin-top:0}
 }
 
 
-/* ══════════════════ HOME: QUOTE + SPLASH ══════════════════
-   Two bare, full-viewport sections, no card fill — each one its own
-   centered "page" the way Kellie Ho's site reads while scrolling. The
-   quote is the Turing/Imitation-Game credit; the splash below it is the
-   "Hi, I'm Leo" screen, modelled on kellieho.framer.ai/about. */
-.quote-block{
-  position:relative;
-  display:flex;flex-direction:column;justify-content:flex-start;align-items:center;
-  min-height:100svh;max-width:900px;margin:0 auto;padding:22vh var(--pad) 12vh;text-align:center;
-}
+/* ══════════════════ HOME: SPLASH (+ QUOTE BOX) ══════════════════
+   The splash is a bare, full-viewport, centered "Hi, I'm Leo" screen —
+   no card fill — modelled on kellieho.framer.ai/about. It opens the page.
+   The Turing/Imitation-Game quote now sits in its own box under the
+   footer (.quote-foot, below). */
 .hero-cite{margin:18px 0 0;font-size:13px;color:var(--ink-2);line-height:1.5}
 .hero-cite cite{font-style:normal}
 .hero-cite cite em{font-style:italic}
 
-/* A soft cue so the first fold doesn't read as the whole page — the quote
-   is meant to be scrolled past, not mistaken for the entire hero. */
+/* A soft cue at the foot of the splash so the first fold doesn't read as
+   the whole page. Pinned just above the dock, in the strip the splash's
+   bottom padding reserves, so it never lands behind the dock or on top
+   of the buttons. */
 .scroll-cue{
-  position:absolute;left:50%;bottom:24svh;transform:translateX(-50%);
+  position:absolute;left:50%;bottom:112px;transform:translateX(-50%);
   display:flex;flex-direction:column;align-items:center;gap:6px;
   color:var(--ink-2);text-decoration:none;opacity:.7;
   font-family:var(--f-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
@@ -460,9 +457,17 @@ main .shell > *:first-child{margin-top:0}
 @media (prefers-reduced-motion:reduce){.scroll-cue path{animation:none;opacity:.6}}
 
 .splash{
+  position:relative;
   display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
-  gap:6px;min-height:100svh;max-width:560px;margin:0 auto;padding:32px var(--pad) 158px;
+  /* One screen exactly: body's top padding is subtracted so the splash ends
+     at the bottom of the viewport, where the arrow sits above the dock. */
+  gap:6px;min-height:calc(100svh - clamp(28px,5vw,64px));max-width:560px;margin:0 auto;
+  padding:32px var(--pad) 176px;
 }
+.scroll-cue svg{width:36px;height:48px}
+/* Short screens (13" laptops, phones): a smaller portrait keeps the arrow
+   clear of the dock. */
+@media (max-height:940px){.splash .hero-portrait{width:174px;height:200px}}
 .splash .pill-row{justify-content:center;margin-top:36px}
 .splash .social-row{justify-content:center}
 .splash .credential{align-self:center}
@@ -923,6 +928,12 @@ form h3 + .field{margin-top:20px}
    it. Mirrors the reference's footer: an identity card beside a card of
    link columns, with the fine print along its bottom edge.             */
 .site-foot{margin-top:clamp(56px,8vw,104px)}
+
+/* Home only: the quote as a sign-off box under the footer, same width and
+   card fill as the footer bento so it reads as one more row of it. */
+.quote-foot{margin-top:var(--gap)}
+.quote-card{padding-block:clamp(36px,6vw,64px)}
+.quote-card .display-sm{margin:0;max-width:24ch}
 .foot-id{align-items:center;text-align:center;justify-content:center}
 .foot-id .t{margin:0;font-size:16px;font-weight:700;letter-spacing:-.015em}
 .foot-id .s{margin:5px 0 0;font-size:15px;color:var(--ink-2);font-weight:600;letter-spacing:-.01em;line-height:1.4}
