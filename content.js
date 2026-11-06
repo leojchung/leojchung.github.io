@@ -29,7 +29,7 @@ module.exports = {
     name:        "Leo J. Chung",
     shortName:   "Leo J. Chung",
     tagline:     "Living at the intersection of neuroscience, education, and AI development.",
-    description: "Leo J. Chung — scientist and educator at the University of British Columbia. Neuroscience research with the Ciernia Lab, the Moss Lab at Johns Hopkins and UBC's Si-Lab; R&D at STEMCELL Technologies; creator of ASTU 400E, Neuroaesthetics.",
+    description: "Leo J. Chung — scientist and educator at the University of British Columbia. Research with the Moss Lab at Johns Hopkins and UBC's Si-Lab, previously the Ciernia Lab; R&D at STEMCELL Technologies, incoming at AbCellera; co-creator of ASTU 400E, Neuroaesthetics.",
 
     // ↓ Change this once you know your final URL (README, step 6).
     url:         "https://leojchung.github.io/",
@@ -270,7 +270,7 @@ module.exports = {
         role:  "Research Data Analyst",
         org:   "Moss Lab, Johns Hopkins",
         note:  "Faculty of Psychological &amp; Brain Sciences",
-        since: "Jun 2026 — present · Hybrid"
+        since: "May 2026 — present · Hybrid"
       },
       {
         logo:  "assets/ubc-logo.png", logoAlt: "University of British Columbia",
@@ -278,15 +278,16 @@ module.exports = {
         role:  "Med-Tech Education Research Assistant",
         org:   "Si-Lab, UBC",
         note:  "Faculty of Audiology &amp; Speech Sciences",
-        since: "May 2026 — present · Hybrid"
+        since: "Jun 2026 — present · Hybrid"
       }
     ]
   },
 
   /* Home, straight under Right Now: the same three-card row, set small, for
      past roles Leo wants to highlight (5 Nov 2026). No green dot — that
-     means a currently-held post. Facts mirror `teaching` and `experience`;
-     the seminar stays a CO-credit (see CLAUDE.md). */
+     means a currently-held post. Facts mirror `teaching` and `experience`.
+     The seminar's role title drops "co-" by Leo's choice (5 Nov 2026); the
+     Teaching blurb still names Betty Bao as co-proposer. */
   previously: {
     eyebrow: "Before this",
     title: "Previously",
@@ -421,7 +422,7 @@ module.exports = {
         blurb: "Research and development internship, UBC Co-op."
       },
       {
-        when:  "Jun 2026<br>— present",
+        when:  "May 2026<br>— present",
         title: "Research Data Analyst",
         meta:  ["Johns Hopkins University", "Baltimore, MD", "Hybrid"],
         blurb: "Research role with the Moss Lab, Department of Psychological and Brain Sciences."
@@ -479,7 +480,7 @@ module.exports = {
       {
         idx:   "T-02",
         when:  "Jul 2025<br>— May 2026",
-        title: "Co-developer &amp; Instructor — ASTU 400E, Neuroaesthetics: Your Brain on Art",
+        title: "Educational Developer &amp; Instructor — ASTU 400E, Neuroaesthetics: Your Brain on Art",
         meta:  ["UBC Centre for Community Engaged Learning", "Student-Directed Seminar"],
         blurb: "Co-proposed with Betty Bao under faculty sponsor Dr. Steven Barnes, and taught " +
                "for credit in Winter Term 2 of 2025/26. UBC's Student-Directed Seminars let " +
@@ -492,7 +493,7 @@ module.exports = {
       },
       {
         idx:   "T-04",
-        when:  "May 2026<br>— present",
+        when:  "Jun 2026<br>— present",
         title: "Med-Tech Education Research Assistant",
         meta:  ["Si-Lab", "UBC School of Audiology &amp; Speech Sciences"],
         blurb: "Education research with the Si-Lab, UBC School of Audiology &amp; Speech Sciences."
@@ -796,7 +797,7 @@ module.exports = {
       { kind: "photo", shape: "wide", src: "assets/fun/calgary-parade.jpg", title: "Featured in the Calgary Parade '26 during my first day in Calgary", link: { label: "See me on CBC News!", href: "https://www.cbc.ca/news/canada/calgary/calgary-stampede-parade-2026-9.7257432" } },
       { kind: "photo", shape: "tall", src: "assets/fun/leo-nyc.jpg", title: "Walking the Brooklyn Bridge!" },
       { kind: "photo", shape: "tall", src: "assets/fun/leo-golf.jpg", title: "The green!" },
-      { kind: "photo", shape: "wide", src: "assets/fun/leo-tame-impala.jpg", title: "Tamed Impala at Rogers Stadium, September 2026" },
+      { kind: "photo", shape: "wide", src: "assets/fun/leo-tame-impala.jpg", title: "Tame Impala at Rogers Stadium, September 2026" },
       { kind: "photo", shape: "tall", src: "assets/fun/red-square.jpg", title: "Spent my freshman year at UW, Seattle 2024" },
       { kind: "photo", shape: "tall", src: "assets/fun/neuroaesthetics.jpg", title: "Neuroaesthetics Conference '25" },
       { kind: "photo", shape: "wide", src: "assets/fun/leo-sunflowers.jpg", title: "My favorite type of flower 🌻" }
@@ -891,7 +892,7 @@ module.exports = {
       description: "Research and teaching by Leo J. Chung — chromatin and the BAF complex, the gut–brain axis, animal communication, and the Neuroaesthetics seminar he co-created at UBC.",
       sections: ["research", "teaching"] },
     { key: "contact",  file: "contact.html",  navLabel: "Contact",  icon: "mail",
-      description: "Get in touch with Leo J. Chung — looking for a co-op or internship for January 2027 in biotech, pharma, or the life sciences.",
+      description: "Get in touch with Leo J. Chung — always happy to talk research, teaching, or opportunities in the life sciences.",
       sections: ["contact"] },
     { key: "fun",      file: "fun.html",      navLabel: "Fun",      icon: "spark",
       description: "Photos of Leo J. Chung off the clock — biking the Stanley Park seawall, football, concerts, travel, and good food.",
