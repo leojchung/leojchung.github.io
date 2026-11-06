@@ -763,11 +763,11 @@ ${buttons}
 /* The footer, as its own bento — an identity card beside a card of link
    columns, with the fine print along the bottom edge of the wide one. */
 function renderFooter(page){
-  /* Home only: the Turing / Imitation Game quote fills the empty space to
-     the right of Menu and Follow, set small (Leo, Nov 2026). The
-     headline's <em> is still the grey half of the sentence. */
+  /* Every page: the Turing / Imitation Game quote fills the empty space to
+     the right of Menu and Follow, top-aligned with them (Leo, Nov 2026).
+     The headline's <em> is still the grey half of the sentence. */
   const h = C.hero;
-  const quote = page.key === 'home' ? `
+  const quote = h.headline ? `
             <figure class="foot-quote">
               <blockquote>${h.headline}</blockquote>
 ${h.cite ? `              <figcaption>— <cite>${h.cite}</cite></figcaption>\n` : ''}            </figure>` : '';
