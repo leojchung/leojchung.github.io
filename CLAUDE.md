@@ -304,6 +304,13 @@ Sep 2026), each with a thin one-line caption in his words, in US spelling
   scroll arrow and dock hidden and the splash's bottom padding removed so
   it centers. Retake it if the splash changes (photo, headline, socials).
   LinkedIn caches previews; its Post Inspector forces a refresh.
+- **Visit counting is a GoatCounter pixel, not a script** (6 Nov 2026).
+  `build.js` puts a hidden 1×1 `<img class="gc-pixel">` pointing at
+  `leojchung.goatcounter.com/count?p=/<page>` at the end of every page. Leo
+  chose the image over GoatCounter's `count.js` knowingly: no third-party
+  script, but no referrer ("came from LinkedIn") or screen-size data. Swapping
+  to the script is one line if he wants those. Stats live at
+  <https://leojchung.goatcounter.com>; the login is Leo's alone.
 - **Something bleeding off a card edge** is offset by exactly
   `calc(-1 * var(--pad))` and given back `padding-inline: var(--pad)`. That is
   what keeps a bleeding row aligned with the text above it at every width.

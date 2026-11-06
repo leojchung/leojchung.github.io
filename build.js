@@ -852,6 +852,9 @@ ${body.filter(Boolean).join('\n\n')}
 ${renderFooter(page)}
 ${renderDock(page.file)}
 
+<!-- Visit counter (GoatCounter): a 1×1 image, no script, no cookies. -->
+<img class="gc-pixel" src="https://leojchung.goatcounter.com/count?p=/${page.file === 'index.html' ? '' : page.file}" alt="" width="1" height="1" aria-hidden="true">
+
 <script src="main.js"></script>
 </body>
 </html>
