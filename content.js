@@ -259,25 +259,25 @@ module.exports = {
       {
         logo:  "assets/stemcell-logo.png", logoAlt: "STEMCELL Technologies",
         tag:   "Industry",
-        role:  "Research &amp; Development Intern",
+        role:  "R&amp;D Product Dev. Intern",
         org:   "STEMCELL Technologies Inc.",
-        note:  "Product Licensing, Testing, &amp; Integrations",
+        note:  "R&amp;D Product Development",
         since: "May 2026 — present · UBC Co-op"
       },
       {
         logo:  "assets/jhu-logo.png", logoAlt: "Johns Hopkins University",
         tag:   "Research",
-        role:  "Research Data Analyst &amp; Statistician",
+        role:  "Research Data Analyst",
         org:   "Moss Lab, Johns Hopkins",
-        note:  "Department of Psychological &amp; Brain Sciences",
+        note:  "Faculty of Psychological &amp; Brain Sciences",
         since: "May 2026 — present · Hybrid"
       },
       {
         logo:  "assets/ubc-logo.png", logoAlt: "University of British Columbia",
         tag:   "Education",
-        role:  "Medical Technology Education Researcher",
+        role:  "Med-Tech Education Research Assistant",
         org:   "Si-Lab, UBC",
-        note:  "School of Audiology &amp; Speech Sciences",
+        note:  "Faculty of Audiology &amp; Speech Sciences",
         since: "Jun 2026 — present · Hybrid"
       }
     ]
@@ -285,16 +285,16 @@ module.exports = {
 
   /* Home, straight under Right Now: the same three-card row, set small, for
      past roles Leo wants to highlight (5 Nov 2026). No green dot — that
-     means a currently-held post. Titles and dates follow
-     cv.pdf, Leo's source of truth (see CLAUDE.md). The Teaching blurb still
-     names Betty Bao as co-proposer. */
+     means a currently-held post. Dates follow cv.pdf (see CLAUDE.md); wording is Leo's own.
+     The seminar's role title drops "co-" by Leo's choice (5 Nov 2026); the
+     Teaching blurb still names Betty Bao as co-proposer. */
   previously: {
     eyebrow: "Before this",
     title: "Previously",
     items: [
       {
         tag:   "Teaching",
-        role:  "Student-Directed Seminar Coordinator",
+        role:  "Educational Developer &amp; Instructor",
         org:   "ASTU 400E, <i>Neuroaesthetics: Your Brain on Art</i>",
         note:  "UBC Student-Directed Seminar",
         logo:  "assets/ubc-logo.png", logoAlt: "University of British Columbia",
@@ -302,7 +302,7 @@ module.exports = {
       },
       {
         tag:   "Fellowship",
-        role:  "Shenoy Undergraduate Research Fellow in Neuroscience",
+        role:  "Undergraduate Research Fellow in Neuroscience",
         org:   "Simons Foundation",
         note:  "Ciernia Lab",
         logo:  "assets/simons-logo.svg", logoAlt: "Simons Foundation",
@@ -417,19 +417,19 @@ module.exports = {
     items: [
       {
         when:  "May 2026<br>— present",
-        title: "Research &amp; Development Intern — Product Licensing, Testing, &amp; Integrations",
+        title: "Research &amp; Development Intern",
         meta:  ["STEMCELL Technologies", "Vancouver, BC", "UBC Co-op"],
         blurb: "Research and development internship, UBC Co-op."
       },
       {
         when:  "May 2026<br>— present",
-        title: "Research Data Analyst &amp; Statistician",
+        title: "Research Data Analyst",
         meta:  ["Johns Hopkins University", "Baltimore, MD", "Hybrid"],
         blurb: "Research role with the Moss Lab, Department of Psychological and Brain Sciences."
       },
       {
         when:  "Sep 2025<br>— May 2026",
-        title: "Shenoy Undergraduate Research Fellow in Neuroscience",
+        title: "Undergraduate Research Fellow in Neuroscience",
         meta:  ["Simons Foundation", "Ciernia Lab, DMCBH"],
         blurb: "Shenoy Undergraduate Research Fellowship in Neuroscience (SURFiN)."
       },
@@ -443,8 +443,8 @@ module.exports = {
       },
       {
         when:  "Jun 2020<br>— Aug 2024",
-        title: "General Maintenance Handyman",
-        meta:  ["Handyman Services", "Vancouver, BC"]
+        title: "Handyman Mechanic",
+        meta:  ["Handyman Services", "South Vancouver"]
       },
       {
         group: "University of Washington — Housing &amp; Food Services",
@@ -480,7 +480,7 @@ module.exports = {
       {
         idx:   "T-02",
         when:  "May 2025<br>— May 2026",
-        title: "Student-Directed Seminar Coordinator — ASTU 400E, Neuroaesthetics: Your Brain on Art",
+        title: "Educational Developer &amp; Instructor — ASTU 400E, Neuroaesthetics: Your Brain on Art",
         meta:  ["UBC Centre for Community Engaged Learning", "Student-Directed Seminar"],
         blurb: "Co-proposed with Betty Bao under faculty sponsor Dr. Steven Barnes, and taught " +
                "for credit in Winter Term 2 of 2025/26. UBC's Student-Directed Seminars let " +
@@ -492,17 +492,9 @@ module.exports = {
         links: [{ label: "Featured Article", color: "green", href: "https://www.instagram.com/ubcccel/p/DW2d2b0jRyj/" }]
       },
       {
-        idx:   "T-05",
-        when:  "Jun 2026<br>— present",
-        title: "Artificial Intelligence Council Advisor",
-        meta:  ["UBC Student Artificial Intelligence Advisory Council"],
-        blurb: "One of a 13-member student council advising the UBC GenAI Steering Committee " +
-               "on ethical, equitable, and responsible AI use across the university."
-      },
-      {
         idx:   "T-04",
         when:  "Jun 2026<br>— present",
-        title: "Medical Technology Education Researcher",
+        title: "Med-Tech Education Research Assistant",
         meta:  ["Si-Lab", "UBC School of Audiology &amp; Speech Sciences"],
         blurb: "Education research with the Si-Lab, UBC School of Audiology &amp; Speech Sciences."
       },

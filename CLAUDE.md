@@ -378,11 +378,11 @@ looks right at 390px. Open the page for that.
 
 ## Things to check with Leo before doing
 
-- **`cv.pdf` is the source of truth for every role title, organization and
-  date on the site** (Leo, 5 Nov 2026). When the CV changes, update every
-  card, Teaching/Research entry and the `experience` block to match it. US
-  spelling still wins over the CV's Canadian spelling. Entries the CV
-  doesn't list (the adjudicator roles, Fun captions) stay as they are.
+- **`cv.pdf` is the source of truth for DATES only** (Leo, 5 Nov 2026).
+  When the CV changes, update the dates on every card, Teaching/Research
+  entry and the `experience` block to match it. Role titles and wording
+  stay Leo's own site wording — he tried matching the CV's titles and
+  rejected it. Don't add CV-only roles without asking.
 - **Changing the Si-Lab description** (entry `T-04`). It draws on an
   unsubmitted manuscript; Dr. Skoretz needs to be comfortable with the public
   wording.
@@ -469,6 +469,5 @@ build made reproducible across Mac and Windows.
   article's content was not machine-verified.
 - **`404.html` is hand-maintained and outside `check.js`.** Its `<em>` is a
   deliberate violet italic, unlike the rest of the site.
-- **Si-Lab (T-04, "Medical Technology Education Researcher", the CV's
-  title since 5 Nov 2026) description** still needs Dr. Skoretz's sign-off
-  before it gets more detailed.
+- **Si-Lab (T-04, "Med-Tech Education Research Assistant") wording** still
+  needs Dr. Skoretz's sign-off before it changes.
