@@ -299,6 +299,11 @@ Sep 2026), each with a thin one-line caption in his words, in US spelling
   (`styles.css?v=<hash>`, computed in `build.js`). It exists because a stale
   browser cache made several CSS-only pushes look like they hadn't landed.
   Don't remove it.
+- **The link preview (`assets/og-image.png`) is a screenshot of Home's
+  splash** — light theme, 1200×630 at 2× (2400×1260), with the buttons,
+  scroll arrow and dock hidden and the splash's bottom padding removed so
+  it centers. Retake it if the splash changes (photo, headline, socials).
+  LinkedIn caches previews; its Post Inspector forces a refresh.
 - **Something bleeding off a card edge** is offset by exactly
   `calc(-1 * var(--pad))` and given back `padding-inline: var(--pad)`. That is
   what keeps a bleeding row aligned with the text above it at every width.

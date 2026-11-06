@@ -360,7 +360,7 @@ module.exports = {
     eyebrow: "",
     title: "Research",
     hint:  "My completed projects in the lab, 2024 — 2026.",
-    action: { label: "Full CV", href: "cv.pdf" },
+    action: { label: "Curriculum Vitae", href: "cv.pdf" },
     items: [
       {
         idx:   "P-03",
