@@ -205,8 +205,8 @@ img,svg{max-width:100%}
 .sp-12{grid-column:span 12}
 .rows-2{grid-row:span 2}
 
-/* Teaching: the long seminar card spans the left column; the other three stack beside it. */
-.section:has(#teaching-h) .bento>:first-child{grid-row:span 3}
+/* Teaching: the long seminar card spans the left column; the other four stack beside it. */
+.section:has(#teaching-h) .bento>:first-child{grid-row:span 4}
 
 /* Uniform sets (Right Now, Principles, media tiles) size themselves. */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(270px,100%),1fr));gap:var(--gap)}
