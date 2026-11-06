@@ -151,7 +151,7 @@ left-aligned and just flows. If the splash gains content, re-check the arrow
 at 1440×900 and 390×844: it must not slide behind the dock. The Turing quote
 lives in the footer, to the right of Menu and Follow, on Home only
 (`renderFooter(page)` adds `.foot-quote`; the link columns shrink a step
-there). It sits bottom-right of the footer card, 26–36px bold, with a "Curriculum Vitae" pill bottom-left (the pill is in every page's footer, under Menu and Follow); never below 19px bold or its grey half fails AA. My Works sections have no eyebrow label (`eyebrow: ""` skips it). The bento is hand-laid: `sp-*`
+there). It sits beside Follow (Leo wants it there, not below), 20–29px bold — as big as fits in that column — with a "Curriculum Vitae" pill under Menu and Follow (the pill is in every page's footer, under Menu and Follow); never below 19px bold or its grey half fails AA. My Works sections have no eyebrow label (`eyebrow: ""` skips it). The bento is hand-laid: `sp-*`
 spans must total 12 per row, and it is the one grid arranged by hand rather
 than generated from a flat list, because the layout carries meaning there.
 Current order: Based in + What drives me (sp-6 each) / The record + About
