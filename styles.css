@@ -888,10 +888,10 @@ a.card:hover .contact-value{color:var(--accent-ink)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .contact-value.ubc{color:#7DAEEA}}
 :root[data-theme="dark"] .contact-value.ubc{color:#7DAEEA}
 /* Sized so the longest personal address still sets on ONE line inside the
-   sp-4 card. At 29px "leojc815@gmail.com" overran the card by a few pixels
+   sp-4 card. At 25px "leo.jj.chung@gmail.com" overran the card by a few pixels
    and broke mid-word ("…gmail.co / m"), which reads as a typo rather than
    a wrap. Shrink this only as far as the widest address needs. */
-.contact-value.big{font-size:clamp(19px,2.1vw,25px);font-weight:700}
+.contact-value.big{font-size:clamp(19px,2.1vw,22px);font-weight:700}
 /* The UBC address is longer than the personal one, so it gets its own
    (smaller) size rather than matching .big — it wraps/overflows otherwise. */
 .contact-value.ubc.big{margin-top:8px;font-size:clamp(16px,1.7vw,22px)}

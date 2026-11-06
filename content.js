@@ -34,7 +34,7 @@ module.exports = {
     // ↓ Change this once you know your final URL (README, step 6).
     url:         "https://leojchung.github.io/",
 
-    email:       "leojc815@gmail.com",
+    email:       "leo.jj.chung@gmail.com",
     location:    "Vancouver, British Columbia",
     linkedin:    "https://www.linkedin.com/in/leojchung",
     cvFile:      "cv.pdf",       // drop your real CV in at this filename
@@ -207,7 +207,7 @@ module.exports = {
 
        NeuroArts already uses a real file (their published "NA" favicon).  */
     social: [
-      { logo: "gmail",     label: "Email",             href: "mailto:leojc815@gmail.com",
+      { logo: "gmail",     label: "Email",             href: "mailto:leo.jj.chung@gmail.com",
         src: "assets/gmail-logo.png",
       },
 
@@ -830,7 +830,7 @@ module.exports = {
            "any of my work or experiences. I am always open to chatting and mentorship. If you " +
            "have any interesting opportunities, don't hesitate to shoot me an email.",
     links: [
-      { k: "Email",     label: "leojc815@gmail.com",          href: "mailto:leojc815@gmail.com",
+      { k: "Email",     label: "leo.jj.chung@gmail.com",          href: "mailto:leo.jj.chung@gmail.com",
         sub: { label: "ljchung@student.ubc.ca", href: "mailto:ljchung@student.ubc.ca" } },
       { k: "Phone Number", label: "(778) 980-8436",           href: "tel:+17789808436" },
       { k: "LinkedIn",  label: "linkedin.com/in/leojchung",   href: "https://www.linkedin.com/in/leojchung", me: true },
