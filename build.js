@@ -51,7 +51,16 @@ const C    = require('./content.js');
 
 /* ── helpers ───────────────────────────────────────────────────────────── */
 
-const visible = arr => (arr || []).filter(x => !x.hidden);
+/* Dated entries. `from: "YYYY-MM-DD"` shows an entry from that day on;
+   `until:` hides it from that day on. Days are Vancouver days, so a build
+   anywhere — Leo's Mac, the PC, CI — agrees on what "today" is. Set
+   SITE_DATE=2027-01-11 to preview a future build. A dated change only
+   reaches the live site when something rebuilds and pushes on or after
+   that day (see CLAUDE.md, "Dated entries"). */
+const TODAY = process.env.SITE_DATE ||
+  new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Vancouver' }).format(new Date());
+const live    = x => !x.hidden && (!x.from || TODAY >= x.from) && (!x.until || TODAY < x.until);
+const visible = arr => (arr || []).filter(live);
 
 // Escape for use inside an HTML attribute. Content strings are trusted HTML
 // (you write them), attribute values are not.
@@ -651,7 +660,7 @@ ${(h.points || []).map(p => `            <li class="value">${p}</li>`).join('\n'
          after it. */
   const cardF = card('sp-5', `          <span class="eyebrow">The record</span>
           <ul class="record">
-${(h.record || []).map(r => `            <li><span class="k">${r.k}</span><span class="v">${r.flag ? '<span class="live-dot">●</span>' : ''}${r.v}</span></li>`).join('\n')}
+${visible(h.record).map(r => `            <li><span class="k">${r.k}</span><span class="v">${r.flag ? '<span class="live-dot">●</span>' : ''}${r.v}</span></li>`).join('\n')}
           </ul>`);
 
   const bentoSection = `    <section class="reveal" id="about" aria-label="More about me">
@@ -682,7 +691,9 @@ const jsonLd = JSON.stringify({
   ),
   affiliation: [
     { "@type": "CollegeOrUniversity", name: "University of British Columbia" },
-    { "@type": "Organization",        name: "STEMCELL Technologies" },
+    TODAY < '2027-01-11'
+      ? { "@type": "Organization",      name: "STEMCELL Technologies" }
+      : { "@type": "Organization",      name: "AbCellera" },
     { "@type": "CollegeOrUniversity", name: "Johns Hopkins University" }
   ],
   alumniOf: [{ "@type": "CollegeOrUniversity", name: "University of Washington" }],

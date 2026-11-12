@@ -29,7 +29,7 @@ module.exports = {
     name:        "Leo J. Chung",
     shortName:   "Leo J. Chung",
     tagline:     "Living at the intersection of neuroscience, education, and AI development.",
-    description: "Leo J. Chung — scientist and educator at the University of British Columbia. Research with the Moss Lab at Johns Hopkins and UBC's Si-Lab, previously the Ciernia Lab; R&D at STEMCELL Technologies, incoming at AbCellera; co-creator of ASTU 400E, Neuroaesthetics.",
+    description: "Leo J. Chung — scientist and educator at the University of British Columbia. Research with the Moss Lab at Johns Hopkins and UBC's Si-Lab, previously the Ciernia Lab; R&D at STEMCELL Technologies, then cell biology at AbCellera from January 2027; co-creator of ASTU 400E, Neuroaesthetics.",
 
     // ↓ Change this once you know your final URL (README, step 6).
     url:         "https://leojchung.github.io/",
@@ -130,11 +130,13 @@ module.exports = {
     // `flag: true` prints the gold ◆ marker before the value.
     record: [
       { k: "Fields",     v: "Neuroscience · Education · Analytics" },
-      { k: "Now",          v: "Co-op @ STEMCELL Technologies Inc." },
+      // The AbCellera flip (Leo, 6 Nov 2026): on 11 Jan 2027 these swap.
+      { k: "Now",          v: "Co-op @ STEMCELL Technologies Inc.", until: "2027-01-11" },
+      { k: "Now",          v: "Cell Biology Intern @ AbCellera",    from:  "2027-01-11" },
       { k: "Affiliations", v: "Simons Foundation · Djavad Mowafaghian Centre for Brain Health<br>" +
                              "NeuroArts Resource Center · University of British Columbia · Johns Hopkins University" },
       { k: "Taught",       v: "ASTU 400E — Neuroaesthetics: Your Brain on Art" },
-      { k: "Status",     v: "Incoming @ AbCellera", flag: true }
+      { k: "Status",     v: "Incoming @ AbCellera", flag: true, until: "2027-01-11" }
     ]
   },
 
@@ -255,8 +257,20 @@ module.exports = {
        a transparent PNG in assets/. Leo supplied these (Sep 2026). If any
        card in the row has one, the others keep an empty slot of the same
        height so the text still lines up across the row. */
+    /* The AbCellera flip (Leo, 6 Nov 2026): on 11 Jan 2027 AbCellera takes
+       the first card and STEMCELL moves to Previously. `from`/`until` do it
+       at build time — see "Dated entries" in CLAUDE.md. */
     items: [
       {
+        from:  "2027-01-11",
+        logo:  "assets/abcellera-logo.svg", logoAlt: "AbCellera",
+        tag:   "Industry",
+        role:  "Cell Biology Intern",
+        org:   "AbCellera Biologics Inc.",
+        since: "Jan 2027 — present"
+      },
+      {
+        until: "2027-01-11",
         logo:  "assets/stemcell-logo.png", logoAlt: "STEMCELL Technologies",
         tag:   "Industry",
         role:  "R&amp;D Product Dev. Intern",
@@ -292,6 +306,15 @@ module.exports = {
     eyebrow: "Before this",
     title: "Previously",
     items: [
+      {
+        from:  "2027-01-11",   // joins on the AbCellera flip, see Right Now
+        tag:   "Industry",
+        role:  "R&amp;D Product Dev. Intern",
+        org:   "STEMCELL Technologies Inc.",
+        note:  "R&amp;D Product Development",
+        logo:  "assets/stemcell-logo.png", logoAlt: "STEMCELL Technologies",
+        since: "May 2026 — Dec 2026 · UBC Co-op"
+      },
       {
         tag:   "Teaching",
         role:  "Educational Developer &amp; Instructor",

@@ -304,6 +304,17 @@ Sep 2026), each with a thin one-line caption in his words, in US spelling
   scroll arrow and dock hidden and the splash's bottom padding removed so
   it centers. Retake it if the splash changes (photo, headline, socials).
   LinkedIn caches previews; its Post Inspector forces a refresh.
+- **Dated entries.** Any list entry in `content.js` (cards, record rows) can
+  carry `from: "YYYY-MM-DD"` (shown from that day) and/or `until:` (hidden
+  from that day), judged in Vancouver time by `live()` in `build.js`.
+  `SITE_DATE=2027-01-11 node build.js` previews a future day — rebuild
+  without it before committing. `.github/workflows/dated-rebuild.yml`
+  rebuilds every morning and commits and deploys only if a page changed, so
+  dated entries go live on their own. First use: **the AbCellera flip, 11 Jan
+  2027** — AbCellera (Cell Biology Intern) takes the first Right Now card and
+  the record's Now row, the "Incoming" status drops, STEMCELL (May–Dec 2026)
+  joins Previously (four across). After that day, the bot's commit lands on
+  `main`, so `git pull` before editing.
 - **Visit counting is a GoatCounter pixel, not a script** (6 Nov 2026).
   `build.js` puts a hidden 1×1 `<img class="gc-pixel">` pointing at
   `leojchung.goatcounter.com/count?p=/<page>` at the end of every page. Leo

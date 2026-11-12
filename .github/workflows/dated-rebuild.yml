@@ -1,0 +1,42 @@
+name: Dated rebuild
+
+# Entries in content.js can carry `from:` / `until:` dates (the AbCellera
+# flip on 11 Jan 2027 is the first). A date only changes the live site when
+# something rebuilds, so this rebuilds every morning, Vancouver time, and
+# commits only if the pages actually changed. Most days it does nothing.
+on:
+  schedule:
+    - cron: '30 9 * * *'   # 09:30 UTC = 1:30 or 2:30 am in Vancouver
+  workflow_dispatch:        # "Run workflow" button on the Actions tab
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: node build.js
+      - run: node check.js
+      - name: Commit and deploy if the pages changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet; then
+            echo "Nothing changed today."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Rebuild for dated entries ($(TZ=America/Vancouver date +%F))"
+          git push
+          # A push made with this workflow's token doesn't start a Pages
+          # build by itself, so ask for one.
+          curl -sS -X POST -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds"
