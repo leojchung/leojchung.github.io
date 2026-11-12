@@ -811,7 +811,7 @@ module.exports = {
        (see the kinds above). A photo may carry `link: { label, href }`,
        drawn as a small red pill under the caption. */
     items: [
-      { kind: "photo", shape: "tall", src: "assets/fun/lakers-kobe.jpg", title: "Me and my favorite player at NBA House in Vancouver during the Summer of '24... R.I.P 🐍" },
+      { kind: "photo", shape: "tall", src: "assets/fun/lakers-kobe.jpg", title: "NBA House in Vancouver 2024" },
       { kind: "photo", shape: "wide", src: "assets/fun/lake-louise.jpg", title: "Visiting Lake Louise, July 2026" },
       { kind: "photo", shape: "tall", src: "assets/fun/stanley-park.jpg", title: "Biking on the Stanley Park seawall" },
       { kind: "photo", shape: "wide", src: "assets/fun/leo-queen-monopoly.jpg", title: "Three things I love: Queen, Monopoly, and Snoopy" },
