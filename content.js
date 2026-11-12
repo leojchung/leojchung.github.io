@@ -129,12 +129,12 @@ module.exports = {
     // The monospaced record block. Add or remove rows freely.
     // `flag: true` prints the gold ◆ marker before the value.
     record: [
-      { k: "Fields",     v: "Neuroscience · Education · Analytics" },
+      { k: "Fields",     v: "Neuroscience · Biotech · Pedagogy&nbsp;·&nbsp;AI" },
       // The AbCellera flip (Leo, 6 Nov 2026): on 11 Jan 2027 these swap.
       { k: "Now",          v: "Co-op @ STEMCELL Technologies Inc.", until: "2027-01-11" },
       { k: "Now",          v: "Cell Biology Intern @ AbCellera",    from:  "2027-01-11" },
       { k: "Affiliations", v: "Simons Foundation · Djavad Mowafaghian Centre for Brain Health<br>" +
-                             "NeuroArts Resource Center · University of British Columbia · Johns Hopkins University" },
+                             "NeuroArts Resource Center · University of British Columbia · Johns Hopkins University · STEMCELL&nbsp;Technologies" },
       { k: "Taught",       v: "ASTU 400E — Neuroaesthetics: Your Brain on Art" },
       { k: "Status",     v: "Incoming @ AbCellera", flag: true, until: "2027-01-11" }
     ]
