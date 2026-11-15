@@ -393,6 +393,16 @@ looks right at 390px. Open the page for that.
   brand/trademark risk. Don't re-litigate it; do flag anything new.
 - **The floating AI bubble is gone.** A site-wide chat bubble was added 22
   Sep 2026 and removed 25 Sep. Don't bring it back unasked.
+- **The phone number is hidden** from Contact (14 Nov 2026, Leo's call
+  after a site audit) — `hidden: true` on its `contact.links` entry, which
+  also keeps it out of `api/ask.js`'s fact sheet. Don't bring it back unasked.
+- **Every page has exactly one `<h1>`** (14 Nov 2026). Home's is the splash;
+  on the other pages `build.js` promotes the first `<h2>` after rendering,
+  and `check.js` enforces one per page. Style headings with
+  `.sec-head :is(h1,h2)`, never `h2` alone.
+- **Poster/syllabus thumbnails are 600px tall and the portrait 520px**
+  (14 Nov 2026) — sized for how they display at 2×. The PDFs are the
+  full-resolution versions; don't re-export the thumbnails larger.
 - **Instagram is hidden** from the social row and footer (26 Sep 2026),
   not deleted — `hidden: true` on its `intro.social` entry.
 - **`reading` holds Leo's own picks** (5 Nov 2026): five news articles he

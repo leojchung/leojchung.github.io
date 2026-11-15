@@ -212,7 +212,7 @@ PAGES.forEach(f => {
   if (!/<footer class="site-foot"/.test(html)) p.push('no footer');
   if (!/#f-gotcha|_gotcha/.test(html) && /class="msgform"|<form/.test(html)) p.push('form without the honeypot');
   const h1 = (html.match(/<h1[\s>]/g) || []).length;
-  if (f === 'index.html' ? h1 !== 1 : h1 !== 0) p.push(`${h1} <h1> (home wants 1, subpages 0)`);
+  if (h1 !== 1) p.push(`${h1} <h1> (every page wants exactly 1)`);
   if (p.length) fail(`${f}: ${p.join('; ')}`); else ok(`${f}: ok`);
 });
 

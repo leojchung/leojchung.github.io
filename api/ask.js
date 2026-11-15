@@ -60,7 +60,7 @@ function buildFactSheet() {
       .filter(it => !it.hidden).map(it => strip(it.title)).join(', '));
   }
   lines.push('Contact:');
-  (c.contact.links || []).forEach(l => { if (l.href) lines.push(`- ${l.k}: ${strip(l.label)}`); });
+  (c.contact.links || []).forEach(l => { if (l.href && !l.hidden) lines.push(`- ${l.k}: ${strip(l.label)}`); });
   return lines.join('\n');
 }
 

@@ -855,7 +855,7 @@ module.exports = {
     links: [
       { k: "Email",     label: "leo.jj.chung@gmail.com",          href: "mailto:leo.jj.chung@gmail.com",
         sub: { label: "ljchung@student.ubc.ca", href: "mailto:ljchung@student.ubc.ca" } },
-      { k: "Phone Number", label: "(778) 980-8436",           href: "tel:+17789808436" },
+      { k: "Phone Number", label: "(778) 980-8436",           href: "tel:+17789808436", hidden: true },
       { k: "LinkedIn",  label: "linkedin.com/in/leojchung",   href: "https://www.linkedin.com/in/leojchung", me: true },
       { k: "NeuroArts Profile", label: "neuroartsresourcecenter.com", href: "https://www.neuroartsresourcecenter.com/profile/leojchung", me: true },
       { k: "Currently Located", label: "Vancouver, British Columbia 🇨🇦", href: null }

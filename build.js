@@ -523,11 +523,11 @@ function renderContact(d){
           ${primary.href ? `<a class="contact-value big" href="${attr(primary.href)}">${primary.label}</a>` : `<p class="contact-value big">${primary.label}</p>`}${primary.sub ? `\n          <a class="contact-value ubc big" href="${attr(primary.sub.href)}">${primary.sub.label}</a>` : ''}`)
     : '';
 
-  /* The cards under the email card fill whole rows: three across when the
-     count divides by three, otherwise two across, so no card is left alone
-     on a row. Long values (the Neuroarts URL) need at least half a row. */
-  const span = rest.length % 3 === 0 ? 'sp-4' : 'sp-6';
-  const restCards = rest.map(l => {
+  /* The cards under the email card go two across — long values (the
+     Neuroarts URL) break mid-word in anything narrower than half a row.
+     With an odd count the last card takes the full row. */
+  const restCards = rest.map((l, i) => {
+    const span = (rest.length % 2 && i === rest.length - 1) ? 'sp-12' : 'sp-6';
     const inner = `          <p class="label">${l.k}</p>
           <p class="contact-value">${l.label}</p>`;
     return l.href
@@ -684,11 +684,10 @@ const jsonLd = JSON.stringify({
   jobTitle: "Undergraduate Researcher in Neuroscience",
   email: "mailto:" + m.email,
   url: m.url,
-  sameAs: [m.linkedin].concat(
-    (C.contact.links || [])
-      .filter(l => l.me && l.href !== m.linkedin)
-      .map(l => l.href)
-  ),
+  // Every profile shown in the social row, so search engines tie them to Leo.
+  sameAs: C.intro.social
+    .filter(s => !s.hidden && s.href.startsWith('http'))
+    .map(s => s.href),
   affiliation: [
     { "@type": "CollegeOrUniversity", name: "University of British Columbia" },
     TODAY < '2027-01-11'
@@ -879,7 +878,10 @@ C.pages.forEach(page => {
   // flagify() is disabled (see the note above FLAG_CA) — the raw 🇨🇦 emoji
   // passes through untouched, so it renders as a flag on Mac/iOS and as
   // the bare letters "CA" on Windows.
-  const html = externalizeLinks(gmailify(renderPage(page)));
+  let html = externalizeLinks(gmailify(renderPage(page)));
+  // Every page gets exactly one <h1>. Home's is the splash; on the others
+  // the first heading (the page's title) is promoted. Styles target both.
+  if (page.file !== 'index.html') html = html.replace(/<h2\b([^>]*)>([\s\S]*?)<\/h2>/, '<h1$1>$2</h1>');
   fs.writeFileSync(path.join(__dirname, page.file), html, 'utf8');
   const kb = (Buffer.byteLength(html, 'utf8') / 1024).toFixed(1);
   console.log(`✓ ${page.file} written — ${kb} KB`);
