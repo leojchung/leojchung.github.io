@@ -396,7 +396,7 @@ module.exports = {
                "<em>ultrasonic vocalizations</em>, the calls a pup directs at its mother an " +
                "octave above anything a person can hear.",
         poster: { src: "assets/p01-poster.jpg", pdf: "assets/p01-surfin-poster.pdf" },
-        links: [{ label: "Featured Article", color: "navy",
+        links: [{ label: "Simons Foundation", color: "navy",
                   href: "https://www.simonsfoundation.org/2025/09/29/simons-foundation-announces-latest-class-of-surfin-fellows/" }]
       },
       {
@@ -414,7 +414,7 @@ module.exports = {
           { src: "assets/p02-poster.jpg", pdf: "assets/p02-sbme-synergy-poster.pdf" },
           { src: "assets/p02-talk.jpg", pdf: "assets/p02-synergy-rapid-talk.pdf", label: "Oral presentation" }
         ],
-        links: [{ label: "Featured Article", color: "red", href: "https://bme.ubc.ca/student-scientists-shine-at-synergy-undergraduate-research-day/" }]
+        links: [{ label: "UBC SBME", color: "red", href: "https://bme.ubc.ca/student-scientists-shine-at-synergy-undergraduate-research-day/" }]
       },
       {
         idx:   "P-01",
@@ -512,7 +512,7 @@ module.exports = {
                "the teaching were all ours to build. The course asked what makes something " +
                "beautiful, and how the brain perceives and responds to art.",
         poster: { src: "assets/t01-syllabus.jpg", pdf: "assets/astu400e-syllabus.pdf", label: "Syllabus" },
-        links: [{ label: "Featured Article", color: "green", href: "https://www.instagram.com/ubcccel/p/DW2d2b0jRyj/" }]
+        links: [{ label: "UBC CCEL", color: "ubc", href: "https://www.instagram.com/ubcccel/p/DW2d2b0jRyj/" }]
       },
       {
         idx:   "T-04",

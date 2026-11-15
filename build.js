@@ -357,7 +357,7 @@ ${r.detail ? `              <div class="d">${r.detail}</div>\n` : ''}           
       ? `          <p class="entry-idx">${it.idx ? `<span>${it.idx}</span>` : ''}${it.when ? `<span class="when">${flat(it.when)}</span>` : ''}</p>\n`
       : '';
     const links = (it.links && it.links.length)
-      ? `          <div class="pill-row">${it.links.map(l => `<a class="pill ${attr(l.color || 'amber')} sm" href="${attr(l.href)}">${l.label}</a>`).join('')}</div>\n`
+      ? `          <div class="pill-row">${it.links.map(l => `<a class="pill ${attr(l.color || 'amber')} sm" href="${attr(l.href)}">${l.label} ↗</a>`).join('')}</div>\n`
       : '';
     const poster = posterFigure(it);
 
