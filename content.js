@@ -227,6 +227,14 @@ module.exports = {
 
       { logo: "chess",     label: "Chess.com",         href: "https://www.chess.com/member/leojchung",
         src: "assets/chess-logo.png",
+      },
+
+      /* Beli's own app icon, taken from beliapp.com (18 Nov 2026). The link
+         only opens the profile on a phone with the app; on a computer Beli
+         sends it to its homepage, and on an iPhone without the app to the
+         App Store. */
+      { logo: "beli",      label: "Beli",              href: "https://beliapp.co/profile/leojchung",
+        src: "assets/beli-logo.png",
       }
     ]
   },
